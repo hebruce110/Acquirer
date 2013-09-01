@@ -48,13 +48,13 @@
 -(void)btnClick:(UIButton *)sender{
     switch (sender.tag) {
         case 1:
-            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"..." notifyType:NOTIFICATION_TYPE_ERROR];
+            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"错误效果" notifyType:NOTIFICATION_TYPE_ERROR];
             break;
         case 2:
-            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"..." notifyType:NOTIFICATION_TYPE_WARNING];
+            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"警告效果" notifyType:NOTIFICATION_TYPE_WARNING];
             break;
         case 3:
-            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"..." notifyType:NOTIFICATION_TYPE_SUCCESS];
+            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"成果效果" notifyType:NOTIFICATION_TYPE_SUCCESS];
             break;
             
         default:

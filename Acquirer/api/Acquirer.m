@@ -215,23 +215,25 @@ static Acquirer *sInstance = nil;
 	[hud hide:YES afterDelay:1.5];
 }
 
+#define PROMPT_IMAGEVIEW_TAG 20
+#define PROMPT_LABEL_TEXT_WIDTH 130
+
 -(void) displayTitaniumProtoPromptAutomatically:(NSNotification *)notification
 {
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-    
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     
     //add transparent bg
     UIView *promptBgView = [[[UIView alloc] initWithFrame:window.bounds] autorelease];
     promptBgView.backgroundColor = [UIColor clearColor];
-    promptBgView.userInteractionEnabled = NO;
-    [[UIApplication sharedApplication].keyWindow addSubview:promptBgView];
+    promptBgView.userInteractionEnabled = YES;
+    [window addSubview:promptBgView];
     
     CGFloat offset = 0.0f;
     UIImage *promptImg = nil;
+    
     NSString *promptType = [notification.userInfo objectForKey:NOTIFICATION_TYPE];
     if (promptType && [promptType isEqualToString:NOTIFICATION_TYPE_ERROR]) {
-        offset = 40.0f;
+        offset = 50.0f;
         promptImg = [UIImage imageNamed:@"info_error.png"];
     }
     else if (promptType && [promptType isEqualToString:NOTIFICATION_TYPE_WARNING]){
@@ -241,47 +243,44 @@ static Acquirer *sInstance = nil;
         promptImg = [UIImage imageNamed:@"info_success.png"];
     }
     else{
-        NSLog(@"Undef promptType!");
-        return;
+        promptImg = [UIImage imageNamed:@"info_warning.png"];
     }
     
+    
     UIImageView *promptImgView = [[[UIImageView alloc] initWithImage:promptImg] autorelease];
+    promptImgView.tag = PROMPT_IMAGEVIEW_TAG;
     promptImgView.frame = CGRectMake(promptBgView.bounds.size.width, 0, promptImg.size.width, promptImg.size.height);
     promptImgView.center = CGPointMake(promptImgView.center.x, window.center.y+offset);
     [promptBgView addSubview:promptImgView];
     
+    NSString *msgString = [notification.userInfo objectForKey:NOTIFICATION_MESSAGE];
+
+    CGFloat msgLabelHeight = [Helper getLabelHeight:msgString setfont:[UIFont boldSystemFontOfSize:15] setwidth:PROMPT_LABEL_TEXT_WIDTH];
+    
+    UILabel *msgLabel = [[[UILabel alloc] init] autorelease];
+    msgLabel.text = msgString;
+    msgLabel.frame = CGRectMake(55, 0, PROMPT_LABEL_TEXT_WIDTH, msgLabelHeight);
+    msgLabel.center = CGPointMake(msgLabel.center.x, CGRectGetMidY(promptImgView.bounds)-2);
+    msgLabel.font = [UIFont boldSystemFontOfSize:15.0f];
+    msgLabel.backgroundColor = [UIColor clearColor];
+    msgLabel.textColor = [UIColor blackColor];
+    msgLabel.textAlignment = NSTextAlignmentCenter;
+    [promptImgView addSubview:msgLabel];
+    
     //do animation
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    
-    promptImgView.frame = CGRectMake(promptBgView.bounds.size.width-promptImg.size.width, promptImgView.frame.origin.y,
-                                     promptImg.size.width, promptImg.size.height);
-    
-    [UIView commitAnimations];
-    
-    [self performSelector:@selector(hideTitaniumProtoPrompt:) withObject:promptImgView afterDelay:1.5];
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        promptImgView.frame = CGRectMake(promptBgView.bounds.size.width-promptImg.size.width, promptImgView.frame.origin.y,
+                                         promptImg.size.width, promptImg.size.height);
+    }completion:^(BOOL finished){
+        [UIView animateWithDuration:0.3 delay:1.5 options:UIViewAnimationOptionOverrideInheritedDuration | UIViewAnimationOptionCurveEaseInOut animations:^{
+            promptImgView.frame = CGRectMake(promptImgView.frame.origin.x + promptImgView.bounds.size.width,
+                                             promptImgView.frame.origin.y,
+                                             promptImgView.bounds.size.width, promptImgView.bounds.size.height);
+        }completion:^(BOOL finished){
+            [promptBgView removeFromSuperview];
+        }];
+    }];
 }
-
-//do animation
--(void)hideTitaniumProtoPrompt:(id)imgView{
-    UIImageView *promptImgView = (UIImageView *)imgView;
-    
-    UIImage *promptImg = [UIImage imageNamed:@"info_success.png"];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    
-    promptImgView.frame = CGRectMake(promptImgView.frame.origin.x+promptImg.size.width, promptImgView.frame.origin.y,
-                                     promptImg.size.width, promptImg.size.height);
-    
-    [UIView commitAnimations];
-    
-    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
-}
-
 
 -(void)applicationWillTerminate{
 	[Acquirer shutdown];
