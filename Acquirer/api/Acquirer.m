@@ -139,15 +139,24 @@ static Acquirer *sInstance = nil;
     */
 }
 
--(void)moveConfigFileToDocuments{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    NSString *configPath = [[NSBundle mainBundle] pathForResource:@"code" ofType:@"csv"];
-    //NSURL *configURL = [NSURL fileURLWithPath:configPath isDirectory:NO];
+-(void)copyConfigFileToDocuments{
+
+    NSString *srcPath = [[NSBundle mainBundle] pathForResource:@"code" ofType:@"csv"];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     
-    
+    if ([paths count] >= 1)
+    {
+        NSString *destPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"code.csv"];
+        
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSError *err = nil;
+        if (![fm fileExistsAtPath:destPath]) {
+            if (![fm copyItemAtPath:srcPath toPath:destPath error:&err]) {
+                NSLog(@"code.csv :%@", [err localizedDescription]);
+            }
+        }
+    }
 }
 
 #pragma mark -

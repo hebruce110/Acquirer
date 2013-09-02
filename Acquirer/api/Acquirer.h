@@ -37,7 +37,7 @@
 -(void)requireUserLogin:(NSNotification *)notify;
 
 //拷贝code.csv配置文件到Documents目录
--(void)moveConfigFileToDocuments;
+-(void)copyConfigFileToDocuments;
 
 @end
 
