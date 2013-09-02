@@ -54,6 +54,8 @@ static Acquirer *sInstance = nil;
     
     [Settings sharedInstance];
     
+    [instance moveConfigFileToDocuments];
+    
     [[NSNotificationCenter defaultCenter] addObserver:instance
                                              selector:@selector(requireUserLogin:)
                                                  name:NOTIFICATION_REQUIRE_USER_LOGIN
@@ -137,56 +139,19 @@ static Acquirer *sInstance = nil;
     */
 }
 
+-(void)moveConfigFileToDocuments{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSString *configPath = [[NSBundle mainBundle] pathForResource:@"code" ofType:@"csv"];
+    //NSURL *configURL = [NSURL fileURLWithPath:configPath isDirectory:NO];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    
+}
+
 #pragma mark -
 #pragma mark UIPromptMessage methods
-/*
- *　显示UI loading消息
- */
--(void) showUIPromptMessage:(NSString *)message animated:(BOOL)animated
-{
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    
-    if (uiPromptHUD == nil)
-    {
-        self.uiPromptHUD = [MBProgressHUD showHUDAddedTo:window animated:YES];
-        [window bringSubviewToFront:sysPromptHUD];
-        uiPromptHUD.tag = MBPHUD_UI_PROMPT_TAG;
-        uiPromptHUD.delegate = self;
-        uiPromptHUD.mode = MBProgressHUDModeIndeterminate;
-        uiPromptHUD.removeFromSuperViewOnHide = NO;
-        [uiPromptHUD show:animated];
-    }
-    uiPromptHUD.labelText = message;
-}
-
-//隐藏loading消息
--(void) hideUIPromptMessage:(BOOL)animated
-{
-    if (uiPromptHUD)
-    {
-        [uiPromptHUD hide:animated];
-    }
-}
-
-#pragma mark -
-#pragma mark MBProgressHUDDelegate methods
-
-//clean up HUD object
-- (void)hudWasHidden:(MBProgressHUD *)hud
-{
-	// Remove HUD from screen when the HUD was hidded
-    switch (hud.tag) {
-        case MBPHUD_UI_PROMPT_TAG:
-            [uiPromptHUD removeFromSuperview];
-            self.uiPromptHUD = nil;
-            break;
-            
-        case MBPHUD_SYS_PROMPT_TAG:
-            [sysPromptHUD removeFromSuperview];
-            self.sysPromptHUD = nil;
-            break;
-    }
-}
 
 -(void) displayUIPromptAutomatically:(NSNotification *)notification
 {
@@ -254,14 +219,14 @@ static Acquirer *sInstance = nil;
     [promptBgView addSubview:promptImgView];
     
     NSString *msgString = [notification.userInfo objectForKey:NOTIFICATION_MESSAGE];
-
-    CGFloat msgLabelHeight = [Helper getLabelHeight:msgString setfont:[UIFont boldSystemFontOfSize:15] setwidth:PROMPT_LABEL_TEXT_WIDTH];
+    
+    CGFloat msgLabelHeight = [Helper getLabelHeight:msgString setfont:[UIFont systemFontOfSize:14.0] setwidth:PROMPT_LABEL_TEXT_WIDTH];
     
     UILabel *msgLabel = [[[UILabel alloc] init] autorelease];
     msgLabel.text = msgString;
     msgLabel.frame = CGRectMake(55, 0, PROMPT_LABEL_TEXT_WIDTH, msgLabelHeight);
-    msgLabel.center = CGPointMake(msgLabel.center.x, CGRectGetMidY(promptImgView.bounds)-2);
-    msgLabel.font = [UIFont boldSystemFontOfSize:15.0f];
+    msgLabel.center = CGPointMake(msgLabel.center.x, CGRectGetMidY(promptImgView.bounds));
+    msgLabel.font = [UIFont systemFontOfSize:14.0];
     msgLabel.backgroundColor = [UIColor clearColor];
     msgLabel.textColor = [UIColor blackColor];
     msgLabel.textAlignment = NSTextAlignmentCenter;
@@ -281,6 +246,57 @@ static Acquirer *sInstance = nil;
         }];
     }];
 }
+
+/*
+ *　显示UI loading消息
+ */
+-(void) showUIPromptMessage:(NSString *)message animated:(BOOL)animated
+{
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    
+    if (uiPromptHUD == nil)
+    {
+        self.uiPromptHUD = [MBProgressHUD showHUDAddedTo:window animated:YES];
+        [window bringSubviewToFront:sysPromptHUD];
+        uiPromptHUD.tag = MBPHUD_UI_PROMPT_TAG;
+        uiPromptHUD.delegate = self;
+        uiPromptHUD.mode = MBProgressHUDModeIndeterminate;
+        uiPromptHUD.removeFromSuperViewOnHide = NO;
+        [uiPromptHUD show:animated];
+    }
+    uiPromptHUD.labelText = message;
+}
+
+//隐藏loading消息
+-(void) hideUIPromptMessage:(BOOL)animated
+{
+    if (uiPromptHUD)
+    {
+        [uiPromptHUD hide:animated];
+    }
+}
+
+#pragma mark -
+#pragma mark MBProgressHUDDelegate methods
+
+//clean up HUD object
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
+	// Remove HUD from screen when the HUD was hidded
+    switch (hud.tag) {
+        case MBPHUD_UI_PROMPT_TAG:
+            [uiPromptHUD removeFromSuperview];
+            self.uiPromptHUD = nil;
+            break;
+            
+        case MBPHUD_SYS_PROMPT_TAG:
+            [sysPromptHUD removeFromSuperview];
+            self.sysPromptHUD = nil;
+            break;
+    }
+}
+
+
 
 -(void)applicationWillTerminate{
 	[Acquirer shutdown];
