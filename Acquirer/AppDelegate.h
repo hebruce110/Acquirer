@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class VersionService;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+    VersionService *vs;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

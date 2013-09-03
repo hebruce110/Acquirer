@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Acquirer.h"
+#import "VersionService.h"
 #import "TestViewController.h"
 
 @implementation AppDelegate
@@ -15,6 +16,7 @@
 - (void)dealloc
 {
     [_window release];
+    [vs release];
     [super dealloc];
 }
 
@@ -31,6 +33,8 @@
     self.window.rootViewController = tc;
     [tc release];
     
+    vs = [[VersionService alloc] init];
+    [vs requestForVersionCheck];
     return YES;
 }
 
