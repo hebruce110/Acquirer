@@ -31,13 +31,13 @@
 -(void) showUIPromptMessage:(NSString *)message animated:(BOOL)animated;
 -(void) hideUIPromptMessage:(BOOL)animated;
 
--(void) displayUIPromptAutomatically:(NSNotification *)inNotification;
--(void) displaySysPromptAutomatically:(NSNotification *)inNotification;
+-(void) displayUIPromptAutomatically:(NSNotification *)notification;
+-(void) displaySysPromptAutomatically:(NSNotification *)notification;
 
 -(void)performRequest:(ASIHTTPRequest *)req;
 
-//用户重新登录
--(void)requireUserLogin:(NSNotification *)notify;
+//用户登录
+- (void)presentLoginViewController:(NSNotification *)notification;
 
 //拷贝code.csv配置文件到Documents目录
 -(void)copyConfigFileToDocuments;

@@ -13,6 +13,8 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "Helper.h"
+#import "LoginViewController.h"
+#import "CPNavigationController.h"
 
 static Acquirer *sInstance = nil;
 
@@ -56,13 +58,16 @@ static Acquirer *sInstance = nil;
     
     [instance copyConfigFileToDocuments];
     
+    //initialize app startup nsuserdefault settings
+    [Helper saveValue:NSSTRING_YES forKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
+    
     [[NSNotificationCenter defaultCenter] addObserver:instance
-                                             selector:@selector(requireUserLogin:)
+                                             selector:@selector(presentLoginViewController:)
                                                  name:NOTIFICATION_REQUIRE_USER_LOGIN
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter]	addObserver:instance
-											 selector:@selector(applicationWillTerminate)
+											 selector:@selector(applicationWillTerminate:)
 												 name:UIApplicationWillTerminateNotification
 											   object:nil];
     
@@ -118,11 +123,11 @@ static Acquirer *sInstance = nil;
     
     //construct seession cookie
     //NSHTTPCookiePath and NSHTTPCookieDomain is required, or NSHTTPCookie will return nil
-    NSString *sessionStr = [Helper getValueByKey:POSMINI_LOCAL_SESSION];
+    NSString *sessionStr = [Helper getValueByKey:ACQUIRER_LOCAL_SESSION_KEY];
     if (sessionStr!=nil && ![sessionStr isEqualToString:@"#"])
     {
         NSMutableDictionary *properties = [[[NSMutableDictionary alloc] init] autorelease];
-        [properties setValue:POSMINI_MTP_SESSION forKey:NSHTTPCookieName];
+        [properties setValue:ACQUIRER_MTP_SESSION_KEY forKey:NSHTTPCookieName];
         [properties setValue:sessionStr forKey:NSHTTPCookieValue];
         [properties setValue:@"\\" forKey:NSHTTPCookiePath];
         [properties setValue:req.url.host forKey:NSHTTPCookieDomain];
@@ -135,16 +140,11 @@ static Acquirer *sInstance = nil;
 }
 
 //用户重新登录
--(void)requireUserLogin:(NSNotification *)notify{
-    /*
-    if ([[Helper getValueByKey:POSMINI_SHOW_USER_LOGIN] isEqualToString:NSSTRING_NO]) {
-        RequireLoginViewController *rl = [[RequireLoginViewController alloc] init];
-        rl.isShowNaviBar = NO;
-        rl.isShowTabBar = NO;
-        [[[UIApplication sharedApplication] keyWindow].rootViewController presentModalViewController:rl animated:YES];
-        [rl release];
-    }
-    */
+- (void)presentLoginViewController:(NSNotification *)notification{
+    LoginViewController *loginCTRL = [[[LoginViewController alloc] init] autorelease];
+    CPNavigationController *loginNavi = [[[CPNavigationController alloc] initWithRootViewController:loginCTRL] autorelease];
+    loginNavi.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [[[UIApplication sharedApplication] keyWindow].rootViewController presentViewController:loginNavi animated:YES completion:NULL];
 }
 
 -(void)copyConfigFileToDocuments{
@@ -315,7 +315,7 @@ static Acquirer *sInstance = nil;
 
 
 
--(void)applicationWillTerminate{
+-(void)applicationWillTerminate:(NSNotification *)notification{
 	[Acquirer shutdown];
 }
 
