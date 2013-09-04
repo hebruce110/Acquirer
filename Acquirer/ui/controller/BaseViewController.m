@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "NSNotificationCenter+CP.h"
 
 @interface BaseViewController ()
 @end
@@ -53,12 +54,14 @@
     CGFloat viewHeight = self.view.frame.size.height;
     
     //背景图片
+    UIImage *bgImg = IS_IPHONE5 ? [UIImage imageNamed:@"bg-568h@2x.png"]:[UIImage imageNamed:@"bg.png"];
+    
     UIImageView *cusBgImageView = [[UIImageView alloc] init];
     self.bgImageView = cusBgImageView;
     [cusBgImageView release];
     bgImageView.userInteractionEnabled = YES;
     bgImageView.frame = CGRectMake(0, 0, viewWidth, viewHeight);
-    bgImageView.image = [UIImage imageNamed:@"bg.png"];
+    bgImageView.image = bgImg;
     [self.view addSubview:bgImageView];
     
     //中间显示部分
@@ -116,6 +119,8 @@
     }
     contentView.frame = CGRectMake(0, naviBarHeight+statusBarHeight, viewWidth, viewHeight-naviBarHeight-tabBarHeight-statusBarHeight);
 }
+
+
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
