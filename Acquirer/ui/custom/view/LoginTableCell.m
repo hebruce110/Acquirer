@@ -8,6 +8,17 @@
 
 #import "LoginTableCell.h"
 
+@implementation LoginCellContent
+
+@synthesize titleSTR, placeHolderSTR, keyboardType, secure, maxLength;
+
+-(void)dealloc{
+    [titleSTR release];
+    [placeHolderSTR release];
+    [super dealloc];
+}
+@end
+
 @implementation LoginTableCell
 
 @synthesize titleLabel, contentTextField;
@@ -45,14 +56,35 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated{
     [super setSelected:selected animated:animated];
+    
+    if (selected == YES) {
+        [contentTextField becomeFirstResponder];
+    }else{
+        [contentTextField resignFirstResponder];
+    }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+-(void)setContent:(LoginCellContent *)content{
+    titleLabel.text = content.titleSTR;
+    contentTextField.placeholder = content.placeHolderSTR;
+    contentTextField.keyboardType = content.keyboardType;
+    if (content.secure) {
+        contentTextField.secureTextEntry = YES;
+    }
+    maxLEN = content.maxLength;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [contentTextField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if (textField.text.length >= maxLEN) {
+        return NO;
+    }
     return YES;
 }
 

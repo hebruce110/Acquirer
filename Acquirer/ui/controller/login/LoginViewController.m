@@ -19,6 +19,7 @@
 
 -(void)dealloc{
     [loginTableView release];
+    [contentList release];
     
     [super dealloc];
 }
@@ -28,8 +29,34 @@
     if (self != nil) {
         self.isShowNaviBar = NO;
         self.isShowTabBar = NO;
+        
+        contentList = [[NSMutableArray alloc] init];
     }
     return self;
+}
+
+-(void)setUpContentList{
+    NSArray *titleList = [NSArray arrayWithObjects:@"机  构  号　|", @"操作员号　|", @"密　　码　|", nil];
+    NSArray *placeHolderList = [NSArray arrayWithObjects:@"请输入机构号", @"请输入操作员号", @"请输入密码", nil];
+    NSArray *keyboardTypeList = [NSArray arrayWithObjects:[NSNumber numberWithInt:UIKeyboardTypeNumberPad],
+                                                          [NSNumber numberWithInt:UIKeyboardTypeAlphabet],
+                                                          [NSNumber numberWithInt:UIKeyboardTypeAlphabet],nil];
+    NSArray *secureList = [NSArray arrayWithObjects:[NSNumber numberWithBool:NO],
+                                                    [NSNumber numberWithBool:NO],
+                                                    [NSNumber numberWithBool:YES], nil];
+    NSArray *maxLengthList = [NSArray arrayWithObjects:[NSNumber numberWithInt:8],
+                                                       [NSNumber numberWithInt:20],
+                                                       [NSNumber numberWithInt:20],nil];
+    
+    for (int i=0; i<[titleList count]; i++) {
+        LoginCellContent *content = [[[LoginCellContent alloc] init] autorelease];
+        content.titleSTR = [titleList objectAtIndex:i];
+        content.placeHolderSTR = [placeHolderList objectAtIndex:i];
+        content.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
+        content.secure = [[secureList objectAtIndex:i] boolValue];
+        content.maxLength = [[maxLengthList objectAtIndex:i] integerValue];
+        [contentList addObject:content];
+    }
 }
 
 - (void)viewDidLoad
@@ -46,18 +73,22 @@
     [self.bgImageView addSubview:loginBgImgView];
     [self.bgImageView sendSubviewToBack:loginBgImgView];
     
-    
+    /*
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeight = self.contentView.bounds.size.height;
-    
+    */
+     
     CGRect tableFrame = CGRectMake(0, 90, 300, 160);
     self.loginTableView = [[[UITableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
+    loginTableView.scrollEnabled = NO;
     loginTableView.backgroundColor = [UIColor clearColor];
     loginTableView.backgroundView = nil;
     loginTableView.delegate = self;
     loginTableView.dataSource = self;
     [self.contentView addSubview:loginTableView];
     loginTableView.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), loginTableView.center.y);
+    
+    [self setUpContentList];
     
     UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
     [contentView addGestureRecognizer:tg];
@@ -75,7 +106,7 @@
     return YES;
 }
 
-//处理选中事件
+
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
     for (LoginTableCell *cell in [self.loginTableView visibleCells]) {
         [cell.contentTextField resignFirstResponder];
@@ -97,26 +128,8 @@
         cell = [[[LoginTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
     }
     
-    switch (indexPath.row) {
-        case 0:
-            cell.titleLabel.text = @"机  构  号　|";
-            [cell.contentTextField setPlaceholder:@"请输入机构号"];
-            [cell.contentTextField setKeyboardType:UIKeyboardTypeNumberPad];
-            break;
-        case 1:
-            cell.titleLabel.text = @"操作员号　|";
-            cell.contentTextField.placeholder = @"请输入操作员号";
-            [cell.contentTextField setKeyboardType:UIKeyboardTypeAlphabet];
-            break;
-        case 2:
-            cell.titleLabel.text = @"密　　码　|";
-            cell.contentTextField.placeholder = @"请输入密码";
-            cell.contentTextField.returnKeyType = UIReturnKeyDone;
-            cell.contentTextField.secureTextEntry = YES;
-            break;
-        default:
-            break;
-    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell setContent:[contentList objectAtIndex:indexPath.row]];
     
     return cell;
 }

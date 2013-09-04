@@ -11,7 +11,7 @@
 @interface LoginViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>{
     UITableView *loginTableView;
     
-    
+    NSMutableArray *contentList;
 }
 
 @property (nonatomic, retain) UITableView *loginTableView;
