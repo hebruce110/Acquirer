@@ -25,6 +25,9 @@
 +(void)shutdown;
 +(NSString *)bundleVersion;
 
+//check is production environment
++(BOOL)isProductionEnvironment;
+
 -(void) showUIPromptMessage:(NSString *)message animated:(BOOL)animated;
 -(void) hideUIPromptMessage:(BOOL)animated;
 

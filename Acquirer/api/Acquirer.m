@@ -54,7 +54,7 @@ static Acquirer *sInstance = nil;
     
     [Settings sharedInstance];
     
-    [instance moveConfigFileToDocuments];
+    [instance copyConfigFileToDocuments];
     
     [[NSNotificationCenter defaultCenter] addObserver:instance
                                              selector:@selector(requireUserLogin:)
@@ -96,6 +96,14 @@ static Acquirer *sInstance = nil;
 +(NSString *)bundleVersion{
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     return version;
+}
+
+//check is production environment
++(BOOL)isProductionEnvironment{
+    if ([HOST_URL rangeOfString:@"test"].location==NSNotFound) {
+        return YES;
+    }
+    return NO;
 }
 
 //Set global PosMini request
