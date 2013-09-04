@@ -22,8 +22,11 @@
 
 //定义code.csv的版本号
 #define CODE_CSV_VERSION @"CODE_CSV_VERSION"
-
+//应用检查更新忽略的版本
 #define ACQUIRER_IGNORE_VERSION @"ACQUIRER_IGNORE_VERSION"
+
+//定义每次启动弹出登录页面标志
+#define ACQUIRER_LAUNCH_LOGIN_FLAG @"ACQUIRER_LAUNCH_LOGIN_FLAG"
 
 //==================================================
 //MTP Server
@@ -32,8 +35,8 @@
 #define MTP_TTY_RESPONSE_CODE @"return_code"
 #define POSTBE_UID @"uid"
 
-#define POSMINI_MTP_SESSION @"CHINAPNRJSESSIONID"
-#define POSMINI_LOCAL_SESSION @"POSMINI_LOCAL_SESSION"
+#define ACQUIRER_MTP_SESSION_KEY @"CHINAPNRJSESSIONID"
+#define ACQUIRER_LOCAL_SESSION_KEY @"POSMINI_LOCAL_SESSION"
 
 //==================================================
 //Notification Name
@@ -78,6 +81,6 @@ typedef enum {
 #define DEFAULT_NAVIGATION_BAR_HEIGHT 44
 
 #define DEFAULT_TAB_BAR_HEIGHT 49
-#define DEFAULT_TAB_WIDTH 80
+#define DEFAULT_TAB_WIDTH 160
 
 #endif
