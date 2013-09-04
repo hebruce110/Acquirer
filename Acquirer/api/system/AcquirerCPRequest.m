@@ -85,7 +85,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     {
         //如果返回sessionId就做存储
         if (NotNil(body, @"SessionId")) {
-            [Helper saveValue:[body valueForKey:@"SessionId"] forKey:POSMINI_LOCAL_SESSION];
+            [Helper saveValue:[body valueForKey:@"SessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
         }
         
         if (target && selector)
