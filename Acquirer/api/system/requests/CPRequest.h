@@ -73,6 +73,8 @@
 +(id)requestWithPath:(NSString *)path andMethod:(NSString *)method andArgs:(NSDictionary *)args;
 +(id)requestWithPath:(NSString *)path andMethod:(NSString *)method andArgString:(NSString *)args;
 
++(NSString *)embedQueryInPath:(NSString *)path andQuery:(NSDictionary *)query;
+
 //delegate call
 - (id)onRespondText:(id<CPResponseText>)responseBlock;
 - (id)onRespondData:(id<CPResponseData>)responseBlock;

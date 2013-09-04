@@ -262,18 +262,28 @@ static void buildRoot(id<ArgBuilder> builder, NSDictionary *body)
     [req release];
 }
 
-- (void)genRequestWithPath:(NSString*)path andASIClass:(Class)asiHttpRequestSubclass
+- (void)genRequestWithPath:(NSString*)URLString andASIClass:(Class)asiHttpRequestSubclass
 {
     static NSString* sServerURL = nil;
     if(!sServerURL){
         sServerURL = [[[[NSURL URLWithString:[[Settings sharedInstance] getSetting:@"server-url"]] standardizedURL] absoluteString] retain];
     }
     
-	if ([path hasPrefix:@"/"]){
-		path = [path substringFromIndex:1];
-	}
+    //adapted for absolute url address
+    //eg: version update interface
+    //http://www.ttyfund.com/api/services/test/checkupdate.php
     
-	[self genRequestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", sServerURL, path]] andASIClass:(Class)asiHttpRequestSubclass];
+    if([URLString hasPrefix:@"http"] || [URLString hasPrefix:@"www"])
+    {
+        [self genRequestWithURL:[NSURL URLWithString:URLString] andASIClass:(Class)asiHttpRequestSubclass];
+    }
+    else {
+        if ([URLString hasPrefix:@"/"]){
+            URLString = [URLString substringFromIndex:1];
+        }
+        
+        [self genRequestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", sServerURL, URLString]] andASIClass:(Class)asiHttpRequestSubclass];
+    }
 }
 
 +(NSString *)embedQueryInPath:(NSString *)path andQuery:(NSDictionary *)query
@@ -471,12 +481,14 @@ static void buildRoot(id<ArgBuilder> builder, NSDictionary *body)
         [mResponseJSON onResponseJSON:mResponseAsJSON withResponseCode:mRequest.responseStatusCode];
     }
     //it was not suppose to add relogin here
+    /*
     else if (mRequest.responseStatusCode == 404){
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_REQUIRE_USER_LOGIN object:nil];
         
         [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"长时间未使用，请重新登录!"];
     }
+     */
     else
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
