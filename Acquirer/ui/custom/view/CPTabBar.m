@@ -34,17 +34,13 @@
         
         tabIconList = [[NSMutableArray alloc] initWithObjects:
                        [UIImage imageNamed:@"shop-icon.png"],
-                       [UIImage imageNamed:@"select-icon.png"],
-                       [UIImage imageNamed:@"info-icon.png"],
-                       [UIImage imageNamed:@"help-icon.png"], nil];
+                       [UIImage imageNamed:@"select-icon.png"], nil];
         
         tabIconHoverList = [[NSMutableArray alloc] initWithObjects:
                             [UIImage imageNamed:@"shop-icon-hover.png"],
-                            [UIImage imageNamed:@"select-icon-hover.png"],
-                            [UIImage imageNamed:@"info-icon-hover.png"],
-                            [UIImage imageNamed:@"help-icon-hover.png"], nil];
+                            [UIImage imageNamed:@"select-icon-hover.png"], nil];
         
-        tabTitleList = [[NSMutableArray alloc] initWithObjects: @"商户收款", @"订单查询", @"账户信息", @"使用帮助", nil];
+        tabTitleList = [[NSMutableArray alloc] initWithObjects: @"刷卡交易", @"帮助中心", nil];
         
         
         for (int i=0; i<tabIconList.count; i++) {
@@ -52,20 +48,19 @@
             UIImageView *tabView = [[UIImageView alloc] initWithFrame:tabframe];
             tabView.image = [UIImage imageNamed:@"menu-bg.png"];
             
-            UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 0, 40, 40)];
+            UIImageView *iconView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)] autorelease];
             iconView.image = [tabIconList objectAtIndex:i];
             [tabView addSubview:iconView];
-            [iconView release];
+            iconView.center = CGPointMake(CGRectGetMidX(tabView.bounds), iconView.center.y);
             
-            UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 24, 60, 30)];
+            UILabel *titleLabel = [[[UILabel alloc]initWithFrame:CGRectMake(10, 24, 60, 30)] autorelease];
             titleLabel.backgroundColor = [UIColor clearColor];
             titleLabel.font = [UIFont systemFontOfSize:10];
             titleLabel.textAlignment = NSTextAlignmentCenter;
             titleLabel.textColor = [UIColor whiteColor];
             titleLabel.text = [tabTitleList objectAtIndex:i];
-            
+            titleLabel.center = CGPointMake(CGRectGetMidX(tabView.bounds), titleLabel.center.y);
             [tabView addSubview:titleLabel];
-            [titleLabel release];
             
             [tabViewList addObject:tabView];
             [self addSubview:tabView];
