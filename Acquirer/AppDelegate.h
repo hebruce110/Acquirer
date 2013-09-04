@@ -7,13 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CPNavigationController.h"
+#import "CPTabBarDelegate.h"
+#import "CPTabBar.h"
 
 @class VersionService;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+@interface AppDelegate : UIResponder <UIApplicationDelegate, CPTabBarDelegate>{
+    CPNavigationController *transNavi;
+    CPNavigationController *helpNavi;
+    
+    NSArray *naviArray;
+    
+    CPTabBar *cpTabBar;
+    
     VersionService *vs;
 }
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (readonly, nonatomic) CPNavigationController *transNavi;
+@property (readonly, nonatomic) CPNavigationController *helpNavi;
+@property (readonly, nonatomic) CPTabBar *cpTabBar;
 
 @end

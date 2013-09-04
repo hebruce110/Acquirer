@@ -9,32 +9,75 @@
 #import "AppDelegate.h"
 #import "Acquirer.h"
 #import "VersionService.h"
+
+#import "LoginViewController.h"
+#import "TransHomeViewController.h"
+#import "HelpHomeViewController.h"
+
 #import "TestViewController.h"
 
 @implementation AppDelegate
+
+@synthesize transNavi, helpNavi, cpTabBar;
 
 - (void)dealloc
 {
     [_window release];
     [vs release];
+    
+    [transNavi release];
+    [helpNavi release];
+    
+    [naviArray release];
+    [cpTabBar release];
+    
     [super dealloc];
+}
+
+- (void)initializeUI{
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    TransHomeViewController *transCTRL = [[[TransHomeViewController alloc] init] autorelease];
+    transNavi = [[CPNavigationController alloc] initWithRootViewController:transCTRL];
+    
+    HelpHomeViewController *helpCTRL = [[[HelpHomeViewController alloc] init] autorelease];
+    helpNavi = [[CPNavigationController alloc] initWithRootViewController:helpCTRL];
+    
+    naviArray = [[NSArray alloc] initWithObjects:transNavi,helpNavi, nil];
+    
+    self.window.rootViewController = transNavi;
+    
+    cpTabBar = [[CPTabBar alloc] initWithFrame:CGRectMake(0, self.window.rootViewController.view.frame.size.height-DEFAULT_TAB_BAR_HEIGHT, self.window.frame.size.width, DEFAULT_TAB_BAR_HEIGHT)] ;
+    cpTabBar.delegate = self;
+    [cpTabBar setTabSelected:0];
+    [self.window.rootViewController.view addSubview:cpTabBar];
+    
+    [self.window makeKeyAndVisible];
+}
+
+- (void)changeToIndex:(int)index
+{
+    [cpTabBar removeFromSuperview];
+    CPNavigationController *cpNavi = [naviArray objectAtIndex:index];
+    self.window.rootViewController = cpNavi;
+    [self.window.rootViewController.view addSubview:cpTabBar];
+}
+
+- (void)performApplicationStartUpLogic{
+    [self initializeUI];
+    
+    [Acquirer initializeAcquirer];
+
+    vs = [[VersionService alloc] init];
+    [vs requestForVersionCheck];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
     
-    [Acquirer initializeAcquirer];
+    [self performApplicationStartUpLogic];
     
-    TestViewController *tc = [[TestViewController alloc] init];
-    self.window.rootViewController = tc;
-    [tc release];
-    
-    vs = [[VersionService alloc] init];
-    [vs requestForVersionCheck];
     return YES;
 }
 
