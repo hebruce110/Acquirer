@@ -6,6 +6,7 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
+NSString* getHardwareVersion();
 NSString *platform();
 NSString * platformString();
 

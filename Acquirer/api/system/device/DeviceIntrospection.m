@@ -116,6 +116,21 @@ static DeviceIntrospection *sInstance = nil;
 
 @end
 
+//hardware version
+NSString* getHardwareVersion()
+{
+	size_t size = 0;
+	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+	
+	char* tempString = (char*)malloc(size);
+	sysctlbyname("hw.machine", tempString, &size, NULL, 0);
+	
+	NSString* hardwareType = [NSString stringWithUTF8String:tempString];
+	free(tempString);
+	
+	return hardwareType;
+}
+
 /**
  获取系统中原始设备信息
  @returns 返回设备原始信息
