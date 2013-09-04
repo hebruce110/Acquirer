@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Helper.h"
-#import "ASIHTTPRequest.h"
-#import "ASIFormDataRequest.h"
 #import "NSNotificationCenter+CP.h"
+#import "AcquirerCPRequest.h"
 
 @interface BasicService : NSObject{
     id target;
