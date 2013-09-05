@@ -31,7 +31,7 @@
 //==================================================
 //MTP Server
 //==================================================
-#define MTP_POS_RESPONSE_CODE @"RespCode"
+#define MTP_POS_RESPONSE_CODE @"respCode"
 #define MTP_TTY_RESPONSE_CODE @"return_code"
 #define POSTBE_UID @"uid"
 
