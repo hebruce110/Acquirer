@@ -33,12 +33,12 @@
         tabViewList = [[NSMutableArray alloc] initWithCapacity:4];
         
         tabIconList = [[NSMutableArray alloc] initWithObjects:
-                       [UIImage imageNamed:@"shop-icon.png"],
-                       [UIImage imageNamed:@"select-icon.png"], nil];
+                       [UIImage imageNamed:@"deal-ico.png"],
+                       [UIImage imageNamed:@"help-ico.png"], nil];
         
         tabIconHoverList = [[NSMutableArray alloc] initWithObjects:
-                            [UIImage imageNamed:@"shop-icon-hover.png"],
-                            [UIImage imageNamed:@"select-icon-hover.png"], nil];
+                            [UIImage imageNamed:@"deal-ico-hover.png"],
+                            [UIImage imageNamed:@"help-ico-hover.png"], nil];
         
         tabTitleList = [[NSMutableArray alloc] initWithObjects: @"刷卡交易", @"帮助中心", nil];
         
@@ -48,10 +48,10 @@
             UIImageView *tabView = [[UIImageView alloc] initWithFrame:tabframe];
             tabView.image = [UIImage imageNamed:@"menu-bg.png"];
             
-            UIImageView *iconView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)] autorelease];
+            UIImageView *iconView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)] autorelease];
             iconView.image = [tabIconList objectAtIndex:i];
             [tabView addSubview:iconView];
-            iconView.center = CGPointMake(CGRectGetMidX(tabView.bounds), iconView.center.y);
+            iconView.center = CGPointMake(CGRectGetMidX(tabView.bounds), CGRectGetMidY(tabView.bounds)-7);
             
             UILabel *titleLabel = [[[UILabel alloc]initWithFrame:CGRectMake(10, 24, 60, 30)] autorelease];
             titleLabel.backgroundColor = [UIColor clearColor];
