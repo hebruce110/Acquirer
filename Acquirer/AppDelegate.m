@@ -18,13 +18,14 @@
 
 @implementation AppDelegate
 
-@synthesize transNavi, helpNavi, cpTabBar;
+@synthesize loginNavi, transNavi, helpNavi, cpTabBar;
 
 - (void)dealloc
 {
     [_window release];
     [vs release];
     
+    [loginNavi release];
     [transNavi release];
     [helpNavi release];
     
@@ -38,6 +39,9 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.window.backgroundColor = [UIColor whiteColor];
     
+    LoginViewController *loginCTRL = [[LoginViewController alloc] init];
+    loginNavi = [[CPNavigationController alloc] initWithRootViewController:loginCTRL];
+    
     TransHomeViewController *transCTRL = [[[TransHomeViewController alloc] init] autorelease];
     transNavi = [[CPNavigationController alloc] initWithRootViewController:transCTRL];
     
@@ -46,14 +50,25 @@
     
     naviArray = [[NSArray alloc] initWithObjects:transNavi,helpNavi, nil];
     
-    self.window.rootViewController = transNavi;
-    
-    cpTabBar = [[CPTabBar alloc] initWithFrame:CGRectMake(0, self.window.rootViewController.view.frame.size.height-DEFAULT_TAB_BAR_HEIGHT, self.window.frame.size.width, DEFAULT_TAB_BAR_HEIGHT)] ;
-    cpTabBar.delegate = self;
-    [cpTabBar setTabSelected:0];
-    [self.window.rootViewController.view addSubview:cpTabBar];
+    self.window.rootViewController = loginNavi;
     
     [self.window makeKeyAndVisible];
+}
+
+-(void) loginSucceed{
+    NSString *loginFlagSTR = [Helper getValueByKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
+    //第一次启动应用后完成登录
+    if (loginFlagSTR && [loginFlagSTR isEqualToString:NSSTRING_YES]) {
+        self.window.rootViewController = transNavi;
+        
+        cpTabBar = [[CPTabBar alloc] initWithFrame:CGRectMake(0, self.window.rootViewController.view.frame.size.height-DEFAULT_TAB_BAR_HEIGHT, self.window.frame.size.width, DEFAULT_TAB_BAR_HEIGHT)] ;
+        cpTabBar.delegate = self;
+        [cpTabBar setTabSelected:0];
+        [self.window.rootViewController.view addSubview:cpTabBar];
+        [Helper saveValue:NSSTRING_NO forKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_USER_LOGIN_SUCCEED object:nil];
+    }
 }
 
 - (void)changeToIndex:(int)index
