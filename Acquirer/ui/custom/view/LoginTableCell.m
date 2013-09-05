@@ -7,6 +7,7 @@
 //
 
 #import "LoginTableCell.h"
+#import "Helper.h"
 
 @implementation LoginCellContent
 
@@ -41,7 +42,7 @@
         titleLabel.textColor = [UIColor grayColor];
         [self addSubview:titleLabel];
         
-        CGRect contentFrame = CGRectMake(titleFrame.size.width+15, 0, 170, self.bounds.size.height);
+        CGRect contentFrame = CGRectMake(titleFrame.size.width+15, 0, 190, self.bounds.size.height);
         //contentTextField.center = CGPointMake(contentTextField.center.x, titleLabel.center.y);
         contentTextField = [[UITextField alloc] initWithFrame:contentFrame];
         [contentTextField setKeyboardType:UIKeyboardTypeAlphabet];
@@ -82,6 +83,11 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    //input del
+    if ([Helper stringNullOrEmpty:string]) {
+        return YES;
+    }
+    
     if (textField.text.length >= maxLEN) {
         return NO;
     }
