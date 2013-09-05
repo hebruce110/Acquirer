@@ -33,16 +33,10 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    NSString *lunchFlag = [Helper getValueByKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
-    if (lunchFlag && [lunchFlag isEqualToString:NSSTRING_YES]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_REQUIRE_USER_LOGIN object:nil];
-        [Helper saveValue:NSSTRING_NO forKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
-    }
 }
 
 - (void)didReceiveMemoryWarning
