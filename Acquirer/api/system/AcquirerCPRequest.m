@@ -84,8 +84,8 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     if (NotNilAndEqualsTo(body, MTP_POS_RESPONSE_CODE, @"000"))
     {
         //如果返回sessionId就做存储
-        if (NotNil(body, @"SessionId")) {
-            [Helper saveValue:[body valueForKey:@"SessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
+        if (NotNil(body, @"sessionId")) {
+            [Helper saveValue:[body valueForKey:@"sessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
         }
         
         if (target && selector)
@@ -102,14 +102,12 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_REQUIRE_USER_LOGIN object:nil];
         
         [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"长时间未使用，请重新登录!"];
-        //[[PosMini sharedInstance] hideUIPromptMessage:YES];
     }
     //返回出错,打印出错信息
     else if (NotNilAndEqualsTo(body, MTP_POS_RESPONSE_CODE, @"881"))
     {
         //当然用户尚未绑定设备
         [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"当前用户未绑定设备"];
-        //[[PosMini sharedInstance] hideUIPromptMessage:YES];
     }
     //返回未定义状态码,提示服务器返回信息
     else if (NotNil(body, @"RespDesc"))
@@ -121,13 +119,13 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
         
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
         [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:[body objectForKey:@"RespDesc"]];
-        //[[PosMini sharedInstance] hideUIPromptMessage:YES];
     }
     //返回内容非JSON格式
     else{
-        //[[PosMini sharedInstance] hideUIPromptMessage:YES];
         [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"服务端返回数据异常"];
     }
+    
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
 }
 
 //process failure messages dispatch
