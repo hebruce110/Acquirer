@@ -6,8 +6,11 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "LoginViewController.h"
 #import "LoginTableCell.h"
+#import "NSNotificationCenter+CP.h"
+#import "AcquirerService.h"
 
 @interface LoginViewController ()
 
@@ -46,7 +49,7 @@
                                                     [NSNumber numberWithBool:YES], nil];
     NSArray *maxLengthList = [NSArray arrayWithObjects:[NSNumber numberWithInt:8],
                                                        [NSNumber numberWithInt:20],
-                                                       [NSNumber numberWithInt:20],nil];
+                                                       [NSNumber numberWithInt:32],nil];
     
     for (int i=0; i<[titleList count]; i++) {
         LoginCellContent *content = [[[LoginCellContent alloc] init] autorelease];
@@ -73,12 +76,12 @@
     [self.bgImageView addSubview:loginBgImgView];
     [self.bgImageView sendSubviewToBack:loginBgImgView];
     
-    /*
+    
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeight = self.contentView.bounds.size.height;
-    */
+    
      
-    CGRect tableFrame = CGRectMake(0, 90, 300, 160);
+    CGRect tableFrame = CGRectMake(0, 90, contentWidth, 160);
     self.loginTableView = [[[UITableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
     loginTableView.scrollEnabled = NO;
     loginTableView.backgroundColor = [UIColor clearColor];
@@ -90,13 +93,80 @@
     
     [self setUpContentList];
     
+    UIImage *btnSelImg = [UIImage imageNamed:@"BUTT_red_on.png"];
+    UIImage *btnDeSelImg = [UIImage imageNamed:@"BUTT_red_off.png"];
+    CGRect buttonFrame = CGRectMake(0, 255, btnSelImg.size.width, btnSelImg.size.height);
+    
+    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    loginBtn.frame = buttonFrame;
+    loginBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), loginBtn.center.y);
+    loginBtn.backgroundColor = [UIColor clearColor];
+    [loginBtn setBackgroundImage:btnDeSelImg forState:UIControlStateNormal];
+    [loginBtn setBackgroundImage:btnSelImg forState:UIControlStateSelected];
+    loginBtn.layer.cornerRadius = 10.0;
+    loginBtn.clipsToBounds = YES;
+    loginBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];
+    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+    [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:loginBtn];
+    
+    CGRect notLoginFrame = CGRectMake(0, 320, 120, 40);
+    UIButton *notLoginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    notLoginBtn.frame = notLoginFrame;
+    notLoginBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), notLoginBtn.center.y);
+    notLoginBtn.backgroundColor = [UIColor clearColor];
+    notLoginBtn.titleLabel.font = [UIFont systemFontOfSize:19];//[UIFont fontWithName:@"Arial" size:19];
+    [notLoginBtn setTitle:@"无法登录?" forState:UIControlStateNormal];
+    [notLoginBtn setTitleColor:[Helper hexStringToColor:@"#CC0000"] forState:UIControlStateNormal];
+    [notLoginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [notLoginBtn addTarget:self action:@selector(notLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:notLoginBtn];
+    
+    UILabel *serviceTitleLabel = [[[UILabel alloc] init] autorelease];
+    serviceTitleLabel.bounds = CGRectMake(0, 0, 80, 30);
+    serviceTitleLabel.backgroundColor = [UIColor clearColor];
+    serviceTitleLabel.font = [UIFont systemFontOfSize:13];
+    serviceTitleLabel.text = @"客服电话:";
+    serviceTitleLabel.textColor = [Helper hexStringToColor:@"#666666"];
+    serviceTitleLabel.center = CGPointMake(110, contentHeight-40);
+    [self.contentView addSubview:serviceTitleLabel];
+    
+    UILabel *servicePhoneLabel = [[[UILabel alloc] init] autorelease];
+    servicePhoneLabel.bounds = CGRectMake(0, 0, 150, 30);
+    servicePhoneLabel.backgroundColor = [UIColor clearColor];
+    servicePhoneLabel.font = [UIFont systemFontOfSize:15];
+    servicePhoneLabel.text = @"021-33323999-5513";
+    servicePhoneLabel.textColor = [Helper hexStringToColor:@"#4D77A4"];
+    servicePhoneLabel.center = CGPointMake(210, contentHeight-41);
+    [self.contentView addSubview:servicePhoneLabel];
+    
+    
     UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
     [contentView addGestureRecognizer:tg];
     tg.delegate = self;
     [tg release];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(dismissLoginViewController)
+                                                 name:NOTIFICATION_USER_LOGIN_SUCCEED
+                                               object:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)dismissLoginViewController{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     CGPoint point = [touch locationInView:self.contentView];
     CGPoint convertPoint = [self.loginTableView convertPoint:point fromView:contentView];
     
@@ -111,6 +181,47 @@
     for (LoginTableCell *cell in [self.loginTableView visibleCells]) {
         [cell.contentTextField resignFirstResponder];
     }
+}
+
+-(void)login:(id)sender{
+    NSArray *visibleCellList = [self.loginTableView visibleCells];
+    for (LoginTableCell *cell in visibleCellList) {
+        [cell.contentTextField resignFirstResponder];
+    }
+    
+    NSString *corpIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:0]).contentTextField.text;
+    NSString *opratorIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:1]).contentTextField.text;
+    NSString *passSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:2]).contentTextField.text;
+    
+    if ([Helper stringNullOrEmpty:corpIdSTR]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }else if ([corpIdSTR rangeOfString:@"6"].location != 0){
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号有误，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return ;
+    }
+    
+    if ([Helper stringNullOrEmpty:opratorIdSTR]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"操作员号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }else if ([Helper containInvalidChar:opratorIdSTR]){
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"操作员号有误，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    if ([Helper stringNullOrEmpty:passSTR]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }else if ([Helper containInvalidChar:passSTR]){
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码有误，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    [[AcquirerService sharedInstance] requestForLoginCorp:corpIdSTR oprator:opratorIdSTR pass:passSTR];
+}
+
+-(void)notLogin:(id)sender{
+    NSLog(@"not login");
 }
 
 #pragma mark UITableViewDataSource Method
@@ -143,25 +254,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -24,4 +24,6 @@
 
 //- (void) processMTPRespDesc:(PosMiniCPRequest *)req;
 
+-(NSString *)oprateTime;
+
 @end
