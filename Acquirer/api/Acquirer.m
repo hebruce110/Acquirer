@@ -15,6 +15,7 @@
 #import "Helper.h"
 #import "LoginViewController.h"
 #import "CPNavigationController.h"
+#import "AcquirerService.h"
 
 static Acquirer *sInstance = nil;
 
@@ -49,12 +50,27 @@ static Acquirer *sInstance = nil;
     CPSafeRelease(sInstance);
 }
 
++(void)shutdown{
+    Acquirer *instance = [Acquirer sharedInstance];
+    if (instance == nil) {
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:instance];
+    
+    [Settings destroySharedInstance];
+    [AcquirerService destroySharedInstance];
+    
+    [Acquirer destroySharedInstance];
+}
+
 //initialize global settings
 +(void)initializeAcquirer{
     
     Acquirer *instance = [Acquirer sharedInstance];
     
     [Settings sharedInstance];
+    [AcquirerService sharedInstance];
     
     [instance copyConfigFileToDocuments];
     
@@ -85,17 +101,6 @@ static Acquirer *sInstance = nil;
                                              selector:@selector(displayTitaniumProtoPromptAutomatically:)
                                                  name:NOTIFICATION_TITANIUM_PROMPT
                                                object:nil];
-}
-
-+(void)shutdown{
-    Acquirer *instance = [Acquirer sharedInstance];
-    if (instance == nil) {
-        return;
-    }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:instance];
-    
-    [Acquirer destroySharedInstance];
 }
 
 +(NSString *)bundleVersion{
@@ -241,12 +246,14 @@ static Acquirer *sInstance = nil;
     
     UILabel *msgLabel = [[[UILabel alloc] init] autorelease];
     msgLabel.text = msgString;
+    msgLabel.lineBreakMode = UILineBreakModeWordWrap;
+    msgLabel.numberOfLines = 0;
     msgLabel.frame = CGRectMake(55, 0, PROMPT_LABEL_TEXT_WIDTH, msgLabelHeight);
     msgLabel.center = CGPointMake(msgLabel.center.x, CGRectGetMidY(promptImgView.bounds));
     msgLabel.font = [UIFont systemFontOfSize:14.0];
     msgLabel.backgroundColor = [UIColor clearColor];
     msgLabel.textColor = [UIColor blackColor];
-    msgLabel.textAlignment = NSTextAlignmentCenter;
+    msgLabel.textAlignment = NSTextAlignmentLeft;
     [promptImgView addSubview:msgLabel];
     
     //do animation
