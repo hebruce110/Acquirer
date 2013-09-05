@@ -17,7 +17,7 @@
 @property (nonatomic, assign) BOOL isAbsolutePath;
 
 +(Settings*) sharedInstance;
-+(void)destroyInstance;
++(void)destroySharedInstance;
 
 -(NSString*)getSetting:(NSString*) key;
 -(void) setDefaultTag:(NSString*)tag value:(NSString*)value;

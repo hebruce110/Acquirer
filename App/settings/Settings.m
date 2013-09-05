@@ -33,7 +33,7 @@ static Settings* sInstance = nil;
     return sInstance;
 }
 
-+(void)destroyInstance{
++(void)destroySharedInstance{
     CPSafeRelease(sInstance);
 }
 
