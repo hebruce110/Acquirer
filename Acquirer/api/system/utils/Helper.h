@@ -73,7 +73,7 @@
  @param inputString 输入字符串
  @returns 返回结果
  */
-+(Boolean)StringIsNullOrEmpty:(NSString *)inputString;
++(Boolean)stringNullOrEmpty:(NSString *)inputString;
 
 /*
  判断字符串的每个字符是否为数字或字母
@@ -81,6 +81,10 @@
  @returns 返回结果
  */
 +(BOOL)containInvalidChar:(NSString *)string;
+
+//十六进制颜色字符串转UIColor
++(UIColor *) hexStringToColor: (NSString *) stringToConvert;
+
 /**
  MD5加密
  @param str 输入初始参数
