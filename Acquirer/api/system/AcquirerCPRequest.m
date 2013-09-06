@@ -17,8 +17,7 @@
 //JSON assign null value as [NSNull null], totally different from nil or NULL
 BOOL NotNil(id dict, NSString *k){
     if (dict!=nil && [dict isKindOfClass:[NSDictionary class]] &&
-        [dict objectForKey:k]!=nil && [dict objectForKey:k] != [NSNull null])
-    {
+        [dict objectForKey:k]!=nil && [dict objectForKey:k] != [NSNull null]){
         return YES;
     }
     return NO;
@@ -81,7 +80,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     NSLog(@"%@", body);
     //统一判断状态码返回
     //状态码返回成功
-    if (NotNilAndEqualsTo(body, MTP_POS_RESPONSE_CODE, @"000"))
+    if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"000"))
     {
         //如果返回sessionId就做存储
         if (NotNil(body, @"sessionId")) {
@@ -95,34 +94,33 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
             }
         }
     }
-    //需要重新登录建立session
-    else if (NotNilAndEqualsTo(body, MTP_POS_RESPONSE_CODE, @"899"))
+    //账号未激活
+    //jump to activate page
+    else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02127"))
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_REQUIRE_USER_LOGIN object:nil];
         
-        [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"长时间未使用，请重新登录!"];
     }
-    //返回出错,打印出错信息
-    else if (NotNilAndEqualsTo(body, MTP_POS_RESPONSE_CODE, @"881"))
-    {
-        //当然用户尚未绑定设备
-        [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"当前用户未绑定设备"];
-    }
-    //返回未定义状态码,提示服务器返回信息
-    else if (NotNil(body, @"RespDesc"))
-    {
-        self.respDesc = [body objectForKey:@"RespDesc"];
-        if (target && [target respondsToSelector:@selector(processMTPRespDesc:)]) {
-            [target performSelector:@selector(processMTPRespDesc:) withObject:self];
-        }
+    //长时间未登录，显示是否重新登录的提示框 02110
+    //已在别处登录，显示是否重新登录的提示框 02111
+    //激活，长时间未登录 02210
+    //do relogin
+    else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02110") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02111") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02210")){
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
-        [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:[body objectForKey:@"RespDesc"]];
     }
-    //返回内容非JSON格式
+    //02322, 02323, 02324, 02325, 02326
+    //show alert
+    else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02322") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02323") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02324") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02325") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02326")){
+        
+    }
+    //其他情况，只显示提示
     else{
-        [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"服务端返回数据异常"];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:[[Acquirer sharedInstance] respDesc:[body objectForKey:MTP_RESPONSE_CODE]] notifyType:NOTIFICATION_TYPE_WARNING];
     }
     
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];

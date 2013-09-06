@@ -8,16 +8,25 @@
 
 #import <Foundation/Foundation.h>
 #import "MBProgressHUD.h"
+#import "ACUser.h"
 
 @class ASIHTTPRequest;
 
 @interface Acquirer : NSObject <MBProgressHUDDelegate>{
     MBProgressHUD *uiPromptHUD;
     MBProgressHUD *sysPromptHUD;
+    
+    NSDictionary *codedescMap;
+    
+    ACUser *currentUser;
 }
 
 @property (nonatomic, retain) MBProgressHUD *uiPromptHUD;
 @property (nonatomic, retain) MBProgressHUD *sysPromptHUD;
+
+@property (nonatomic, readonly) NSDictionary *codedescMap;
+
+@property (nonatomic, retain) ACUser *currentUser;
 
 +(Acquirer *)sharedInstance;
 +(void)destroySharedInstance;
@@ -41,6 +50,12 @@
 
 //拷贝code.csv配置文件到Documents目录
 -(void)copyConfigFileToDocuments;
+
+//解析code-desc映射文件
+-(void)parseCodeDescFile;
+
+//状态码描述
+-(NSString *)respDesc:(NSString *)codeSTR;
 
 @end
 

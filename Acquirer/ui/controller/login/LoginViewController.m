@@ -154,6 +154,14 @@
                                              selector:@selector(dismissLoginViewController)
                                                  name:NOTIFICATION_USER_LOGIN_SUCCEED
                                                object:nil];
+    /*
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector()
+                                                 name:
+                                               object:]
+    */
+    
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -231,8 +239,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"Login_Identifier";
-    
-    
+  
     LoginTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
             
     if (cell==nil) {

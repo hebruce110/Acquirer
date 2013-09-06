@@ -16,17 +16,22 @@
 #import "LoginViewController.h"
 #import "CPNavigationController.h"
 #import "AcquirerService.h"
+#import "JSON.h"
 
 static Acquirer *sInstance = nil;
 
 @implementation Acquirer
 
 @synthesize uiPromptHUD, sysPromptHUD;
+@synthesize codedescMap, currentUser;
 
 -(void)dealloc{
     [uiPromptHUD release];
     [sysPromptHUD release];
     
+    [codedescMap release];
+    
+    [currentUser release];
     [super dealloc];
 }
 
@@ -35,6 +40,7 @@ static Acquirer *sInstance = nil;
     if (self) {
         uiPromptHUD = nil;
         sysPromptHUD = nil;
+        currentUser = nil;
     }
     return self;
 }
@@ -73,6 +79,7 @@ static Acquirer *sInstance = nil;
     [AcquirerService sharedInstance];
     
     [instance copyConfigFileToDocuments];
+    [instance parseCodeDescFile];
     
     //initialize app startup nsuserdefault settings
     [Helper saveValue:NSSTRING_YES forKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
@@ -170,6 +177,21 @@ static Acquirer *sInstance = nil;
             }
         }
     }
+}
+
+-(void)parseCodeDescFile{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"RespCodeDesc" ofType:@"geojson"];
+    NSString* content = [NSString stringWithContentsOfFile:path
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:NULL];
+    codedescMap = [[content JSONValue] retain];    
+}
+
+-(NSString *)respDesc:(NSString *)codeSTR{
+    if (NotNil(self.codedescMap, codeSTR)) {
+        return [self.codedescMap objectForKey:codeSTR];
+    }
+    return [NSString stringWithFormat:@"服务器错误,　请稍后再试"];
 }
 
 #pragma mark -
