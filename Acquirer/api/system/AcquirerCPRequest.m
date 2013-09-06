@@ -98,7 +98,10 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     //jump to activate page
     else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02127"))
     {
-        
+        if (NotNil(body, @"mobile")) {
+            [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
+            [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE object:nil userInfo:body];
+        }
     }
     //长时间未登录，显示是否重新登录的提示框 02110
     //已在别处登录，显示是否重新登录的提示框 02111

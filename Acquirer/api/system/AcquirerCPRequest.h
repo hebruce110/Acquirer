@@ -19,13 +19,13 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value);
     int reqtype;
     
     //record request info
-    NSMutableDictionary *userInfo;
+    id userInfo;
     
     NSString *respDesc;
 }
 
 @property (nonatomic, assign) int reqtype;
-@property (nonatomic, retain) NSMutableDictionary *userInfo;
+@property (nonatomic, retain) id userInfo;
 
 @property (nonatomic, copy) NSString *respDesc;
 
