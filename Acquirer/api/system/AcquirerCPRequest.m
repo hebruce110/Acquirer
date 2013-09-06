@@ -87,6 +87,11 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
             [Helper saveValue:[body valueForKey:@"sessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
         }
         
+        [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
+        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
+                                                                        object:nil
+                                                                      userInfo:body];
+        
         if (target && selector)
         {
             if ([target respondsToSelector:selector]) {
@@ -100,7 +105,9 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     {
         if (NotNil(body, @"mobile")) {
             [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
-            [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE object:nil userInfo:body];
+            [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
+                                                                            object:nil
+                                                                          userInfo:body];
         }
     }
     //长时间未登录，显示是否重新登录的提示框 02110

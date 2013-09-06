@@ -26,18 +26,21 @@
 {
     [super viewDidLoad];
 	
-    CGRect hintFrame = CGRectMake(10, 10, 300, 60);
+    [self setNavigationTitle:@"账号激活"];
+    
+    CGRect hintFrame = CGRectMake(20, 10, 280, 50);
     UILabel *hintMsgLabel = [[[UILabel alloc] initWithFrame:hintFrame] autorelease];
     hintMsgLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    hintMsgLabel.font = [UIFont systemFontOfSize:15];
-    hintMsgLabel.text = @"账号未激活,请输入以下信息,验证通过后可正常使用";
+    hintMsgLabel.numberOfLines = 2;
+    hintMsgLabel.font = [UIFont boldSystemFontOfSize:16];
+    hintMsgLabel.text = @"账号未激活,请输入以下信息，验证通过后可正常使用。";
     hintMsgLabel.backgroundColor = [UIColor clearColor];
     hintMsgLabel.textAlignment = NSTextAlignmentLeft;
     [self.contentView addSubview:hintMsgLabel];
     
-    CGRect mobileFrame = CGRectMake(20, 60, 120, 35);
+    CGRect mobileFrame = CGRectMake(20, 55, 200, 25);
     UILabel *mobileLabel = [[UILabel alloc] initWithFrame:mobileFrame];
-    mobileLabel.font = [UIFont systemFontOfSize:15];
+    mobileLabel.font = [UIFont boldSystemFontOfSize:16];
     mobileLabel.backgroundColor = [UIColor clearColor];
     mobileLabel.textAlignment = NSTextAlignmentLeft;
     mobileLabel.text = [NSString stringWithFormat:@"手机号:%@", mobileSTR];
