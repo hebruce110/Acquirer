@@ -8,9 +8,12 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "LoginViewController.h"
+#import "ActivateViewController.h"
 #import "LoginTableCell.h"
 #import "NSNotificationCenter+CP.h"
+#import "Acquirer.h"
 #import "AcquirerService.h"
+#import "ACUser.h"
 
 @interface LoginViewController ()
 
@@ -151,16 +154,14 @@
     [super viewDidAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(dismissLoginViewController)
+                                             selector:@selector(dismissLoginViewController:)
                                                  name:NOTIFICATION_USER_LOGIN_SUCCEED
                                                object:nil];
-    /*
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector()
-                                                 name:
-                                               object:]
-    */
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(jumpToActivateViewController:)
+                                                 name:NOTIFICATION_JUMP_ACTIVATE_PAGE
+                                               object:nil];
     
 }
 
@@ -170,8 +171,16 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)dismissLoginViewController{
+-(void)dismissLoginViewController:(NSNotification *)notification{
     [self dismissModalViewControllerAnimated:YES];
+}
+
+-(void)jumpToActivateViewController:(NSNotification *)notification{
+    NSDictionary *dict = notification.userInfo;
+    
+    ActivateViewController *activateCTRL = [[[ActivateViewController alloc] init] autorelease];
+    activateCTRL.mobileSTR = [dict objectForKey:@"mobile"];
+    [self.navigationController pushViewController:activateCTRL animated:YES];
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
@@ -224,6 +233,13 @@
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码有误，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }
+    
+    ACUser *usr = [[[ACUser alloc] init] autorelease];
+    usr.corpSTR = corpIdSTR;
+    usr.opratorSTR = opratorIdSTR;
+    usr.passSTR = passSTR;
+    usr.state = USER_STATE_UNKNOWN;
+    [Acquirer sharedInstance].currentUser = usr;
     
     [[AcquirerService sharedInstance] requestForLoginCorp:corpIdSTR oprator:opratorIdSTR pass:passSTR];
 }

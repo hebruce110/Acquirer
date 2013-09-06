@@ -10,6 +10,7 @@
 #import "Acquirer.h"
 #import "AcquirerCPRequest.h"
 #import "DeviceIntrospection.h"
+#import "ACUser.h"
 
 static AcquirerService *sInstance = nil;
 
@@ -53,8 +54,18 @@ static AcquirerService *sInstance = nil;
     NSDictionary *body = (NSDictionary *)req.responseAsJson;
     
     if (NotNilAndEqualsTo(body, @"loginFlag", @"S")) {
+        [Acquirer sharedInstance].currentUser.state = USER_STATE_ALREADY_ACTIVATED;
+        
         
     } 
 }
 
 @end
+
+
+
+
+
+
+
+

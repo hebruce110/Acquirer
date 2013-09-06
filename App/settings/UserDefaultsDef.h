@@ -31,7 +31,7 @@
 //==================================================
 //MTP Server
 //==================================================
-#define MTP_POS_RESPONSE_CODE @"respCode"
+#define MTP_RESPONSE_CODE @"respCode"
 #define MTP_TTY_RESPONSE_CODE @"return_code"
 #define POSTBE_UID @"uid"
 
@@ -60,7 +60,8 @@
 #define NOTIFICATION_REQUIRE_USER_LOGIN @"NOTIFICATION_REQUIRE_USER_LOGIN"
 #define NOTIFICATION_USER_LOGIN_SUCCEED @"NOTIFICATION_USER_LOGIN_SUCCEED"
 
-#define NOTIFICATION_REFRESH_ACCOUNT @"NOTIFICATION_REFRESH_ACCOUNT"
+#define NOTIFICATION_JUMP_ACTIVATE_PAGE @"NOTIFICATION_JUMP_ACTIVATE_PAGE"
+
 
 //=====================================================
 //UIDimension

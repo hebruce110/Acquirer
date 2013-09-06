@@ -21,6 +21,9 @@
 		8B09994017D88AE4001430AA /* help-ico-hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09993817D88AE4001430AA /* help-ico-hover@2x.png */; };
 		8B09994117D88AE4001430AA /* help-ico.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09993917D88AE4001430AA /* help-ico.png */; };
 		8B09994217D88AE4001430AA /* help-ico@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09993A17D88AE4001430AA /* help-ico@2x.png */; };
+		8B09994417D9A627001430AA /* RespCodeDesc.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8B09994317D99A0A001430AA /* RespCodeDesc.geojson */; };
+		8B09994B17D9BE59001430AA /* ACUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09994A17D9BE59001430AA /* ACUser.m */; };
+		8B09994E17D9D4E5001430AA /* ActivateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09994D17D9D4E4001430AA /* ActivateViewController.m */; };
 		8B15ED1617CC72AE00975AA9 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1517CC72AE00975AA9 /* Helper.m */; };
 		8B15ED1A17CC879F00975AA9 /* Acquirer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1917CC879F00975AA9 /* Acquirer.m */; };
 		8B31045117CEF3C800764F7B /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31045017CEF3C800764F7B /* TestViewController.m */; };
@@ -114,6 +117,11 @@
 		8B09993817D88AE4001430AA /* help-ico-hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help-ico-hover@2x.png"; sourceTree = "<group>"; };
 		8B09993917D88AE4001430AA /* help-ico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help-ico.png"; sourceTree = "<group>"; };
 		8B09993A17D88AE4001430AA /* help-ico@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help-ico@2x.png"; sourceTree = "<group>"; };
+		8B09994317D99A0A001430AA /* RespCodeDesc.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; name = RespCodeDesc.geojson; path = App/RespCodeDesc.geojson; sourceTree = SOURCE_ROOT; };
+		8B09994917D9BE59001430AA /* ACUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACUser.h; sourceTree = "<group>"; };
+		8B09994A17D9BE59001430AA /* ACUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACUser.m; sourceTree = "<group>"; };
+		8B09994C17D9D4E4001430AA /* ActivateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivateViewController.h; sourceTree = "<group>"; };
+		8B09994D17D9D4E4001430AA /* ActivateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivateViewController.m; sourceTree = "<group>"; };
 		8B15ED1417CC72AE00975AA9 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		8B15ED1517CC72AE00975AA9 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 		8B15ED1817CC879F00975AA9 /* Acquirer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Acquirer.h; sourceTree = "<group>"; };
@@ -266,6 +274,15 @@
 			path = button;
 			sourceTree = "<group>";
 		};
+		8B09994817D9BE59001430AA /* model */ = {
+			isa = PBXGroup;
+			children = (
+				8B09994917D9BE59001430AA /* ACUser.h */,
+				8B09994A17D9BE59001430AA /* ACUser.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		8B15ED1317CC72AE00975AA9 /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +356,7 @@
 		8B80A58B17CB3E7900DE4CB7 /* service */ = {
 			isa = PBXGroup;
 			children = (
+				8B09994817D9BE59001430AA /* model */,
 				8B80A58C17CB3E7900DE4CB7 /* BasicService.h */,
 				8B80A58D17CB3E7900DE4CB7 /* BasicService.m */,
 				8B31047517D5A49000764F7B /* VersionService.h */,
@@ -409,6 +427,7 @@
 				8BB6A6F517CAF69F00C71279 /* resources */,
 				8BB6A6FE17CAF74F00C71279 /* settings */,
 				8B31046717D43A1B00764F7B /* code.csv */,
+				8B09994317D99A0A001430AA /* RespCodeDesc.geojson */,
 				8BB6A69917CAE73500C71279 /* Acquirer-Info.plist */,
 				8BB6A69A17CAE73500C71279 /* Acquirer-Prefix.pch */,
 				8BB6A69B17CAE73500C71279 /* InfoPlist.strings */,
@@ -575,6 +594,8 @@
 			children = (
 				8B31048517D6CD0600764F7B /* LoginViewController.h */,
 				8B31048617D6CD0600764F7B /* LoginViewController.m */,
+				8B09994C17D9D4E4001430AA /* ActivateViewController.h */,
+				8B09994D17D9D4E4001430AA /* ActivateViewController.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -703,6 +724,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B09994417D9A627001430AA /* RespCodeDesc.geojson in Resources */,
 				8BB6A69F17CAE73500C71279 /* InfoPlist.strings in Resources */,
 				8BB6A6FA17CAF69F00C71279 /* Default-568h@2x.png in Resources */,
 				8BB6A6FB17CAF69F00C71279 /* Default.png in Resources */,
@@ -792,6 +814,8 @@
 				8B31048717D6CD0600764F7B /* LoginViewController.m in Sources */,
 				8B09992617D72CCB001430AA /* LoginTableCell.m in Sources */,
 				8B09993217D86147001430AA /* AcquirerService.m in Sources */,
+				8B09994B17D9BE59001430AA /* ACUser.m in Sources */,
+				8B09994E17D9D4E5001430AA /* ActivateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
