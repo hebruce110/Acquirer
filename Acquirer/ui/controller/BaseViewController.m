@@ -197,12 +197,16 @@ CGFloat frameHeighOffset(CGRect rect){
     return @"0";
 }
 
--(void)adjustForTextFieldDidBeginEditing{
+-(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField{
     //do nothing
 }
 
--(void)adjustForTextFieldDidEndEditing{
+-(void)adjustForTextFieldDidEndEditing:(UITextField *)textField{
     //do nothing
+}
+
+-(BOOL)adjustForTextFieldShouldReturn:(UITextField *)textField{
+    return YES;
 }
 
 // -------------------------------------------------------------------------------

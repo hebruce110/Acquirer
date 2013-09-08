@@ -71,12 +71,16 @@
     [self setNavigationTitle:@"账号激活"];
     
     CGFloat contentWidth = self.contentView.bounds.size.width;
-    CGFloat contentHeight = self.contentView.bounds.size.height;
+    //CGFloat contentHeight = self.contentView.bounds.size.height;
     
-    self.bgScrollView = [[[UIScrollView alloc] initWithFrame:self.contentView.bounds] autorelease];
-    bgScrollView.scrollEnabled = NO;
-    [self.contentView addSubview:bgScrollView];
-
+    self.bgScrollView = [[[UIScrollView alloc] initWithFrame:self.contentView.frame] autorelease];
+    [self.bgImageView addSubview:bgScrollView];
+    
+    //remove contentView
+    [self.contentView removeFromSuperview];
+    contentView.frame = contentView.bounds;
+    [bgScrollView addSubview:contentView];
+    
     CGRect introFrame = CGRectMake(20, 10, 280, 40);
     UILabel *introMsgLabel = [[[UILabel alloc] initWithFrame:introFrame] autorelease];
     introMsgLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -165,19 +169,27 @@
 }
 
 -(void)retriveActivateCode:(id)sender{
-    //输入框获取焦点，让背景ScrollView可以滑动
-    bgScrollView.contentSize = CGSizeMake(contentView.frame.size.width, contentView.frame.size.height+50);
-    bgScrollView.contentOffset = CGPointMake(0, 50);
+    
     
 }
 
--(void)adjustForTextFieldDidBeginEditing{
-    
+static BOOL isShowTextEditing = NO;
+-(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField{
+    if (isShowTextEditing == NO) {
+        bgScrollView.contentSize = CGSizeMake(contentView.frame.size.width, contentView.frame.size.height+80);
+        [bgScrollView setContentOffset:CGPointMake(0, 105) animated:YES];
+        isShowTextEditing = YES;
+    }
 }
 
--(void)adjustForTextFieldDidEndEditing{
-    
+-(BOOL)adjustForTextFieldShouldReturn:(UITextField *)textField{
+    if (textField.returnKeyType == UIReturnKeyDone) {
+        isShowTextEditing = NO;
+        bgScrollView.contentSize = CGSizeMake(contentView.frame.size.width, contentView.frame.size.height);
+    }
+    return YES;
 }
+
 
 #pragma mark UITableViewDataSource Method
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -195,6 +207,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setContent:[contentList objectAtIndex:indexPath.row]];
+    cell.delegate = self;
     
     [cell adjustForActivateViewController];
     

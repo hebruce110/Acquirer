@@ -58,8 +58,10 @@ CGFloat frameHeighOffset(CGRect rect);
 
 -(void)tabBarAnimation;
 
--(void)adjustForTextFieldDidBeginEditing;
--(void)adjustForTextFieldDidEndEditing;
+-(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField;
+-(void)adjustForTextFieldDidEndEditing:(UITextField *)textField;
+
+-(BOOL)adjustForTextFieldShouldReturn:(UITextField *)textField;
 
 @end
 

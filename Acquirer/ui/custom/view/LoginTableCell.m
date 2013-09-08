@@ -98,16 +98,24 @@
 
 #pragma mark UITextFieldDelegate Method
 
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-    [delegate adjustForTextFieldDidBeginEditing];
+-(void)textFieldDidBeginEditing:(UITextField *)_textField{
+    if (delegate) {
+        [delegate adjustForTextFieldDidBeginEditing:_textField];
+    }
 }
 
--(void)textFieldDidEndEditing:(UITextField *)textField{
-    [delegate adjustForTextFieldDidEndEditing];
+-(void)textFieldDidEndEditing:(UITextField *)_textField{
+    if (delegate) {
+        [delegate adjustForTextFieldDidEndEditing:_textField];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)_textField{
     [_textField resignFirstResponder];
+    
+    if (delegate) {
+        return [delegate adjustForTextFieldShouldReturn:_textField];
+    }
     return YES;
 }
 
