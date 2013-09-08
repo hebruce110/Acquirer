@@ -196,19 +196,19 @@
 
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
     for (LoginTableCell *cell in [self.loginTableView visibleCells]) {
-        [cell.contentTextField resignFirstResponder];
+        [cell.textField resignFirstResponder];
     }
 }
 
 -(void)login:(id)sender{
     NSArray *visibleCellList = [self.loginTableView visibleCells];
     for (LoginTableCell *cell in visibleCellList) {
-        [cell.contentTextField resignFirstResponder];
+        [cell.textField resignFirstResponder];
     }
     
-    NSString *corpIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:0]).contentTextField.text;
-    NSString *opratorIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:1]).contentTextField.text;
-    NSString *passSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:2]).contentTextField.text;
+    NSString *corpIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
+    NSString *opratorIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
+    NSString *passSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
     
     if ([Helper stringNullOrEmpty:corpIdSTR]) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
@@ -272,10 +272,6 @@
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 45;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
 }
 
 

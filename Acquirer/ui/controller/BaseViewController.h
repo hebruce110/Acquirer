@@ -10,6 +10,9 @@
 #import "CPTabBar.h"
 #import "Helper.h"
 
+//def utility
+CGFloat frameHeighOffset(CGRect rect);
+
 #define DEFAULT_NAVIGATION_TITLE_WIDTH 180
 
 @interface BaseViewController : UIViewController{
@@ -54,6 +57,9 @@
 -(NSString*) getViewId;
 
 -(void)tabBarAnimation;
+
+-(void)adjustForTextFieldDidBeginEditing;
+-(void)adjustForTextFieldDidEndEditing;
 
 @end
 

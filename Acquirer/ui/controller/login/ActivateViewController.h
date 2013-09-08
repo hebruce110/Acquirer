@@ -8,10 +8,16 @@
 
 #import "BaseViewController.h"
 
-@interface ActivateViewController : BaseViewController{
+@interface ActivateViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource>{
+    UIScrollView *bgScrollView;
+    UITableView *activateTableView;
+    NSMutableArray *contentList;
+    
     NSString *mobileSTR;
 }
 
+@property (nonatomic, retain) UIScrollView *bgScrollView;
+@property (nonatomic, retain) UITableView *activateTableView;
 @property (nonatomic, copy) NSString *mobileSTR;
 
 @end

@@ -9,6 +9,11 @@
 #import "BaseViewController.h"
 #import "NSNotificationCenter+CP.h"
 
+//def utility
+CGFloat frameHeighOffset(CGRect rect){
+    return rect.origin.y+rect.size.height;
+}
+
 @interface BaseViewController ()
 @end
 
@@ -190,6 +195,14 @@
 -(NSString*) getViewId
 {
     return @"0";
+}
+
+-(void)adjustForTextFieldDidBeginEditing{
+    //do nothing
+}
+
+-(void)adjustForTextFieldDidEndEditing{
+    //do nothing
 }
 
 // -------------------------------------------------------------------------------

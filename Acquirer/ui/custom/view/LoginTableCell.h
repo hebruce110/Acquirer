@@ -9,17 +9,24 @@
 #import <UIKit/UIKit.h>
 
 @class LoginCellContent;
+@class BaseViewController;
 
 @interface LoginTableCell : UITableViewCell <UITextFieldDelegate>{
+    BaseViewController *delegate;
+    
     UILabel *titleLabel;
-    UITextField *contentTextField;
+    UITextField *textField;
     int maxLEN;
 }
 
+@property (nonatomic, assign) BaseViewController *delegate;
 @property (nonatomic, readonly) UILabel *titleLabel;
-@property (nonatomic, readonly) UITextField *contentTextField;
+@property (nonatomic, readonly) UITextField *textField;
+
 
 -(void)setContent:(LoginCellContent *)content;
+
+-(void)adjustForActivateViewController;
 
 @end
 
