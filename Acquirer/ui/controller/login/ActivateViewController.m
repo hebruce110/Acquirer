@@ -8,6 +8,9 @@
 
 #import "ActivateViewController.h"
 #import "LoginTableCell.h"
+#import "AcquirerService.h"
+
+#define DOWN_COUNT_VALUE 60
 
 @interface ActivateViewController ()
 
@@ -15,14 +18,22 @@
 
 @implementation ActivateViewController
 
-@synthesize bgScrollView;
-@synthesize mobileSTR, activateTableView;
+@synthesize bgScrollView, activateTableView, submitBtn;
+@synthesize msgBtn, msgTimer;
+@synthesize mobileSTR;
 
 -(void)dealloc{
     [bgScrollView release];
     [activateTableView release];
+    [submitBtn release];
+    
+    [msgBtn release];
+    [msgTimer release];
+    
+    [contentList release];
     [mobileSTR release];
     
+    [msgService release];
     [super dealloc];
 }
 
@@ -33,7 +44,13 @@
         self.isShowNaviBar = YES;
         self.isShowTabBar = NO;
         
+        msgState = MSG_STATE_NORMAL;
+        
         contentList = [[NSMutableArray alloc] init];
+        downCount = DOWN_COUNT_VALUE;
+        
+        msgService = [[MessageService alloc] init];
+        [msgService onRespondTarget:self];
     }
     return self;
 }
@@ -96,7 +113,9 @@
     mobileLabel.font = [UIFont systemFontOfSize:16];
     mobileLabel.backgroundColor = [UIColor clearColor];
     mobileLabel.textAlignment = NSTextAlignmentLeft;
-    mobileLabel.text = [NSString stringWithFormat:@"手机号：%@", mobileSTR];
+    
+    NSString *blurMobileSTR = [mobileSTR stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+    mobileLabel.text = [NSString stringWithFormat:@"手机号：%@", blurMobileSTR];
     [self.contentView addSubview:mobileLabel];
     
     CGRect hintFrame = CGRectMake(20, frameHeighOffset(mobileFrame)+VERTICAL_PADDING-5, 280, 25);
@@ -112,22 +131,23 @@
     UIImage *btnWDeSelImg = [UIImage imageNamed:@"BUTT_whi_off.png"];
     CGRect activateFrame = CGRectMake(0, frameHeighOffset(hintFrame)+VERTICAL_PADDING, btnWSelImg.size.width, btnWSelImg.size.height);
     
-    UIButton *activateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    activateBtn.frame = activateFrame;
-    activateBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), activateBtn.center.y);
-    activateBtn.backgroundColor = [UIColor clearColor];
-    [activateBtn setBackgroundImage:btnWDeSelImg forState:UIControlStateNormal];
-    [activateBtn setBackgroundImage:btnWSelImg forState:UIControlStateSelected];
-    activateBtn.layer.cornerRadius = 10.0;
-    activateBtn.clipsToBounds = YES;
-    activateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:17]; //[UIFont fontWithName:@"Arial" size:22];
-    [activateBtn setTitle:@"获取激活码" forState:UIControlStateNormal];
     
-    [activateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [activateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.msgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    msgBtn.frame = activateFrame;
+    msgBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), msgBtn.center.y);
+    msgBtn.backgroundColor = [UIColor clearColor];
+    [msgBtn setBackgroundImage:btnWDeSelImg forState:UIControlStateNormal];
+    [msgBtn setBackgroundImage:btnWSelImg forState:UIControlStateSelected];
+    msgBtn.layer.cornerRadius = 10.0;
+    msgBtn.clipsToBounds = YES;
+    msgBtn.titleLabel.font = [UIFont boldSystemFontOfSize:17]; //[UIFont fontWithName:@"Arial" size:22];
+    [msgBtn setTitle:@"获取激活码" forState:UIControlStateNormal];
     
-    [activateBtn addTarget:self action:@selector(retriveActivateCode:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:activateBtn];
+    [msgBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [msgBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    [msgBtn addTarget:self action:@selector(retriveActivateCode:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:msgBtn];
     
     UIImage *dashImg = [UIImage imageNamed:@"dashed.png"];
     CGRect dashFrame = CGRectMake(0, frameHeighOffset(activateFrame)+VERTICAL_PADDING, dashImg.size.width, dashImg.size.height);
@@ -154,7 +174,7 @@
     UIImage *btnRSelImg = [UIImage imageNamed:@"BUTT_red_on.png"];
     UIImage *btnRDeSelImg = [UIImage imageNamed:@"BUTT_red_off.png"];
     CGRect buttonFrame = CGRectMake(0, frameHeighOffset(dashImgViewCopy.frame)+VERTICAL_PADDING, btnRSelImg.size.width, btnRSelImg.size.height);
-    UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     submitBtn.frame = buttonFrame;
     submitBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), submitBtn.center.y);
     submitBtn.backgroundColor = [UIColor clearColor];
@@ -164,30 +184,96 @@
     submitBtn.clipsToBounds = YES;
     submitBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
-    [submitBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
+    [submitBtn addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:submitBtn];
+    
+    UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [self.bgImageView addGestureRecognizer:tg];
+    tg.delegate = self;
+    [tg release];
+    
+    self.msgTimer = [[NSTimer alloc] initWithFireDate:[NSDate distantFuture]
+                                             interval:1.0
+                                               target:self
+                                             selector:@selector(timerEvent:)
+                                             userInfo:nil
+                                              repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:msgTimer forMode:NSDefaultRunLoopMode];
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    CGPoint point = [touch locationInView:self.bgImageView];
+    CGPoint convertPoint = [self.activateTableView convertPoint:point fromView:contentView];
+    if (CGRectContainsPoint(self.activateTableView.bounds, convertPoint)) {
+        return NO;
+    }
+    return YES;
+}
+
+-(void) tapGesture:(UITapGestureRecognizer *)sender{
+    for (LoginTableCell *cell in [self.activateTableView visibleCells]) {
+        [cell.textField resignFirstResponder];
+    }
+}
+
+//恢复发送短信的状态
+-(void)restoreShortMessageState{
+    [msgTimer setFireDate:[NSDate distantFuture]];
+    downCount = DOWN_COUNT_VALUE;
+    msgState = MSG_STATE_NORMAL;
+    msgBtn.enabled = YES;
+    [msgBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [msgBtn setTitle:@"获取激活码" forState:UIControlStateNormal];
+}
+
+-(void)disableShortMessageForOneMinute{
+    msgBtn.enabled = NO;
+    downCount = DOWN_COUNT_VALUE;
+    msgState = MSG_STATE_SUCCEED;
+    [msgBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [msgTimer setFireDate:[NSDate distantPast]];
+}
+
+//短信倒计时timer
+-(void)timerEvent:(NSTimer *)timer{
+    if (downCount > 0) {
+        if (msgState == MSG_STATE_NORMAL) {
+            [msgBtn setTitle:[NSString stringWithFormat:@"（%d秒）重新发送激活码", downCount] forState:UIControlStateNormal];
+        }else{
+            [msgBtn setTitle:[NSString stringWithFormat:@"（%d秒）恢复获取激活码", downCount] forState:UIControlStateNormal];
+        }
+        downCount--;
+    }else{
+        [self restoreShortMessageState];
+    }
 }
 
 -(void)retriveActivateCode:(id)sender{
+    msgBtn.enabled = NO;
+    [msgBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [msgTimer setFireDate:[NSDate distantPast]];
+    [msgService requestForShortMessage];
+}
+
+-(void)submit:(id)sender{
+    NSArray *visibleCellList = [activateTableView visibleCells];
+    NSString *msgCode = ((LoginTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
+    NSString *passSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
     
-    
+    [[AcquirerService sharedInstance] requestForActivateLogin:msgCode withPass:passSTR];
 }
 
 static BOOL isShowTextEditing = NO;
 -(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField{
     if (isShowTextEditing == NO) {
-        bgScrollView.contentSize = CGSizeMake(contentView.frame.size.width, contentView.frame.size.height+80);
-        [bgScrollView setContentOffset:CGPointMake(0, 105) animated:YES];
+        [bgScrollView setContentOffset:CGPointMake(0, 160) animated:YES];
         isShowTextEditing = YES;
     }
 }
 
--(BOOL)adjustForTextFieldShouldReturn:(UITextField *)textField{
-    if (textField.returnKeyType == UIReturnKeyDone) {
-        isShowTextEditing = NO;
-        bgScrollView.contentSize = CGSizeMake(contentView.frame.size.width, contentView.frame.size.height);
-    }
-    return YES;
+-(void)adjustForTextFieldDidEndEditing:(UITextField *)textField{
+    isShowTextEditing = NO;
+    [bgScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 
