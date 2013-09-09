@@ -17,7 +17,7 @@
 #define NSSTRING_NO @"NO"
 
 //==================================================
-//UserDefaults def
+//Acquirer UserDefaults def
 //==================================================
 
 //定义code.csv的版本号

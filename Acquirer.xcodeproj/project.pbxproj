@@ -30,6 +30,10 @@
 		8B09994217D88AE4001430AA /* help-ico@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09993A17D88AE4001430AA /* help-ico@2x.png */; };
 		8B09994417D9A627001430AA /* RespCodeDesc.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8B09994317D99A0A001430AA /* RespCodeDesc.geojson */; };
 		8B09994B17D9BE59001430AA /* ACUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09994A17D9BE59001430AA /* ACUser.m */; };
+		8B09995117DD6735001430AA /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09994F17DD6735001430AA /* back.png */; };
+		8B09995217DD6735001430AA /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09995017DD6735001430AA /* back@2x.png */; };
+		8B09995517DD74E7001430AA /* MessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09995417DD74E7001430AA /* MessageService.m */; };
+		8B09995817DDCB61001430AA /* ActivateLoginService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09995717DDCB5F001430AA /* ActivateLoginService.m */; };
 		8B15ED1617CC72AE00975AA9 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1517CC72AE00975AA9 /* Helper.m */; };
 		8B15ED1A17CC879F00975AA9 /* Acquirer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1917CC879F00975AA9 /* Acquirer.m */; };
 		8B31045117CEF3C800764F7B /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31045017CEF3C800764F7B /* TestViewController.m */; };
@@ -134,6 +138,12 @@
 		8B09994317D99A0A001430AA /* RespCodeDesc.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; name = RespCodeDesc.geojson; path = App/RespCodeDesc.geojson; sourceTree = SOURCE_ROOT; };
 		8B09994917D9BE59001430AA /* ACUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACUser.h; sourceTree = "<group>"; };
 		8B09994A17D9BE59001430AA /* ACUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACUser.m; sourceTree = "<group>"; };
+		8B09994F17DD6735001430AA /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		8B09995017DD6735001430AA /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		8B09995317DD74E6001430AA /* MessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageService.h; sourceTree = "<group>"; };
+		8B09995417DD74E7001430AA /* MessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageService.m; sourceTree = "<group>"; };
+		8B09995617DDCB5F001430AA /* ActivateLoginService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivateLoginService.h; sourceTree = "<group>"; };
+		8B09995717DDCB5F001430AA /* ActivateLoginService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivateLoginService.m; sourceTree = "<group>"; };
 		8B15ED1417CC72AE00975AA9 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		8B15ED1517CC72AE00975AA9 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 		8B15ED1817CC879F00975AA9 /* Acquirer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Acquirer.h; sourceTree = "<group>"; };
@@ -341,6 +351,8 @@
 		8B31048817D6D76500764F7B /* navi+tab */ = {
 			isa = PBXGroup;
 			children = (
+				8B09994F17DD6735001430AA /* back.png */,
+				8B09995017DD6735001430AA /* back@2x.png */,
 				8B31048917D6D76500764F7B /* menu-bg-hover.png */,
 				8B31048A17D6D76500764F7B /* menu-bg-hover@2x.png */,
 				8B31048B17D6D76500764F7B /* menu-bg.png */,
@@ -381,6 +393,10 @@
 				8B31047617D5A49000764F7B /* VersionService.m */,
 				8B09993017D86147001430AA /* AcquirerService.h */,
 				8B09993117D86147001430AA /* AcquirerService.m */,
+				8B09995317DD74E6001430AA /* MessageService.h */,
+				8B09995417DD74E7001430AA /* MessageService.m */,
+				8B09995617DDCB5F001430AA /* ActivateLoginService.h */,
+				8B09995717DDCB5F001430AA /* ActivateLoginService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -790,6 +806,8 @@
 				0F911E7B17DAB21700640BF8 /* BUTT_whi_on@2x.png in Resources */,
 				0F911E7E17DAB4BA00640BF8 /* dashed.png in Resources */,
 				0F911E7F17DAB4BA00640BF8 /* dashed@2x.png in Resources */,
+				8B09995117DD6735001430AA /* back.png in Resources */,
+				8B09995217DD6735001430AA /* back@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -840,6 +858,8 @@
 				8B09993217D86147001430AA /* AcquirerService.m in Sources */,
 				8B09994B17D9BE59001430AA /* ACUser.m in Sources */,
 				0F911E8517DAF27800640BF8 /* ActivateViewController.m in Sources */,
+				8B09995517DD74E7001430AA /* MessageService.m in Sources */,
+				8B09995817DDCB61001430AA /* ActivateLoginService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -928,8 +948,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
 				SDKROOT = iphoneos6.1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -946,8 +966,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
 				SDKROOT = iphoneos6.1;
 				WRAPPER_EXTENSION = app;
 			};

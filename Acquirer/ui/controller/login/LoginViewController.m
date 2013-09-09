@@ -235,13 +235,13 @@
     }
     
     ACUser *usr = [[[ACUser alloc] init] autorelease];
-    usr.corpSTR = corpIdSTR;
+    usr.instSTR = corpIdSTR;
     usr.opratorSTR = opratorIdSTR;
     usr.passSTR = passSTR;
     usr.state = USER_STATE_UNKNOWN;
     [Acquirer sharedInstance].currentUser = usr;
     
-    [[AcquirerService sharedInstance] requestForLoginCorp:corpIdSTR oprator:opratorIdSTR pass:passSTR];
+    [[AcquirerService sharedInstance] requestForLogin];
 }
 
 -(void)notLogin:(id)sender{
