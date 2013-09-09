@@ -19,11 +19,14 @@
 - (id)onRespondTarget:(id)_target;
 - (id)onRespondTarget:(id)_target selector:(SEL)_selector;
 
-- (void) requestFailed:(ASIHTTPRequest *)req;
-- (void) requestTimeOut:(ASIHTTPRequest *)req;
+- (void) requestFailed:(AcquirerCPRequest *)req;
+- (void) requestTimeOut:(AcquirerCPRequest *)req;
 
+-(void) processMTPRespCode:(AcquirerCPRequest *)req;
 //- (void) processMTPRespDesc:(PosMiniCPRequest *)req;
-
+/*
+ 返回当前操作时间
+ */
 -(NSString *)oprateTime;
 
 @end

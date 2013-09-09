@@ -57,7 +57,7 @@
 
 -(void) loginSucceed{
     NSString *loginFlagSTR = [Helper getValueByKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
-    //第一次启动应用后完成登录
+    //第一次启动应用后完成登录 || 用户手动点退出重新登录
     if (loginFlagSTR && [loginFlagSTR isEqualToString:NSSTRING_YES]) {
         self.window.rootViewController = transNavi;
         

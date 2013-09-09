@@ -10,11 +10,12 @@
 
 @implementation ACUser
 
-@synthesize corpSTR, opratorSTR, passSTR, state;
+@synthesize instSTR, opratorSTR, opratorNameSTR, passSTR, state;
 
 -(void)dealloc{
-    [corpSTR release];
+    [instSTR release];
     [opratorSTR release];
+    [opratorNameSTR release];
     [passSTR release];
     
     [super dealloc];

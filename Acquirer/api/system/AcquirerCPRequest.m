@@ -87,6 +87,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
             [Helper saveValue:[body valueForKey:@"sessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
         }
         
+        //for test
         [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
         [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
                                                                         object:nil
@@ -112,7 +113,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     }
     //长时间未登录，显示是否重新登录的提示框 02110
     //已在别处登录，显示是否重新登录的提示框 02111
-    //激活，长时间未登录 02210
+    //激活长时间未点提交, session超时返回 02210
     //do relogin
     else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02110") ||
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02111") ||
@@ -130,7 +131,14 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     }
     //其他情况，只显示提示
     else{
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:[[Acquirer sharedInstance] respDesc:[body objectForKey:MTP_RESPONSE_CODE]] notifyType:NOTIFICATION_TYPE_WARNING];
+        NSString *respDescSTR = [[Acquirer sharedInstance] respDesc:[body objectForKey:MTP_RESPONSE_CODE]];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:respDescSTR
+                                                                     notifyType:NOTIFICATION_TYPE_WARNING];
+    }
+    
+    SEL procRespCodeMethod = @selector(processMTPRespCode:);
+    if (target && [target respondsToSelector:procRespCodeMethod]) {
+        [target performSelector:procRespCodeMethod withObject:self];
     }
     
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
@@ -138,12 +146,16 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
 
 //process failure messages dispatch
 - (void) requestFailed:(ASIHTTPRequest *)request{
-    //[[PosMini sharedInstance] hideUIPromptMessage:YES];
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
     NSError *error = [request error];
     if ([error code] == ASIRequestTimedOutErrorType) {
         if ([target respondsToSelector:@selector(requestTimeOut:)]) {
             [target performSelector:@selector(requestTimeOut:) withObject:self];
+        }
+    }else{
+        if ([target respondsToSelector:@selector(requestFailed:)]) {
+            [target performSelector:@selector(requestFailed:) withObject:self];
         }
     }
 }

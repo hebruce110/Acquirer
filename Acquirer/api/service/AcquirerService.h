@@ -13,6 +13,7 @@
 +(AcquirerService *)sharedInstance;
 +(void)destroySharedInstance;
 
--(void)requestForLoginCorp:(NSString *)corpSTR oprator:(NSString *)opratorSTR pass:(NSString *)passSTR;
+-(void)requestForLogin;
+
 
 @end

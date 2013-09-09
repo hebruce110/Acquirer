@@ -88,7 +88,7 @@ CGFloat frameHeighOffset(CGRect rect){
         [bgImageView addSubview:naviBgView];
         
         self.naviBackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [naviBackBtn setBackgroundImage:[[UIImage imageNamed:@"nav-btn-bg.png"] stretchableImageWithLeftCapWidth:6 topCapHeight:15] forState:UIControlStateNormal];
+        [naviBackBtn setBackgroundImage:[UIImage imageNamed:@"back.png"]  forState:UIControlStateNormal];
         naviBackBtn.frame = CGRectMake(10, 7, 41, 31);
         [naviBgView addSubview:naviBackBtn];
         [naviBackBtn addTarget:self action:@selector(backToPreviousView:) forControlEvents:UIControlEventTouchUpInside];
@@ -124,8 +124,6 @@ CGFloat frameHeighOffset(CGRect rect){
     }
     contentView.frame = CGRectMake(0, naviBarHeight+statusBarHeight, viewWidth, viewHeight-naviBarHeight-tabBarHeight-statusBarHeight);
 }
-
-
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];

@@ -27,14 +27,16 @@ static AcquirerService *sInstance = nil;
     CPSafeRelease(sInstance);
 }
 
--(void)requestForLoginCorp:(NSString *)corpSTR oprator:(NSString *)opratorSTR pass:(NSString *)passSTR{
-    [[Acquirer sharedInstance] showUIPromptMessage:@"登陆中" animated:YES];
+-(void)requestForLogin{
+    [[Acquirer sharedInstance] showUIPromptMessage:@"登陆中..." animated:YES];
+    
+    ACUser *usr = [[Acquirer sharedInstance] currentUser];
     
     NSString* url = [NSString stringWithFormat:@"/user/login"];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setValue:corpSTR forKey:@"instId"];
-    [dict setValue:opratorSTR forKey:@"operId"];
-    [dict setValue:[Helper md5_16:passSTR] forKey:@"password"];
+    [dict setValue:usr.instSTR forKey:@"instId"];
+    [dict setValue:usr.opratorSTR forKey:@"operId"];
+    [dict setValue:[Helper md5_16:usr.passSTR] forKey:@"password"];
     [dict setValue:@"" forKey:@"checkValue"];
     [dict setValue:[self oprateTime] forKey:@"operTime"];
     [dict setValue:[[DeviceIntrospection sharedInstance] uuid] forKey:@"uid"];
@@ -57,7 +59,7 @@ static AcquirerService *sInstance = nil;
         [Acquirer sharedInstance].currentUser.state = USER_STATE_ALREADY_ACTIVATED;
         
         
-    } 
+    }
 }
 
 @end

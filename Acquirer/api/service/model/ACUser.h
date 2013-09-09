@@ -18,14 +18,16 @@ typedef enum _UserState{
 }UserState;
 
 @interface ACUser : NSObject{
-    NSString *corpSTR;
+    NSString *instSTR;
     NSString *opratorSTR;
+    NSString *opratorNameSTR;
     NSString *passSTR;
     UserState state;
 }
 
-@property (nonatomic, copy) NSString *corpSTR;
+@property (nonatomic, copy) NSString *instSTR;
 @property (nonatomic, copy) NSString *opratorSTR;
+@property (nonatomic, copy) NSString *opratorNameSTR;
 @property (nonatomic, copy) NSString *passSTR;
 @property (nonatomic, assign) UserState state;
 
