@@ -18,17 +18,36 @@ typedef enum _UserState{
 }UserState;
 
 @interface ACUser : NSObject{
+    //机构号
     NSString *instSTR;
+    //操作员号
     NSString *opratorSTR;
-    NSString *opratorNameSTR;
+    //密码
     NSString *passSTR;
+    
+    //操作员名字
+    NSString *opratorNameSTR;
+    
+    //操作员预留手机号
+    NSString *mobileSTR;
+    
+    //用户状态
     UserState state;
+    
+    //操作员的设备列表
+    NSMutableArray *devList;
 }
 
 @property (nonatomic, copy) NSString *instSTR;
 @property (nonatomic, copy) NSString *opratorSTR;
-@property (nonatomic, copy) NSString *opratorNameSTR;
 @property (nonatomic, copy) NSString *passSTR;
+@property (nonatomic, copy) NSString *opratorNameSTR;
+@property (nonatomic, copy) NSString *mobileSTR;
+
 @property (nonatomic, assign) UserState state;
+
+@property (nonatomic, retain) NSMutableArray *devList;
+
+-(void)deepCopyDevList:(NSArray *)list;
 
 @end

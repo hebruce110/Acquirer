@@ -6,11 +6,11 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "BasicService.h"
+#import "BaseService.h"
 #import "NSNotificationCenter+CP.h"
 #import "ASIHTTPRequest.h"
 
-@implementation BasicService
+@implementation BaseService
 
 - (id)onRespondTarget:(id)_target{
     target = _target;

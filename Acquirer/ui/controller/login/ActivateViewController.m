@@ -7,8 +7,9 @@
 //
 
 #import "ActivateViewController.h"
-#import "LoginTableCell.h"
+#import "TitleTextTableCell.h"
 #import "AcquirerService.h"
+#import "Acquirer.h"
 
 #define DOWN_COUNT_VALUE 60
 
@@ -20,7 +21,6 @@
 
 @synthesize bgScrollView, activateTableView, submitBtn;
 @synthesize msgBtn, msgTimer;
-@synthesize mobileSTR;
 
 -(void)dealloc{
     [bgScrollView release];
@@ -31,9 +31,7 @@
     [msgTimer release];
     
     [contentList release];
-    [mobileSTR release];
-    
-    [msgService release];
+
     [super dealloc];
 }
 
@@ -48,9 +46,6 @@
         
         contentList = [[NSMutableArray alloc] init];
         downCount = DOWN_COUNT_VALUE;
-        
-        msgService = [[MessageService alloc] init];
-        [msgService onRespondTarget:self];
     }
     return self;
 }
@@ -69,7 +64,7 @@
                               [NSNumber numberWithInt:20],nil];
     
     for (int i=0; i<[titleList count]; i++) {
-        LoginCellContent *content = [[[LoginCellContent alloc] init] autorelease];
+        TitleTextCellContent *content = [[[TitleTextCellContent alloc] init] autorelease];
         content.titleSTR = [titleList objectAtIndex:i];
         content.placeHolderSTR = [placeHolderList objectAtIndex:i];
         content.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
@@ -114,6 +109,7 @@
     mobileLabel.backgroundColor = [UIColor clearColor];
     mobileLabel.textAlignment = NSTextAlignmentLeft;
     
+    NSString *mobileSTR = [Acquirer sharedInstance].currentUser.mobileSTR;
     NSString *blurMobileSTR = [mobileSTR stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
     mobileLabel.text = [NSString stringWithFormat:@"手机号：%@", blurMobileSTR];
     [self.contentView addSubview:mobileLabel];
@@ -211,7 +207,7 @@
 }
 
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
-    for (LoginTableCell *cell in [self.activateTableView visibleCells]) {
+    for (TitleTextTableCell *cell in [self.activateTableView visibleCells]) {
         [cell.textField resignFirstResponder];
     }
 }
@@ -252,15 +248,18 @@
     msgBtn.enabled = NO;
     [msgBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [msgTimer setFireDate:[NSDate distantPast]];
-    [msgService requestForShortMessage];
+    
+    [[AcquirerService sharedInstance].msgService onRespondTarget:self];
+    [[AcquirerService sharedInstance].msgService requestForShortMessage];
 }
 
 -(void)submit:(id)sender{
     NSArray *visibleCellList = [activateTableView visibleCells];
-    NSString *msgCode = ((LoginTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
-    NSString *passSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
+    NSString *msgCode = ((TitleTextTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
+    NSString *passSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
     
-    [[AcquirerService sharedInstance] requestForActivateLogin:msgCode withPass:passSTR];
+    [[AcquirerService sharedInstance].logService onRespondTarget:self];
+    [[AcquirerService sharedInstance].logService requestForActivateLogin:msgCode withPass:passSTR];
 }
 
 static BOOL isShowTextEditing = NO;
@@ -285,10 +284,10 @@ static BOOL isShowTextEditing = NO;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"Login_Identifier";
     
-    LoginTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    TitleTextTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (cell==nil) {
-        cell = [[[LoginTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+        cell = [[[TitleTextTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

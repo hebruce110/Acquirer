@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "MessageService.h"
+#import "LoginService.h"
 
 typedef enum{
     //初始正常状态用户可点击按钮获取短信
@@ -27,10 +28,7 @@ typedef enum{
     
     NSMutableArray *contentList;
     
-    NSString *mobileSTR;
     int downCount;
-    
-    MessageService *msgService;
 }
 
 @property (nonatomic, retain) UIScrollView *bgScrollView;
@@ -39,8 +37,6 @@ typedef enum{
 
 @property (nonatomic, retain) UIButton *msgBtn;
 @property (nonatomic, retain) NSTimer *msgTimer;
-
-@property (nonatomic, copy) NSString *mobileSTR;
 
 //恢复发送短信的状态
 -(void)restoreShortMessageState;

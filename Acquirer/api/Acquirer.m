@@ -24,14 +24,16 @@ static Acquirer *sInstance = nil;
 
 @synthesize uiPromptHUD, sysPromptHUD;
 @synthesize codedescMap, currentUser;
+@synthesize configVersion;
 
 -(void)dealloc{
     [uiPromptHUD release];
     [sysPromptHUD release];
     
     [codedescMap release];
-    
     [currentUser release];
+    
+    [configVersion release];
     [super dealloc];
 }
 
@@ -283,7 +285,7 @@ static Acquirer *sInstance = nil;
         promptImgView.frame = CGRectMake(promptBgView.bounds.size.width-promptImg.size.width, promptImgView.frame.origin.y,
                                          promptImg.size.width, promptImg.size.height);
     }completion:^(BOOL finished){
-        [UIView animateWithDuration:0.3 delay:1.5 options:UIViewAnimationOptionOverrideInheritedDuration | UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.3 delay:1.8 options:UIViewAnimationOptionOverrideInheritedDuration | UIViewAnimationOptionCurveEaseInOut animations:^{
             promptImgView.frame = CGRectMake(promptImgView.frame.origin.x + promptImgView.bounds.size.width,
                                              promptImgView.frame.origin.y,
                                              promptImgView.bounds.size.width, promptImgView.bounds.size.height);

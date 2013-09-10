@@ -19,6 +19,9 @@
     NSDictionary *codedescMap;
     
     ACUser *currentUser;
+    
+    //配置文件code.csv版本号
+    NSString *configVersion;
 }
 
 @property (nonatomic, retain) MBProgressHUD *uiPromptHUD;
@@ -27,6 +30,8 @@
 @property (nonatomic, readonly) NSDictionary *codedescMap;
 
 @property (nonatomic, retain) ACUser *currentUser;
+
+@property (nonatomic, copy) NSString *configVersion;
 
 +(Acquirer *)sharedInstance;
 +(void)destroySharedInstance;

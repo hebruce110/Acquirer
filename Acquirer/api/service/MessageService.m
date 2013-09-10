@@ -21,7 +21,7 @@
     
     NSString* url = [NSString stringWithFormat:@"/user/sendMsgByLogin"];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setValue:usr.corpSTR forKey:@"instId"];
+    [dict setValue:usr.instSTR forKey:@"instId"];
     [dict setValue:usr.opratorSTR forKey:@"operId"];
     [dict setValue:[Helper md5_16:usr.passSTR] forKey:@"password"];
     [dict setValue:@"" forKey:@"checkValue"];
@@ -60,6 +60,7 @@
     if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02206")) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"当日请求已超过三次，请隔日再尝试"
                                                                      notifyType:NOTIFICATION_TYPE_WARNING];
+        [self restoreMessageSend];
     }
 }
 

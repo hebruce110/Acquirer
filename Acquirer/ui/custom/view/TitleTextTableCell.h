@@ -11,7 +11,7 @@
 @class LoginCellContent;
 @class BaseViewController;
 
-@interface LoginTableCell : UITableViewCell <UITextFieldDelegate>{
+@interface TitleTextTableCell : UITableViewCell <UITextFieldDelegate>{
     BaseViewController *delegate;
     
     UILabel *titleLabel;
@@ -30,7 +30,7 @@
 
 @end
 
-@interface LoginCellContent : NSObject {
+@interface TitleTextCellContent : NSObject {
     NSString *titleSTR;
     NSString *placeHolderSTR;
     UIKeyboardType keyboardType;

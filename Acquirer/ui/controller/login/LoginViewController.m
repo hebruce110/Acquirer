@@ -9,11 +9,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "LoginViewController.h"
 #import "ActivateViewController.h"
-#import "LoginTableCell.h"
+#import "TitleTextTableCell.h"
 #import "NSNotificationCenter+CP.h"
 #import "Acquirer.h"
 #import "AcquirerService.h"
 #import "ACUser.h"
+#import "ValiIdentityViewController.h"
 
 @interface LoginViewController ()
 
@@ -55,7 +56,7 @@
                                                        [NSNumber numberWithInt:32],nil];
     
     for (int i=0; i<[titleList count]; i++) {
-        LoginCellContent *content = [[[LoginCellContent alloc] init] autorelease];
+        TitleTextCellContent *content = [[[TitleTextCellContent alloc] init] autorelease];
         content.titleSTR = [titleList objectAtIndex:i];
         content.placeHolderSTR = [placeHolderList objectAtIndex:i];
         content.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
@@ -176,10 +177,7 @@
 }
 
 -(void)jumpToActivateViewController:(NSNotification *)notification{
-    NSDictionary *dict = notification.userInfo;
-    
     ActivateViewController *activateCTRL = [[[ActivateViewController alloc] init] autorelease];
-    activateCTRL.mobileSTR = [dict objectForKey:@"mobile"];
     [self.navigationController pushViewController:activateCTRL animated:YES];
 }
 
@@ -193,22 +191,21 @@
     return YES;
 }
 
-
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
-    for (LoginTableCell *cell in [self.loginTableView visibleCells]) {
+    for (TitleTextTableCell *cell in [self.loginTableView visibleCells]) {
         [cell.textField resignFirstResponder];
     }
 }
 
 -(void)login:(id)sender{
     NSArray *visibleCellList = [self.loginTableView visibleCells];
-    for (LoginTableCell *cell in visibleCellList) {
+    for (TitleTextTableCell *cell in visibleCellList) {
         [cell.textField resignFirstResponder];
     }
     
-    NSString *corpIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
-    NSString *opratorIdSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
-    NSString *passSTR = ((LoginTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
+    NSString *corpIdSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
+    NSString *opratorIdSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
+    NSString *passSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
     
     if ([Helper stringNullOrEmpty:corpIdSTR]) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
@@ -241,11 +238,12 @@
     usr.state = USER_STATE_UNKNOWN;
     [Acquirer sharedInstance].currentUser = usr;
     
-    [[AcquirerService sharedInstance] requestForLogin];
+    [[AcquirerService sharedInstance].logService requestForLogin];
 }
 
 -(void)notLogin:(id)sender{
-    NSLog(@"not login");
+    ValiIdentityViewController *valiIdentityCTRL = [[[ValiIdentityViewController alloc] init] autorelease];
+    [self.navigationController pushViewController:valiIdentityCTRL animated:YES];
 }
 
 #pragma mark UITableViewDataSource Method
@@ -256,10 +254,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"Login_Identifier";
   
-    LoginTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    TitleTextTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
             
     if (cell==nil) {
-        cell = [[[LoginTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+        cell = [[[TitleTextTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -273,7 +271,5 @@
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 45;
 }
-
-
 
 @end

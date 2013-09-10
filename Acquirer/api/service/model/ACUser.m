@@ -10,13 +10,27 @@
 
 @implementation ACUser
 
-@synthesize instSTR, opratorSTR, opratorNameSTR, passSTR, state;
+@synthesize instSTR, opratorSTR, passSTR;
+@synthesize opratorNameSTR, mobileSTR;
+@synthesize state;
+@synthesize devList;
+
+-(void)deepCopyDevList:(NSArray *)list{
+    self.devList = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (NSString *devId in list) {
+        [devList addObject:devId];
+    }
+}
 
 -(void)dealloc{
     [instSTR release];
     [opratorSTR release];
-    [opratorNameSTR release];
     [passSTR release];
+    
+    [opratorNameSTR release];
+    [mobileSTR release];
+    [devList release];
     
     [super dealloc];
 }

@@ -6,10 +6,11 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "BasicService.h"
+#import "BaseService.h"
 
-@interface ActivateLoginService : BasicService
+@interface LoginService : BaseService
 
+-(void)requestForLogin;
 -(void)requestForActivateLogin:(NSString *)activateSTR withPass:(NSString *)newPassSTR;
 
 @end

@@ -48,16 +48,16 @@
             UIImageView *tabView = [[UIImageView alloc] initWithFrame:tabframe];
             tabView.image = [UIImage imageNamed:@"menu-bg.png"];
             
-            UIImageView *iconView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)] autorelease];
+            UIImageView *iconView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18, 20)] autorelease];
             iconView.image = [tabIconList objectAtIndex:i];
             [tabView addSubview:iconView];
             iconView.center = CGPointMake(CGRectGetMidX(tabView.bounds), CGRectGetMidY(tabView.bounds)-7);
             
             UILabel *titleLabel = [[[UILabel alloc]initWithFrame:CGRectMake(10, 24, 60, 30)] autorelease];
             titleLabel.backgroundColor = [UIColor clearColor];
-            titleLabel.font = [UIFont systemFontOfSize:10];
+            titleLabel.font = [UIFont boldSystemFontOfSize:11];
             titleLabel.textAlignment = NSTextAlignmentCenter;
-            titleLabel.textColor = [UIColor whiteColor];
+            titleLabel.textColor = [UIColor lightGrayColor];
             titleLabel.text = [tabTitleList objectAtIndex:i];
             titleLabel.center = CGPointMake(CGRectGetMidX(tabView.bounds), titleLabel.center.y);
             [tabView addSubview:titleLabel];
@@ -90,8 +90,13 @@
     UIImageView *preTabView = (UIImageView *)[tabViewList objectAtIndex:index];
     preTabView.image = [UIImage imageNamed:@"menu-bg.png"];
     
-    //将之前选中的Tab里面的图片修改成普通状态
+    //将之前选中的Tab里面的图片和文字修改成普通状态
     for(UIView *subView in preTabView.subviews) {
+        if ([subView isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)subView;
+            label.textColor = [UIColor lightGrayColor];
+        }
+        
         if ([subView isKindOfClass:[UIImageView class]]) {
             UIImageView *preIconView = (UIImageView *)subView;
             preIconView.image = [tabIconList objectAtIndex:index];
@@ -105,6 +110,11 @@
     nowBgView.image = [UIImage imageNamed:@"menu-bg-hover.png"];
     //将当前选中的Tab中的图片，修改成选中状态的图片
     for(UIView *subView in nowBgView.subviews) {
+        if ([subView isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)subView;
+            label.textColor = [UIColor whiteColor];
+        }
+        
         if ([subView isKindOfClass:[UIImageView class]]) {
             UIImageView *preIconView = (UIImageView *)subView;
             preIconView.image = [tabIconHoverList objectAtIndex:index];

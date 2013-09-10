@@ -6,14 +6,20 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "BasicService.h"
+#import "BaseService.h"
 
-@interface AcquirerService : BasicService
+#import "LoginService.h"
+#import "MessageService.h"
+
+@interface AcquirerService : BaseService{
+    LoginService *logService;
+    MessageService *msgService;
+}
+
+@property (nonatomic, readonly) LoginService *logService;
+@property (nonatomic, readonly) MessageService *msgService;
 
 +(AcquirerService *)sharedInstance;
 +(void)destroySharedInstance;
-
--(void)requestForLogin;
-
 
 @end

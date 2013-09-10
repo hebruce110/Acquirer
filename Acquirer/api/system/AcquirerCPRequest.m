@@ -87,12 +87,6 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
             [Helper saveValue:[body valueForKey:@"sessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
         }
         
-        //for test
-        [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
-        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
-                                                                        object:nil
-                                                                      userInfo:body];
-        
         if (target && selector)
         {
             if ([target respondsToSelector:selector]) {
@@ -100,16 +94,17 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
             }
         }
     }
+    
     //账号未激活
     //jump to activate page
     else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02127"))
     {
-        if (NotNil(body, @"mobile")) {
-            [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
-            [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
-                                                                            object:nil
-                                                                          userInfo:body];
-        }
+        
+        [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
+        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
+                                                                        object:nil
+                                                                        userInfo:nil];
+        
     }
     //长时间未登录，显示是否重新登录的提示框 02110
     //已在别处登录，显示是否重新登录的提示框 02111

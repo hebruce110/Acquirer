@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "BasicService.h"
+#import "BaseService.h"
 
-@interface VersionService : BasicService <UIAlertViewDelegate>
+@interface VersionService : BaseService <UIAlertViewDelegate>
 
 -(void)requestForVersionCheck;
 

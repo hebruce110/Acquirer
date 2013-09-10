@@ -11,7 +11,7 @@
 #import "NSNotificationCenter+CP.h"
 #import "AcquirerCPRequest.h"
 
-@interface BasicService : NSObject{
+@interface BaseService : NSObject{
     id target;
     SEL selector;
 }

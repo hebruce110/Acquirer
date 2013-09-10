@@ -6,11 +6,11 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "LoginTableCell.h"
+#import "TitleTextTableCell.h"
 #import "Helper.h"
 #import "BaseViewController.h"
 
-@implementation LoginCellContent
+@implementation TitleTextCellContent
 
 @synthesize titleSTR, placeHolderSTR, keyboardType, secure, maxLength;
 
@@ -22,7 +22,7 @@
 @end
 
 
-@implementation LoginTableCell
+@implementation TitleTextTableCell
 
 @synthesize delegate;
 @synthesize titleLabel, textField;
@@ -72,7 +72,7 @@
     }
 }
 
--(void)setContent:(LoginCellContent *)content{
+-(void)setContent:(TitleTextCellContent *)content{
     titleLabel.text = content.titleSTR;
     textField.placeholder = content.placeHolderSTR;
     textField.keyboardType = content.keyboardType;
