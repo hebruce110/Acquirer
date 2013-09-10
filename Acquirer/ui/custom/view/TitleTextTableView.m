@@ -9,13 +9,47 @@
 #import "TitleTextTableView.h"
 #import "TitleTextTableCell.h"
 
-#define DEFAULT_ROW_HEIGHT 45
+@implementation TitleTextTableView
+
+-(void)dealloc{
+    [TTDelegate release];
+    
+    [super dealloc];
+}
+
+-(id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
+    self = [super initWithFrame:frame style:style];
+    if (self != nil) {
+        TTDelegate = [[TitleTextDelegate alloc] init];
+        self.delegate = TTDelegate;
+    }
+    return self;
+}
+
+@end
+
 
 @implementation TitleTextDelegate
 
+@synthesize rowHeight, contentList;
+
+-(void)dealloc{
+    [contentList release];
+    
+    [super dealloc];
+}
+
+-(id)init{
+    self = [super init];
+    if (self != nil) {
+        rowHeight = DEFAULT_ROW_HEIGHT;
+    }
+    return self;
+}
+
 #pragma mark UITableViewDataSource Method
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return [contentList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -37,21 +71,7 @@
 #pragma mark UITableViewDelegate Method
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
+    return rowHeight;
 }
-
-@end
-
-@implementation TitleTextTableView
-
--(id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
-    self = [super initWithFrame:frame style:style];
-    if (self != nil) {
-        
-    }
-    return self;
-}
-
-
 
 @end

@@ -195,11 +195,12 @@ CGFloat frameHeighOffset(CGRect rect){
     return @"0";
 }
 
--(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField{
+//reserved for bgScrollView
+-(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField contentOffset:(CGPoint)offset{
     //do nothing
 }
 
--(void)adjustForTextFieldDidEndEditing:(UITextField *)textField{
+-(void)adjustForTextFieldDidEndEditing:(UITextField *)textField contentOffset:(CGPoint)offset{
     //do nothing
 }
 

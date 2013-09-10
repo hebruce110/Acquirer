@@ -1,31 +1,20 @@
 //
-//  LoginTableCell.m
+//  Standard TitleTextTableCell
+//
+//  TTSTDTableCell.m
 //  Acquirer
 //
-//  Created by chinapnr on 13-9-4.
+//  Created by ben on 13-9-10.
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "TitleTextTableCell.h"
-#import "Helper.h"
+#import "FormTableCell.h"
 #import "BaseViewController.h"
+#import "FormCellPattern.h"
 
-@implementation TitleTextCellContent
+@implementation FormTableCell
 
-@synthesize titleSTR, placeHolderSTR, keyboardType, secure, maxLength;
-
--(void)dealloc{
-    [titleSTR release];
-    [placeHolderSTR release];
-    [super dealloc];
-}
-@end
-
-
-@implementation TitleTextTableCell
-
-@synthesize delegate;
-@synthesize titleLabel, textField;
+@synthesize CTRLdelegate;
 
 -(void)dealloc{
     [titleLabel release];
@@ -41,25 +30,24 @@
         titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
         titleLabel.center = CGPointMake(titleLabel.center.x, CGRectGetMidY(self.bounds));
         titleLabel.textAlignment = NSTextAlignmentLeft;
-        titleLabel.font = [UIFont boldSystemFontOfSize:16];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textColor = [UIColor grayColor];
+        titleLabel.font = [UIFont systemFontOfSize:16];
         [self addSubview:titleLabel];
         
         CGRect textFrame = CGRectMake(titleFrame.size.width+15, 0, 190, self.bounds.size.height);
-        //contentTextField.center = CGPointMake(contentTextField.center.x, titleLabel.center.y);
         textField = [[UITextField alloc] initWithFrame:textFrame];
         [textField setKeyboardType:UIKeyboardTypeAlphabet];
-        
         [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
         textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        
         textField.returnKeyType = UIReturnKeyDone;
         textField.font = [UIFont systemFontOfSize:15];
         textField.delegate = self;
         [self addSubview:textField];
+        
+        //set default textinput LEN 20
+        maxLEN = 20;
     }
     return self;
 }
@@ -74,58 +62,64 @@
     }
 }
 
--(void)setContent:(TitleTextCellContent *)content{
-    titleLabel.text = content.titleSTR;
-    textField.placeholder = content.placeHolderSTR;
-    textField.keyboardType = content.keyboardType;
-    if (content.secure) {
+-(void)setFormCellPattern:(FormCellPattern *)pattern{
+    titleLabel.text = pattern.titleSTR;
+    textField.placeholder = pattern.placeHolderSTR;
+    
+    [self adjustLayoutForViewController];
+    
+    titleLabel.font = pattern.titleFont;
+    titleLabel.textColor = pattern.titleColor;
+    titleLabel.textAlignment = pattern.titleAlignment;
+    
+    textField.font = pattern.textFont;
+    textField.keyboardType = pattern.keyboardType;
+    textField.returnKeyType = pattern.returnKeyType;
+    
+    if (pattern.secure) {
         textField.secureTextEntry = YES;
     }
-    maxLEN = content.maxLength;
+    
+    maxLEN = pattern.maxLength;
+    
+    offset = pattern.scrollOffset;
 }
 
--(void)adjustForActivateViewController{
+-(void)adjustLayoutForViewController{
     CGFloat titleWidth = [Helper getLabelWidth:titleLabel.text setFont:titleLabel.font setHeight:titleLabel.bounds.size.height];
     titleLabel.frame = CGRectMake(titleLabel.frame.origin.x-2, titleLabel.frame.origin.y, titleWidth, titleLabel.bounds.size.height);
-    titleLabel.font = [UIFont systemFontOfSize:16];
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.textAlignment = NSTextAlignmentRight;
     
     textField.frame = CGRectMake(titleLabel.frame.origin.x+titleLabel.bounds.size.width,
-                                 textField.frame.origin.y, self.bounds.size.width-titleLabel.frame.origin.x-titleLabel.bounds.size.width-10,
+                                 textField.frame.origin.y,
+                                 self.bounds.size.width-titleLabel.frame.origin.x-titleLabel.bounds.size.width-10,
                                  textField.bounds.size.height);
-    textField.font = [UIFont systemFontOfSize:15];
-    
 }
+
 
 #pragma mark UITextFieldDelegate Method
 
 -(void)textFieldDidBeginEditing:(UITextField *)_textField{
-    if (delegate) {
-        [delegate adjustForTextFieldDidBeginEditing:_textField];
+    if (CTRLdelegate) {
+        [CTRLdelegate adjustForTextFieldDidBeginEditing:_textField contentOffset:offset];
     }
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)_textField{
-    if (delegate) {
-        [delegate adjustForTextFieldDidEndEditing:_textField];
+    if (CTRLdelegate) {
+        [CTRLdelegate adjustForTextFieldDidBeginEditing:_textField contentOffset:offset];
     }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)_textField{
     [_textField resignFirstResponder];
     
-    if (delegate) {
-        return [delegate adjustForTextFieldShouldReturn:_textField];
+    if (CTRLdelegate) {
+        [CTRLdelegate adjustForTextFieldDidBeginEditing:_textField contentOffset:offset];
     }
     return YES;
 }
 
 - (BOOL)textField:(UITextField *)_textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    //input del
-    if ([Helper stringNullOrEmpty:string]) {
-        return YES;
-    }
     
     if (_textField.text.length >= maxLEN) {
         return NO;

@@ -8,12 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TitleTextTableView : UITableView
+@class TitleTextDelegate;
+
+@interface TitleTextTableView : UITableView{
+    TitleTextDelegate *TTDelegate;
+}
 
 @end
 
 @interface TitleTextDelegate : NSObject <UITableViewDataSource, UITableViewDelegate>{
     CGFloat rowHeight;
+    NSMutableArray *contentList;
 }
+
+@property (nonatomic, assign) CGFloat rowHeight;
+@property (nonatomic, retain) NSMutableArray *contentList;
 
 @end

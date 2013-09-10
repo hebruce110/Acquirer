@@ -7,7 +7,12 @@
 //
 
 #import "BaseViewController.h"
+#import "FormTableView.h"
 
-@interface ValiIdentityViewController : BaseViewController
+@interface ValiIdentityViewController : BaseViewController{
+    FormTableView *posOrderTableView;
+}
+
+@property (nonatomic, retain) FormTableView *posOrderTableView;
 
 @end
