@@ -25,6 +25,8 @@
     int maxLength;
     
     CGPoint scrollOffset;
+    
+    Class formCellClass;
 }
 
 @property (nonatomic, copy) NSString *titleSTR;
@@ -43,5 +45,7 @@
 @property (nonatomic, assign) int maxLength;
 
 @property (nonatomic, assign) CGPoint scrollOffset;
+
+@property (nonatomic, assign) Class formCellClass;
 
 @end

@@ -10,6 +10,8 @@
 #import "MessageService.h"
 #import "LoginService.h"
 
+@class FormTableView;
+
 typedef enum{
     //初始正常状态用户可点击按钮获取短信
     MSG_STATE_NORMAL,
@@ -19,20 +21,20 @@ typedef enum{
 
 @interface ActivateViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>{
     UIScrollView *bgScrollView;
-    UITableView *activateTableView;
+    FormTableView *activateTableView;
     UIButton *submitBtn;
     
     UIButton *msgBtn;
     NSTimer *msgTimer;
     MsgButtonState msgState;
     
-    NSMutableArray *contentList;
+    NSMutableArray *patternList;
     
     int downCount;
 }
 
 @property (nonatomic, retain) UIScrollView *bgScrollView;
-@property (nonatomic, retain) UITableView *activateTableView;
+@property (nonatomic, retain) FormTableView *activateTableView;
 @property (nonatomic, retain) UIButton *submitBtn;
 
 @property (nonatomic, retain) UIButton *msgBtn;

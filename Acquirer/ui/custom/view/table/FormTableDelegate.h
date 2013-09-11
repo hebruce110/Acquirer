@@ -12,6 +12,7 @@
 
 @interface FormTableDelegate : NSObject<UITableViewDataSource, UITableViewDelegate>{
     BaseViewController *CTRL;
+    Class cellClass;
     
     CGFloat rowHeight;
     NSMutableArray *formList;

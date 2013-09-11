@@ -15,6 +15,7 @@
 @implementation FormTableCell
 
 @synthesize CTRLdelegate;
+@synthesize titleLabel, textField;
 
 -(void)dealloc{
     [titleLabel release];
@@ -41,6 +42,7 @@
         textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        
         textField.returnKeyType = UIReturnKeyDone;
         textField.font = [UIFont systemFontOfSize:15];
         textField.delegate = self;
@@ -85,8 +87,15 @@
     offset = pattern.scrollOffset;
 }
 
+//got the real cell width demension after layoutsubviews
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    //[self adjustLayoutForViewController];
+}
+
 -(void)adjustLayoutForViewController{
     CGFloat titleWidth = [Helper getLabelWidth:titleLabel.text setFont:titleLabel.font setHeight:titleLabel.bounds.size.height];
+    
     titleLabel.frame = CGRectMake(titleLabel.frame.origin.x-2, titleLabel.frame.origin.y, titleWidth, titleLabel.bounds.size.height);
     
     textField.frame = CGRectMake(titleLabel.frame.origin.x+titleLabel.bounds.size.width,
@@ -106,20 +115,21 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)_textField{
     if (CTRLdelegate) {
-        [CTRLdelegate adjustForTextFieldDidBeginEditing:_textField contentOffset:offset];
+        [CTRLdelegate adjustForTextFieldDidEndEditing:_textField contentOffset:offset];
     }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)_textField{
     [_textField resignFirstResponder];
     
-    if (CTRLdelegate) {
-        [CTRLdelegate adjustForTextFieldDidBeginEditing:_textField contentOffset:offset];
-    }
     return YES;
 }
 
 - (BOOL)textField:(UITextField *)_textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    //avoid when(textlen == maxLEN), del doesn't work
+    if ([Helper stringNullOrEmpty:string]) {
+        return YES;
+    }
     
     if (_textField.text.length >= maxLEN) {
         return NO;

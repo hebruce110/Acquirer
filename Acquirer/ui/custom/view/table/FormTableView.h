@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class FormTableDelegate;
+@class BaseViewController;
 
 @interface FormTableView : UITableView{
     FormTableDelegate *delegateFT;
 }
 
--(void)setDelegateFormList:(NSMutableArray *)formList;
+-(void)setFormTableDataSource:(NSMutableArray *)formList;
+
+-(void)setDelegateViewController:(BaseViewController *)baseCTRL;
 
 @end

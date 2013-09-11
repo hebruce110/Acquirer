@@ -87,6 +87,18 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
             [Helper saveValue:[body valueForKey:@"sessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
         }
         
+        //for test
+        static BOOL test = YES;
+        if (test) {
+            test = NO;
+            [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+            [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
+            [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
+                                                                            object:nil
+                                                                          userInfo:nil];
+            return;
+        }
+        
         if (target && selector)
         {
             if ([target respondsToSelector:selector]) {

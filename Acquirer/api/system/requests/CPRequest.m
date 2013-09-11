@@ -472,25 +472,13 @@ static void buildRoot(id<ArgBuilder> builder, NSDictionary *body)
 	}
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    if (mRequest.responseStatusCode >= 200 && mRequest.responseStatusCode < 300)
-    {
+- (void)requestFinished:(ASIHTTPRequest *)request{
+    if (mRequest.responseStatusCode >= 200 && mRequest.responseStatusCode < 300){
         [mResponseText onResponseText:mResponseAsString withResponseCode:mRequest.responseStatusCode];
         [mResponseData onResponseData:mResponseAsData withResponseCode:mRequest.responseStatusCode];
         [mResponseJSON onResponseJSON:mResponseAsJSON withResponseCode:mRequest.responseStatusCode];
     }
-    //it was not suppose to add relogin here
-    /*
-    else if (mRequest.responseStatusCode == 404){
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_REQUIRE_USER_LOGIN object:nil];
-        
-        [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"长时间未使用，请重新登录!"];
-    }
-     */
-    else
-    {
+    else{
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
         [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"服务器返回状态异常"];
     }

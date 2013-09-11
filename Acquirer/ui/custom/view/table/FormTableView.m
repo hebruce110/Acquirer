@@ -8,6 +8,7 @@
 
 #import "FormTableView.h"
 #import "FormTableDelegate.h"
+#import "BaseViewController.h"
 
 @implementation FormTableView
 
@@ -27,8 +28,14 @@
     return self;
 }
 
--(void)setDelegateFormList:(NSMutableArray *)formList{
+//set FormTableDelegate formList
+-(void)setFormTableDataSource:(NSMutableArray *)formList{
     delegateFT.formList = formList;
+}
+
+//set FormTableDelegate viewController
+-(void)setDelegateViewController:(BaseViewController *)baseCTRL{
+    delegateFT.CTRL = baseCTRL;
 }
 
 @end

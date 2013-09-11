@@ -15,6 +15,18 @@
 @synthesize CTRL;
 @synthesize rowHeight, formList;
 
+//setup cell class
+-(void)setFormList:(NSMutableArray *)list{
+    if (formList != list) {
+        [list retain];
+        [formList release];
+        formList = list;
+        
+        FormCellPattern *pattern = [list objectAtIndex:0];
+        cellClass = pattern.formCellClass;
+    }
+}
+
 -(void)dealloc{
     [formList release];
     
@@ -40,7 +52,7 @@
     FormTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (cell==nil) {
-        cell = [[[FormTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+        cell = [[[cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
     }
     cell.CTRLdelegate = CTRL;
     

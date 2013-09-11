@@ -7,9 +7,11 @@
 //
 
 #import "ActivateViewController.h"
-#import "TitleTextTableCell.h"
 #import "AcquirerService.h"
 #import "Acquirer.h"
+#import "FormCellPattern.h"
+#import "FormTableView.h"
+#import "FormTableCell.h"
 
 #define DOWN_COUNT_VALUE 60
 
@@ -30,7 +32,7 @@
     [msgBtn release];
     [msgTimer release];
     
-    [contentList release];
+    [patternList release];
 
     [super dealloc];
 }
@@ -44,13 +46,13 @@
         
         msgState = MSG_STATE_NORMAL;
         
-        contentList = [[NSMutableArray alloc] init];
+        patternList = [[NSMutableArray alloc] init];
         downCount = DOWN_COUNT_VALUE;
     }
     return self;
 }
 
--(void)setUpContentList{
+-(void)setUpFormPatternList{
     NSArray *titleList = [NSArray arrayWithObjects:@"短信激活码：", @"新密码：", @"确认新密码：", nil];
     NSArray *placeHolderList = [NSArray arrayWithObjects:@"发送至手机的激活码", @"密码由6-20个字母、数字组成", @"再次输入新密码", nil];
     NSArray *keyboardTypeList = [NSArray arrayWithObjects:[NSNumber numberWithInt:UIKeyboardTypeNumberPad],
@@ -64,17 +66,16 @@
                               [NSNumber numberWithInt:20],nil];
     
     for (int i=0; i<[titleList count]; i++) {
-        TitleTextCellContent *content = [[[TitleTextCellContent alloc] init] autorelease];
-        content.titleSTR = [titleList objectAtIndex:i];
-        content.placeHolderSTR = [placeHolderList objectAtIndex:i];
-        content.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
-        content.secure = [[secureList objectAtIndex:i] boolValue];
-        content.maxLength = [[maxLengthList objectAtIndex:i] integerValue];
-        [contentList addObject:content];
+        FormCellPattern *pattern = [[[FormCellPattern alloc] init] autorelease];
+        pattern.titleSTR = [titleList objectAtIndex:i];
+        pattern.placeHolderSTR = [placeHolderList objectAtIndex:i];
+        pattern.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
+        pattern.secure = [[secureList objectAtIndex:i] boolValue];
+        pattern.maxLength = [[maxLengthList objectAtIndex:i] integerValue];
+        pattern.scrollOffset = CGPointMake(0, 160);
+        [patternList addObject:pattern];
     }
 }
-
-#define VERTICAL_PADDING 10
 
 - (void)viewDidLoad
 {
@@ -152,15 +153,17 @@
     dashImgView.center = CGPointMake(self.contentView.center.x, dashImgView.center.y);
     [self.contentView addSubview:dashImgView];
     
+    [self setUpFormPatternList];
     CGRect tableFrame = CGRectMake(0, frameHeighOffset(dashFrame)+VERTICAL_PADDING-5, contentWidth, 150);
-    self.activateTableView = [[[UITableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
+    self.activateTableView = [[[FormTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
     activateTableView.scrollEnabled = NO;
     activateTableView.backgroundColor = [UIColor clearColor];
     activateTableView.backgroundView = nil;
-    activateTableView.delegate = self;
-    activateTableView.dataSource = self;
     [self.contentView addSubview:activateTableView];
-    [self setUpContentList];
+    
+    [activateTableView setFormTableDataSource:patternList];
+    [activateTableView setDelegateViewController:self];
+    
     
     UIImageView *dashImgViewCopy = [[[UIImageView alloc] initWithImage:dashImg] autorelease];
     dashImgViewCopy.frame = CGRectMake(0, frameHeighOffset(tableFrame)+VERTICAL_PADDING, dashImg.size.width, dashImg.size.height);
@@ -198,16 +201,16 @@
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    CGPoint point = [touch locationInView:self.bgImageView];
-    CGPoint convertPoint = [self.activateTableView convertPoint:point fromView:contentView];
-    if (CGRectContainsPoint(self.activateTableView.bounds, convertPoint)) {
+    UIView *touchView = [touch view];
+    if ([touchView isDescendantOfView:self.activateTableView]) {
         return NO;
     }
+    
     return YES;
 }
 
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
-    for (TitleTextTableCell *cell in [self.activateTableView visibleCells]) {
+    for (FormTableCell *cell in [self.activateTableView visibleCells]) {
         [cell.textField resignFirstResponder];
     }
 }
@@ -255,54 +258,24 @@
 
 -(void)submit:(id)sender{
     NSArray *visibleCellList = [activateTableView visibleCells];
-    NSString *msgCode = ((TitleTextTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
-    NSString *passSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
+    NSString *msgCode = ((FormTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
+    NSString *passSTR = ((FormTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
     
     [[AcquirerService sharedInstance].logService onRespondTarget:self];
     [[AcquirerService sharedInstance].logService requestForActivateLogin:msgCode withPass:passSTR];
 }
 
 static BOOL isShowTextEditing = NO;
--(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField{
+-(void)adjustForTextFieldDidBeginEditing:(UITextField *)textField contentOffset:(CGPoint)offset{
     if (isShowTextEditing == NO) {
-        [bgScrollView setContentOffset:CGPointMake(0, 160) animated:YES];
+        [bgScrollView setContentOffset:offset animated:YES];
         isShowTextEditing = YES;
     }
 }
 
--(void)adjustForTextFieldDidEndEditing:(UITextField *)textField{
+-(void)adjustForTextFieldDidEndEditing:(UITextField *)textField contentOffset:(CGPoint)offset{
     isShowTextEditing = NO;
     [bgScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-}
-
-
-#pragma mark UITableViewDataSource Method
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"Login_Identifier";
-    
-    TitleTextTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    if (cell==nil) {
-        cell = [[[TitleTextTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
-    }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setContent:[contentList objectAtIndex:indexPath.row]];
-    cell.delegate = self;
-    
-    [cell adjustForActivateViewController];
-    
-    return cell;
-}
-
-#pragma mark UITableViewDelegate Method
-
--(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
 }
 
 @end

@@ -9,16 +9,21 @@
 #import <QuartzCore/QuartzCore.h>
 #import "LoginViewController.h"
 #import "ActivateViewController.h"
-#import "TitleTextTableCell.h"
 #import "NSNotificationCenter+CP.h"
 #import "Acquirer.h"
 #import "AcquirerService.h"
 #import "ACUser.h"
 #import "ValiIdentityViewController.h"
+#import "FormTableView.h"
+#import "FormCellPattern.h"
+#import "FormTableCell.h"
 
-@interface LoginViewController ()
-
+@interface LoginFormTableCell : FormTableCell
 @end
+@implementation LoginFormTableCell
+-(void)adjustLayoutForViewController{}
+@end
+
 
 @implementation LoginViewController
 
@@ -26,7 +31,7 @@
 
 -(void)dealloc{
     [loginTableView release];
-    [contentList release];
+    [patternList release];
     
     [super dealloc];
 }
@@ -37,12 +42,12 @@
         self.isShowNaviBar = NO;
         self.isShowTabBar = NO;
         
-        contentList = [[NSMutableArray alloc] init];
+        patternList = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
--(void)setUpContentList{
+-(void)setUpFormCellPatternList{
     NSArray *titleList = [NSArray arrayWithObjects:@"机  构  号　|", @"操作员号　|", @"密　　码　|", nil];
     NSArray *placeHolderList = [NSArray arrayWithObjects:@"请输入机构号", @"请输入操作员号", @"请输入密码", nil];
     NSArray *keyboardTypeList = [NSArray arrayWithObjects:[NSNumber numberWithInt:UIKeyboardTypeNumberPad],
@@ -56,13 +61,16 @@
                                                        [NSNumber numberWithInt:32],nil];
     
     for (int i=0; i<[titleList count]; i++) {
-        TitleTextCellContent *content = [[[TitleTextCellContent alloc] init] autorelease];
-        content.titleSTR = [titleList objectAtIndex:i];
-        content.placeHolderSTR = [placeHolderList objectAtIndex:i];
-        content.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
-        content.secure = [[secureList objectAtIndex:i] boolValue];
-        content.maxLength = [[maxLengthList objectAtIndex:i] integerValue];
-        [contentList addObject:content];
+        FormCellPattern *pattern = [[[FormCellPattern alloc] init] autorelease];
+        pattern.titleSTR = [titleList objectAtIndex:i];
+        pattern.placeHolderSTR = [placeHolderList objectAtIndex:i];
+        pattern.titleColor = [UIColor grayColor];
+        pattern.titleFont = [UIFont boldSystemFontOfSize:16];
+        pattern.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
+        pattern.secure = [[secureList objectAtIndex:i] boolValue];
+        pattern.maxLength = [[maxLengthList objectAtIndex:i] integerValue];
+        pattern.formCellClass = [LoginFormTableCell class];
+        [patternList addObject:pattern];
     }
 }
 
@@ -84,18 +92,18 @@
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeight = self.contentView.bounds.size.height;
     
-     
+    [self setUpFormCellPatternList];
+    
     CGRect tableFrame = CGRectMake(0, 90, contentWidth, 160);
-    self.loginTableView = [[[UITableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
+    self.loginTableView = [[[FormTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
     loginTableView.scrollEnabled = NO;
     loginTableView.backgroundColor = [UIColor clearColor];
     loginTableView.backgroundView = nil;
-    loginTableView.delegate = self;
-    loginTableView.dataSource = self;
     [self.contentView addSubview:loginTableView];
-    loginTableView.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), loginTableView.center.y);
+    //loginTableView.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), loginTableView.center.y);
+    [loginTableView setFormTableDataSource:patternList];
+    [loginTableView setDelegateViewController:self];
     
-    [self setUpContentList];
     
     UIImage *btnSelImg = [UIImage imageNamed:@"BUTT_red_on.png"];
     UIImage *btnDeSelImg = [UIImage imageNamed:@"BUTT_red_off.png"];
@@ -172,6 +180,21 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    UIView *touchView = [touch view];
+    if ([touchView isDescendantOfView:self.loginTableView]) {
+        return NO;
+    }
+   
+    return YES;
+}
+
+-(void) tapGesture:(UITapGestureRecognizer *)sender{
+    for (FormTableCell *cell in [self.loginTableView visibleCells]) {
+        [cell.textField resignFirstResponder];
+    }
+}
+
 -(void)dismissLoginViewController:(NSNotification *)notification{
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -181,31 +204,15 @@
     [self.navigationController pushViewController:activateCTRL animated:YES];
 }
 
-- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    CGPoint point = [touch locationInView:self.contentView];
-    CGPoint convertPoint = [self.loginTableView convertPoint:point fromView:contentView];
-    
-    if (CGRectContainsPoint(self.loginTableView.bounds, convertPoint)) {
-        return NO;
-    }
-    return YES;
-}
-
--(void) tapGesture:(UITapGestureRecognizer *)sender{
-    for (TitleTextTableCell *cell in [self.loginTableView visibleCells]) {
-        [cell.textField resignFirstResponder];
-    }
-}
-
 -(void)login:(id)sender{
     NSArray *visibleCellList = [self.loginTableView visibleCells];
-    for (TitleTextTableCell *cell in visibleCellList) {
+    for (FormTableCell *cell in visibleCellList) {
         [cell.textField resignFirstResponder];
     }
     
-    NSString *corpIdSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
-    NSString *opratorIdSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
-    NSString *passSTR = ((TitleTextTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
+    NSString *corpIdSTR = ((FormTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
+    NSString *opratorIdSTR = ((FormTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
+    NSString *passSTR = ((FormTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
     
     if ([Helper stringNullOrEmpty:corpIdSTR]) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
@@ -244,32 +251,6 @@
 -(void)notLogin:(id)sender{
     ValiIdentityViewController *valiIdentityCTRL = [[[ValiIdentityViewController alloc] init] autorelease];
     [self.navigationController pushViewController:valiIdentityCTRL animated:YES];
-}
-
-#pragma mark UITableViewDataSource Method
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"Login_Identifier";
-  
-    TitleTextTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-            
-    if (cell==nil) {
-        cell = [[[TitleTextTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
-    }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setContent:[contentList objectAtIndex:indexPath.row]];
-    
-    return cell;
-}
-
-#pragma mark UITableViewDelegate Method
-
--(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
 }
 
 @end

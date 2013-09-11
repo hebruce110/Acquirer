@@ -23,6 +23,8 @@
 }
 
 @property (nonatomic, assign) BaseViewController *CTRLdelegate;
+@property (nonatomic, readonly) UILabel *titleLabel;
+@property (nonatomic, readonly) UITextField *textField;
 
 -(void)setFormCellPattern:(FormCellPattern *)pattern;
 

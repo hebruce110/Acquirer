@@ -8,12 +8,14 @@
 
 #import "BaseViewController.h"
 
-@interface LoginViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>{
-    UITableView *loginTableView;
+@class FormTableView;
+
+@interface LoginViewController : BaseViewController <UIGestureRecognizerDelegate>{
+    FormTableView *loginTableView;
     
-    NSMutableArray *contentList;
+    NSMutableArray *patternList;
 }
 
-@property (nonatomic, retain) UITableView *loginTableView;
+@property (nonatomic, retain) FormTableView *loginTableView;
 
 @end

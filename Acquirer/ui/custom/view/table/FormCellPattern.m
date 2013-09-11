@@ -7,6 +7,7 @@
 //
 
 #import "FormCellPattern.h"
+#import "FormTableCell.h"
 
 @implementation FormCellPattern
 
@@ -16,6 +17,7 @@
 @synthesize keyboardType, returnKeyType;
 @synthesize secure, maxLength;
 @synthesize scrollOffset;
+@synthesize formCellClass;
 
 -(void)dealloc{
     [titleSTR release];
@@ -47,6 +49,8 @@
         maxLength = 20;
         
         scrollOffset = CGPointMake(0.0f, 0.0f);
+        
+        formCellClass = [FormTableCell class];
     }
     return self;
 }

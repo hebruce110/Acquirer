@@ -18,7 +18,6 @@
 		0FCB883E17DF662700186CB9 /* FormCellPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCB883D17DF662700186CB9 /* FormCellPattern.m */; };
 		0FCB884117DF76FC00186CB9 /* FormTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCB884017DF76FC00186CB9 /* FormTableView.m */; };
 		0FCB884417DF772F00186CB9 /* FormTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCB884317DF772E00186CB9 /* FormTableDelegate.m */; };
-		8B09992617D72CCB001430AA /* TitleTextTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09992517D72CCB001430AA /* TitleTextTableCell.m */; };
 		8B09992C17D814B3001430AA /* BUTT_red_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09992817D814B3001430AA /* BUTT_red_off.png */; };
 		8B09992D17D814B3001430AA /* BUTT_red_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09992917D814B3001430AA /* BUTT_red_off@2x.png */; };
 		8B09992E17D814B3001430AA /* BUTT_red_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09992A17D814B3001430AA /* BUTT_red_on.png */; };
@@ -41,7 +40,8 @@
 		8B09995B17DEF52D001430AA /* order_eg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09995917DEF52D001430AA /* order_eg.png */; };
 		8B09995C17DEF52D001430AA /* order_eg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09995A17DEF52D001430AA /* order_eg@2x.png */; };
 		8B09995F17DEF5B6001430AA /* ValiIdentityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09995E17DEF5B5001430AA /* ValiIdentityViewController.m */; };
-		8B09996217DF19F9001430AA /* TitleTextTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09996117DF19F8001430AA /* TitleTextTableView.m */; };
+		8B09996817E06173001430AA /* auth_loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09996617E06172001430AA /* auth_loading.png */; };
+		8B09996917E06173001430AA /* auth_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09996717E06173001430AA /* auth_loading@2x.png */; };
 		8B15ED1617CC72AE00975AA9 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1517CC72AE00975AA9 /* Helper.m */; };
 		8B15ED1A17CC879F00975AA9 /* Acquirer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1917CC879F00975AA9 /* Acquirer.m */; };
 		8B31045117CEF3C800764F7B /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31045017CEF3C800764F7B /* TestViewController.m */; };
@@ -135,8 +135,6 @@
 		0FCB884017DF76FC00186CB9 /* FormTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormTableView.m; sourceTree = "<group>"; };
 		0FCB884217DF772E00186CB9 /* FormTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormTableDelegate.h; sourceTree = "<group>"; };
 		0FCB884317DF772E00186CB9 /* FormTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormTableDelegate.m; sourceTree = "<group>"; };
-		8B09992417D72CCB001430AA /* TitleTextTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleTextTableCell.h; sourceTree = "<group>"; };
-		8B09992517D72CCB001430AA /* TitleTextTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleTextTableCell.m; sourceTree = "<group>"; };
 		8B09992817D814B3001430AA /* BUTT_red_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BUTT_red_off.png; sourceTree = "<group>"; };
 		8B09992917D814B3001430AA /* BUTT_red_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BUTT_red_off@2x.png"; sourceTree = "<group>"; };
 		8B09992A17D814B3001430AA /* BUTT_red_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BUTT_red_on.png; sourceTree = "<group>"; };
@@ -164,8 +162,8 @@
 		8B09995A17DEF52D001430AA /* order_eg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_eg@2x.png"; sourceTree = "<group>"; };
 		8B09995D17DEF5B5001430AA /* ValiIdentityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValiIdentityViewController.h; sourceTree = "<group>"; };
 		8B09995E17DEF5B5001430AA /* ValiIdentityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValiIdentityViewController.m; sourceTree = "<group>"; };
-		8B09996017DF19F7001430AA /* TitleTextTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleTextTableView.h; sourceTree = "<group>"; };
-		8B09996117DF19F8001430AA /* TitleTextTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleTextTableView.m; sourceTree = "<group>"; };
+		8B09996617E06172001430AA /* auth_loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = auth_loading.png; sourceTree = "<group>"; };
+		8B09996717E06173001430AA /* auth_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "auth_loading@2x.png"; sourceTree = "<group>"; };
 		8B15ED1417CC72AE00975AA9 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		8B15ED1517CC72AE00975AA9 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 		8B15ED1817CC879F00975AA9 /* Acquirer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Acquirer.h; sourceTree = "<group>"; };
@@ -418,6 +416,8 @@
 				0F911E7D17DAB4BA00640BF8 /* dashed@2x.png */,
 				8B09995917DEF52D001430AA /* order_eg.png */,
 				8B09995A17DEF52D001430AA /* order_eg@2x.png */,
+				8B09996617E06172001430AA /* auth_loading.png */,
+				8B09996717E06173001430AA /* auth_loading@2x.png */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -743,10 +743,6 @@
 				8BB6A70B17CB3DFF00C71279 /* CPTabBarDelegate.h */,
 				8BB6A70C17CB3DFF00C71279 /* CustomTextView.h */,
 				8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */,
-				8B09992417D72CCB001430AA /* TitleTextTableCell.h */,
-				8B09992517D72CCB001430AA /* TitleTextTableCell.m */,
-				8B09996017DF19F7001430AA /* TitleTextTableView.h */,
-				8B09996117DF19F8001430AA /* TitleTextTableView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -854,6 +850,8 @@
 				8B09995217DD6735001430AA /* back@2x.png in Resources */,
 				8B09995B17DEF52D001430AA /* order_eg.png in Resources */,
 				8B09995C17DEF52D001430AA /* order_eg@2x.png in Resources */,
+				8B09996817E06173001430AA /* auth_loading.png in Resources */,
+				8B09996917E06173001430AA /* auth_loading@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,14 +898,12 @@
 				8B31048117D6CA9B00764F7B /* TransHomeViewController.m in Sources */,
 				8B31048417D6CAB100764F7B /* HelpHomeViewController.m in Sources */,
 				8B31048717D6CD0600764F7B /* LoginViewController.m in Sources */,
-				8B09992617D72CCB001430AA /* TitleTextTableCell.m in Sources */,
 				8B09993217D86147001430AA /* AcquirerService.m in Sources */,
 				8B09994B17D9BE59001430AA /* ACUser.m in Sources */,
 				0F911E8517DAF27800640BF8 /* ActivateViewController.m in Sources */,
 				8B09995517DD74E7001430AA /* MessageService.m in Sources */,
 				8B09995817DDCB61001430AA /* LoginService.m in Sources */,
 				8B09995F17DEF5B6001430AA /* ValiIdentityViewController.m in Sources */,
-				8B09996217DF19F9001430AA /* TitleTextTableView.m in Sources */,
 				0FCB883B17DF5ED200186CB9 /* FormTableCell.m in Sources */,
 				0FCB883E17DF662700186CB9 /* FormCellPattern.m in Sources */,
 				0FCB884117DF76FC00186CB9 /* FormTableView.m in Sources */,
@@ -1000,8 +996,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
 				SDKROOT = iphoneos6.1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1018,8 +1014,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
 				SDKROOT = iphoneos6.1;
 				WRAPPER_EXTENSION = app;
 			};

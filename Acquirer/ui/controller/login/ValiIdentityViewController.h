@@ -9,10 +9,18 @@
 #import "BaseViewController.h"
 #import "FormTableView.h"
 
-@interface ValiIdentityViewController : BaseViewController{
+@interface ValiIdentityViewController : BaseViewController <UIGestureRecognizerDelegate>{
+    UIScrollView *bgScrollView;
+    
     FormTableView *posOrderTableView;
+    FormTableView *captchaTableView;
+    
+    UIImageView *authImgView;
 }
 
+@property (nonatomic, retain) UIScrollView *bgScrollView;
 @property (nonatomic, retain) FormTableView *posOrderTableView;
+@property (nonatomic, retain) FormTableView *captchaTableView;
+@property (nonatomic, retain) UIImageView *authImgView;
 
 @end
