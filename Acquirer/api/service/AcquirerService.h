@@ -10,14 +10,20 @@
 
 #import "LoginService.h"
 #import "MessageService.h"
+#import "ValiIdentityService.h"
+#import "PostbeService.h"
 
 @interface AcquirerService : BaseService{
+    PostbeService *postbeService;
     LoginService *logService;
     MessageService *msgService;
+    ValiIdentityService *valiService;
 }
 
+@property (nonatomic, readonly) PostbeService *postbeService;
 @property (nonatomic, readonly) LoginService *logService;
 @property (nonatomic, readonly) MessageService *msgService;
+@property (nonatomic, readonly) ValiIdentityService *valiService;
 
 +(AcquirerService *)sharedInstance;
 +(void)destroySharedInstance;

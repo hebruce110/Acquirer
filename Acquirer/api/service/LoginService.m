@@ -58,6 +58,8 @@
     [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
     [dict setValue:[[DeviceIntrospection sharedInstance] platformName] forKey:@"platform"];
     
+    NSLog(@"%@", dict);
+    
     AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
     [acReq onRespondTarget:self selector:@selector(loginRequestDidFinished:)];
     [acReq execute];
@@ -79,11 +81,6 @@
 }
 
 -(void)processMTPRespCode:(AcquirerCPRequest *)req{
-    NSDictionary *body = (NSDictionary *)req.responseAsJson;
-    if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02202")) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"您输入的激活码有误，请重新输入"
-                                                                     notifyType:NOTIFICATION_TYPE_WARNING];
-    }
 }
 
 @end

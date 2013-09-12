@@ -23,4 +23,6 @@
 @property (nonatomic, retain) FormTableView *captchaTableView;
 @property (nonatomic, retain) UIImageView *authImgView;
 
+-(void)refreshAuthImgView:(NSData *)imgData;
+
 @end

@@ -23,6 +23,8 @@
 
 @synthesize bgScrollView, activateTableView, submitBtn;
 @synthesize msgBtn, msgTimer;
+@synthesize CTRLType;
+@synthesize pnrDevIdSTR, mobileSTR;
 
 -(void)dealloc{
     [bgScrollView release];
@@ -33,6 +35,9 @@
     [msgTimer release];
     
     [patternList release];
+    
+    [pnrDevIdSTR release];
+    [mobileSTR release];
 
     [super dealloc];
 }
@@ -94,15 +99,29 @@
     contentView.frame = contentView.bounds;
     [bgScrollView addSubview:contentView];
     
-    CGRect introFrame = CGRectMake(20, 10, 280, 40);
-    UILabel *introMsgLabel = [[[UILabel alloc] initWithFrame:introFrame] autorelease];
-    introMsgLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    introMsgLabel.numberOfLines = 2;
-    introMsgLabel.font = [UIFont systemFontOfSize:16];
-    introMsgLabel.text = @"账号未激活,请输入以下信息，验证通过后可正常使用。";
-    introMsgLabel.backgroundColor = [UIColor clearColor];
-    introMsgLabel.textAlignment = NSTextAlignmentLeft;
-    [self.contentView addSubview:introMsgLabel];
+    CGRect introFrame ;
+    UILabel *introMsgLabel;
+    if (CTRLType == ACTIVATE_FIRST_CONFIRM) {
+        introFrame =  CGRectMake(20, 10, 280, 40);
+        introMsgLabel = [[[UILabel alloc] initWithFrame:introFrame] autorelease];
+        introMsgLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        introMsgLabel.numberOfLines = 2;
+        introMsgLabel.font = [UIFont systemFontOfSize:16];
+        introMsgLabel.text = @"账号未激活,请输入以下信息，验证通过后可正常使用。";
+        introMsgLabel.backgroundColor = [UIColor clearColor];
+        introMsgLabel.textAlignment = NSTextAlignmentLeft;
+        [self.contentView addSubview:introMsgLabel];
+    }else if (CTRLType == ACTIVATE_VALIIDENTITY){
+        introFrame =  CGRectMake(20, 10, 280, 20);
+        introMsgLabel = [[[UILabel alloc] initWithFrame:introFrame] autorelease];
+        introMsgLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        introMsgLabel.numberOfLines = 2;
+        introMsgLabel.font = [UIFont systemFontOfSize:16];
+        introMsgLabel.text = [NSString stringWithFormat:@"订单号前８位：%@", pnrDevIdSTR] ;
+        introMsgLabel.backgroundColor = [UIColor clearColor];
+        introMsgLabel.textAlignment = NSTextAlignmentLeft;
+        [self.contentView addSubview:introMsgLabel];
+    }
     
     CGRect mobileFrame = CGRectMake(20, frameHeighOffset(introFrame)+VERTICAL_PADDING-5, 200, 20);
     UILabel *mobileLabel = [[UILabel alloc] initWithFrame:mobileFrame];
@@ -110,10 +129,17 @@
     mobileLabel.backgroundColor = [UIColor clearColor];
     mobileLabel.textAlignment = NSTextAlignmentLeft;
     
-    NSString *mobileSTR = [Acquirer sharedInstance].currentUser.mobileSTR;
     NSString *blurMobileSTR = [mobileSTR stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
     mobileLabel.text = [NSString stringWithFormat:@"手机号：%@", blurMobileSTR];
     [self.contentView addSubview:mobileLabel];
+    
+    if (CTRLType == ACTIVATE_VALIIDENTITY) {
+        UILabel *reviseMobileLabel = [[[UILabel alloc] init] autorelease];
+        reviseMobileLabel.font = [UIFont systemFontOfSize:16];
+        reviseMobileLabel.textColor = [UIColor blueColor];
+        reviseMobileLabel.backgroundColor = [UIColor clearColor];
+        
+    }
     
     CGRect hintFrame = CGRectMake(20, frameHeighOffset(mobileFrame)+VERTICAL_PADDING-5, 280, 25);
     UILabel *hintMsgLabel = [[UILabel alloc] initWithFrame:hintFrame];
@@ -248,6 +274,7 @@
 }
 
 -(void)retriveActivateCode:(id)sender{
+    
     msgBtn.enabled = NO;
     [msgBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [msgTimer setFireDate:[NSDate distantPast]];
@@ -260,6 +287,28 @@
     NSArray *visibleCellList = [activateTableView visibleCells];
     NSString *msgCode = ((FormTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
     NSString *passSTR = ((FormTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
+    NSString *confirmPassSTR = ((FormTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
+    
+    if ([Helper stringNullOrEmpty:msgCode]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"短信激活码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    if ([Helper stringNullOrEmpty:passSTR]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    if ([Helper stringNullOrEmpty:passSTR]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }else if ([passSTR length] < 6){
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码长度不能小于６位" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }else if (![passSTR isEqualToString:confirmPassSTR]){
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"输入密码不一致，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
     
     [[AcquirerService sharedInstance].logService onRespondTarget:self];
     [[AcquirerService sharedInstance].logService requestForActivateLogin:msgCode withPass:passSTR];

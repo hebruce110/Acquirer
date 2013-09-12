@@ -90,13 +90,13 @@
 //got the real cell width demension after layoutsubviews
 -(void)layoutSubviews{
     [super layoutSubviews];
-    //[self adjustLayoutForViewController];
+    [self adjustLayoutForViewController];
 }
 
 -(void)adjustLayoutForViewController{
     CGFloat titleWidth = [Helper getLabelWidth:titleLabel.text setFont:titleLabel.font setHeight:titleLabel.bounds.size.height];
     
-    titleLabel.frame = CGRectMake(titleLabel.frame.origin.x-2, titleLabel.frame.origin.y, titleWidth, titleLabel.bounds.size.height);
+    titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleWidth, titleLabel.bounds.size.height);
     
     textField.frame = CGRectMake(titleLabel.frame.origin.x+titleLabel.bounds.size.width,
                                  textField.frame.origin.y,

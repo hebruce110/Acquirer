@@ -88,6 +88,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
         }
         
         //for test
+        /*
         static BOOL test = YES;
         if (test) {
             test = NO;
@@ -98,7 +99,8 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
                                                                           userInfo:nil];
             return;
         }
-        
+        */
+         
         if (target && selector)
         {
             if ([target respondsToSelector:selector]) {
@@ -147,8 +149,6 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     if (target && [target respondsToSelector:procRespCodeMethod]) {
         [target performSelector:procRespCodeMethod withObject:self];
     }
-    
-    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
 }
 
 //process failure messages dispatch

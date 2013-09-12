@@ -99,6 +99,7 @@
     
     UIImage *authImg = [UIImage imageNamed:@"auth_loading.png"];
     self.authImgView = [[[UIImageView alloc] initWithImage:authImg] autorelease];
+    authImgView.userInteractionEnabled = YES;
     authImgView.frame = CGRectMake(190, 0, authImg.size.width, authImg.size.height);
     authImgView.center = CGPointMake(authImgView.center.x, captchaTableView.center.y);
     [self.contentView addSubview:authImgView];
@@ -136,13 +137,22 @@
     [self.contentView addSubview:submitBtn];
     
     UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [self.authImgView addGestureRecognizer:tg];
     [self.bgImageView addGestureRecognizer:tg];
     tg.delegate = self;
     [tg release];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    [[AcquirerService sharedInstance].valiService onRespondTarget:self];
+    [[AcquirerService sharedInstance].valiService requestForAuthImgURL];
+}
+
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     UIView *touchView = [touch view];
+
     if ([touchView isDescendantOfView:self.posOrderTableView] || [touchView isDescendantOfView:self.captchaTableView]) {
         return NO;
     }
@@ -150,12 +160,51 @@
 }
 
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
+    CGPoint pointOfBg = [sender locationInView:self.bgImageView];
+    CGPoint pointOfAuth = [self.authImgView convertPoint:pointOfBg fromView:self.bgImageView];
+    
+    if (CGRectContainsPoint(authImgView.bounds, pointOfAuth)) {
+        [[AcquirerService sharedInstance].valiService onRespondTarget:self];
+        [[AcquirerService sharedInstance].valiService requestForAuthImgURL];
+        return;
+    }
+    
     for (FormTableCell *cell in [self.posOrderTableView visibleCells]) {
         [cell.textField resignFirstResponder];
     }
     for (FormTableCell *cell in [self.captchaTableView visibleCells]) {
         [cell.textField resignFirstResponder];
     }
+}
+
+-(void)refreshAuthImgView:(NSData *)imgData{
+    UIImage *img = [UIImage imageWithData:imgData];
+    self.authImgView.image = img;
+}
+
+-(void)submit:(id)sender{
+    NSString *posOrderIdSTR = ((FormTableCell *)[[posOrderTableView visibleCells] objectAtIndex:0]).textField.text;
+    NSString *authCodeSTR = ((FormTableCell *)[[captchaTableView visibleCells] objectAtIndex:0]).textField.text;
+    
+    if ([Helper stringNullOrEmpty:posOrderIdSTR]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"订单号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }else if ([posOrderIdSTR length] < 8){
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"订单号为8位，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+    }
+    
+    if ([Helper stringNullOrEmpty:authCodeSTR]) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"验证码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }else if ([authCodeSTR length] != 4){
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"验证码为４位，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+    }
+
+    
+}
+
+-(void)pushToActivateViewController:(NSString *)mobileSTR{
+    
 }
 
 static BOOL isShowTextEditing = NO;

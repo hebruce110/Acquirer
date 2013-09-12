@@ -22,6 +22,8 @@
     
     //配置文件code.csv版本号
     NSString *configVersion;
+    
+    NSString *uidSTR;
 }
 
 @property (nonatomic, retain) MBProgressHUD *uiPromptHUD;
@@ -32,12 +34,15 @@
 @property (nonatomic, retain) ACUser *currentUser;
 
 @property (nonatomic, copy) NSString *configVersion;
+@property (nonatomic, copy) NSString *uidSTR;
 
 +(Acquirer *)sharedInstance;
 +(void)destroySharedInstance;
 +(void)initializeAcquirer;
 +(void)shutdown;
+
 +(NSString *)bundleVersion;
++(NSString *)UID;
 
 //check is production environment
 +(BOOL)isProductionEnvironment;

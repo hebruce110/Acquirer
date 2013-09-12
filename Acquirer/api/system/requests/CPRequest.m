@@ -12,6 +12,7 @@
 #import "JSON.h"
 #import "NSNotificationCenter+CP.h"
 #import "Settings.h"
+#import "Acquirer.h"
 
 @interface CPRequest()
 
@@ -19,8 +20,6 @@
 @property (nonatomic, retain) id<CPResponseText> responseText;
 @property (nonatomic, retain) id<CPResponseData> responseData;
 @property (nonatomic, retain) id<CPResponseJSON> responseJSON;
-
-
 
 @property (nonatomic, retain) NSString *path;
 
@@ -480,11 +479,13 @@ static void buildRoot(id<ArgBuilder> builder, NSDictionary *body)
     }
     else{
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
-        [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"服务器返回状态异常"];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"服务器返回状态异常" notifyType:NOTIFICATION_TYPE_WARNING];
     }
 	
 	// we're done here
 	self.request = nil;
+    
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
 }
 
 //默认的requestFailed,便于移植

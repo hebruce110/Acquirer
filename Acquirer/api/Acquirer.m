@@ -25,6 +25,7 @@ static Acquirer *sInstance = nil;
 @synthesize uiPromptHUD, sysPromptHUD;
 @synthesize codedescMap, currentUser;
 @synthesize configVersion;
+@synthesize uidSTR;
 
 -(void)dealloc{
     [uiPromptHUD release];
@@ -34,6 +35,8 @@ static Acquirer *sInstance = nil;
     [currentUser release];
     
     [configVersion release];
+    
+    [uidSTR release];
     [super dealloc];
 }
 
@@ -84,6 +87,7 @@ static Acquirer *sInstance = nil;
     [instance parseCodeDescFile];
     
     //initialize app startup nsuserdefault settings
+    [Helper saveValue:ACQUIRER_DEFAULT_VALUE forKey:ACQUIRER_LOCAL_SESSION_KEY];
     [Helper saveValue:NSSTRING_YES forKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
     
     [[NSNotificationCenter defaultCenter] addObserver:instance
@@ -113,8 +117,17 @@ static Acquirer *sInstance = nil;
 }
 
 +(NSString *)bundleVersion{
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    return version;
+    NSString *versionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    return [NSString stringWithFormat:@"v%@", versionNumber];
+}
+
++(NSString *)UID{
+    NSString *uid = [Helper getValueByKey:POSTBE_UID];
+    if ([Helper stringNullOrEmpty:uid] || [uid isEqualToString:ACQUIRER_DEFAULT_VALUE]) {
+        [[AcquirerService sharedInstance].postbeService requestForUID];
+        return @"";
+    }
+    return uid;
 }
 
 //check is production environment
@@ -138,7 +151,7 @@ static Acquirer *sInstance = nil;
     //construct seession cookie
     //NSHTTPCookiePath and NSHTTPCookieDomain is required, or NSHTTPCookie will return nil
     NSString *sessionStr = [Helper getValueByKey:ACQUIRER_LOCAL_SESSION_KEY];
-    if (sessionStr!=nil && ![sessionStr isEqualToString:@"#"])
+    if (sessionStr!=nil && ![sessionStr isEqualToString:ACQUIRER_DEFAULT_VALUE])
     {
         NSMutableDictionary *properties = [[[NSMutableDictionary alloc] init] autorelease];
         [properties setValue:ACQUIRER_MTP_SESSION_KEY forKey:NSHTTPCookieName];

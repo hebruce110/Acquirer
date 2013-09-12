@@ -19,6 +19,13 @@ typedef enum{
     MSG_STATE_SUCCEED
 } MsgButtonState;
 
+typedef enum{
+    //验证身份跳转激活
+    ACTIVATE_VALIIDENTITY,
+    //登录未激活,第一次确认
+    ACTIVATE_FIRST_CONFIRM
+}ActivateType;
+
 @interface ActivateViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>{
     UIScrollView *bgScrollView;
     FormTableView *activateTableView;
@@ -31,6 +38,10 @@ typedef enum{
     NSMutableArray *patternList;
     
     int downCount;
+    
+    ActivateType CTRLType;
+    NSString *pnrDevIdSTR;
+    NSString *mobileSTR;
 }
 
 @property (nonatomic, retain) UIScrollView *bgScrollView;
@@ -39,6 +50,11 @@ typedef enum{
 
 @property (nonatomic, retain) UIButton *msgBtn;
 @property (nonatomic, retain) NSTimer *msgTimer;
+
+@property (nonatomic, assign) ActivateType CTRLType;
+
+@property (nonatomic, copy) NSString *pnrDevIdSTR;
+@property (nonatomic, copy) NSString *mobileSTR;
 
 //恢复发送短信的状态
 -(void)restoreShortMessageState;

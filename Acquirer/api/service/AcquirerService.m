@@ -17,13 +17,15 @@ static AcquirerService *sInstance = nil;
 
 @implementation AcquirerService
 
-@synthesize logService, msgService;
+@synthesize postbeService, logService, msgService, valiService;
 
 -(id)init{
     self = [super init];
     if (self != nil) {
+        postbeService = [[PostbeService alloc] init];
         logService = [[LoginService alloc] init];
         msgService = [[MessageService alloc] init];
+        valiService = [[ValiIdentityService alloc] init];
     }
     return self;
 }
@@ -31,7 +33,7 @@ static AcquirerService *sInstance = nil;
 -(void)dealloc{
     [logService release];
     [msgService release];
-    
+    [valiService release];
     [super dealloc];
 }
 

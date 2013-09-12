@@ -11,8 +11,6 @@
 #import "CPTabBarDelegate.h"
 #import "CPTabBar.h"
 
-@class VersionService;
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate, CPTabBarDelegate>{
     CPNavigationController *loginNavi;
     CPNavigationController *transNavi;
@@ -21,8 +19,6 @@
     NSArray *naviArray;
     
     CPTabBar *cpTabBar;
-    
-    VersionService *vs;
 }
 
 @property (strong, nonatomic) UIWindow *window;

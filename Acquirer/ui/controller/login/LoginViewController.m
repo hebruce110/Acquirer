@@ -201,6 +201,7 @@
 
 -(void)jumpToActivateViewController:(NSNotification *)notification{
     ActivateViewController *activateCTRL = [[[ActivateViewController alloc] init] autorelease];
+    activateCTRL.mobileSTR = [Acquirer sharedInstance].currentUser.mobileSTR;
     [self.navigationController pushViewController:activateCTRL animated:YES];
 }
 

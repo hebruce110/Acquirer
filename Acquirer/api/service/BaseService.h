@@ -10,6 +10,8 @@
 #import "Helper.h"
 #import "NSNotificationCenter+CP.h"
 #import "AcquirerCPRequest.h"
+#import "Acquirer.h"
+#import "DeviceIntrospection.h"
 
 @interface BaseService : NSObject{
     id target;

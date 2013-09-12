@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "CPTabBar.h"
 #import "Helper.h"
+#import "NSNotificationCenter+CP.h"
+#import "AcquirerService.h"
 
 //def utility
 CGFloat frameHeighOffset(CGRect rect);

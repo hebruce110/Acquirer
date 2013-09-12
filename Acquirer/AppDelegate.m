@@ -8,7 +8,8 @@
 
 #import "AppDelegate.h"
 #import "Acquirer.h"
-#import "VersionService.h"
+#import "PostbeService.h"
+#import "AcquirerService.h"
 
 #import "LoginViewController.h"
 #import "TransHomeViewController.h"
@@ -23,7 +24,6 @@
 - (void)dealloc
 {
     [_window release];
-    [vs release];
     
     [loginNavi release];
     [transNavi release];
@@ -84,8 +84,8 @@
     
     [Acquirer initializeAcquirer];
 
-    vs = [[VersionService alloc] init];
-    [vs requestForVersionCheck];
+    [[AcquirerService sharedInstance].postbeService requestForUID];
+    [[AcquirerService sharedInstance].postbeService requestForVersionCheck];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

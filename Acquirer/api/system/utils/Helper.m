@@ -133,6 +133,10 @@
  */
 +(NSString *)md5_16:(NSString *)str
 {
+    if ([Helper stringNullOrEmpty:str]) {
+        return @"";
+    }
+    
     const char *cstr = [str UTF8String];
     unsigned char result[16];
     CC_MD5(cstr, strlen(cstr), result);

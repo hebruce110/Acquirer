@@ -55,13 +55,7 @@
 }
 
 -(void) processMTPRespCode:(AcquirerCPRequest *)req{
-    NSDictionary *body = (NSDictionary *) req.responseAsJson;
     
-    if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02206")) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"当日请求已超过三次，请隔日再尝试"
-                                                                     notifyType:NOTIFICATION_TYPE_WARNING];
-        [self restoreMessageSend];
-    }
 }
 
 @end

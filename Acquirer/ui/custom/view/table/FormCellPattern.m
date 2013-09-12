@@ -31,6 +31,7 @@
     [super dealloc];
 }
 
+//default configuration param
 -(id)init{
     self = [super init];
     if (self != nil) {
