@@ -21,13 +21,16 @@
 
 @implementation ActivateViewController
 
-@synthesize bgScrollView, activateTableView, submitBtn;
+@synthesize bgScrollView, wrongMobileLabel;
+@synthesize activateTableView, submitBtn;
 @synthesize msgBtn, msgTimer;
 @synthesize CTRLType;
 @synthesize pnrDevIdSTR, mobileSTR;
 
 -(void)dealloc{
     [bgScrollView release];
+    [wrongMobileLabel release];
+    
     [activateTableView release];
     [submitBtn release];
     
@@ -77,7 +80,7 @@
         pattern.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
         pattern.secure = [[secureList objectAtIndex:i] boolValue];
         pattern.maxLength = [[maxLengthList objectAtIndex:i] integerValue];
-        pattern.scrollOffset = CGPointMake(0, 160);
+        pattern.scrollOffset = CGPointMake(0, 150);
         [patternList addObject:pattern];
     }
 }
@@ -133,12 +136,16 @@
     mobileLabel.text = [NSString stringWithFormat:@"手机号：%@", blurMobileSTR];
     [self.contentView addSubview:mobileLabel];
     
+    wrongMobileLabel = nil;
     if (CTRLType == ACTIVATE_VALIIDENTITY) {
-        UILabel *reviseMobileLabel = [[[UILabel alloc] init] autorelease];
-        reviseMobileLabel.font = [UIFont systemFontOfSize:16];
-        reviseMobileLabel.textColor = [UIColor blueColor];
-        reviseMobileLabel.backgroundColor = [UIColor clearColor];
-        
+        self.wrongMobileLabel = [[[UILabel alloc] init] autorelease];
+        wrongMobileLabel.frame = CGRectMake(190, 0, 120, 20);
+        wrongMobileLabel.center = CGPointMake(wrongMobileLabel.center.x, mobileLabel.center.y);
+        wrongMobileLabel.font = [UIFont systemFontOfSize:17];
+        wrongMobileLabel.textColor = [Helper hexStringToColor:@"#1b538d"];
+        wrongMobileLabel.backgroundColor = [UIColor clearColor];
+        wrongMobileLabel.text = @"手机号码不对？";
+        [self.contentView addSubview:wrongMobileLabel];
     }
     
     CGRect hintFrame = CGRectMake(20, frameHeighOffset(mobileFrame)+VERTICAL_PADDING-5, 280, 25);
@@ -236,6 +243,15 @@
 }
 
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
+    if (CTRLType == ACTIVATE_VALIIDENTITY && self.wrongMobileLabel){
+        CGPoint pointOfBg = [sender locationInView:self.bgImageView];
+        CGPoint pointOfWrongMobile = [self.wrongMobileLabel convertPoint:pointOfBg fromView:self.bgImageView];
+        if (CGRectContainsPoint(wrongMobileLabel.bounds, pointOfWrongMobile)) {
+            
+            return;
+        }
+    }
+    
     for (FormTableCell *cell in [self.activateTableView visibleCells]) {
         [cell.textField resignFirstResponder];
     }
@@ -290,23 +306,28 @@
     NSString *confirmPassSTR = ((FormTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
     
     if ([Helper stringNullOrEmpty:msgCode]) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"短信激活码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"短信激活码为空，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }
     
     if ([Helper stringNullOrEmpty:passSTR]) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }
     
     if ([Helper stringNullOrEmpty:passSTR]) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }else if ([passSTR length] < 6){
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码长度不能小于６位" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码长度不能小于６位"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }else if (![passSTR isEqualToString:confirmPassSTR]){
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"输入密码不一致，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"输入密码不一致，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }
     

@@ -28,6 +28,8 @@ typedef enum{
 
 @interface ActivateViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>{
     UIScrollView *bgScrollView;
+    UILabel *wrongMobileLabel;
+    
     FormTableView *activateTableView;
     UIButton *submitBtn;
     
@@ -40,11 +42,15 @@ typedef enum{
     int downCount;
     
     ActivateType CTRLType;
+    
     NSString *pnrDevIdSTR;
     NSString *mobileSTR;
 }
 
 @property (nonatomic, retain) UIScrollView *bgScrollView;
+
+@property (nonatomic, retain) UILabel *wrongMobileLabel;
+
 @property (nonatomic, retain) FormTableView *activateTableView;
 @property (nonatomic, retain) UIButton *submitBtn;
 

@@ -7,6 +7,7 @@
 //
 
 #import "ValiIdentityViewController.h"
+#import "ActivateViewController.h"
 #import "FormCellPattern.h"
 #import "FormTableCell.h"
 
@@ -198,12 +199,20 @@
         return;
     }else if ([authCodeSTR length] != 4){
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"验证码为４位，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
     }
-
     
+    [[AcquirerService sharedInstance].valiService onRespondTarget:self];
+    [[AcquirerService sharedInstance].valiService requestForValidateIdentity:posOrderIdSTR withAuthCode:authCodeSTR];
 }
 
 -(void)pushToActivateViewController:(NSString *)mobileSTR{
+    NSString *pnrDevIdSTR = ((FormTableCell *)[[posOrderTableView visibleCells] objectAtIndex:0]).textField.text;
+    
+    ActivateViewController *valiCTRL = [[[ActivateViewController alloc] init] autorelease];
+    valiCTRL.mobileSTR = mobileSTR;
+    valiCTRL.pnrDevIdSTR = pnrDevIdSTR;
+    [self.navigationController pushViewController:valiCTRL animated:YES];
     
 }
 

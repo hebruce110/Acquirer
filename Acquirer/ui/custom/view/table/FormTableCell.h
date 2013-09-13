@@ -14,11 +14,13 @@
 @interface FormTableCell : UITableViewCell <UITextFieldDelegate>{
     BaseViewController *CTRLdelegate;
     
+    //标题
     UILabel *titleLabel;
+    //输入框
     UITextField *textField;
-    
+    //最大输入长度
     int maxLEN;
-    
+    //偏移量
     CGPoint offset;
 }
 

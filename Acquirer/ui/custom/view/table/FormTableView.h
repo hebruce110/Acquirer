@@ -12,6 +12,7 @@
 @class BaseViewController;
 
 @interface FormTableView : UITableView{
+    //代理类
     FormTableDelegate *delegateFT;
 }
 

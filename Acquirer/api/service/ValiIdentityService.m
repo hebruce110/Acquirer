@@ -49,7 +49,7 @@
 }
 
 -(void)requestForValidateIdentity:(NSString *)pnrDevId withAuthCode:(NSString *)authCode{
-    [[Acquirer sharedInstance] showUIPromptMessage:@"" animated:YES];
+    [[Acquirer sharedInstance] showUIPromptMessage:@"验证中..." animated:YES];
     
     NSString* url = [NSString stringWithFormat:@"/user/validateAuthCode"];
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
@@ -64,9 +64,15 @@
 }
 
 -(void)valiIdentityRequestDidFinished:(AcquirerCPRequest *)req{
-    NSDictionary *dict = (NSDictionary *)req.responseAsJson;
+    NSDictionary *body = (NSDictionary *)req.responseAsJson;
     
-    
+    if (NotNil(body, @"mobile")) {
+        NSString *mobileSTR = [body objectForKey:@"mobile"];
+        
+        if (target && [target respondsToSelector:@selector(pushToActivateViewController:)]) {
+            [target performSelector:@selector(pushToActivateViewController:) withObject:mobileSTR];
+        }
+    }
 }
 
 @end
