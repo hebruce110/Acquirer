@@ -52,6 +52,8 @@ CGFloat frameHeighOffset(CGRect rect);
 -(void)setNavigationTitle:(NSString *)title;
 -(NSString *)controllerName;
 
+-(void)popToRootViewController;
+
 /**
  跟踪用户行为，获取View的Id号
  @returns 返回跟踪View的Id号

@@ -75,4 +75,49 @@
     }
 }
 
+-(void)requestForNewMobile:(NSString *)mobileSTR withPNRDevId:(NSString *)pnrDevIdSTR{
+    [[Acquirer sharedInstance] showUIPromptMessage:@"提交中..." animated:YES];
+    
+    NSString* url = [NSString stringWithFormat:@"/user/getNewMobile"];
+    
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
+    [dict setValue:pnrDevIdSTR forKey:@"pnrDevId"];
+    [dict setValue:mobileSTR forKey:@"mobile"];
+    [dict setValue:[self oprateTime] forKey:@"operTime"];
+    [dict setValue:@"" forKey:@"checkValue"];
+    [dict setValue:[Acquirer UID] forKey:@"uid"];
+    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
+    [dict setValue:@"00000002" forKey:@"functionId"];
+    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+    
+    NSLog(@"%@", dict);
+    
+    AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
+    [acReq onRespondTarget:self selector:@selector(newMobileRequestDidFinished:)];
+    [acReq execute];
+}
+
+-(void)newMobileRequestDidFinished:(AcquirerCPRequest *)req{
+    NSDictionary *body = (NSDictionary *)req.responseAsJson;
+    
+    if (NotNilAndEqualsTo(body, @"isSucc", @"1")) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"提交成功，感谢您的反馈，我们将尽快和您联系！"
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"确定", nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+#pragma mark UIAlertViewDelegate Method
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        if (target && [target respondsToSelector:@selector(popToRootViewController)]) {
+            [target performSelector:@selector(popToRootViewController)];
+        }
+    }
+}
+
 @end

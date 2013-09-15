@@ -12,6 +12,7 @@
 #import "FormCellPattern.h"
 #import "FormTableView.h"
 #import "FormTableCell.h"
+#import "ReviseMobileViewController.h"
 
 #define DOWN_COUNT_VALUE 60
 
@@ -247,6 +248,10 @@
         CGPoint pointOfBg = [sender locationInView:self.bgImageView];
         CGPoint pointOfWrongMobile = [self.wrongMobileLabel convertPoint:pointOfBg fromView:self.bgImageView];
         if (CGRectContainsPoint(wrongMobileLabel.bounds, pointOfWrongMobile)) {
+            
+            ReviseMobileViewController *reviseCTRL = [[[ReviseMobileViewController alloc] init] autorelease];
+            reviseCTRL.pnrDevIdSTR = pnrDevIdSTR;
+            [self.navigationController pushViewController:reviseCTRL animated:YES];
             
             return;
         }

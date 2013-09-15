@@ -8,10 +8,12 @@
 
 #import "BaseService.h"
 
-@interface ValiIdentityService : BaseService
+@interface ValiIdentityService : BaseService<UIAlertViewDelegate>
 
 -(void)requestForAuthImgURL;
 
 -(void)requestForValidateIdentity:(NSString *)pnrDevId withAuthCode:(NSString *)authCode;
+
+-(void)requestForNewMobile:(NSString *)mobileSTR withPNRDevId:(NSString *)pnrDevIdSTR;
 
 @end

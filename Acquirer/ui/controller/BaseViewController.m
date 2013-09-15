@@ -185,6 +185,10 @@ CGFloat frameHeighOffset(CGRect rect){
     }
 }
 
+-(void)popToRootViewController{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 -(NSString *)controllerName
 {
     return NSStringFromClass([self class]);
