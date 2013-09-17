@@ -24,7 +24,7 @@ static Acquirer *sInstance = nil;
 
 @synthesize uiPromptHUD, sysPromptHUD;
 @synthesize codedescMap, currentUser;
-@synthesize configVersion;
+@synthesize codeCSVVersion;
 @synthesize uidSTR;
 
 -(void)dealloc{
@@ -33,8 +33,6 @@ static Acquirer *sInstance = nil;
     
     [codedescMap release];
     [currentUser release];
-    
-    [configVersion release];
     
     [uidSTR release];
     [super dealloc];
@@ -83,8 +81,13 @@ static Acquirer *sInstance = nil;
     [Settings sharedInstance];
     [AcquirerService sharedInstance];
     
+    //初始化code.csv版本
+    [instance initCodeCSVVersion];
+    //拷贝code.csv文件到Documents目录
     [instance copyConfigFileToDocuments];
-    [instance parseCodeDescFile];
+    
+    //解析MTP服务端返回码对应的描述文字
+    [instance parseReturnCodeDescFile];
     
     //initialize app startup nsuserdefault settings
     [Helper saveValue:ACQUIRER_DEFAULT_VALUE forKey:ACQUIRER_LOCAL_SESSION_KEY];
@@ -138,6 +141,16 @@ static Acquirer *sInstance = nil;
     return NO;
 }
 
+//初始化code.csv版本
+-(void)initCodeCSVVersion{
+    NSString *codeCSVSTR = [Helper getValueByKey:CODE_CSV_VERSION];
+    if ([Helper stringNullOrEmpty:codeCSVSTR]) {
+        codeCSVVersion = -1;
+    }else{
+        codeCSVVersion = [codeCSVSTR intValue];
+    }
+}
+
 //Set global PosMini request
 -(void)performRequest:(ASIHTTPRequest *)req
 {
@@ -174,6 +187,7 @@ static Acquirer *sInstance = nil;
     [[[UIApplication sharedApplication] keyWindow].rootViewController presentViewController:loginNavi animated:YES completion:NULL];
 }
 
+//拷贝文件到documents目录下
 -(void)copyConfigFileToDocuments{
 
     NSString *srcPath = [[NSBundle mainBundle] pathForResource:@"code" ofType:@"csv"];
@@ -194,7 +208,13 @@ static Acquirer *sInstance = nil;
     }
 }
 
--(void)parseCodeDescFile{
+//解析服务端下载的code.csv文件
+-(void)parseCodeCSVFile{
+    
+}
+
+//解析MTP服务端返回码对应的描述文字
+-(void)parseReturnCodeDescFile{
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RespCodeDesc" ofType:@"geojson"];
     NSString* content = [NSString stringWithContentsOfFile:path
                                                   encoding:NSUTF8StringEncoding
@@ -318,46 +338,20 @@ static Acquirer *sInstance = nil;
     if (uiPromptHUD == nil)
     {
         self.uiPromptHUD = [MBProgressHUD showHUDAddedTo:window animated:YES];
-        [window bringSubviewToFront:sysPromptHUD];
-        uiPromptHUD.tag = MBPHUD_UI_PROMPT_TAG;
-        uiPromptHUD.delegate = self;
+        [window bringSubviewToFront:uiPromptHUD];
         uiPromptHUD.mode = MBProgressHUDModeIndeterminate;
-        uiPromptHUD.removeFromSuperViewOnHide = NO;
         [uiPromptHUD show:animated];
     }
+    
     uiPromptHUD.labelText = message;
 }
 
 //隐藏loading消息
 -(void) hideUIPromptMessage:(BOOL)animated
 {
-    if (uiPromptHUD)
-    {
-        [uiPromptHUD hide:animated];
-    }
+    [uiPromptHUD hide:animated];
+    self.uiPromptHUD = nil;
 }
-
-#pragma mark -
-#pragma mark MBProgressHUDDelegate methods
-
-//clean up HUD object
-- (void)hudWasHidden:(MBProgressHUD *)hud
-{
-	// Remove HUD from screen when the HUD was hidded
-    switch (hud.tag) {
-        case MBPHUD_UI_PROMPT_TAG:
-            [uiPromptHUD removeFromSuperview];
-            self.uiPromptHUD = nil;
-            break;
-            
-        case MBPHUD_SYS_PROMPT_TAG:
-            [sysPromptHUD removeFromSuperview];
-            self.sysPromptHUD = nil;
-            break;
-    }
-}
-
-
 
 -(void)applicationWillTerminate:(NSNotification *)notification{
 	[Acquirer shutdown];

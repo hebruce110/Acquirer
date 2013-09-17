@@ -30,6 +30,8 @@
 }
 
 -(void)authImgURLRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:NO];
+    
     NSDictionary *body = (NSDictionary *)req.responseAsJson;
     
     if (NotNil(body, @"imgName")) {
@@ -64,6 +66,8 @@
 }
 
 -(void)valiIdentityRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
     NSDictionary *body = (NSDictionary *)req.responseAsJson;
     
     if (NotNil(body, @"mobile")) {
@@ -98,6 +102,8 @@
 }
 
 -(void)newMobileRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
     NSDictionary *body = (NSDictionary *)req.responseAsJson;
     
     if (NotNilAndEqualsTo(body, @"isSucc", @"1")) {

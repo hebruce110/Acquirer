@@ -478,14 +478,14 @@ static void buildRoot(id<ArgBuilder> builder, NSDictionary *body)
         [mResponseJSON onResponseJSON:mResponseAsJSON withResponseCode:mRequest.responseStatusCode];
     }
     else{
+        [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"服务器返回状态异常" notifyType:NOTIFICATION_TYPE_WARNING];
     }
 	
 	// we're done here
 	self.request = nil;
-    
-    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
 }
 
 //默认的requestFailed,便于移植

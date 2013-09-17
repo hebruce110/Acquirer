@@ -28,6 +28,12 @@
 //定义每次启动弹出登录页面标志
 #define ACQUIRER_LAUNCH_LOGIN_FLAG @"ACQUIRER_LAUNCH_LOGIN_FLAG"
 
+//登录机构号
+#define ACQUIRER_LOGIN_INSTITUTE @"ACQUIRER_LOGIN_INSTITUTE"
+//登录操作员号
+#define ACQUIRER_LOGIN_OPERATOR @"ACQUIRER_LOGIN_OPERATOR"
+
+
 //==================================================
 //MTP Server
 //==================================================

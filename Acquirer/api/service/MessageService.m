@@ -38,6 +38,8 @@
 }
 
 -(void)messageRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
     NSDictionary *body = (NSDictionary *) req.responseAsJson;
     
     if (NotNilAndEqualsTo(body, @"isSucc", @"1")) {
@@ -52,10 +54,6 @@
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"短消发送失败,请稍后再试"
                                                                      notifyType:NOTIFICATION_TYPE_WARNING];
     }
-}
-
--(void) processMTPRespCode:(AcquirerCPRequest *)req{
-    
 }
 
 @end

@@ -21,7 +21,7 @@
     ACUser *currentUser;
     
     //配置文件code.csv版本号
-    NSString *configVersion;
+    int codeCSVVersion;
     
     NSString *uidSTR;
 }
@@ -33,7 +33,8 @@
 
 @property (nonatomic, retain) ACUser *currentUser;
 
-@property (nonatomic, copy) NSString *configVersion;
+@property (nonatomic, assign) int codeCSVVersion;
+
 @property (nonatomic, copy) NSString *uidSTR;
 
 +(Acquirer *)sharedInstance;
@@ -58,11 +59,17 @@
 //用户登录
 - (void)presentLoginViewController:(NSNotification *)notification;
 
+//初始化code.csv版本
+-(void)initCodeCSVVersion;
+
 //拷贝code.csv配置文件到Documents目录
 -(void)copyConfigFileToDocuments;
 
-//解析code-desc映射文件
--(void)parseCodeDescFile;
+//解析MTP服务端返回码对应的描述文字
+-(void)parseReturnCodeDescFile;
+
+//解析服务端下载的code.csv文件
+-(void)parseCodeCSVFile;
 
 //状态码描述
 -(NSString *)respDesc:(NSString *)codeSTR;
