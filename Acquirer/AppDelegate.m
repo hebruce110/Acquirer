@@ -63,6 +63,9 @@
     if (loginFlagSTR && [loginFlagSTR isEqualToString:NSSTRING_YES]) {
         self.window.rootViewController = transNavi;
         
+        //show loading view
+        [self.window bringSubviewToFront:[Acquirer sharedInstance].uiPromptHUD];
+        
         cpTabBar = [[CPTabBar alloc] initWithFrame:CGRectMake(0, self.window.rootViewController.view.frame.size.height-DEFAULT_TAB_BAR_HEIGHT, self.window.frame.size.width, DEFAULT_TAB_BAR_HEIGHT)] ;
         cpTabBar.delegate = self;
         [cpTabBar setTabSelected:0];

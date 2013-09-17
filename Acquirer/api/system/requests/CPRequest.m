@@ -480,7 +480,6 @@ static void buildRoot(id<ArgBuilder> builder, NSDictionary *body)
     else{
         [[Acquirer sharedInstance] hideUIPromptMessage:YES];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"服务器返回状态异常" notifyType:NOTIFICATION_TYPE_WARNING];
     }
 	
@@ -496,8 +495,6 @@ static void buildRoot(id<ArgBuilder> builder, NSDictionary *body)
     NSLog(@"%@", description);
     
     NSLog(@"网络异常　url:%@", request.url);
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_HIDE_UI_PROMPT object:nil];
     
     [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"网络连接失败"];
 }

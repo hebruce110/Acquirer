@@ -340,9 +340,9 @@ static Acquirer *sInstance = nil;
         self.uiPromptHUD = [MBProgressHUD showHUDAddedTo:window animated:YES];
         [window bringSubviewToFront:uiPromptHUD];
         uiPromptHUD.mode = MBProgressHUDModeIndeterminate;
-        [uiPromptHUD show:animated];
     }
     
+    [uiPromptHUD show:animated];
     uiPromptHUD.labelText = message;
 }
 
