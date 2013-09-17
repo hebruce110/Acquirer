@@ -13,6 +13,8 @@
     NSString *titleSTR;
     //默认提示字符串
     NSString *placeHolderSTR;
+    //预留的UITextField值
+    NSString *textSTR;
     
     //标题字体
     UIFont *titleFont;
@@ -43,6 +45,7 @@
 
 @property (nonatomic, copy) NSString *titleSTR;
 @property (nonatomic, copy) NSString *placeHolderSTR;
+@property (nonatomic, copy) NSString *textSTR;
 
 @property (nonatomic, retain) UIFont *titleFont;
 @property (nonatomic, retain) UIColor *titleColor;

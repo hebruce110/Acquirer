@@ -11,7 +11,7 @@
 
 @implementation FormCellPattern
 
-@synthesize titleSTR, placeHolderSTR;
+@synthesize titleSTR, placeHolderSTR, textSTR;
 @synthesize titleFont, titleColor, titleAlignment;
 @synthesize textFont;
 @synthesize keyboardType, returnKeyType;
@@ -22,6 +22,7 @@
 -(void)dealloc{
     [titleSTR release];
     [placeHolderSTR release];
+    [textSTR release];
     
     [titleColor release];
     [titleFont release];
@@ -37,6 +38,7 @@
     if (self != nil) {
         titleSTR = [[NSString stringWithFormat:@""] retain];
         placeHolderSTR = [[NSString stringWithFormat:@""] retain];
+        textSTR = [[NSString stringWithFormat:@""] retain];
         
         titleFont = [[UIFont systemFontOfSize:16] retain];
         titleColor = [[UIColor blackColor] retain];

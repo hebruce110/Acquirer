@@ -77,6 +77,7 @@
     textField.font = pattern.textFont;
     textField.keyboardType = pattern.keyboardType;
     textField.returnKeyType = pattern.returnKeyType;
+    textField.text = pattern.textSTR;
     
     if (pattern.secure) {
         textField.secureTextEntry = YES;

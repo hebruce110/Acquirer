@@ -50,6 +50,14 @@
 -(void)setUpFormCellPatternList{
     NSArray *titleList = [NSArray arrayWithObjects:@"机  构  号　|", @"操作员号　|", @"密　　码　|", nil];
     NSArray *placeHolderList = [NSArray arrayWithObjects:@"请输入机构号", @"请输入操作员号", @"请输入密码", nil];
+    
+    NSString *instSTR = [Helper getValueByKey:ACQUIRER_LOGIN_INSTITUTE];
+    instSTR = [Helper stringNullOrEmpty:instSTR] ? @"" : instSTR;
+    NSString *operatorSTR = [Helper getValueByKey:ACQUIRER_LOGIN_OPERATOR];
+    operatorSTR = [Helper stringNullOrEmpty:operatorSTR] ? @"" : operatorSTR;
+    NSString *passSTR = @"";
+    
+    NSArray *textList = [NSArray arrayWithObjects:instSTR, operatorSTR, passSTR, nil];
     NSArray *keyboardTypeList = [NSArray arrayWithObjects:[NSNumber numberWithInt:UIKeyboardTypeNumberPad],
                                                           [NSNumber numberWithInt:UIKeyboardTypeAlphabet],
                                                           [NSNumber numberWithInt:UIKeyboardTypeAlphabet],nil];
@@ -64,6 +72,7 @@
         FormCellPattern *pattern = [[[FormCellPattern alloc] init] autorelease];
         pattern.titleSTR = [titleList objectAtIndex:i];
         pattern.placeHolderSTR = [placeHolderList objectAtIndex:i];
+        pattern.textSTR = [textList objectAtIndex:i];
         pattern.titleColor = [UIColor grayColor];
         pattern.titleFont = [UIFont boldSystemFontOfSize:16];
         pattern.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];

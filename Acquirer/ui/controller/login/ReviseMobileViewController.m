@@ -110,9 +110,14 @@
 }
 
 -(void)submit:(id)sender{
-    //check
     
     NSString *newMobileSTR = ((FormTableCell *)[[self.mobileTableView visibleCells] objectAtIndex:0]).textField.text;
+    
+    //check 
+    if ([Helper stringNullOrEmpty:newMobileSTR] || newMobileSTR.length!=11) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"手机号格式有误，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
+    }
     
     [[AcquirerService sharedInstance].valiService onRespondTarget:self];
     [[AcquirerService sharedInstance].valiService requestForNewMobile:newMobileSTR withPNRDevId:pnrDevIdSTR];

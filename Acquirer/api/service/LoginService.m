@@ -73,14 +73,19 @@
         usr.state = USER_STATE_ALREADY_ACTIVATED;
         usr.opratorNameSTR = [body objectForKey:@"operName"];
         usr.mobileSTR = [body objectForKey:@"mobile"];
-        
         [usr deepCopyDevList:[body objectForKey:@"devIdList"]];
         
+        //记住机构号和操作员号
+        [Helper saveValue:usr.instSTR forKey:ACQUIRER_LOGIN_INSTITUTE];
+        [Helper saveValue:usr.opratorSTR forKey:ACQUIRER_LOGIN_OPERATOR];
+        
         [(AppDelegate *)[UIApplication sharedApplication].delegate loginSucceed];
+        
+    }else{
+        //清空机构号和操作员号
+        [Helper saveValue:@"" forKey:ACQUIRER_LOGIN_INSTITUTE];
+        [Helper saveValue:@"" forKey:ACQUIRER_LOGIN_OPERATOR];
     }
-}
-
--(void)processMTPRespCode:(AcquirerCPRequest *)req{
 }
 
 @end
