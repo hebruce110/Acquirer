@@ -8,6 +8,13 @@
 
 #import "BaseViewController.h"
 
-@interface TransHomeViewController : BaseViewController
+@interface TransHomeViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>{
+    NSArray *imageList;
+    NSArray *titleList;
+    
+    UITableView *tradeTableView;
+}
+
+@property (nonatomic, retain) UITableView *tradeTableView;
 
 @end

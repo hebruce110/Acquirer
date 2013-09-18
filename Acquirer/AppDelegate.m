@@ -84,10 +84,18 @@
 
 - (void)changeToIndex:(int)index
 {
-    [cpTabBar removeFromSuperview];
+    static int curIndex = 0;
+    
     CPNavigationController *cpNavi = [naviArray objectAtIndex:index];
-    self.window.rootViewController = cpNavi;
-    [self.window.rootViewController.view addSubview:cpTabBar];
+    
+    if (index != curIndex) {
+        [cpTabBar removeFromSuperview];
+        self.window.rootViewController = cpNavi;
+        [self.window.rootViewController.view addSubview:cpTabBar];
+        curIndex = index;
+    }else{
+        [cpNavi popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)performApplicationStartUpLogic{

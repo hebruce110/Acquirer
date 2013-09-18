@@ -33,6 +33,7 @@
             if (codeVersion > [Acquirer sharedInstance].codeCSVVersion) {
                 [self requestForDownloadCodeCSV];
             }else{
+                [[Acquirer sharedInstance] parseCodeCSVFile];
                 [[Acquirer sharedInstance] hideUIPromptMessage:YES];
             }
         }
@@ -57,12 +58,13 @@
 }
 
 -(void)codeCSVDwonloadDidFinished:(ASIHTTPRequest *)req{
-    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
-    
+
     [Acquirer sharedInstance].codeCSVVersion = codeVersion;
     [Helper saveValue:[NSString stringWithFormat:@"%d", codeVersion] forKey:CODE_CSV_VERSION];
     
+    [[Acquirer sharedInstance] parseCodeCSVFile];
     
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
 }
 
 @end

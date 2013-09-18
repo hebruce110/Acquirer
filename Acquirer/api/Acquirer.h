@@ -22,6 +22,7 @@
     
     //配置文件code.csv版本号
     int codeCSVVersion;
+    NSMutableArray *codeList;
     
     NSString *uidSTR;
 }
@@ -76,6 +77,18 @@
 
 @end
 
+
+@interface CodeInfo : NSObject{
+    NSString *codeTypeSTR;
+    NSString *codeNumSTR;
+    NSString *codeDesc;
+}
+
+@property (nonatomic, copy) NSString *codeTypeSTR;
+@property (nonatomic, copy) NSString *codeNumSTR;
+@property (nonatomic, copy) NSString *codeDesc;
+
+@end
 
 
 

@@ -28,6 +28,8 @@ static Acquirer *sInstance = nil;
 @synthesize uidSTR;
 
 -(void)dealloc{
+    [codeList release];
+    
     [uiPromptHUD release];
     [sysPromptHUD release];
     
@@ -44,6 +46,8 @@ static Acquirer *sInstance = nil;
         uiPromptHUD = nil;
         sysPromptHUD = nil;
         currentUser = nil;
+        
+        codeList = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -210,6 +214,51 @@ static Acquirer *sInstance = nil;
 
 //解析服务端下载的code.csv文件
 -(void)parseCodeCSVFile{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *destPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"code.csv"];
+    
+    NSError *error = nil;
+    NSString *codeCSVSTR = [NSString stringWithContentsOfFile:destPath encoding:NSUTF8StringEncoding error:&error];
+    NSLog(@"%@", codeCSVSTR);
+    
+    if (error) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:[error description] notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    if (![Helper stringNullOrEmpty:codeCSVSTR]) {
+        //清空所有code对应信息
+        [codeList removeAllObjects];
+        
+        NSArray *lines = [codeCSVSTR componentsSeparatedByString:@"\n"];
+        for (NSString *line in lines) {
+            //空白行不做处理
+            if ([Helper stringNullOrEmpty:line]) {
+                continue;
+            }
+            
+            CodeInfo *codeInfo = [[[CodeInfo alloc] init] autorelease];
+            
+            NSCharacterSet *splitCharSet = [NSCharacterSet characterSetWithCharactersInString:@",，"];
+            
+            NSRange typeRange = [line rangeOfCharacterFromSet:splitCharSet];
+            NSString *typeSTR = [line substringWithRange:NSMakeRange(0, typeRange.location)];
+            codeInfo.codeTypeSTR = typeSTR;
+            
+            line = [line substringFromIndex:typeRange.location+1];
+            NSRange codeRange = [line rangeOfCharacterFromSet:splitCharSet];
+            NSString *codeSTR = [line substringWithRange:NSMakeRange(0, codeRange.location)];
+            codeInfo.codeNumSTR = codeSTR;
+            
+            NSString *descSTR = [line substringFromIndex:codeRange.location+1];
+            codeInfo.codeDesc = descSTR;
+        
+            [codeList addObject:codeInfo];
+        }
+    }else{
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"code.csv文件解析错误，请联系客服"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
+    }
     
 }
 
@@ -360,7 +409,19 @@ static Acquirer *sInstance = nil;
 
 @end
 
+@implementation CodeInfo
 
+@synthesize codeTypeSTR, codeNumSTR, codeDesc;
+
+-(void)dealloc{
+    [codeTypeSTR release];
+    [codeNumSTR release];
+    [codeDesc release];
+    
+    [super dealloc];
+}
+
+@end
 
 
 
