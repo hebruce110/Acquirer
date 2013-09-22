@@ -12,6 +12,15 @@
 
 @class ASIHTTPRequest;
 
+typedef enum _AcquirerLoginReason {
+    //session超时
+    LoginSessionTimeOut = 0,
+    //每次启动应用
+    LoginAppLunchEachTime,
+    //用户手动点击退出
+    LoginManuallyLogOut
+} AcquirerLoginReason;
+
 @interface Acquirer : NSObject <MBProgressHUDDelegate>{
     MBProgressHUD *uiPromptHUD;
     MBProgressHUD *sysPromptHUD;
@@ -25,6 +34,9 @@
     NSMutableArray *codeList;
     
     NSString *uidSTR;
+    
+    //到登录页面的原因
+    AcquirerLoginReason logReason;
 }
 
 @property (nonatomic, retain) MBProgressHUD *uiPromptHUD;
@@ -37,6 +49,8 @@
 @property (nonatomic, assign) int codeCSVVersion;
 
 @property (nonatomic, copy) NSString *uidSTR;
+
+@property (nonatomic, assign) AcquirerLoginReason logReason;
 
 +(Acquirer *)sharedInstance;
 +(void)destroySharedInstance;

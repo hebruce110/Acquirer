@@ -55,12 +55,12 @@
     [self.window makeKeyAndVisible];
 }
 
-//只有第一次启动应用，用户完成登录，做　self.window.rootViewController = transNavi;
-//其他情况：session超时或手动点击登出，做　dismissModalViewControllerAnimated
+//第一次启动应用或手动点退出登录, 做　self.window.rootViewController = transNavi;
+//其他情况:session超时, 做　dismissModalViewControllerAnimated
 -(void) loginSucceed{
-    NSString *loginFlagSTR = [Helper getValueByKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
-    //第一次启动应用后完成登录
-    if (loginFlagSTR && [loginFlagSTR isEqualToString:NSSTRING_YES]) {
+    //第一次启动应用或手动退出登录
+    NSLog(@"%d", [Acquirer sharedInstance].logReason);
+    if ([Acquirer sharedInstance].logReason) {
         self.window.rootViewController = transNavi;
         
         //show loading view
@@ -70,8 +70,6 @@
         cpTabBar.delegate = self;
         [cpTabBar setTabSelected:0];
         [self.window.rootViewController.view addSubview:cpTabBar];
-        
-        [Helper saveValue:NSSTRING_NO forKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
         
         //做code.csv版本检查工作
         [[AcquirerService sharedInstance].codeCSVService requestForCodeCSVVersion];
@@ -102,8 +100,8 @@
     [self initializeUI];
     
     [Acquirer initializeAcquirer];
-
-    [[AcquirerService sharedInstance].postbeService requestForUID];
+    
+    [Acquirer UID];
     [[AcquirerService sharedInstance].postbeService requestForVersionCheck];
 }
 

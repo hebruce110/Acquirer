@@ -32,6 +32,23 @@
     NSLog(@"%@", description);
     
     NSLog(@"网络异常　url:%@", acReq.request.url);
+    
+    [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:description
+                                                                 notifyType:NOTIFICATION_TYPE_WARNING];
+}
+
+//ASIHTTPRequest failure callback
+//use asihttprequest
+- (void) asiRequestDidFailed:(ASIHTTPRequest *)req{
+    
+    NSError *error = [req error];
+    NSString *description = [error localizedDescription];
+    NSLog(@"%@", description);
+    
+    NSLog(@"网络异常　url:%@", req.url);
+    
+    [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"请求UID超时，请稍后再试"
+                                                                 notifyType:NOTIFICATION_TYPE_WARNING];
 }
 
 //默认提示超时
@@ -52,9 +69,16 @@
 */
 
 -(NSString *)oprateTime{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     return [dateFormatter stringFromDate:[NSDate date]];
+}
+
+//format as yyyymmdd
+-(NSString *)formatAsYMD:(NSDate *) date{
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
+    return [dateFormatter stringFromDate:date];
 }
 
 @end

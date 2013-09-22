@@ -7,6 +7,7 @@
 //
 
 #import "Acquirer.h"
+#import "CPRequest.h"
 #import "AcquirerCPRequest.h"
 #import "DeviceIntrospection.h"
 #import "Settings.h"
@@ -26,6 +27,7 @@ static Acquirer *sInstance = nil;
 @synthesize codedescMap, currentUser;
 @synthesize codeCSVVersion;
 @synthesize uidSTR;
+@synthesize logReason;
 
 -(void)dealloc{
     [codeList release];
@@ -37,6 +39,7 @@ static Acquirer *sInstance = nil;
     [currentUser release];
     
     [uidSTR release];
+    
     [super dealloc];
 }
 
@@ -95,7 +98,8 @@ static Acquirer *sInstance = nil;
     
     //initialize app startup nsuserdefault settings
     [Helper saveValue:ACQUIRER_DEFAULT_VALUE forKey:ACQUIRER_LOCAL_SESSION_KEY];
-    [Helper saveValue:NSSTRING_YES forKey:ACQUIRER_LAUNCH_LOGIN_FLAG];
+    //设置登录原因为每次应用启动
+    instance.logReason = LoginAppLunchEachTime;
     
     [[NSNotificationCenter defaultCenter] addObserver:instance
                                              selector:@selector(presentLoginViewController:)
@@ -164,6 +168,36 @@ static Acquirer *sInstance = nil;
             [(ASIFormDataRequest *)req setPostBodyFormat:ASIURLEncodedPostJSONFormat];
         }
     }
+    //set CHINAPNR json get
+    
+    if (req && [req.requestMethod isEqualToString:@"GET"]) {
+        NSString *path = [NSString stringWithFormat:@"%@://%@%@", req.url.scheme, req.url.host, req.url.path];
+        
+        NSMutableString *querySTR = [NSMutableString stringWithString:@""];
+        
+        NSArray *paramList = [req.url.query componentsSeparatedByString:@"&"];
+        NSUInteger i = 0;
+        NSUInteger count = [paramList count]-1;
+        [querySTR appendString:@"jsonStr={"];
+        for (NSString *param in paramList)
+        {
+            NSArray *kv = [param componentsSeparatedByString:@"="];
+            NSString *paramSTR = [NSString stringWithFormat:@"\"%@\":\"%@\"%@",
+                                  [kv objectAtIndex:0], [kv objectAtIndex:1],(i<count ?  @"," : @"")];
+            [querySTR appendString:paramSTR];
+            i++;
+        }
+        [querySTR appendString:@"}"];
+        
+        //NSURL expects URLString to contain any necessary percent escape codes, which are ‘:’, ‘/’, ‘%’, ‘#’, ‘;’, and ‘@’. 
+        NSString *encodedQuerySTR = [(NSString*)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)querySTR,
+                                                                                        NULL, CFSTR(":/%#;@"), kCFStringEncodingUTF8) autorelease];
+        
+        NSString *urlSTR = [NSString stringWithFormat:@"%@?%@", path, encodedQuerySTR];
+        NSURL *newUrl = [NSURL URLWithString:urlSTR];
+        [req setURL:newUrl];
+    }
+    
     
     //construct seession cookie
     //NSHTTPCookiePath and NSHTTPCookieDomain is required, or NSHTTPCookie will return nil
@@ -185,6 +219,7 @@ static Acquirer *sInstance = nil;
 
 //用户重新登录
 - (void)presentLoginViewController:(NSNotification *)notification{
+    self.logReason = LoginSessionTimeOut;
     LoginViewController *loginCTRL = [[[LoginViewController alloc] init] autorelease];
     CPNavigationController *loginNavi = [[[CPNavigationController alloc] initWithRootViewController:loginCTRL] autorelease];
     loginNavi.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

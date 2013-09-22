@@ -13,6 +13,8 @@
     NSArray *titleList;
     
     UITableView *tradeTableView;
+    
+    NSArray *classList;
 }
 
 @property (nonatomic, retain) UITableView *tradeTableView;

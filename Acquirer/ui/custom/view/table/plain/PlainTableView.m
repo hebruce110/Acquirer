@@ -10,9 +10,8 @@
 
 @implementation PlainTableView
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+-(id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
+    self = [super initWithFrame:frame style:style];
     if (self) {
         delegatePT = [[PlainTableDelegate alloc] init];
         self.delegate = delegatePT;

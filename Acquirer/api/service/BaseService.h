@@ -31,4 +31,9 @@
  */
 -(NSString *)oprateTime;
 
+/*
+ 格式化为YYYYMMDD格式
+ */
+-(NSString *)formatAsYMD:(NSDate *) date;
+
 @end

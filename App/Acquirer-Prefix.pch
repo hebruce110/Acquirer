@@ -17,7 +17,7 @@
 #define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
 #define CPSafeRelease(ocObject) [ocObject release]; ocObject = nil;
 
-
+#define CHINAPNR_REQUEST_FORMAT
 #define HOST_URL @"http://test.chinapnr.com/psm/pmsc/"
 
 //#define HOST_URL @"https://mas.chinapnr.com/pmscNew/"

@@ -19,6 +19,7 @@
     
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlSTR]];
     [req setDidFinishSelector:@selector(codeCSVVersionDidFinished:)];
+    [req setDidFailSelector:@selector(asiRequestDidFailed:)];
     req.delegate = self;
     [req startAsynchronous];
 }
@@ -53,6 +54,7 @@
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlSTR]];
     [req setDownloadDestinationPath:destPath];
     [req setDidFinishSelector:@selector(codeCSVDwonloadDidFinished:)];
+    [req setDidFailSelector:@selector(asiRequestDidFailed:)];
     req.delegate = self;
     [req startAsynchronous];
 }

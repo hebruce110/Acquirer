@@ -39,7 +39,9 @@
     NSString *url = [NSString stringWithFormat:@"%@?%@", host, param];
     
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [req setTimeOutSeconds:60];
     [req setDidFinishSelector:@selector(UIDRequestDidFinished:)];
+    [req setDidFailSelector:@selector(asiRequestDidFailed:)];
     req.delegate = self;
     [req startAsynchronous];
 }
@@ -69,6 +71,7 @@
     
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:URL];
     [req setDidFinishSelector:@selector(versionRequestDidFinished:)];
+    [req setDidFailSelector:@selector(asiRequestDidFailed:)];
     req.delegate = self;
     [req startAsynchronous];
 }

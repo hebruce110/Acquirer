@@ -59,7 +59,7 @@
 		8B09999B17E9941C001430AA /* PlainTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09999A17E9941B001430AA /* PlainTableDelegate.m */; };
 		8B09999E17E99770001430AA /* PlainTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B09999D17E9976F001430AA /* PlainTableCell.m */; };
 		8B0999A117E9A8AF001430AA /* PlainContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0999A017E9A8AE001430AA /* PlainContent.m */; };
-		8B0999A417E9AC23001430AA /* TradeTGatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0999A317E9AC22001430AA /* TradeTGatherViewController.m */; };
+		8B0999A417E9AC23001430AA /* TradeTSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0999A317E9AC22001430AA /* TradeTSummaryViewController.m */; };
 		8B15ED1617CC72AE00975AA9 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1517CC72AE00975AA9 /* Helper.m */; };
 		8B15ED1A17CC879F00975AA9 /* Acquirer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B15ED1917CC879F00975AA9 /* Acquirer.m */; };
 		8B31045117CEF3C800764F7B /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31045017CEF3C800764F7B /* TestViewController.m */; };
@@ -134,6 +134,7 @@
 		8BB6A70E17CB3DFF00C71279 /* CPNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70717CB3DFF00C71279 /* CPNavigationController.m */; };
 		8BB6A70F17CB3DFF00C71279 /* CPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70A17CB3DFF00C71279 /* CPTabBar.m */; };
 		8BB6A71017CB3DFF00C71279 /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */; };
+		8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -206,8 +207,8 @@
 		8B09999D17E9976F001430AA /* PlainTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTableCell.m; sourceTree = "<group>"; };
 		8B09999F17E9A8AC001430AA /* PlainContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainContent.h; sourceTree = "<group>"; };
 		8B0999A017E9A8AE001430AA /* PlainContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainContent.m; sourceTree = "<group>"; };
-		8B0999A217E9AC22001430AA /* TradeTGatherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTGatherViewController.h; sourceTree = "<group>"; };
-		8B0999A317E9AC22001430AA /* TradeTGatherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeTGatherViewController.m; sourceTree = "<group>"; };
+		8B0999A217E9AC22001430AA /* TradeTSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTSummaryViewController.h; sourceTree = "<group>"; };
+		8B0999A317E9AC22001430AA /* TradeTSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeTSummaryViewController.m; sourceTree = "<group>"; };
 		8B15ED1417CC72AE00975AA9 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		8B15ED1517CC72AE00975AA9 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 		8B15ED1817CC879F00975AA9 /* Acquirer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Acquirer.h; sourceTree = "<group>"; };
@@ -327,6 +328,8 @@
 		8BB6A70B17CB3DFF00C71279 /* CPTabBarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTabBarDelegate.h; sourceTree = "<group>"; };
 		8BB6A70C17CB3DFF00C71279 /* CustomTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextView.h; sourceTree = "<group>"; };
 		8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextView.m; sourceTree = "<group>"; };
+		8BEAFF9817EE99EC0080A8F5 /* SummaryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryService.h; sourceTree = "<group>"; };
+		8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -526,6 +529,8 @@
 				8B09996B17E15025001430AA /* ValiIdentityService.m */,
 				8B09997017E83DC1001430AA /* CodeCSVService.h */,
 				8B09997117E83DC4001430AA /* CodeCSVService.m */,
+				8BEAFF9817EE99EC0080A8F5 /* SummaryService.h */,
+				8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -772,8 +777,8 @@
 			children = (
 				8B31047F17D6CA9B00764F7B /* TransHomeViewController.h */,
 				8B31048017D6CA9B00764F7B /* TransHomeViewController.m */,
-				8B0999A217E9AC22001430AA /* TradeTGatherViewController.h */,
-				8B0999A317E9AC22001430AA /* TradeTGatherViewController.m */,
+				8B0999A217E9AC22001430AA /* TradeTSummaryViewController.h */,
+				8B0999A317E9AC22001430AA /* TradeTSummaryViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -1019,7 +1024,8 @@
 				8B09999B17E9941C001430AA /* PlainTableDelegate.m in Sources */,
 				8B09999E17E99770001430AA /* PlainTableCell.m in Sources */,
 				8B0999A117E9A8AF001430AA /* PlainContent.m in Sources */,
-				8B0999A417E9AC23001430AA /* TradeTGatherViewController.m in Sources */,
+				8B0999A417E9AC23001430AA /* TradeTSummaryViewController.m in Sources */,
+				8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

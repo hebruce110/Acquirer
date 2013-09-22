@@ -70,9 +70,14 @@
 @end
 
 //uri编码
-static NSString *uriEncode(NSString *str)
+NSString *uriEncode(NSString *str)
 {
     return [(NSString*)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR(":/?#[]@!$&’()*+,;="), kCFStringEncodingUTF8) autorelease];
+}
+
+//uri解码
+NSString *uriDecode(NSString *str){
+    return [(NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)str, CFSTR(""), kCFStringEncodingUTF8) autorelease];
 }
 
 @protocol ArgBuilder

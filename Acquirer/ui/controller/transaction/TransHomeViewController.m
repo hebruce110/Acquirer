@@ -7,6 +7,7 @@
 //
 
 #import "TransHomeViewController.h"
+#import "TradeTSummaryViewController.h"
 
 @interface TransHomeViewController ()
 
@@ -22,6 +23,7 @@
     [imageList release];
     [titleList release];
     
+    [classList release];
     [super dealloc];
 }
 
@@ -37,6 +39,8 @@
                                                 @"今日刷卡明细",
                                                 @"结算管理",
                                                 @"历史刷卡汇总", nil] retain];
+        
+        classList = [[NSArray arrayWithObjects: [TradeTSummaryViewController class], nil] retain];
     }
     return self;
 }
@@ -82,16 +86,18 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    Class ViewController = [classList objectAtIndex:indexPath.row];
+    BaseViewController *CTRL = [[[ViewController alloc] init] autorelease];
+    [self.navigationController pushViewController:CTRL animated:YES];
+}
+
 #pragma mark UITableViewDelegate Method
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return DEFAULT_ROW_HEIGHT;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    
 }
 
 @end

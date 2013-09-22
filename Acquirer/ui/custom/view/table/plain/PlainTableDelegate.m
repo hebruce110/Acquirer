@@ -39,7 +39,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     PlainContent *content = [[plainList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.titleLabel.text = content.textSTR;
+    cell.titleLabel.text = content.titleSTR;
     cell.textLabel.text = content.textSTR;
     
     return cell;

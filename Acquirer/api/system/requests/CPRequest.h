@@ -11,6 +11,15 @@
 #define DEFAULT_TIME_OUT_SECONDS 30
 #define DEFAULT_NUMBER_TO_RETRY_ON_TIME_OUT 0
 
+//used for get 
+typedef enum _ASIQueryFormat{
+    QueryTypeGeneralFormat,
+    QueryTypeJSONSTRFormat
+} ASIQueryFormat;
+
+NSString *uriEncode(NSString *str);
+NSString *uriDecode(NSString *str);
+
 @class CPRequest, ASIHTTPRequest;
 
 @protocol CPResponseText <NSObject>
