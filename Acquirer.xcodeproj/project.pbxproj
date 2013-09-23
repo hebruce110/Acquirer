@@ -80,7 +80,7 @@
 		8B31047C17D6C63800764F7B /* bg-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B31047917D6C63800764F7B /* bg-568h@2x.png */; };
 		8B31047D17D6C63800764F7B /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B31047A17D6C63800764F7B /* bg.png */; };
 		8B31047E17D6C63800764F7B /* bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B31047B17D6C63800764F7B /* bg@2x.png */; };
-		8B31048117D6CA9B00764F7B /* TransHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31048017D6CA9B00764F7B /* TransHomeViewController.m */; };
+		8B31048117D6CA9B00764F7B /* TradeHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31048017D6CA9B00764F7B /* TradeHomeViewController.m */; };
 		8B31048417D6CAB100764F7B /* HelpHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31048317D6CAB100764F7B /* HelpHomeViewController.m */; };
 		8B31048717D6CD0600764F7B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31048617D6CD0600764F7B /* LoginViewController.m */; };
 		8B31048F17D6D76500764F7B /* menu-bg-hover.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B31048917D6D76500764F7B /* menu-bg-hover.png */; };
@@ -135,6 +135,11 @@
 		8BB6A70F17CB3DFF00C71279 /* CPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70A17CB3DFF00C71279 /* CPTabBar.m */; };
 		8BB6A71017CB3DFF00C71279 /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */; };
 		8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */; };
+		8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */; };
+		8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9E17EFDF8D0080A8F5 /* nav-btn.png */; };
+		8BEAFFA117EFDF8D0080A8F5 /* nav-btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9F17EFDF8D0080A8F5 /* nav-btn@2x.png */; };
+		8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFFA417F022900080A8F5 /* DetailContent.m */; };
+		8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFFA717F022BF0080A8F5 /* DetailTableCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -234,8 +239,8 @@
 		8B31047917D6C63800764F7B /* bg-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-568h@2x.png"; sourceTree = "<group>"; };
 		8B31047A17D6C63800764F7B /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		8B31047B17D6C63800764F7B /* bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg@2x.png"; sourceTree = "<group>"; };
-		8B31047F17D6CA9B00764F7B /* TransHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransHomeViewController.h; sourceTree = "<group>"; };
-		8B31048017D6CA9B00764F7B /* TransHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransHomeViewController.m; sourceTree = "<group>"; };
+		8B31047F17D6CA9B00764F7B /* TradeHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeHomeViewController.h; sourceTree = "<group>"; };
+		8B31048017D6CA9B00764F7B /* TradeHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeHomeViewController.m; sourceTree = "<group>"; };
 		8B31048217D6CAB100764F7B /* HelpHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpHomeViewController.h; sourceTree = "<group>"; };
 		8B31048317D6CAB100764F7B /* HelpHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpHomeViewController.m; sourceTree = "<group>"; };
 		8B31048517D6CD0600764F7B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -330,6 +335,14 @@
 		8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextView.m; sourceTree = "<group>"; };
 		8BEAFF9817EE99EC0080A8F5 /* SummaryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryService.h; sourceTree = "<group>"; };
 		8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryService.m; sourceTree = "<group>"; };
+		8BEAFF9B17EFDDCE0080A8F5 /* TradeTDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTDetailViewController.h; sourceTree = "<group>"; };
+		8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeTDetailViewController.m; sourceTree = "<group>"; };
+		8BEAFF9E17EFDF8D0080A8F5 /* nav-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-btn.png"; sourceTree = "<group>"; };
+		8BEAFF9F17EFDF8D0080A8F5 /* nav-btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-btn@2x.png"; sourceTree = "<group>"; };
+		8BEAFFA317F022900080A8F5 /* DetailContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailContent.h; sourceTree = "<group>"; };
+		8BEAFFA417F022900080A8F5 /* DetailContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailContent.m; sourceTree = "<group>"; };
+		8BEAFFA617F022BF0080A8F5 /* DetailTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableCell.h; sourceTree = "<group>"; };
+		8BEAFFA717F022BF0080A8F5 /* DetailTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +370,7 @@
 			children = (
 				8B09998817E9924B001430AA /* form */,
 				8B09999517E99366001430AA /* plain */,
+				8BEAFFA217F0226B0080A8F5 /* detail */,
 			);
 			path = table;
 			sourceTree = "<group>";
@@ -477,6 +491,8 @@
 			children = (
 				8B09994F17DD6735001430AA /* back.png */,
 				8B09995017DD6735001430AA /* back@2x.png */,
+				8BEAFF9E17EFDF8D0080A8F5 /* nav-btn.png */,
+				8BEAFF9F17EFDF8D0080A8F5 /* nav-btn@2x.png */,
 				8B31048917D6D76500764F7B /* menu-bg-hover.png */,
 				8B31048A17D6D76500764F7B /* menu-bg-hover@2x.png */,
 				8B31048B17D6D76500764F7B /* menu-bg.png */,
@@ -775,10 +791,12 @@
 		8BB6A6F317CAF64900C71279 /* transaction */ = {
 			isa = PBXGroup;
 			children = (
-				8B31047F17D6CA9B00764F7B /* TransHomeViewController.h */,
-				8B31048017D6CA9B00764F7B /* TransHomeViewController.m */,
+				8B31047F17D6CA9B00764F7B /* TradeHomeViewController.h */,
+				8B31048017D6CA9B00764F7B /* TradeHomeViewController.m */,
 				8B0999A217E9AC22001430AA /* TradeTSummaryViewController.h */,
 				8B0999A317E9AC22001430AA /* TradeTSummaryViewController.m */,
+				8BEAFF9B17EFDDCE0080A8F5 /* TradeTDetailViewController.h */,
+				8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -844,6 +862,17 @@
 				8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		8BEAFFA217F0226B0080A8F5 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				8BEAFFA317F022900080A8F5 /* DetailContent.h */,
+				8BEAFFA417F022900080A8F5 /* DetailContent.m */,
+				8BEAFFA617F022BF0080A8F5 /* DetailTableCell.h */,
+				8BEAFFA717F022BF0080A8F5 /* DetailTableCell.m */,
+			);
+			path = detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -961,6 +990,8 @@
 				8B09998517E9710F001430AA /* tradetodaygather@2x.png in Resources */,
 				8B09998617E9710F001430AA /* tradetodaylist.png in Resources */,
 				8B09998717E9710F001430AA /* tradetodaylist@2x.png in Resources */,
+				8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */,
+				8BEAFFA117EFDF8D0080A8F5 /* nav-btn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1004,7 +1035,7 @@
 				8B15ED1A17CC879F00975AA9 /* Acquirer.m in Sources */,
 				8B31045117CEF3C800764F7B /* TestViewController.m in Sources */,
 				8B31047717D5A49000764F7B /* PostbeService.m in Sources */,
-				8B31048117D6CA9B00764F7B /* TransHomeViewController.m in Sources */,
+				8B31048117D6CA9B00764F7B /* TradeHomeViewController.m in Sources */,
 				8B31048417D6CAB100764F7B /* HelpHomeViewController.m in Sources */,
 				8B31048717D6CD0600764F7B /* LoginViewController.m in Sources */,
 				8B09993217D86147001430AA /* AcquirerService.m in Sources */,
@@ -1026,6 +1057,9 @@
 				8B0999A117E9A8AF001430AA /* PlainContent.m in Sources */,
 				8B0999A417E9AC23001430AA /* TradeTSummaryViewController.m in Sources */,
 				8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */,
+				8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */,
+				8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */,
+				8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

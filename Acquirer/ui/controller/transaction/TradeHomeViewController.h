@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface TransHomeViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>{
+@interface TradeHomeViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>{
     NSArray *imageList;
     NSArray *titleList;
     

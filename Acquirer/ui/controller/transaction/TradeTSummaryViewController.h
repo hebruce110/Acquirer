@@ -17,7 +17,6 @@
 @property (nonatomic, retain) PlainTableView *summaryTV;
 @property (nonatomic, readonly) NSMutableArray *summaryList;
 
--(void)refreshSummaryTableView;
 -(void)processSummaryData:(NSDictionary *)dict;
 
 @end

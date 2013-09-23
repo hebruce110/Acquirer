@@ -50,7 +50,7 @@
     
     NSDictionary *dict = (NSDictionary *) req.responseAsJson;
     if (target && [target respondsToSelector:@selector(processSummaryData:)]) {
-        [target performSelector:@selector(processSummaryData) withObject:dict];
+        [target performSelector:@selector(processSummaryData:) withObject:dict];
     }
 }
 

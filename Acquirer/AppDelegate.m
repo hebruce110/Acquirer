@@ -12,7 +12,7 @@
 #import "AcquirerService.h"
 
 #import "LoginViewController.h"
-#import "TransHomeViewController.h"
+#import "TradeHomeViewController.h"
 #import "HelpHomeViewController.h"
 
 #import "TestViewController.h"
@@ -42,7 +42,7 @@
     LoginViewController *loginCTRL = [[LoginViewController alloc] init];
     loginNavi = [[CPNavigationController alloc] initWithRootViewController:loginCTRL];
     
-    TransHomeViewController *transCTRL = [[[TransHomeViewController alloc] init] autorelease];
+    TradeHomeViewController *transCTRL = [[[TradeHomeViewController alloc] init] autorelease];
     transNavi = [[CPNavigationController alloc] initWithRootViewController:transCTRL];
     
     HelpHomeViewController *helpCTRL = [[[HelpHomeViewController alloc] init] autorelease];
@@ -55,8 +55,8 @@
     [self.window makeKeyAndVisible];
 }
 
-//第一次启动应用或手动点退出登录, 做　self.window.rootViewController = transNavi;
-//其他情况:session超时, 做　dismissModalViewControllerAnimated
+//第一次启动应用或手动点退出登录,  做　self.window.rootViewController = transNavi;
+//其他情况:session超时,          做　dismissModalViewControllerAnimated
 -(void) loginSucceed{
     //第一次启动应用或手动退出登录
     NSLog(@"%d", [Acquirer sharedInstance].logReason);
@@ -66,7 +66,7 @@
         //show loading view
         [self.window bringSubviewToFront:[Acquirer sharedInstance].uiPromptHUD];
         
-        cpTabBar = [[CPTabBar alloc] initWithFrame:CGRectMake(0, self.window.rootViewController.view.frame.size.height-DEFAULT_TAB_BAR_HEIGHT, self.window.frame.size.width, DEFAULT_TAB_BAR_HEIGHT)] ;
+        self.cpTabBar = [[[CPTabBar alloc] initWithFrame:CGRectMake(0, self.window.rootViewController.view.frame.size.height-DEFAULT_TAB_BAR_HEIGHT, self.window.frame.size.width, DEFAULT_TAB_BAR_HEIGHT)] autorelease];
         cpTabBar.delegate = self;
         [cpTabBar setTabSelected:0];
         [self.window.rootViewController.view addSubview:cpTabBar];

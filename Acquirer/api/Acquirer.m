@@ -168,11 +168,11 @@ static Acquirer *sInstance = nil;
             [(ASIFormDataRequest *)req setPostBodyFormat:ASIURLEncodedPostJSONFormat];
         }
     }
-    //set CHINAPNR json get
     
+    //set CHINAPNR json get
     if (req && [req.requestMethod isEqualToString:@"GET"]) {
         NSString *path = [NSString stringWithFormat:@"%@://%@%@", req.url.scheme, req.url.host, req.url.path];
-        
+
         NSMutableString *querySTR = [NSMutableString stringWithString:@""];
         
         NSArray *paramList = [req.url.query componentsSeparatedByString:@"&"];
@@ -189,10 +189,13 @@ static Acquirer *sInstance = nil;
         }
         [querySTR appendString:@"}"];
         
-        //NSURL expects URLString to contain any necessary percent escape codes, which are ‘:’, ‘/’, ‘%’, ‘#’, ‘;’, and ‘@’. 
+        /*
+         NSURL expects URLString to contain any necessary percent escape codes, which are ‘:’, ‘/’, ‘%’, ‘#’, ‘;’, and ‘@’.
+         The characters escaped are all characters that are not legal URL characters(based on RFC 3986),
+         plus any characters in legalURLCharactersToBeEscaped, less any characters in charactersToLeaveUnescaped.
+         */
         NSString *encodedQuerySTR = [(NSString*)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)querySTR,
-                                                                                        NULL, CFSTR(":/%#;@"), kCFStringEncodingUTF8) autorelease];
-        
+                                                                                        NULL, NULL, kCFStringEncodingUTF8) autorelease];
         NSString *urlSTR = [NSString stringWithFormat:@"%@?%@", path, encodedQuerySTR];
         NSURL *newUrl = [NSURL URLWithString:urlSTR];
         [req setURL:newUrl];
@@ -300,9 +303,10 @@ static Acquirer *sInstance = nil;
 //解析MTP服务端返回码对应的描述文字
 -(void)parseReturnCodeDescFile{
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RespCodeDesc" ofType:@"geojson"];
+    NSError *err = NULL;
     NSString* content = [NSString stringWithContentsOfFile:path
                                                   encoding:NSUTF8StringEncoding
-                                                     error:NULL];
+                                                     error:&err];
     codedescMap = [[content JSONValue] retain];    
 }
 

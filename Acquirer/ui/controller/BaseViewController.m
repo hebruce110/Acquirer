@@ -21,7 +21,7 @@ CGFloat frameHeighOffset(CGRect rect){
 
 @synthesize bgImageView, contentView;
 @synthesize naviBgView, naviTitleLabel, naviBackBtn;
-@synthesize isShowNaviBar, isShowTabBar;
+@synthesize isShowNaviBar, isShowRefreshBtn, isShowTabBar;
 
 -(void)dealloc{
     [bgImageView release];
@@ -39,7 +39,7 @@ CGFloat frameHeighOffset(CGRect rect){
     if (self=[super init]) {
         isShowNaviBar = YES;
         isShowTabBar = YES;
-        
+        isShowRefreshBtn = NO;
         self.wantsFullScreenLayout = YES;
     }
     return self;
@@ -97,6 +97,20 @@ CGFloat frameHeighOffset(CGRect rect){
         backBtnLogo.frame = CGRectMake(9, 7, 22, 15);
         [naviBackBtn addSubview:backBtnLogo];
         [backBtnLogo release];
+        
+        if (isShowRefreshBtn) {
+            UIImage *refreshImg = [UIImage imageNamed:@"nav-btn.png"];
+            UIButton *refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [refreshBtn setBackgroundImage:[refreshImg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 6, 10, 6)]
+                                  forState:UIControlStateNormal];
+            refreshBtn.frame = CGRectMake(viewWidth-70, 0, 60, 29);
+            refreshBtn.center = CGPointMake(refreshBtn.center.x, CGRectGetMidY(naviBgView.bounds));
+            [refreshBtn setTitle:@"刷新" forState:UIControlStateNormal];
+            [refreshBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            refreshBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+            [refreshBtn addTarget:self action:@selector(pressRefreshBtn:) forControlEvents:UIControlEventTouchUpInside];
+            [self.naviBgView addSubview:refreshBtn];
+        }
         
         naviBackBtn.hidden = YES;
         
@@ -183,6 +197,14 @@ CGFloat frameHeighOffset(CGRect rect){
     if (self.navigationController.viewControllers.count>1) {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+-(void)pressRefreshBtn:(id)sender{
+    [self refreshCurrentTableView];
+}
+
+-(void)refreshCurrentTableView{
+    //do nothing here
 }
 
 -(void)popToRootViewController{

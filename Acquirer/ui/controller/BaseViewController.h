@@ -33,6 +33,7 @@ CGFloat frameHeighOffset(CGRect rect);
     
     //导航栏, TabBar
     BOOL isShowNaviBar;
+    BOOL isShowRefreshBtn;
     BOOL isShowTabBar;
 }
 
@@ -44,15 +45,19 @@ CGFloat frameHeighOffset(CGRect rect);
 
 @property (nonatomic, retain) UIView *contentView;
 
+@property (nonatomic, assign) BOOL isShowRefreshBtn;
 @property (nonatomic, assign) BOOL isShowNaviBar;
 @property (nonatomic, assign) BOOL isShowTabBar;
 
 -(void) hideBackButton;
 -(void)backToPreviousView:(id)sender;
 -(void)setNavigationTitle:(NSString *)title;
+
 -(NSString *)controllerName;
 
 -(void)popToRootViewController;
+
+-(void)refreshCurrentTableView;
 
 /**
  跟踪用户行为，获取View的Id号

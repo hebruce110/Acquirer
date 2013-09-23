@@ -60,7 +60,6 @@
 }
 
 -(void)codeCSVDwonloadDidFinished:(ASIHTTPRequest *)req{
-
     [Acquirer sharedInstance].codeCSVVersion = codeVersion;
     [Helper saveValue:[NSString stringWithFormat:@"%d", codeVersion] forKey:CODE_CSV_VERSION];
     

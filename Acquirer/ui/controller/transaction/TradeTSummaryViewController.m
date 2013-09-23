@@ -23,12 +23,13 @@
 -(id)init{
     self = [super init];
     if (self) {
+        isShowRefreshBtn = YES;
         summaryList = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
--(void)setUpGatherList{
+-(void)setUpSummaryList{
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
     [summaryList removeAllObjects];
@@ -59,7 +60,7 @@
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeight = self.contentView.bounds.size.height;
     
-    [self setUpGatherList];
+    [self setUpSummaryList];
 
     self.summaryTV = [[[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight)
                                                      style:UITableViewStyleGrouped] autorelease];
@@ -77,6 +78,10 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
+    [self refreshCurrentTableView];
+}
+
+-(void)refreshCurrentTableView{
     NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateFormat:@"yyyyMMdd"];
     NSString *curDateSTR = [dateFormatter stringFromDate:[NSDate date]];
@@ -85,10 +90,6 @@
                                                           withPnrDevId:@"00000000"
                                                               fromDate:curDateSTR
                                                                 toDate:curDateSTR];
-}
-
--(void)refreshSummaryTableView{
-    [self.summaryTV reloadData];
 }
 
 //处理汇总数据
@@ -114,7 +115,7 @@
     ((PlainContent *)[sectionThree objectAtIndex:4]).textSTR = [dict objectForKey:@"totalXrAmt"];
     ((PlainContent *)[sectionThree objectAtIndex:5]).textSTR = [dict objectForKey:@"totalXrCnt"];
     
-    [self refreshSummaryTableView];
+    [self.summaryTV reloadData];
 }
 
 @end

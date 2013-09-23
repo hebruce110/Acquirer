@@ -6,14 +6,15 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "TransHomeViewController.h"
+#import "TradeHomeViewController.h"
 #import "TradeTSummaryViewController.h"
+#import "TradeTDetailViewController.h"
 
-@interface TransHomeViewController ()
+@interface TradeHomeViewController ()
 
 @end
 
-@implementation TransHomeViewController
+@implementation TradeHomeViewController
 
 @synthesize tradeTableView;
 
@@ -40,7 +41,8 @@
                                                 @"结算管理",
                                                 @"历史刷卡汇总", nil] retain];
         
-        classList = [[NSArray arrayWithObjects: [TradeTSummaryViewController class], nil] retain];
+        classList = [[NSArray arrayWithObjects: TradeTSummaryViewController.class,
+                                                TradeTDetailViewController.class, nil] retain];
     }
     return self;
 }

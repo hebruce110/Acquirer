@@ -26,7 +26,7 @@
 @property (readonly, nonatomic) CPNavigationController *loginNavi;
 @property (readonly, nonatomic) CPNavigationController *transNavi;
 @property (readonly, nonatomic) CPNavigationController *helpNavi;
-@property (readonly, nonatomic) CPTabBar *cpTabBar;
+@property (retain, nonatomic) CPTabBar *cpTabBar;
 
 -(void) loginSucceed;
 
