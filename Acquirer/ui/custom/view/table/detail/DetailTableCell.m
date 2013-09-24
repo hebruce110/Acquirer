@@ -10,13 +10,13 @@
 
 @implementation DetailTableCell
 
-@synthesize bankCardLabel, swipeTimeLabel;
-@synthesize expenseLabel, tradeTypeLabel, tradeStatLabel;
+@synthesize bankCardLabel, tradeTimeLabel;
+@synthesize tradeAmtLabel, tradeTypeLabel, tradeStatLabel;
 
 -(void)dealloc{
     [bankCardLabel release];
-    [swipeTimeLabel release];
-    [expenseLabel release];
+    [tradeTimeLabel release];
+    [tradeAmtLabel release];
     [tradeTypeLabel release];
     [tradeStatLabel release];
     [super dealloc];
@@ -26,42 +26,43 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        CGFloat leftOffset = 10;
-        CGFloat rightOffset = 20;
+        CGFloat leftOffset = 30;
+        CGFloat rightOffset = 40;
         
-        bankCardLabel = [[[UILabel alloc] init] autorelease];
+        bankCardLabel = [[UILabel alloc] init] ;
         bankCardLabel.frame = CGRectMake(leftOffset, 5, 120, 20);
         bankCardLabel.textAlignment = UITextAlignmentLeft;
-        bankCardLabel.font = [UIFont systemFontOfSize:14];
+        bankCardLabel.font = [UIFont systemFontOfSize:15];
         bankCardLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:bankCardLabel];
         
-        swipeTimeLabel = [[[UILabel alloc] init] autorelease];
-        swipeTimeLabel.frame = CGRectMake(leftOffset, 25, 120, 20);
-        swipeTimeLabel.font = [UIFont systemFontOfSize:12];
-        swipeTimeLabel.textAlignment = UITextAlignmentLeft;
-        swipeTimeLabel.textColor = [UIColor darkGrayColor];
-        swipeTimeLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:swipeTimeLabel];
+        tradeTimeLabel = [[UILabel alloc] init];
+        tradeTimeLabel.frame = CGRectMake(leftOffset, 25, 120, 20);
+        tradeTimeLabel.font = [UIFont systemFontOfSize:13];
+        tradeTimeLabel.textAlignment = UITextAlignmentLeft;
+        tradeTimeLabel.textColor = [UIColor darkGrayColor];
+        tradeTimeLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:tradeTimeLabel];
         
-        expenseLabel = [[[UILabel alloc] init] autorelease];
-        expenseLabel.frame = CGRectMake(self.bounds.size.width-100-rightOffset, 5, 100, 20);
-        expenseLabel.font = [UIFont boldSystemFontOfSize:14];
-        expenseLabel.textAlignment = UITextAlignmentRight;
-        expenseLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:expenseLabel];
+        tradeAmtLabel = [[UILabel alloc] init];
+        tradeAmtLabel.frame = CGRectMake(self.bounds.size.width-100-rightOffset, 5, 100, 20);
+        tradeAmtLabel.font = [UIFont boldSystemFontOfSize:15];
+        tradeAmtLabel.textAlignment = UITextAlignmentRight;
+        tradeAmtLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:tradeAmtLabel];
         
-        tradeTypeLabel = [[[UILabel alloc] init] autorelease];
-        tradeStatLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-70, 25, 30, 20);
-        tradeStatLabel.font = [UIFont systemFontOfSize:14];
-        tradeStatLabel.textColor = [UIColor darkGrayColor];
-        tradeStatLabel.textAlignment = UITextAlignmentLeft;
-        tradeStatLabel.backgroundColor = [UIColor clearColor];
+        tradeTypeLabel = [[UILabel alloc] init];
+        tradeTypeLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-60, 25, 20, 20);
+        tradeTypeLabel.font = [UIFont systemFontOfSize:14];
+        tradeTypeLabel.textColor = [UIColor darkGrayColor];
+        tradeTypeLabel.textAlignment = UITextAlignmentLeft;
+        tradeTypeLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:tradeTypeLabel];
         
-        tradeStatLabel = [[[UILabel alloc] init] autorelease];
-        tradeStatLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-30, 25, 30, 20);
+        tradeStatLabel = [[UILabel alloc] init];
+        tradeStatLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-30, 25, 20, 20);
         tradeStatLabel.font = [UIFont boldSystemFontOfSize:14];
+        tradeStatLabel.textColor = [UIColor redColor];
         tradeStatLabel.textAlignment = UITextAlignmentRight;
         tradeStatLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:tradeStatLabel];

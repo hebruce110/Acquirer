@@ -38,8 +38,6 @@
     
     [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
     
-    NSLog(@"%@", dict);
-    
     AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
     [acReq onRespondTarget:self selector:@selector(tradySummaryRequestDidFinished:)];
     [acReq execute];

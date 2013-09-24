@@ -12,6 +12,7 @@
 #import "DeviceIntrospection.h"
 #import "ACUser.h"
 #import "AppDelegate.h"
+#import "ASIHTTPRequest.h"
 
 @implementation LoginService
 
@@ -34,6 +35,9 @@
     [dict setValue:[[DeviceIntrospection sharedInstance] platformName] forKey:@"platform"];
     
     AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
+    
+    NSLog(@"%@", acReq.request.url.absoluteString);
+    
     [acReq onRespondTarget:self selector:@selector(loginRequestDidFinished:)];
     [acReq execute];
 }

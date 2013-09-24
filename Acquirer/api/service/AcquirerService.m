@@ -19,6 +19,7 @@ static AcquirerService *sInstance = nil;
 
 @synthesize postbeService, logService, msgService;
 @synthesize valiService, codeCSVService, sumService;
+@synthesize detailService;
 
 -(id)init{
     self = [super init];
@@ -29,6 +30,7 @@ static AcquirerService *sInstance = nil;
         valiService = [[ValiIdentityService alloc] init];
         codeCSVService = [[CodeCSVService alloc] init];
         sumService = [[SummaryService alloc] init];
+        detailService = [[DetailService alloc] init];
     }
     return self;
 }
@@ -40,6 +42,7 @@ static AcquirerService *sInstance = nil;
     [valiService release];
     [codeCSVService release];
     [sumService release];
+    [detailService release];
     [super dealloc];
 }
 

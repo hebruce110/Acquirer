@@ -44,7 +44,7 @@
         titleColor = [[UIColor blackColor] retain];
         titleAlignment = NSTextAlignmentLeft;
         
-        textFont = [[UIFont systemFontOfSize:15] retain];
+        textFont = [[UIFont systemFontOfSize:17] retain];
         
         keyboardType = UIKeyboardTypeAlphabet;
         secure = NO;

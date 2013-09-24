@@ -10,15 +10,15 @@
 
 @interface DetailTableCell : UITableViewCell{
     UILabel *bankCardLabel;
-    UILabel *swipeTimeLabel;
-    UILabel *expenseLabel;
+    UILabel *tradeTimeLabel;
+    UILabel *tradeAmtLabel;
     UILabel *tradeTypeLabel;
     UILabel *tradeStatLabel;
 }
 
 @property (nonatomic, readonly) UILabel *bankCardLabel;
-@property (nonatomic, readonly) UILabel *swipeTimeLabel;
-@property (nonatomic, readonly) UILabel *expenseLabel;
+@property (nonatomic, readonly) UILabel *tradeTimeLabel;
+@property (nonatomic, readonly) UILabel *tradeAmtLabel;
 @property (nonatomic, readonly) UILabel *tradeTypeLabel;
 @property (nonatomic, readonly) UILabel *tradeStatLabel;
 

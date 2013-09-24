@@ -140,6 +140,7 @@
 		8BEAFFA117EFDF8D0080A8F5 /* nav-btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9F17EFDF8D0080A8F5 /* nav-btn@2x.png */; };
 		8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFFA417F022900080A8F5 /* DetailContent.m */; };
 		8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFFA717F022BF0080A8F5 /* DetailTableCell.m */; };
+		8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFFAD17F121F70080A8F5 /* DetailService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -343,6 +344,8 @@
 		8BEAFFA417F022900080A8F5 /* DetailContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailContent.m; sourceTree = "<group>"; };
 		8BEAFFA617F022BF0080A8F5 /* DetailTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableCell.h; sourceTree = "<group>"; };
 		8BEAFFA717F022BF0080A8F5 /* DetailTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableCell.m; sourceTree = "<group>"; };
+		8BEAFFAC17F121F70080A8F5 /* DetailService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailService.h; sourceTree = "<group>"; };
+		8BEAFFAD17F121F70080A8F5 /* DetailService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -547,6 +550,8 @@
 				8B09997117E83DC4001430AA /* CodeCSVService.m */,
 				8BEAFF9817EE99EC0080A8F5 /* SummaryService.h */,
 				8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */,
+				8BEAFFAC17F121F70080A8F5 /* DetailService.h */,
+				8BEAFFAD17F121F70080A8F5 /* DetailService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -1060,6 +1065,7 @@
 				8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */,
 				8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */,
 				8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */,
+				8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

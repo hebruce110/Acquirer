@@ -14,6 +14,7 @@
 #import "PostbeService.h"
 #import "CodeCSVService.h"
 #import "SummaryService.h"
+#import "DetailService.h"
 
 @interface AcquirerService : BaseService{
     PostbeService *postbeService;
@@ -22,6 +23,7 @@
     ValiIdentityService *valiService;
     CodeCSVService *codeCSVService;
     SummaryService *sumService;
+    DetailService *detailService;
 }
 
 @property (nonatomic, readonly) PostbeService *postbeService;
@@ -30,6 +32,7 @@
 @property (nonatomic, readonly) ValiIdentityService *valiService;
 @property (nonatomic, readonly) CodeCSVService *codeCSVService;
 @property (nonatomic, readonly) SummaryService *sumService;
+@property (nonatomic, readonly) DetailService *detailService;
 
 +(AcquirerService *)sharedInstance;
 +(void)destroySharedInstance;

@@ -8,15 +8,22 @@
 
 #import "TradeTDetailViewController.h"
 #import "DetailTableCell.h"
+#import "DetailContent.h"
 
 @implementation TradeTDetailViewController
 
-@synthesize segControl, detailTableView;
+@synthesize segControl, detailTableView, resendFlag;
+@synthesize showMoreLabel, showMoreIndicator;
 
 -(void)dealloc{
     [segControl release];
     [detailTableView release];
     
+    [tradeList release];
+    [resendFlag release];
+    
+    [showMoreLabel release];
+    [showMoreIndicator release];
     [super dealloc];
 }
 
@@ -24,6 +31,9 @@
     self = [super init];
     if (self) {
         isShowRefreshBtn = YES;
+        isShowMore = NO;
+        tradeList = [[NSMutableArray alloc] init];
+        resendFlag = [@"resendisnull" copy];
     }
     return self;
 }
@@ -47,6 +57,7 @@
     [self.contentView addSubview:dateLabel];
     [dateLabel release];
     
+    reqFlagType = Req_Flag_All;
     self.segControl = [[[UISegmentedControl alloc] initWithItems:@[@"全部", @"成功", @"失败"]] autorelease];
     segControl.frame = CGRectMake(60, 40, 200, 30);
     segControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -58,61 +69,170 @@
     
     CGRect detailFrame = CGRectMake(0, 80, self.contentView.bounds.size.width,
                                     self.contentView.bounds.size.height-segControl.frame.origin.y-segControl.frame.size.height-10);
-    self.detailTableView = [[UITableView alloc] initWithFrame:detailFrame style:UITableViewStyleGrouped];
+    self.detailTableView = [[[UITableView alloc] initWithFrame:detailFrame style:UITableViewStyleGrouped] autorelease];
     detailTableView.delegate = self;
     detailTableView.dataSource = self;
+    detailTableView.backgroundColor = [UIColor clearColor];
+    detailTableView.backgroundView = nil;
     [contentView addSubview:detailTableView];
-    
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
+    [self refreshTodayTradeDetail];
+}
+
+-(void)refreshTodayTradeDetail{
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
+    NSString *curDateSTR = [dateFormatter stringFromDate:[NSDate date]];
+    [[AcquirerService sharedInstance].detailService onRespondTarget:self];
+    [[AcquirerService sharedInstance].detailService requestForTradeDetail:Detail_Type_Today
+                                                           withResendFlag:resendFlag
+                                                              withReqFlag:reqFlagType
+                                                               withCardNo:@""
+                                                                  withAmt:@""
+                                                                 fromDate:curDateSTR
+                                                                   toDate:curDateSTR];
 }
 
 -(void)segControlChanged:(id)sender{
     UISegmentedControl *seg = (UISegmentedControl *)sender;
     switch (seg.selectedSegmentIndex) {
         case 0:
-            
+            reqFlagType = Req_Flag_All;
             break;
         case 1:
-            
+            reqFlagType = Req_Flag_Success;
             break;
         case 2:
-            
+            reqFlagType = Req_Flag_Failure;
             break;
         default:
             break;
     }
 }
 
+-(void)processDetailData:(NSDictionary *)body
+{
+    if (NotNil(body, @"Resend")) {
+        self.resendFlag = [body objectForKey:@"resend"];
+    }
+    
+    if (NotNilAndEqualsTo(body, @"endFlag", @"0")) {
+        isShowMore = YES;
+    }else if (NotNilAndEqualsTo(body, @"endFlag", @"1")){
+        isShowMore = NO;
+    }
+    
+    NSArray *ordList = [body objectForKey:@"ordList"];
+    if (ordList==nil || ordList.count==0) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"没有数据" notifyType:NOTIFICATION_TYPE_WARNING];
+    }
+    
+    for (NSDictionary *dict in ordList) {
+        DetailContent *dc = [[[DetailContent alloc] init] autorelease];
+        dc.orderIdSTR = [dict objectForKey:@"ordId"];
+        dc.tradeAmtSTR = [dict objectForKey:@"amt"];
+        dc.tradeTypeSTR = [dict objectForKey:@"transType"];
+        dc.tradeStatSTR = [dict objectForKey:@"transStat"];
+        dc.tradeTimeSTR = [dict objectForKey:@"transTime"];
+        dc.bankCardSTR = [dict objectForKey:@"cardNo"];
+        
+        [tradeList addObject:dc];
+    }
+    
+    [self.detailTableView reloadData];
+}
+
 #pragma mark UITableViewDataSource Method
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    //return [[plainList objectAtIndex:section] count];
+    if (tradeList.count == 0) {
+        return 1;
+    }else{
+        if (isShowMore) {
+            return [tradeList count]+1;
+        }
+        return [tradeList count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"Plain_Identifier";
+    static NSString *identifierDetail = @"Detail_Identifier";
+    static NSString *identifierNoData = @"NoData_Identifier";
+    static NSString *identifierShowMore = @"ShowMore_Identifier";
     
-    DetailTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    if (cell==nil) {
-        cell = [[[DetailTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+    if ([tradeList count] == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierNoData];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierNoData] autorelease];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.textLabel.font = [UIFont systemFontOfSize:16];
+        }
+        cell.textLabel.text = @"没有记录";
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    /*
-    PlainContent *content = [[plainList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.titleLabel.text = content.titleSTR;
-    cell.textLabel.text = content.textSTR;
-    */
+    if (isShowMore && indexPath.row==tradeList.count) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierShowMore];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierShowMore] autorelease];
+            self.showMoreLabel = [[[UILabel alloc] init] autorelease];
+            showMoreLabel.frame = cell.bounds;
+            showMoreLabel.textAlignment = NSTextAlignmentCenter;
+            showMoreLabel.font = [UIFont systemFontOfSize:16];
+            showMoreLabel.tag = 1;
+            [cell addSubview:showMoreLabel];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            self.showMoreIndicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+            showMoreIndicator.center = CGPointMake(100, 22);
+            [cell addSubview:showMoreIndicator];
+            [showMoreIndicator stopAnimating];
+        }
+        ((UILabel *)[cell viewWithTag:1]).text = @"更多";
+        return cell;
+    }
+    
+    DetailTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierDetail];
+    if (cell==nil) {
+        cell = [[[DetailTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierDetail] autorelease];
+    }
+    
+    DetailContent *dc = (DetailContent *)[tradeList objectAtIndex:indexPath.row];
+    cell.bankCardLabel.text = dc.bankCardSTR;
+    cell.tradeTimeLabel.text = dc.tradeTimeSTR;
+    cell.tradeAmtLabel.text = [NSString stringWithFormat:@"%@元", dc.tradeAmtSTR];
+    cell.tradeTypeLabel.text = dc.tradeTypeSTR;
+    
+    if ([dc.tradeStatSTR rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"IS"]].location != NSNotFound) {
+        
+    }
+    cell.tradeStatLabel.text = dc.tradeStatSTR;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
 
 #pragma mark UITableViewDelegate Method
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([tradeList count] != 0) {
+        //载入新的内容
+        if (isShowMore && indexPath.row==tradeList.count) {
+            showMoreLabel.text = @"载入中...";
+            [showMoreIndicator startAnimating];
+            
+            return;
+        }
+        
+        //跳转操作
+        
+    }
+}
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return DEFAULT_ROW_HEIGHT;

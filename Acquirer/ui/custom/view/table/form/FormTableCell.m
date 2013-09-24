@@ -44,7 +44,7 @@
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         
         textField.returnKeyType = UIReturnKeyDone;
-        textField.font = [UIFont systemFontOfSize:15];
+        textField.font = [UIFont systemFontOfSize:17];
         textField.delegate = self;
         [self addSubview:textField];
         

@@ -8,6 +8,7 @@
 
 #import "BaseService.h"
 
+//汇总类型，今日汇总｜历史汇总
 typedef enum _SummaryType{
     Summary_Type_History = 0,
     Summary_Type_Today,
