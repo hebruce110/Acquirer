@@ -12,6 +12,7 @@
 
 -(void)requestForUID;
 
+//检查版本更新，并记录当前版本
 -(void)requestForVersionCheck;
 
 @end

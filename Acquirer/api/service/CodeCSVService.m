@@ -12,6 +12,7 @@
 
 @implementation CodeCSVService
 
+//请求配置文件版本
 -(void)requestForCodeCSVVersion{
     [[Acquirer sharedInstance] showUIPromptMessage:@"请求配置文件版本" animated:YES];
     
@@ -43,6 +44,7 @@
     }
 }
 
+//下载Code.csv文件到Documents目录
 -(void)requestForDownloadCodeCSV{
     [[Acquirer sharedInstance] showUIPromptMessage:@"下载配置文件" animated:YES];
     

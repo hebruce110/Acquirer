@@ -14,6 +14,7 @@
 
 @implementation MessageService
 
+//请求短信接口
 -(void)requestForShortMessage{
     [[Acquirer sharedInstance] showUIPromptMessage:@"获取中..." animated:YES];
     
@@ -31,6 +32,7 @@
     [acReq execute];
 }
 
+//恢复重发短信状态
 -(void)restoreMessageSend{
     if (target && [target respondsToSelector:@selector(restoreShortMessageState)]) {
         [target performSelector:@selector(restoreShortMessageState)];

@@ -57,6 +57,7 @@ CGFloat frameHeighOffset(CGRect rect);
 
 -(void)popToRootViewController;
 
+//press refresh button
 -(void)refreshCurrentTableView;
 
 /**

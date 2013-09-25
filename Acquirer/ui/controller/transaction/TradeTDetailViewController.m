@@ -7,6 +7,7 @@
 //
 
 #import "TradeTDetailViewController.h"
+#import "TradeTDetailInfoViewController.h"
 #import "DetailTableCell.h"
 #import "DetailContent.h"
 
@@ -27,13 +28,14 @@
     [super dealloc];
 }
 
+#define DEFAULT_RESEND_FLAG @"resendisnull"
 -(id)init{
     self = [super init];
     if (self) {
         isShowRefreshBtn = YES;
         isShowMore = NO;
         tradeList = [[NSMutableArray alloc] init];
-        resendFlag = [@"resendisnull" copy];
+        resendFlag = [DEFAULT_RESEND_FLAG copy];
     }
     return self;
 }
@@ -83,6 +85,12 @@
     [self refreshTodayTradeDetail];
 }
 
+-(void)refreshCurrentTableView{
+    [tradeList removeAllObjects];
+    self.resendFlag = DEFAULT_RESEND_FLAG;
+    [self refreshTodayTradeDetail];
+}
+
 -(void)refreshTodayTradeDetail{
     NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateFormat:@"yyyyMMdd"];
@@ -112,11 +120,15 @@
         default:
             break;
     }
+    
+    self.resendFlag = DEFAULT_RESEND_FLAG;
+    [tradeList removeAllObjects];
+    [self refreshTodayTradeDetail];
 }
 
 -(void)processDetailData:(NSDictionary *)body
 {
-    if (NotNil(body, @"Resend")) {
+    if (NotNil(body, @"resend")) {
         self.resendFlag = [body objectForKey:@"resend"];
     }
     
@@ -180,7 +192,8 @@
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierShowMore] autorelease];
             self.showMoreLabel = [[[UILabel alloc] init] autorelease];
-            showMoreLabel.frame = cell.bounds;
+            showMoreLabel.frame = CGRectMake(0, 0, 200, cell.bounds.size.height);
+            showMoreLabel.center = CGPointMake(CGRectGetMidX(cell.bounds), showMoreLabel.center.y);
             showMoreLabel.textAlignment = NSTextAlignmentCenter;
             showMoreLabel.font = [UIFont systemFontOfSize:16];
             showMoreLabel.tag = 1;
@@ -205,12 +218,16 @@
     cell.bankCardLabel.text = dc.bankCardSTR;
     cell.tradeTimeLabel.text = dc.tradeTimeSTR;
     cell.tradeAmtLabel.text = [NSString stringWithFormat:@"%@元", dc.tradeAmtSTR];
-    cell.tradeTypeLabel.text = dc.tradeTypeSTR;
-    
+
     if ([dc.tradeStatSTR rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"IS"]].location != NSNotFound) {
-        
+        cell.tradeStatLabel.textColor = [UIColor greenColor];
+    }else{
+        cell.tradeStatLabel.textColor = [UIColor redColor];
     }
-    cell.tradeStatLabel.text = dc.tradeStatSTR;
+    cell.tradeStatLabel.text = [[Acquirer sharedInstance] tradeStatDesc:dc.tradeStatSTR];
+    cell.tradeTypeLabel.text = [[Acquirer sharedInstance] tradeTypeDesc:dc.tradeTypeSTR];
+    
+    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
@@ -226,11 +243,13 @@
             showMoreLabel.text = @"载入中...";
             [showMoreIndicator startAnimating];
             
+            [self refreshTodayTradeDetail];
             return;
         }
         
         //跳转操作
-        
+        TradeTDetailInfoViewController *ttdi = [[[TradeTDetailInfoViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:ttdi animated:YES];
     }
 }
 

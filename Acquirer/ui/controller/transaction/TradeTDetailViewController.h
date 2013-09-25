@@ -29,6 +29,8 @@
 @property (nonatomic, retain) UILabel *showMoreLabel;
 @property (nonatomic, retain) UIActivityIndicatorView *showMoreIndicator;
 
+-(void)refreshTodayTradeDetail;
+
 -(void)processDetailData:(NSDictionary *)body;
 
 @end

@@ -134,6 +134,7 @@
 		8BB6A70E17CB3DFF00C71279 /* CPNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70717CB3DFF00C71279 /* CPNavigationController.m */; };
 		8BB6A70F17CB3DFF00C71279 /* CPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70A17CB3DFF00C71279 /* CPTabBar.m */; };
 		8BB6A71017CB3DFF00C71279 /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */; };
+		8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */; };
 		8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */; };
 		8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */; };
 		8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9E17EFDF8D0080A8F5 /* nav-btn.png */; };
@@ -334,6 +335,8 @@
 		8BB6A70B17CB3DFF00C71279 /* CPTabBarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTabBarDelegate.h; sourceTree = "<group>"; };
 		8BB6A70C17CB3DFF00C71279 /* CustomTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextView.h; sourceTree = "<group>"; };
 		8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextView.m; sourceTree = "<group>"; };
+		8BC4F30C17F2D69C00D0929C /* TradeTDetailInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTDetailInfoViewController.h; sourceTree = "<group>"; };
+		8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeTDetailInfoViewController.m; sourceTree = "<group>"; };
 		8BEAFF9817EE99EC0080A8F5 /* SummaryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryService.h; sourceTree = "<group>"; };
 		8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryService.m; sourceTree = "<group>"; };
 		8BEAFF9B17EFDDCE0080A8F5 /* TradeTDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTDetailViewController.h; sourceTree = "<group>"; };
@@ -802,6 +805,8 @@
 				8B0999A317E9AC22001430AA /* TradeTSummaryViewController.m */,
 				8BEAFF9B17EFDDCE0080A8F5 /* TradeTDetailViewController.h */,
 				8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */,
+				8BC4F30C17F2D69C00D0929C /* TradeTDetailInfoViewController.h */,
+				8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -1066,6 +1071,7 @@
 				8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */,
 				8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */,
 				8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */,
+				8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

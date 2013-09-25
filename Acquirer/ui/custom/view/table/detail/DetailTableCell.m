@@ -52,18 +52,17 @@
         [self addSubview:tradeAmtLabel];
         
         tradeTypeLabel = [[UILabel alloc] init];
-        tradeTypeLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-60, 25, 20, 20);
+        tradeTypeLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-110, 25, 70, 20);
         tradeTypeLabel.font = [UIFont systemFontOfSize:14];
         tradeTypeLabel.textColor = [UIColor darkGrayColor];
-        tradeTypeLabel.textAlignment = UITextAlignmentLeft;
+        tradeTypeLabel.textAlignment = UITextAlignmentRight;
         tradeTypeLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:tradeTypeLabel];
         
         tradeStatLabel = [[UILabel alloc] init];
-        tradeStatLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-30, 25, 20, 20);
+        tradeStatLabel.frame = CGRectMake(self.bounds.size.width-rightOffset-30, 25, 30, 20);
         tradeStatLabel.font = [UIFont boldSystemFontOfSize:14];
-        tradeStatLabel.textColor = [UIColor redColor];
-        tradeStatLabel.textAlignment = UITextAlignmentRight;
+        tradeStatLabel.textAlignment = UITextAlignmentLeft;
         tradeStatLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:tradeStatLabel];
     }

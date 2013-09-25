@@ -12,6 +12,15 @@
 @implementation PlainContent
 
 @synthesize titleSTR, textSTR;
+@synthesize cellStyle;
+
+-(id)init{
+    self = [super init];
+    if (self) {
+        cellStyle = Cell_Style_Plain;
+    }
+    return self;
+}
 
 -(void)dealloc{
     [titleSTR release];

@@ -35,6 +35,11 @@ typedef enum _AcquirerLoginReason {
     
     NSString *uidSTR;
     
+    //交易类型
+    NSDictionary *tradeTypeDict;
+    //交易状态
+    NSDictionary *tradeStatDict;
+    
     //到登录页面的原因
     AcquirerLoginReason logReason;
 }
@@ -88,11 +93,16 @@ typedef enum _AcquirerLoginReason {
 
 //状态码描述
 -(NSString *)respDesc:(NSString *)codeSTR;
+//交易类型描述
+-(NSString *)tradeTypeDesc:(NSString *)tradeTypeCode;
+//交易状态描述
+-(NSString *)tradeStatDesc:(NSString *)tradeStatCode;
 
 @end
 
 
 @interface CodeInfo : NSObject{
+    //codeType分三种　刷卡返回码｜刷卡详情失败原因｜结算失败原因
     NSString *codeTypeSTR;
     NSString *codeNumSTR;
     NSString *codeDesc;

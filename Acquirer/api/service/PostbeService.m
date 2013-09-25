@@ -56,6 +56,7 @@
     }
 }
 
+//请求收单版本
 -(void)requestForVersionCheck{
     [[Acquirer sharedInstance] showUIPromptMessage:@"检查版本更新" animated:YES];
     
@@ -76,6 +77,7 @@
     [req startAsynchronous];
 }
 
+//check version update callback
 -(void)versionRequestDidFinished:(ASIHTTPRequest *)req{
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
@@ -92,6 +94,7 @@
                 message = [body objectForKey:@"string"];
             }
             
+            //检查版本更新比较逻辑
             if (NotNilAndEqualsTo(body, @"force_update", @"1")){
                 //需要强制升级
                 VerUpdateAlertView *alertView = [[VerUpdateAlertView alloc] initWithTitle:title

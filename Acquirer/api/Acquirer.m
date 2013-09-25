@@ -40,6 +40,9 @@ static Acquirer *sInstance = nil;
     
     [uidSTR release];
     
+    [tradeTypeDict release];
+    [tradeStatDict release];
+    
     [super dealloc];
 }
 
@@ -88,6 +91,8 @@ static Acquirer *sInstance = nil;
     [Settings sharedInstance];
     [AcquirerService sharedInstance];
     
+    [instance initTradeTypeAndStatCode];
+    
     //初始化code.csv版本
     [instance initCodeCSVVersion];
     //拷贝code.csv文件到Documents目录
@@ -100,6 +105,8 @@ static Acquirer *sInstance = nil;
     [Helper saveValue:ACQUIRER_DEFAULT_VALUE forKey:ACQUIRER_LOCAL_SESSION_KEY];
     //设置登录原因为每次应用启动
     instance.logReason = LoginAppLunchEachTime;
+    
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:instance
                                              selector:@selector(presentLoginViewController:)
@@ -157,6 +164,35 @@ static Acquirer *sInstance = nil;
     }else{
         codeCSVVersion = [codeCSVSTR intValue];
     }
+}
+
+//初始化交易类型和交易状态
+-(void)initTradeTypeAndStatCode{
+    tradeTypeDict = [@{@"P":@"消费",
+                     @"Y":@"预授权",
+                     @"W":@"预授权完成",
+                     @"Q":@"消费撤销",
+                     @"C":@"预授权撤销",
+                     @"D":@"预授权完成撤销",
+                     @"R":@"退货"} copy];
+    tradeStatDict = [@{@"I":@"初始",
+                     @"S":@"成功",
+                     @"F":@"失败",
+                     @"C":@"审核失败"} copy];
+}
+
+-(NSString *)tradeTypeDesc:(NSString *)tradeTypeCode{
+    if (NotNil(tradeTypeDict, tradeTypeCode)) {
+        return [tradeTypeDict objectForKey:tradeTypeCode];
+    }
+    return @"";
+}
+
+-(NSString *)tradeStatDesc:(NSString *)tradeStatCode{
+    if (NotNil(tradeStatDict, tradeStatCode)) {
+        return [tradeStatDict objectForKey:tradeStatCode];
+    }
+    return @"";
 }
 
 //Set global PosMini request
@@ -230,8 +266,9 @@ static Acquirer *sInstance = nil;
 }
 
 //拷贝文件到documents目录下
+//srcPath:工程路径 destPath:目标路径
 -(void)copyConfigFileToDocuments{
-
+    
     NSString *srcPath = [[NSBundle mainBundle] pathForResource:@"code" ofType:@"csv"];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -268,6 +305,7 @@ static Acquirer *sInstance = nil;
         //清空所有code对应信息
         [codeList removeAllObjects];
         
+        //按每行处理
         NSArray *lines = [codeCSVSTR componentsSeparatedByString:@"\n"];
         for (NSString *line in lines) {
             //空白行不做处理
@@ -277,17 +315,20 @@ static Acquirer *sInstance = nil;
             
             CodeInfo *codeInfo = [[[CodeInfo alloc] init] autorelease];
             
+            //解析状态码类型　刷卡返回码｜刷卡详情失败原因｜结算失败原因
             NSCharacterSet *splitCharSet = [NSCharacterSet characterSetWithCharactersInString:@",，"];
             
             NSRange typeRange = [line rangeOfCharacterFromSet:splitCharSet];
             NSString *typeSTR = [line substringWithRange:NSMakeRange(0, typeRange.location)];
             codeInfo.codeTypeSTR = typeSTR;
             
+            //对应状态码
             line = [line substringFromIndex:typeRange.location+1];
             NSRange codeRange = [line rangeOfCharacterFromSet:splitCharSet];
             NSString *codeSTR = [line substringWithRange:NSMakeRange(0, codeRange.location)];
             codeInfo.codeNumSTR = codeSTR;
             
+            //描述文字
             NSString *descSTR = [line substringFromIndex:codeRange.location+1];
             codeInfo.codeDesc = descSTR;
         
@@ -461,39 +502,3 @@ static Acquirer *sInstance = nil;
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

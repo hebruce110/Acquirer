@@ -173,6 +173,3 @@ NSString * platformString(){
     //if ([pf isEqualToString:@"i386"])    return @"simulator";
     return @"simulator";
 }
-
-
-

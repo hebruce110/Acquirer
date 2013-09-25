@@ -224,6 +224,7 @@
     NSString *opratorIdSTR = ((FormTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
     NSString *passSTR = ((FormTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
     
+    //校验合规
     if ([Helper stringNullOrEmpty:corpIdSTR]) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
         return;

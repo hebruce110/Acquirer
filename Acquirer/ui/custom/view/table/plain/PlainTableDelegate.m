@@ -31,6 +31,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"Plain_Identifier";
     
+    PlainContent *content = [[plainList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
     PlainTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (cell==nil) {
@@ -38,7 +40,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    PlainContent *content = [[plainList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
     cell.titleLabel.text = content.titleSTR;
     cell.textLabel.text = content.textSTR;
     

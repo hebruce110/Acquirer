@@ -101,7 +101,9 @@
     
     [Acquirer initializeAcquirer];
     
+    //请求UID
     [Acquirer UID];
+    //检查版本更新
     [[AcquirerService sharedInstance].postbeService requestForVersionCheck];
 }
 

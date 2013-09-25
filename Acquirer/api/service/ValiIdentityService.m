@@ -12,6 +12,7 @@
 
 @implementation ValiIdentityService
 
+//请求验证码图片地址
 -(void)requestForAuthImgURL{
     [[Acquirer sharedInstance] showUIPromptMessage:@"请求验证码..." animated:YES];
     
@@ -50,6 +51,7 @@
     }
 }
 
+//验证身份请求
 -(void)requestForValidateIdentity:(NSString *)pnrDevId withAuthCode:(NSString *)authCode{
     [[Acquirer sharedInstance] showUIPromptMessage:@"验证中..." animated:YES];
     
@@ -79,6 +81,7 @@
     }
 }
 
+//请求修改手机号
 -(void)requestForNewMobile:(NSString *)mobileSTR withPNRDevId:(NSString *)pnrDevIdSTR{
     [[Acquirer sharedInstance] showUIPromptMessage:@"提交中..." animated:YES];
     

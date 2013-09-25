@@ -10,6 +10,7 @@
 
 @interface MessageService : BaseService
 
+//请求短信
 -(void)requestForShortMessage;
 
 @end
