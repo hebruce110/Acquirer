@@ -9,6 +9,7 @@
 #import "TradeHomeViewController.h"
 #import "TradeTSummaryViewController.h"
 #import "TradeTDetailViewController.h"
+#import "TradeSettleViewController.h"
 
 @interface TradeHomeViewController ()
 
@@ -42,7 +43,8 @@
                                                 @"历史刷卡汇总", nil] retain];
         
         classList = [[NSArray arrayWithObjects: TradeTSummaryViewController.class,
-                                                TradeTDetailViewController.class, nil] retain];
+                                                TradeTDetailViewController.class,
+                                                TradeSettleViewController.class, nil] retain];
     }
     return self;
 }

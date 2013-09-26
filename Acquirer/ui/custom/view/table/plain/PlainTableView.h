@@ -10,12 +10,15 @@
 
 #import "PlainTableDelegate.h"
 
+@class BaseViewController;
+
 @interface PlainTableView : UITableView{
     //代理类
     PlainTableDelegate *delegatePT;
 }
-
-
+//设置数据源
 -(void)setPlainTableDataSource:(NSMutableArray *)formList;
+//设置代理controller
+-(void)setDelegateViewController:(BaseViewController *)baseCTRL;
 
 @end

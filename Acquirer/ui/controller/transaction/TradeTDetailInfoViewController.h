@@ -11,8 +11,14 @@
 
 @interface TradeTDetailInfoViewController : BaseViewController{
     PlainTableView *tradeInfoTV;
+    NSMutableArray *tradeDList;
+    
+    NSString *orderIdSTR;
 }
 
 @property (nonatomic, retain) PlainTableView *tradeInfoTV;
+@property (nonatomic, copy) NSString *orderIdSTR;
+
+-(void)processDetailData:(NSDictionary *)body;
 
 @end

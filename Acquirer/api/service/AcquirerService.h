@@ -16,7 +16,7 @@
 #import "SummaryService.h"
 #import "DetailService.h"
 
-@interface AcquirerService : BaseService{
+@interface AcquirerService : NSObject{
     PostbeService *postbeService;
     LoginService *logService;
     MessageService *msgService;

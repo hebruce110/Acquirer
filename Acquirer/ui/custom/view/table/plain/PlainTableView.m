@@ -25,4 +25,8 @@
     delegatePT.plainList = _plainList;
 }
 
+-(void)setDelegateViewController:(BaseViewController *)baseCTRL{
+    delegatePT.CTRL = baseCTRL;
+}
+
 @end

@@ -12,7 +12,9 @@
 @implementation PlainContent
 
 @synthesize titleSTR, textSTR;
+@synthesize imgNameSTR;
 @synthesize cellStyle;
+@synthesize jumpClass;
 
 -(id)init{
     self = [super init];
@@ -25,6 +27,7 @@
 -(void)dealloc{
     [titleSTR release];
     [textSTR release];
+    [imgNameSTR release];
     
     [super dealloc];
 }

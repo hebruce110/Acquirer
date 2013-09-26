@@ -64,8 +64,6 @@
     
     [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
     
-    NSLog(@"%@", dict);
-    
     AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
     [acReq onRespondTarget:self selector:@selector(tradyDetailRequestDidFinished:)];
     [acReq execute];
@@ -81,6 +79,37 @@
     }
 }
 
+-(void)requestForTradeDetailInfo:(NSString *)orderId{
+    Acquirer *ac = [Acquirer sharedInstance];
+    [ac showUIPromptMessage:@"查询中..." animated:YES];
+    
+    NSString* url = [NSString stringWithFormat:@"/ord/queryOrdById"];
+    
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
+    [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
+    [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
+    [dict setValue:@"" forKey:@"checkValue"];
+    [dict setValue:orderId forKey:@"ordId"];
+    [dict setValue:[self oprateTime] forKey:@"operTime"];
+    [dict setValue:[Acquirer UID] forKey:@"uid"];
+    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
+    [dict setValue:@"00000004" forKey:@"functionId"];
+    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+    
+    AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
+    [acReq onRespondTarget:self selector:@selector(tradyDetailInfoRequestDidFinished:)];
+    [acReq execute];
+}
+
+-(void)tradyDetailInfoRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
+    NSDictionary *body = (NSDictionary *)req.responseAsJson;
+    
+    if (target && [target respondsToSelector:@selector(processDetailData:)]) {
+        [target performSelector:@selector(processDetailData:) withObject:body];
+    }
+}
 
 @end
 

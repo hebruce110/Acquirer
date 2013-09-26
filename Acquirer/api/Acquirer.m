@@ -179,6 +179,7 @@ static Acquirer *sInstance = nil;
                      @"S":@"成功",
                      @"F":@"失败",
                      @"C":@"审核失败"} copy];
+    
 }
 
 -(NSString *)tradeTypeDesc:(NSString *)tradeTypeCode{
@@ -339,6 +340,16 @@ static Acquirer *sInstance = nil;
                                                                      notifyType:NOTIFICATION_TYPE_ERROR];
     }
     
+}
+
+//code.csv状态码描述
+-(NSString *)codeCSVDesc:(NSString *)codeSTR{
+    for (CodeInfo *info in codeList) {
+        if ([info.codeNumSTR isEqualToString:codeSTR]) {
+            return info.codeDesc;
+        }
+    }
+    return @"";
 }
 
 //解析MTP服务端返回码对应的描述文字

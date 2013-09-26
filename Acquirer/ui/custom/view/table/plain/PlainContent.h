@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef enum _CellStyle{
+    Cell_Style_Standard = 0,
     Cell_Style_Plain,
     Cell_Style_LineBreak,
 }CellStyle;
@@ -16,11 +17,19 @@ typedef enum _CellStyle{
 @interface PlainContent : NSObject{
     NSString *titleSTR;
     NSString *textSTR;
-    CellStyle *cellStyle;
+    
+    NSString *imgNameSTR;
+    
+    CellStyle cellStyle;
+    
+    Class jumpClass;
 }
 
 @property (nonatomic, copy) NSString *titleSTR;
 @property (nonatomic, copy) NSString *textSTR;
-@property (nonatomic, assign) CellStyle *cellStyle;
+@property (nonatomic, copy) NSString *imgNameSTR;
+@property (nonatomic, assign) CellStyle cellStyle;
+
+@property (nonatomic, assign) Class jumpClass;
 
 @end

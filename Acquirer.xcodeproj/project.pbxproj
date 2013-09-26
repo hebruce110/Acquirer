@@ -135,6 +135,13 @@
 		8BB6A70F17CB3DFF00C71279 /* CPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70A17CB3DFF00C71279 /* CPTabBar.m */; };
 		8BB6A71017CB3DFF00C71279 /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */; };
 		8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */; };
+		8BC4F31117F3C2E000D0929C /* PlainLineBreakTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F31017F3C2DF00D0929C /* PlainLineBreakTableCell.m */; };
+		8BC4F31417F3C54300D0929C /* TradeSettleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F31317F3C54300D0929C /* TradeSettleViewController.m */; };
+		8BC4F31917F41F9500D0929C /* tradesettleaccount.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31517F41F9500D0929C /* tradesettleaccount.png */; };
+		8BC4F31A17F41F9500D0929C /* tradesettleaccount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31617F41F9500D0929C /* tradesettleaccount@2x.png */; };
+		8BC4F31B17F41F9500D0929C /* tradesettlesearch.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31717F41F9500D0929C /* tradesettlesearch.png */; };
+		8BC4F31C17F41F9500D0929C /* tradesettlesearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31817F41F9500D0929C /* tradesettlesearch@2x.png */; };
+		8BC4F31F17F4231500D0929C /* SettleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F31E17F4231500D0929C /* SettleService.m */; };
 		8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */; };
 		8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */; };
 		8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9E17EFDF8D0080A8F5 /* nav-btn.png */; };
@@ -337,6 +344,16 @@
 		8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextView.m; sourceTree = "<group>"; };
 		8BC4F30C17F2D69C00D0929C /* TradeTDetailInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTDetailInfoViewController.h; sourceTree = "<group>"; };
 		8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeTDetailInfoViewController.m; sourceTree = "<group>"; };
+		8BC4F30F17F3C2DF00D0929C /* PlainLineBreakTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainLineBreakTableCell.h; sourceTree = "<group>"; };
+		8BC4F31017F3C2DF00D0929C /* PlainLineBreakTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainLineBreakTableCell.m; sourceTree = "<group>"; };
+		8BC4F31217F3C54300D0929C /* TradeSettleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleViewController.h; sourceTree = "<group>"; };
+		8BC4F31317F3C54300D0929C /* TradeSettleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleViewController.m; sourceTree = "<group>"; };
+		8BC4F31517F41F9500D0929C /* tradesettleaccount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tradesettleaccount.png; sourceTree = "<group>"; };
+		8BC4F31617F41F9500D0929C /* tradesettleaccount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tradesettleaccount@2x.png"; sourceTree = "<group>"; };
+		8BC4F31717F41F9500D0929C /* tradesettlesearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tradesettlesearch.png; sourceTree = "<group>"; };
+		8BC4F31817F41F9500D0929C /* tradesettlesearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tradesettlesearch@2x.png"; sourceTree = "<group>"; };
+		8BC4F31D17F4231400D0929C /* SettleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettleService.h; sourceTree = "<group>"; };
+		8BC4F31E17F4231500D0929C /* SettleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettleService.m; sourceTree = "<group>"; };
 		8BEAFF9817EE99EC0080A8F5 /* SummaryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryService.h; sourceTree = "<group>"; };
 		8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryService.m; sourceTree = "<group>"; };
 		8BEAFF9B17EFDDCE0080A8F5 /* TradeTDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTDetailViewController.h; sourceTree = "<group>"; };
@@ -418,6 +435,10 @@
 				8B09997B17E9710F001430AA /* tradetodaygather@2x.png */,
 				8B09997C17E9710F001430AA /* tradetodaylist.png */,
 				8B09997D17E9710F001430AA /* tradetodaylist@2x.png */,
+				8BC4F31517F41F9500D0929C /* tradesettleaccount.png */,
+				8BC4F31617F41F9500D0929C /* tradesettleaccount@2x.png */,
+				8BC4F31717F41F9500D0929C /* tradesettlesearch.png */,
+				8BC4F31817F41F9500D0929C /* tradesettlesearch@2x.png */,
 			);
 			path = trade;
 			sourceTree = "<group>";
@@ -444,6 +465,8 @@
 				8B0999A017E9A8AE001430AA /* PlainContent.m */,
 				8B09999C17E9976E001430AA /* PlainTableCell.h */,
 				8B09999D17E9976F001430AA /* PlainTableCell.m */,
+				8BC4F30F17F3C2DF00D0929C /* PlainLineBreakTableCell.h */,
+				8BC4F31017F3C2DF00D0929C /* PlainLineBreakTableCell.m */,
 				8B09999917E9941B001430AA /* PlainTableDelegate.h */,
 				8B09999A17E9941B001430AA /* PlainTableDelegate.m */,
 				8B09999617E993FD001430AA /* PlainTableView.h */,
@@ -555,6 +578,8 @@
 				8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */,
 				8BEAFFAC17F121F70080A8F5 /* DetailService.h */,
 				8BEAFFAD17F121F70080A8F5 /* DetailService.m */,
+				8BC4F31D17F4231400D0929C /* SettleService.h */,
+				8BC4F31E17F4231500D0929C /* SettleService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -807,6 +832,8 @@
 				8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */,
 				8BC4F30C17F2D69C00D0929C /* TradeTDetailInfoViewController.h */,
 				8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */,
+				8BC4F31217F3C54300D0929C /* TradeSettleViewController.h */,
+				8BC4F31317F3C54300D0929C /* TradeSettleViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -1002,6 +1029,10 @@
 				8B09998717E9710F001430AA /* tradetodaylist@2x.png in Resources */,
 				8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */,
 				8BEAFFA117EFDF8D0080A8F5 /* nav-btn@2x.png in Resources */,
+				8BC4F31917F41F9500D0929C /* tradesettleaccount.png in Resources */,
+				8BC4F31A17F41F9500D0929C /* tradesettleaccount@2x.png in Resources */,
+				8BC4F31B17F41F9500D0929C /* tradesettlesearch.png in Resources */,
+				8BC4F31C17F41F9500D0929C /* tradesettlesearch@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1072,6 +1103,9 @@
 				8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */,
 				8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */,
 				8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */,
+				8BC4F31117F3C2E000D0929C /* PlainLineBreakTableCell.m in Sources */,
+				8BC4F31417F3C54300D0929C /* TradeSettleViewController.m in Sources */,
+				8BC4F31F17F4231500D0929C /* SettleService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

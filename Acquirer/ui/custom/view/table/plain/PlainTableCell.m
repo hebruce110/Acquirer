@@ -22,16 +22,16 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        CGFloat offset = 20;
+        CGFloat offset = 30;
         CGFloat titleWidth = 180;
-        CGRect titleFrame = CGRectMake(offset, 0, titleWidth, self.bounds.size.height);
+        CGRect titleFrame = CGRectMake(offset, 0, titleWidth, DEFAULT_ROW_HEIGHT);
         titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font = [UIFont boldSystemFontOfSize:16];
         [self addSubview:titleLabel];
         
-        CGFloat textWidth = 100;
+        CGFloat textWidth = 180;
         CGRect textFrame = CGRectMake(self.bounds.size.width-textWidth-offset, 0, textWidth, self.bounds.size.height);
         textLabel = [[UILabel alloc] initWithFrame:textFrame];
         textLabel.textAlignment = NSTextAlignmentRight;

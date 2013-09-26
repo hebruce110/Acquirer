@@ -8,10 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class BaseViewController;
+
 @interface PlainTableDelegate : NSObject <UITableViewDelegate, UITableViewDataSource>{
+    BaseViewController *CTRL;
+    
     NSMutableArray *plainList;
 }
 
+@property (nonatomic,assign) BaseViewController *CTRL;
 @property (nonatomic, retain) NSMutableArray *plainList;
 
 @end

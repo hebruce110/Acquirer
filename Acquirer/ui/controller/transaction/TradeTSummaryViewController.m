@@ -86,6 +86,7 @@
     [dateFormatter setDateFormat:@"yyyyMMdd"];
     NSString *curDateSTR = [dateFormatter stringFromDate:[NSDate date]];
     
+    [[AcquirerService sharedInstance].sumService onRespondTarget:self];
     [[AcquirerService sharedInstance].sumService requestForTradeSummay:Summary_Type_Today
                                                           withPnrDevId:@"00000000"
                                                               fromDate:curDateSTR

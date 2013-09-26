@@ -33,5 +33,6 @@ typedef enum _ReqFlag{
                   withCardNo:(NSString *) cardNoSTR withAmt:(NSString *) amtSTR
                     fromDate:(NSString *) fdate toDate:(NSString *) tdate;
 
+-(void)requestForTradeDetailInfo:(NSString *)orderId;
 
 @end

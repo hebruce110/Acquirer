@@ -15,6 +15,7 @@
 
 @synthesize segControl, detailTableView, resendFlag;
 @synthesize showMoreLabel, showMoreIndicator;
+@synthesize needRefreshTableView;
 
 -(void)dealloc{
     [segControl release];
@@ -36,6 +37,7 @@
         isShowMore = NO;
         tradeList = [[NSMutableArray alloc] init];
         resendFlag = [DEFAULT_RESEND_FLAG copy];
+        needRefreshTableView = YES;
     }
     return self;
 }
@@ -82,7 +84,9 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    [self refreshTodayTradeDetail];
+    if (needRefreshTableView) {
+        [self refreshTodayTradeDetail];
+    }
 }
 
 -(void)refreshCurrentTableView{
@@ -122,6 +126,7 @@
     }
     
     self.resendFlag = DEFAULT_RESEND_FLAG;
+    
     [tradeList removeAllObjects];
     [self refreshTodayTradeDetail];
 }
@@ -143,13 +148,20 @@
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"没有数据" notifyType:NOTIFICATION_TYPE_WARNING];
     }
     
+
+    NSDateFormatter *formatterString = [[[NSDateFormatter alloc] init] autorelease];
+    [formatterString setDateFormat:@"yyyyMMddHHmmss"];
+    
+    NSDateFormatter *formatterDate = [[[NSDateFormatter alloc] init] autorelease];
+    [formatterDate setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
     for (NSDictionary *dict in ordList) {
         DetailContent *dc = [[[DetailContent alloc] init] autorelease];
         dc.orderIdSTR = [dict objectForKey:@"ordId"];
         dc.tradeAmtSTR = [dict objectForKey:@"amt"];
         dc.tradeTypeSTR = [dict objectForKey:@"transType"];
         dc.tradeStatSTR = [dict objectForKey:@"transStat"];
-        dc.tradeTimeSTR = [dict objectForKey:@"transTime"];
+        dc.tradeTimeSTR = [formatterDate stringFromDate:[formatterString dateFromString:[dict objectForKey:@"transTime"]]];
         dc.bankCardSTR = [dict objectForKey:@"cardNo"];
         
         [tradeList addObject:dc];
@@ -237,6 +249,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if ([tradeList count] != 0) {
         //载入新的内容
         if (isShowMore && indexPath.row==tradeList.count) {
@@ -249,7 +263,9 @@
         
         //跳转操作
         TradeTDetailInfoViewController *ttdi = [[[TradeTDetailInfoViewController alloc] init] autorelease];
+        ttdi.orderIdSTR = ((DetailContent *)[tradeList objectAtIndex:indexPath.row]).orderIdSTR;
         [self.navigationController pushViewController:ttdi animated:YES];
+        self.needRefreshTableView = NO;
     }
 }
 

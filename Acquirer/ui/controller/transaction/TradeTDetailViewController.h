@@ -21,6 +21,10 @@
     UIActivityIndicatorView *showMoreIndicator;
     
     ReqFlag reqFlagType;
+    
+    //是否要刷新TableView
+    //从上个页面pop到当前页, 不做刷新操作
+    BOOL needRefreshTableView;
 }
 
 @property (nonatomic, copy) NSString *resendFlag;
@@ -28,6 +32,7 @@
 @property (nonatomic, retain) UITableView *detailTableView;
 @property (nonatomic, retain) UILabel *showMoreLabel;
 @property (nonatomic, retain) UIActivityIndicatorView *showMoreIndicator;
+@property (nonatomic, assign) BOOL needRefreshTableView;
 
 -(void)refreshTodayTradeDetail;
 

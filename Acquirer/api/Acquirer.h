@@ -97,6 +97,8 @@ typedef enum _AcquirerLoginReason {
 -(NSString *)tradeTypeDesc:(NSString *)tradeTypeCode;
 //交易状态描述
 -(NSString *)tradeStatDesc:(NSString *)tradeStatCode;
+//code.csv状态码描述
+-(NSString *)codeCSVDesc:(NSString *)codeSTR;
 
 @end
 
