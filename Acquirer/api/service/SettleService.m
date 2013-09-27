@@ -32,7 +32,13 @@
 }
 
 -(void)settleManagementRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
+    NSDictionary *body = (NSDictionary *)req.responseAsJson;
+    
+    if (target && [target respondsToSelector:@selector(processSettleMgtData:)]) {
+        [target performSelector:@selector(processSettleMgtData:) withObject:body];
+    }
 }
 
 @end

@@ -42,6 +42,7 @@ static Acquirer *sInstance = nil;
     
     [tradeTypeDict release];
     [tradeStatDict release];
+    [settleStatDict release];
     
     [super dealloc];
 }
@@ -180,8 +181,14 @@ static Acquirer *sInstance = nil;
                      @"F":@"失败",
                      @"C":@"审核失败"} copy];
     
+    settleStatDict = [@{@"I":@"处理中",
+                       @"D":@"处理中",
+                       @"P":@"汇付已汇出",
+                       @"F":@"失败",
+                       @"S":@"成功"} copy];
 }
 
+//交易类型
 -(NSString *)tradeTypeDesc:(NSString *)tradeTypeCode{
     if (NotNil(tradeTypeDict, tradeTypeCode)) {
         return [tradeTypeDict objectForKey:tradeTypeCode];
@@ -189,9 +196,18 @@ static Acquirer *sInstance = nil;
     return @"";
 }
 
+//交易状态
 -(NSString *)tradeStatDesc:(NSString *)tradeStatCode{
     if (NotNil(tradeStatDict, tradeStatCode)) {
         return [tradeStatDict objectForKey:tradeStatCode];
+    }
+    return @"";
+}
+
+//结算状态
+-(NSString *)settleStatDesc:(NSString *)settleStatCode{
+    if (NotNil(settleStatDict, settleStatCode)) {
+        return [settleStatDict objectForKey:settleStatCode];
     }
     return @"";
 }

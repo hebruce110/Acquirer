@@ -196,6 +196,7 @@
             cell.textLabel.font = [UIFont systemFontOfSize:16];
         }
         cell.textLabel.text = @"没有记录";
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         return cell;
     }
     
@@ -210,7 +211,7 @@
             showMoreLabel.font = [UIFont systemFontOfSize:16];
             showMoreLabel.tag = 1;
             [cell addSubview:showMoreLabel];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
             
             self.showMoreIndicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
             showMoreIndicator.center = CGPointMake(100, 22);
@@ -239,7 +240,7 @@
     cell.tradeStatLabel.text = [[Acquirer sharedInstance] tradeStatDesc:dc.tradeStatSTR];
     cell.tradeTypeLabel.text = [[Acquirer sharedInstance] tradeTypeDesc:dc.tradeTypeSTR];
     
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;

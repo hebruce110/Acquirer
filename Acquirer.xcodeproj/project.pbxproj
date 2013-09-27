@@ -136,12 +136,13 @@
 		8BB6A71017CB3DFF00C71279 /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6A70D17CB3DFF00C71279 /* CustomTextView.m */; };
 		8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */; };
 		8BC4F31117F3C2E000D0929C /* PlainLineBreakTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F31017F3C2DF00D0929C /* PlainLineBreakTableCell.m */; };
-		8BC4F31417F3C54300D0929C /* TradeSettleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F31317F3C54300D0929C /* TradeSettleViewController.m */; };
+		8BC4F31417F3C54300D0929C /* TradeSettleMgtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F31317F3C54300D0929C /* TradeSettleMgtViewController.m */; };
 		8BC4F31917F41F9500D0929C /* tradesettleaccount.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31517F41F9500D0929C /* tradesettleaccount.png */; };
 		8BC4F31A17F41F9500D0929C /* tradesettleaccount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31617F41F9500D0929C /* tradesettleaccount@2x.png */; };
 		8BC4F31B17F41F9500D0929C /* tradesettlesearch.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31717F41F9500D0929C /* tradesettlesearch.png */; };
 		8BC4F31C17F41F9500D0929C /* tradesettlesearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC4F31817F41F9500D0929C /* tradesettlesearch@2x.png */; };
 		8BC4F31F17F4231500D0929C /* SettleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F31E17F4231500D0929C /* SettleService.m */; };
+		8BC4F32217F5289C00D0929C /* TradeSettleScopeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4F32117F5289C00D0929C /* TradeSettleScopeViewController.m */; };
 		8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */; };
 		8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */; };
 		8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAFF9E17EFDF8D0080A8F5 /* nav-btn.png */; };
@@ -346,14 +347,16 @@
 		8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeTDetailInfoViewController.m; sourceTree = "<group>"; };
 		8BC4F30F17F3C2DF00D0929C /* PlainLineBreakTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainLineBreakTableCell.h; sourceTree = "<group>"; };
 		8BC4F31017F3C2DF00D0929C /* PlainLineBreakTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainLineBreakTableCell.m; sourceTree = "<group>"; };
-		8BC4F31217F3C54300D0929C /* TradeSettleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleViewController.h; sourceTree = "<group>"; };
-		8BC4F31317F3C54300D0929C /* TradeSettleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleViewController.m; sourceTree = "<group>"; };
+		8BC4F31217F3C54300D0929C /* TradeSettleMgtViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleMgtViewController.h; sourceTree = "<group>"; };
+		8BC4F31317F3C54300D0929C /* TradeSettleMgtViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleMgtViewController.m; sourceTree = "<group>"; };
 		8BC4F31517F41F9500D0929C /* tradesettleaccount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tradesettleaccount.png; sourceTree = "<group>"; };
 		8BC4F31617F41F9500D0929C /* tradesettleaccount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tradesettleaccount@2x.png"; sourceTree = "<group>"; };
 		8BC4F31717F41F9500D0929C /* tradesettlesearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tradesettlesearch.png; sourceTree = "<group>"; };
 		8BC4F31817F41F9500D0929C /* tradesettlesearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tradesettlesearch@2x.png"; sourceTree = "<group>"; };
 		8BC4F31D17F4231400D0929C /* SettleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettleService.h; sourceTree = "<group>"; };
 		8BC4F31E17F4231500D0929C /* SettleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettleService.m; sourceTree = "<group>"; };
+		8BC4F32017F5289B00D0929C /* TradeSettleScopeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleScopeViewController.h; sourceTree = "<group>"; };
+		8BC4F32117F5289C00D0929C /* TradeSettleScopeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleScopeViewController.m; sourceTree = "<group>"; };
 		8BEAFF9817EE99EC0080A8F5 /* SummaryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryService.h; sourceTree = "<group>"; };
 		8BEAFF9917EE99EC0080A8F5 /* SummaryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryService.m; sourceTree = "<group>"; };
 		8BEAFF9B17EFDDCE0080A8F5 /* TradeTDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTDetailViewController.h; sourceTree = "<group>"; };
@@ -832,8 +835,10 @@
 				8BEAFF9C17EFDDCF0080A8F5 /* TradeTDetailViewController.m */,
 				8BC4F30C17F2D69C00D0929C /* TradeTDetailInfoViewController.h */,
 				8BC4F30D17F2D69C00D0929C /* TradeTDetailInfoViewController.m */,
-				8BC4F31217F3C54300D0929C /* TradeSettleViewController.h */,
-				8BC4F31317F3C54300D0929C /* TradeSettleViewController.m */,
+				8BC4F31217F3C54300D0929C /* TradeSettleMgtViewController.h */,
+				8BC4F31317F3C54300D0929C /* TradeSettleMgtViewController.m */,
+				8BC4F32017F5289B00D0929C /* TradeSettleScopeViewController.h */,
+				8BC4F32117F5289C00D0929C /* TradeSettleScopeViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -1104,8 +1109,9 @@
 				8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */,
 				8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */,
 				8BC4F31117F3C2E000D0929C /* PlainLineBreakTableCell.m in Sources */,
-				8BC4F31417F3C54300D0929C /* TradeSettleViewController.m in Sources */,
+				8BC4F31417F3C54300D0929C /* TradeSettleMgtViewController.m in Sources */,
 				8BC4F31F17F4231500D0929C /* SettleService.m in Sources */,
+				8BC4F32217F5289C00D0929C /* TradeSettleScopeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

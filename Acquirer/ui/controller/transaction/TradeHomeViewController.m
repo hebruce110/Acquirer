@@ -9,7 +9,7 @@
 #import "TradeHomeViewController.h"
 #import "TradeTSummaryViewController.h"
 #import "TradeTDetailViewController.h"
-#import "TradeSettleViewController.h"
+#import "TradeSettleMgtViewController.h"
 
 @interface TradeHomeViewController ()
 
@@ -44,7 +44,7 @@
         
         classList = [[NSArray arrayWithObjects: TradeTSummaryViewController.class,
                                                 TradeTDetailViewController.class,
-                                                TradeSettleViewController.class, nil] retain];
+                                                TradeSettleMgtViewController.class, nil] retain];
     }
     return self;
 }
@@ -82,7 +82,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
     }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.textLabel.text = [titleList objectAtIndex:indexPath.row];
     cell.imageView.image = [UIImage imageNamed:[imageList objectAtIndex:indexPath.row]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

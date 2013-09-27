@@ -39,6 +39,8 @@ typedef enum _AcquirerLoginReason {
     NSDictionary *tradeTypeDict;
     //交易状态
     NSDictionary *tradeStatDict;
+    //结算状态
+    NSDictionary *settleStatDict;
     
     //到登录页面的原因
     AcquirerLoginReason logReason;
@@ -97,6 +99,8 @@ typedef enum _AcquirerLoginReason {
 -(NSString *)tradeTypeDesc:(NSString *)tradeTypeCode;
 //交易状态描述
 -(NSString *)tradeStatDesc:(NSString *)tradeStatCode;
+//交易结算状态描述
+-(NSString *)settleStatDesc:(NSString *)settleStatCode;
 //code.csv状态码描述
 -(NSString *)codeCSVDesc:(NSString *)codeSTR;
 

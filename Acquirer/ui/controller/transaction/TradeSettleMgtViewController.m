@@ -6,15 +6,18 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "TradeSettleViewController.h"
+#import "TradeSettleMgtViewController.h"
 #import "PlainTableView.h"
 #import "PlainContent.h"
+#import "TradeSettleScopeViewController.h"
 
-@implementation TradeSettleViewController
+@implementation TradeSettleMgtViewController
+
+@synthesize settleTV;
 
 -(void)dealloc{
     [settleList release];
-    
+    [settleTV release];
     [super dealloc];
 }
 
@@ -22,13 +25,14 @@
     self = [super init];
     if (self) {
         settleList = [[NSMutableArray alloc] init];
+        needRefreshTableView = YES;
     }
     return self;
 }
 
 -(void)setUpSettleList{
     NSArray *secListOne = @[@"最近一次结算金额", @"最近一次结算日期", @"结算状态"];
-    NSArray *secListTwo = @[@[@"结算查询", @"tradesettleaccount.png"], @[@"银行结算账户", @"tradesettlesearch.png"]];
+    NSArray *secListTwo = @[@[@"结算查询", @"tradesettleaccount.png", TradeSettleScopeViewController.class], @[@"银行结算账户", @"tradesettlesearch.png", NSObject.class]];
     NSArray *templeList = @[secListOne, secListTwo];
     
     for (NSArray *list in templeList) {
@@ -42,6 +46,7 @@
                 NSArray *array = [list objectAtIndex:i];
                 pc.titleSTR = [array objectAtIndex:0];
                 pc.imgNameSTR = [array objectAtIndex:1];
+                pc.jumpClass = [array objectAtIndex:2];
                 pc.cellStyle = Cell_Style_Standard;
             }
             [secList addObject:pc];
@@ -60,7 +65,7 @@
     //CGFloat contentHeight = self.contentView.bounds.size.height;
     
     [self setUpSettleList];
-    PlainTableView *settleTV = [[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 280) style:UITableViewStyleGrouped];
+    self.settleTV = [[[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 280) style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [settleTV setTableHeaderView:marginView];
@@ -68,12 +73,45 @@
     [settleTV setBackgroundColor:[UIColor clearColor]];
     [settleTV setBackgroundView:nil];
     
-    //settleTV.scrollEnabled = NO;
     [settleTV setPlainTableDataSource:settleList];
     [settleTV setDelegateViewController:self];
-    [self.contentView addSubview:settleTV];
     
+    [self.contentView addSubview:settleTV];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+    
+    if (needRefreshTableView) {
+        needRefreshTableView = NO;
+        [[AcquirerService sharedInstance].settleService onRespondTarget:self];
+        [[AcquirerService sharedInstance].settleService requestForSettleManagement];
+    }
     
 }
+
+-(void)processSettleMgtData:(NSDictionary *)body{
+    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [formatter setDateFormat:@"yyyyMMdd"];
+    NSDate *dateFromSTR = [formatter dateFromString:[body objectForKey:@"lastBalDate"]];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSArray *secListOne = [settleList objectAtIndex:0];
+    ((PlainContent*)[secListOne objectAtIndex:0]).textSTR = [NSString stringWithFormat:@"%@元", [body objectForKey:@"lastBalAmt"]];
+    ((PlainContent*)[secListOne objectAtIndex:1]).textSTR = [formatter stringFromDate:dateFromSTR];
+    ((PlainContent*)[secListOne objectAtIndex:2]).textSTR = [[Acquirer sharedInstance] settleStatDesc:[body objectForKey:@"lastBalStat"]];
+    
+    [settleTV reloadData];
+}
+
+-(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    PlainContent *content = [[settleList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if (content.jumpClass && [content.jumpClass isSubclassOfClass:BaseViewController.class]) {
+        BaseViewController *jpCTRL = [[[content.jumpClass alloc] init] autorelease];
+        [self.navigationController pushViewController:jpCTRL animated:YES];
+    }
+}
+
 
 @end

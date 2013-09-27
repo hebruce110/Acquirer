@@ -74,6 +74,10 @@ CGFloat frameHeighOffset(CGRect rect);
 
 -(BOOL)adjustForTextFieldShouldReturn:(UITextField *)textField;
 
+//tableview callback
+//选中cell后回调
+-(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 

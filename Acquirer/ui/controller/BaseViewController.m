@@ -207,6 +207,10 @@ CGFloat frameHeighOffset(CGRect rect){
     //do nothing here
 }
 
+-(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //do nothing
+}
+
 -(void)popToRootViewController{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

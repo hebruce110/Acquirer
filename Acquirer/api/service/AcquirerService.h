@@ -15,6 +15,7 @@
 #import "CodeCSVService.h"
 #import "SummaryService.h"
 #import "DetailService.h"
+#import "SettleService.h"
 
 @interface AcquirerService : NSObject{
     PostbeService *postbeService;
@@ -24,6 +25,7 @@
     CodeCSVService *codeCSVService;
     SummaryService *sumService;
     DetailService *detailService;
+    SettleService *settleService;
 }
 
 @property (nonatomic, readonly) PostbeService *postbeService;
@@ -33,6 +35,7 @@
 @property (nonatomic, readonly) CodeCSVService *codeCSVService;
 @property (nonatomic, readonly) SummaryService *sumService;
 @property (nonatomic, readonly) DetailService *detailService;
+@property (nonatomic, readonly) SettleService *settleService;
 
 +(AcquirerService *)sharedInstance;
 +(void)destroySharedInstance;

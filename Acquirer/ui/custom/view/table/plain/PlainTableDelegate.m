@@ -43,7 +43,7 @@
         if (plaincell==nil) {
             plaincell = [[[PlainTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:plain_identifier] autorelease];
         }
-        plaincell.selectionStyle = UITableViewCellSelectionStyleNone;
+        plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
         
         plaincell.titleLabel.text = content.titleSTR;
         plaincell.textLabel.text = content.textSTR;
@@ -57,9 +57,10 @@
         }
         
         plaincell.textLabel.text = content.titleSTR;
-        NSLog(@"%@", content.imgNameSTR);
         plaincell.imageView.image = [UIImage imageNamed:content.imgNameSTR];
         plaincell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell = plaincell;
     }
     else if (content.cellStyle == Cell_Style_LineBreak){
@@ -71,7 +72,9 @@
         plaincell.titleLabel.text = content.titleSTR;
         plaincell.textLabel.text = content.textSTR;
         
+        plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell = plaincell;
+        
     }
 
     return cell;
@@ -94,10 +97,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    PlainContent *content = [[plainList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if (content.jumpClass) {
-        BaseViewController *jpCTRL = [[[content.jumpClass alloc] init] autorelease];
-        [CTRL.navigationController pushViewController:jpCTRL animated:YES];
+    if (CTRL && [CTRL respondsToSelector:@selector(didSelectRowAtIndexPath:)]) {
+        [CTRL didSelectRowAtIndexPath:indexPath];
     }
 }
 
