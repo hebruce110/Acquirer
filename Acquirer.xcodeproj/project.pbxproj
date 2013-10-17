@@ -92,6 +92,13 @@
 		8B3104A917D6E05600764F7B /* sd_logo-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3104A617D6E05600764F7B /* sd_logo-568h@2x.png */; };
 		8B3104AA17D6E05600764F7B /* sd_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3104A717D6E05600764F7B /* sd_logo.png */; };
 		8B3104AB17D6E05600764F7B /* sd_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3104A817D6E05600764F7B /* sd_logo@2x.png */; };
+		8B379E80180FCF550012FF06 /* NSDate+TCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E7F180FCF550012FF06 /* NSDate+TCUtils.m */; };
+		8B379E91180FCFE50012FF06 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E85180FCFE50012FF06 /* AbstractActionSheetPicker.m */; };
+		8B379E92180FCFE50012FF06 /* ActionSheetCustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E87180FCFE50012FF06 /* ActionSheetCustomPicker.m */; };
+		8B379E93180FCFE50012FF06 /* ActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E8A180FCFE50012FF06 /* ActionSheetDatePicker.m */; };
+		8B379E94180FCFE50012FF06 /* ActionSheetDistancePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E8C180FCFE50012FF06 /* ActionSheetDistancePicker.m */; };
+		8B379E95180FCFE50012FF06 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E8E180FCFE50012FF06 /* ActionSheetStringPicker.m */; };
+		8B379E96180FCFE50012FF06 /* DistancePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E90180FCFE50012FF06 /* DistancePickerView.m */; };
 		8B80A58E17CB3E7900DE4CB7 /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B80A58D17CB3E7900DE4CB7 /* BaseService.m */; };
 		8B80A59317CB4A1D00DE4CB7 /* CPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B80A59217CB4A1D00DE4CB7 /* CPRequest.m */; };
 		8B80A59617CB4A6900DE4CB7 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B80A59517CB4A6900DE4CB7 /* Settings.m */; };
@@ -264,6 +271,22 @@
 		8B3104A617D6E05600764F7B /* sd_logo-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sd_logo-568h@2x.png"; sourceTree = "<group>"; };
 		8B3104A717D6E05600764F7B /* sd_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sd_logo.png; sourceTree = "<group>"; };
 		8B3104A817D6E05600764F7B /* sd_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sd_logo@2x.png"; sourceTree = "<group>"; };
+		8B379E7E180FCF550012FF06 /* NSDate+TCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TCUtils.h"; sourceTree = "<group>"; };
+		8B379E7F180FCF550012FF06 /* NSDate+TCUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TCUtils.m"; sourceTree = "<group>"; };
+		8B379E82180FCFE50012FF06 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
+		8B379E84180FCFE50012FF06 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
+		8B379E85180FCFE50012FF06 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
+		8B379E86180FCFE50012FF06 /* ActionSheetCustomPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetCustomPicker.h; sourceTree = "<group>"; };
+		8B379E87180FCFE50012FF06 /* ActionSheetCustomPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetCustomPicker.m; sourceTree = "<group>"; };
+		8B379E88180FCFE50012FF06 /* ActionSheetCustomPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetCustomPickerDelegate.h; sourceTree = "<group>"; };
+		8B379E89180FCFE50012FF06 /* ActionSheetDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDatePicker.h; sourceTree = "<group>"; };
+		8B379E8A180FCFE50012FF06 /* ActionSheetDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDatePicker.m; sourceTree = "<group>"; };
+		8B379E8B180FCFE50012FF06 /* ActionSheetDistancePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDistancePicker.h; sourceTree = "<group>"; };
+		8B379E8C180FCFE50012FF06 /* ActionSheetDistancePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDistancePicker.m; sourceTree = "<group>"; };
+		8B379E8D180FCFE50012FF06 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
+		8B379E8E180FCFE50012FF06 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
+		8B379E8F180FCFE50012FF06 /* DistancePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistancePickerView.h; sourceTree = "<group>"; };
+		8B379E90180FCFE50012FF06 /* DistancePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistancePickerView.m; sourceTree = "<group>"; };
 		8B80A58C17CB3E7900DE4CB7 /* BaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseService.h; sourceTree = "<group>"; };
 		8B80A58D17CB3E7900DE4CB7 /* BaseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
 		8B80A59117CB4A1D00DE4CB7 /* CPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRequest.h; sourceTree = "<group>"; };
@@ -483,6 +506,8 @@
 			children = (
 				8B15ED1417CC72AE00975AA9 /* Helper.h */,
 				8B15ED1517CC72AE00975AA9 /* Helper.m */,
+				8B379E7E180FCF550012FF06 /* NSDate+TCUtils.h */,
+				8B379E7F180FCF550012FF06 /* NSDate+TCUtils.m */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -557,6 +582,35 @@
 				8B09996717E06173001430AA /* auth_loading@2x.png */,
 			);
 			path = login;
+			sourceTree = "<group>";
+		};
+		8B379E81180FCFE50012FF06 /* sheetpicker */ = {
+			isa = PBXGroup;
+			children = (
+				8B379E82180FCFE50012FF06 /* ActionSheetPicker.h */,
+				8B379E83180FCFE50012FF06 /* pickers */,
+			);
+			path = sheetpicker;
+			sourceTree = "<group>";
+		};
+		8B379E83180FCFE50012FF06 /* pickers */ = {
+			isa = PBXGroup;
+			children = (
+				8B379E84180FCFE50012FF06 /* AbstractActionSheetPicker.h */,
+				8B379E85180FCFE50012FF06 /* AbstractActionSheetPicker.m */,
+				8B379E86180FCFE50012FF06 /* ActionSheetCustomPicker.h */,
+				8B379E87180FCFE50012FF06 /* ActionSheetCustomPicker.m */,
+				8B379E88180FCFE50012FF06 /* ActionSheetCustomPickerDelegate.h */,
+				8B379E89180FCFE50012FF06 /* ActionSheetDatePicker.h */,
+				8B379E8A180FCFE50012FF06 /* ActionSheetDatePicker.m */,
+				8B379E8B180FCFE50012FF06 /* ActionSheetDistancePicker.h */,
+				8B379E8C180FCFE50012FF06 /* ActionSheetDistancePicker.m */,
+				8B379E8D180FCFE50012FF06 /* ActionSheetStringPicker.h */,
+				8B379E8E180FCFE50012FF06 /* ActionSheetStringPicker.m */,
+				8B379E8F180FCFE50012FF06 /* DistancePickerView.h */,
+				8B379E90180FCFE50012FF06 /* DistancePickerView.m */,
+			);
+			path = pickers;
 			sourceTree = "<group>";
 		};
 		8B80A58B17CB3E7900DE4CB7 /* service */ = {
@@ -896,6 +950,7 @@
 		8BB6A70817CB3DFF00C71279 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				8B379E81180FCFE50012FF06 /* sheetpicker */,
 				0FCB883817DF5E7700186CB9 /* table */,
 				8BB6A70917CB3DFF00C71279 /* CPTabBar.h */,
 				8BB6A70A17CB3DFF00C71279 /* CPTabBar.m */,
@@ -1112,6 +1167,13 @@
 				8BC4F31417F3C54300D0929C /* TradeSettleMgtViewController.m in Sources */,
 				8BC4F31F17F4231500D0929C /* SettleService.m in Sources */,
 				8BC4F32217F5289C00D0929C /* TradeSettleScopeViewController.m in Sources */,
+				8B379E80180FCF550012FF06 /* NSDate+TCUtils.m in Sources */,
+				8B379E91180FCFE50012FF06 /* AbstractActionSheetPicker.m in Sources */,
+				8B379E92180FCFE50012FF06 /* ActionSheetCustomPicker.m in Sources */,
+				8B379E93180FCFE50012FF06 /* ActionSheetDatePicker.m in Sources */,
+				8B379E94180FCFE50012FF06 /* ActionSheetDistancePicker.m in Sources */,
+				8B379E95180FCFE50012FF06 /* ActionSheetStringPicker.m in Sources */,
+				8B379E96180FCFE50012FF06 /* DistancePickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
