@@ -9,13 +9,18 @@
 #import "TradeSettleScopeViewController.h"
 #import "PlainContent.h"
 #import "PlainTableView.h"
+#import "PlainTableCell.h"
 
 @implementation TradeSettleScopeViewController
 
-@synthesize dateScopeTV;
+@synthesize dateScopeTV, sheetPicker, curIndexPath;
 
 -(void)dealloc{
     [dateScopeTV release];
+    [sheetPicker release];
+    
+    [curIndexPath release];
+    
     [dsList release];
     
     [super dealloc];
@@ -157,7 +162,20 @@
 }
 
 -(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.curIndexPath = indexPath;
     
+    self.sheetPicker = [[[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:[NSDate date] target:self action:@selector(dateWasSelected:element:) origin:self.contentView] autorelease];
+    [sheetPicker addCustomButtonWithTitle:@"今天" value:[NSDate date]];
+    [sheetPicker showActionSheetPicker];
+    ((UIDatePicker *)sheetPicker.pickerView).maximumDate = [NSDate date];
+}
+
+- (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    PlainTableCell *plaincell = (PlainTableCell *)[dateScopeTV cellForRowAtIndexPath:curIndexPath];
+    plaincell.textLabel.text = [dateFormatter stringFromDate:selectedDate];
 }
 
 @end

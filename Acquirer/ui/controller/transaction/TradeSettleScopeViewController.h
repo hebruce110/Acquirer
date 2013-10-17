@@ -7,15 +7,21 @@
 //
 
 #import "BaseViewController.h"
+#import "ActionSheetPicker.h"
 
 @class PlainTableView;
 
 @interface TradeSettleScopeViewController : BaseViewController{
     PlainTableView *dateScopeTV;
+    NSIndexPath *curIndexPath;
+    
+    ActionSheetDatePicker *sheetPicker;
     
     NSMutableArray *dsList;
 }
 
 @property (nonatomic, retain) PlainTableView *dateScopeTV;
+@property (nonatomic, retain) ActionSheetDatePicker *sheetPicker;
+@property (nonatomic, copy) NSIndexPath *curIndexPath;
 
 @end
