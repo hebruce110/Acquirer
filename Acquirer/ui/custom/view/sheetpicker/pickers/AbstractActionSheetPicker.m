@@ -199,19 +199,23 @@
     pickerToolbar.barStyle = UIBarStyleBlackOpaque;
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     NSInteger index = 0;
-    for (NSDictionary *buttonDetails in self.customButtons) {
-        NSString *buttonTitle = [buttonDetails objectForKey:@"buttonTitle"];
-      //NSInteger buttonValue = [[buttonDetails objectForKey:@"buttonValue"] intValue];
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(customButtonPressed:)];
-        button.tag = index;
-        [barItems addObject:button];
-        index++;
-    }
+    
+    //修改为先显示取消按钮
     if (NO == self.hideCancel) {
         //UIBarButtonItem *cancelBtn = [self createButtonWithType:UIBarButtonSystemItemCancel target:self action:@selector(actionPickerCancel:)];
         UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(actionPickerCancel:)];
         [barItems addObject:cancelBtn];
     }
+    
+    for (NSDictionary *buttonDetails in self.customButtons) {
+        NSString *buttonTitle = [buttonDetails objectForKey:@"buttonTitle"];
+      //NSInteger buttonValue = [[buttonDetails objectForKey:@"buttonValue"] intValue];
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStylePlain target:self action:@selector(customButtonPressed:)];
+        button.tag = index;
+        [barItems addObject:button];
+        index++;
+    }
+    
     UIBarButtonItem *flexSpace = [self createButtonWithType:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [barItems addObject:flexSpace];
     if (title){
