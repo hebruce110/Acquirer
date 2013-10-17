@@ -60,6 +60,7 @@
 - (UIView *)configuredPickerView {
     CGRect datePickerFrame = CGRectMake(0, 40, self.viewSize.width, 216);
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:datePickerFrame];
+    [datePicker setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"Chinese"] autorelease]];
     datePicker.datePickerMode = self.datePickerMode;
     [datePicker setDate:self.selectedDate animated:NO];
     [datePicker addTarget:self action:@selector(eventForDatePicker:) forControlEvents:UIControlEventValueChanged];
