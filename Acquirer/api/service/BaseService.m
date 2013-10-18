@@ -10,6 +10,30 @@
 #import "NSNotificationCenter+CP.h"
 #import "ASIHTTPRequest.h"
 
+//当前操作时间
+static NSString *opreateTime(){
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    return [dateFormatter stringFromDate:[NSDate date]];
+}
+
+//添加可选的请求信息，包括每次请求都要传递的参数
+/*
+ operTime | 客户端操作时间
+ uid  | 手机客户端标示
+ version |  版本号
+ ip  |   访问服务端的ip地址
+ checkValue  |   预留字符
+ */
+void AddOptionalReqInfomation(NSMutableDictionary *dict){
+    [dict setValue:@"" forKey:@"checkValue"];
+    [dict setValue:opreateTime() forKey:@"operTime"];
+    [dict setValue:[Acquirer UID] forKey:@"uid"];
+    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
+    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+}
+
+
 @implementation BaseService
 
 - (id)onRespondTarget:(id)_target{

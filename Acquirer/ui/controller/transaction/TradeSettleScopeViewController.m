@@ -10,6 +10,7 @@
 #import "PlainContent.h"
 #import "PlainTableView.h"
 #import "PlainTableCell.h"
+#import "TradeSettleQueryResViewController.h"
 
 @implementation TradeSettleScopeViewController
 
@@ -66,6 +67,7 @@
     titleLabel.textAlignment = NSTextAlignmentLeft;
     titleLabel.text = @"请选择结算起止日期";
     [self.contentView addSubview:titleLabel];
+    [titleLabel release];
     
     [self setUpDateScopeList];
     CGRect dsFrame = CGRectMake(0, 30, self.contentView.bounds.size.width, 105);
@@ -114,7 +116,7 @@
     [latestMonthBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     latestMonthBtn.layer.cornerRadius = 10.0;
     latestMonthBtn.clipsToBounds = YES;
-    latestSevenBtn.tag = 2;
+    latestMonthBtn.tag = 2;
     [latestMonthBtn addTarget:self action:@selector(pressDateScopeBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:latestMonthBtn];
     
@@ -144,21 +146,83 @@
     [self.contentView addSubview:hintLabel];
 }
 
--(void)pressDateScopeBtn:(id)sender{
-    UIButton *btn = (UIButton *)sender;
+-(void)setTableCellDate:(NSDate *)date anIndexPath:(NSIndexPath *)idp{
+    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     
+    PlainTableCell *plaincell = (PlainTableCell *)[dateScopeTV cellForRowAtIndexPath:idp];
+    plaincell.textLabel.text = [formatter stringFromDate:date];
+}
+
+-(void)pressDateScopeBtn:(id)sender{
+    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    UIButton *btn = (UIButton *)sender;
     //最近七天
     if (btn.tag == 1) {
-        NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSDateComponents *comps = [[[NSDateComponents alloc] init] autorelease];
+        [comps setDay:-7];
+        NSDate *date = [calendar dateByAddingComponents:comps toDate:[NSDate date] options:0];
+        [self setTableCellDate:date anIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         
-    }else if (btn.tag == 2){
+        //截止到昨天
+        [comps setDay:-1];
+        NSDate *yestoday = [calendar dateByAddingComponents:comps toDate:[NSDate date] options:0];
+        [self setTableCellDate:yestoday anIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    }
+    //上一个月
+    else if (btn.tag == 2){
+        NSDateComponents *comps = [[[NSDateComponents alloc] init] autorelease];
+        [comps setMonth:-1];
+        NSDate *date = [calendar dateByAddingComponents:comps toDate:[NSDate date] options:0];
         
+        unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+        NSDateComponents *comps2 = [calendar components:unitFlags fromDate:date];
+        [comps2 setDay:1];
+        NSDate *startDate = [calendar dateFromComponents:comps2];
+        [self setTableCellDate:startDate anIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        
+        NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
+        [comps2 setDay:range.length];
+        NSDate *endDate = [calendar dateFromComponents:comps2];
+        [self setTableCellDate:endDate anIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     }
 }
 
 -(void)pressQuery:(id)sender{
+    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     
+    PlainTableCell *cellOne = (PlainTableCell *)[dateScopeTV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    NSDate *startDate = [formatter dateFromString:cellOne.textLabel.text];
+    
+    PlainTableCell *cellTwo = (PlainTableCell *)[dateScopeTV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    NSDate *endDate = [formatter dateFromString:cellTwo.textLabel.text];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *comps = [calendar components:NSDayCalendarUnit fromDate:startDate toDate:endDate options:0];
+    int length = comps.day;
+    //开始日期和结束日期不能超过31天
+    if (length >= 31) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"起始日期和结束日期跨度不能超过31天"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    //起始日期不能大于结束日期
+    if ([startDate compare:endDate] == NSOrderedDescending) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"起始日期不能大于结束日期"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    NSString *beginDateSTR = [formatter stringFromDate:startDate];
+    NSString *endDateSTR = [formatter stringFromDate:endDate];
+    TradeSettleQueryResViewController *tsrCTRL = [[TradeSettleQueryResViewController alloc] initWithStartDate:beginDateSTR endDate:endDateSTR];
+    [self.navigationController pushViewController:tsrCTRL animated:YES];
+    [tsrCTRL release];
 }
 
 -(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

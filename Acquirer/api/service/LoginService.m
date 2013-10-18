@@ -26,13 +26,9 @@
     [dict setValue:usr.instSTR forKey:@"instId"];
     [dict setValue:usr.opratorSTR forKey:@"operId"];
     [dict setValue:[Helper md5_16:usr.passSTR] forKey:@"password"];
-    [dict setValue:@"" forKey:@"checkValue"];
-    [dict setValue:[self oprateTime] forKey:@"operTime"];
-    [dict setValue:[[DeviceIntrospection sharedInstance] uuid] forKey:@"uid"];
-    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
     [dict setValue:@"00000013" forKey:@"functionId"];
-    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
     [dict setValue:[[DeviceIntrospection sharedInstance] platformName] forKey:@"platform"];
+    AddOptionalReqInfomation(dict);
     
     AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
     
@@ -54,13 +50,9 @@
     [dict setValue:usr.opratorSTR forKey:@"operId"];
     [dict setValue:activateSTR forKey:@"activateId"];
     [dict setValue:[Helper md5_16:usr.passSTR] forKey:@"password"];
-    [dict setValue:@"" forKey:@"checkValue"];
-    [dict setValue:[self oprateTime] forKey:@"operTime"];
-    [dict setValue:[[DeviceIntrospection sharedInstance] uuid] forKey:@"uid"];
-    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
-    [dict setValue:@"00000017" forKey:@"functionId"];
-    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+        [dict setValue:@"00000017" forKey:@"functionId"];
     [dict setValue:[[DeviceIntrospection sharedInstance] platformName] forKey:@"platform"];
+    AddOptionalReqInfomation(dict);
     
     NSLog(@"%@", dict);
     

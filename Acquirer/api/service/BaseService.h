@@ -13,6 +13,16 @@
 #import "Acquirer.h"
 #import "DeviceIntrospection.h"
 
+//添加可选的请求信息，包括每次请求都要传递的参数
+/*
+    operTime | 客户端操作时间
+    uid  | 手机客户端标示
+    version |  版本号
+    ip  |   访问服务端的ip地址
+    checkValue  |   预留字符
+ */
+void AddOptionalReqInfomation(NSMutableDictionary *dict);
+
 @interface BaseService : NSObject{
     id target;
     SEL selector;

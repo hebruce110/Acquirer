@@ -19,12 +19,8 @@
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
     [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
     [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
-    [dict setValue:@"" forKey:@"checkValue"];
-    [dict setValue:[self oprateTime] forKey:@"operTime"];
-    [dict setValue:[Acquirer UID] forKey:@"uid"];
-    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
     [dict setValue:@"00000012" forKey:@"functionId"];
-    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+    AddOptionalReqInfomation(dict);
     
     AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
     [acReq onRespondTarget:self selector:@selector(settleManagementRequestDidFinished:)];
@@ -38,6 +34,37 @@
     
     if (target && [target respondsToSelector:@selector(processSettleMgtData:)]) {
         [target performSelector:@selector(processSettleMgtData:) withObject:body];
+    }
+}
+
+-(void)requestForSettleQuery:(NSString *)startDateSTR endDate:(NSString *)endDateSTR resendFlag:(NSString *)resendFlag{
+    Acquirer *ac = [Acquirer sharedInstance];
+    [ac showUIPromptMessage:@"查询中..." animated:YES];
+    
+    NSString* url = [NSString stringWithFormat:@"/balance/queryBalanceList"];
+    
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
+    [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
+    [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
+    [dict setValue:startDateSTR forKey:@"beginDate"];
+    [dict setValue:endDateSTR forKey:@"endDate"];
+    [dict setValue:resendFlag forKey:@"resend"];
+    [dict setValue:DEFAULT_REQUEST_NUM forKey:@"pcnt"];
+    [dict setValue:@"00000006" forKey:@"functionId"];
+    AddOptionalReqInfomation(dict);
+    
+    AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
+    [acReq onRespondTarget:self selector:@selector(settleQueryRequestDidFinished:)];
+    [acReq execute];
+}
+
+-(void)settleQueryRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
+    NSDictionary *body = (NSDictionary *)req.responseAsJson;
+    
+    if (target && [target respondsToSelector:@selector(processSettleQueryData:)]) {
+        [target performSelector:@selector(processSettleQueryData:) withObject:body];
     }
 }
 

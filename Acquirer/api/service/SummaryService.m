@@ -22,12 +22,8 @@
     [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
     [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
     [dict setValue:devIdSTR forKey:@"pnrDevId"];
-    [dict setValue:@"" forKey:@"checkValue"];
     [dict setValue:fdate forKey:@"beginDate"];
     [dict setValue:tdate forKey:@"endDate"];
-    [dict setValue:[self oprateTime] forKey:@"operTime"];
-    [dict setValue:[Acquirer UID] forKey:@"uid"];
-    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
     if (sumType == Summary_Type_Today) {
         [dict setValue:@"1" forKey:@"reportFlag"];
         [dict setValue:@"00000010" forKey:@"functionId"];
@@ -36,7 +32,7 @@
         [dict setValue:@"00000005" forKey:@"functionId"];
     }else{}
     
-    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+    AddOptionalReqInfomation(dict);
     
     AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
     [acReq onRespondTarget:self selector:@selector(tradySummaryRequestDidFinished:)];

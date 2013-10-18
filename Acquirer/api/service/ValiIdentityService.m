@@ -18,12 +18,8 @@
     
     NSString* url = [NSString stringWithFormat:@"/user/getAuthCode"];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setValue:[Acquirer UID] forKey:@"uid"];
-    [dict setValue:@"" forKey:@"checkValue"];
-    [dict setValue:[self oprateTime] forKey:@"operTime"];
-    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
     [dict setValue:@"00000001" forKey:@"functionId"];
-    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+    AddOptionalReqInfomation(dict);
     
     AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
     [acReq onRespondTarget:self selector:@selector(authImgURLRequestDidFinished:)];
@@ -90,12 +86,8 @@
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
     [dict setValue:pnrDevIdSTR forKey:@"pnrDevId"];
     [dict setValue:mobileSTR forKey:@"mobile"];
-    [dict setValue:[self oprateTime] forKey:@"operTime"];
-    [dict setValue:@"" forKey:@"checkValue"];
-    [dict setValue:[Acquirer UID] forKey:@"uid"];
-    [dict setValue:[Acquirer bundleVersion] forKey:@"version"];
     [dict setValue:@"00000002" forKey:@"functionId"];
-    [dict setValue:[[DeviceIntrospection sharedInstance] IPAddress] forKey:@"ip"];
+    AddOptionalReqInfomation(dict);
     
     NSLog(@"%@", dict);
     

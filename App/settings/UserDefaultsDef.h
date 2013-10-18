@@ -30,6 +30,8 @@
 //登录操作员号
 #define ACQUIRER_LOGIN_OPERATOR @"ACQUIRER_LOGIN_OPERATOR"
 
+//默认请求条数
+#define DEFAULT_REQUEST_NUM @"30"
 
 //==================================================
 //MTP Server

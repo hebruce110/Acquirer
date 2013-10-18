@@ -99,6 +99,9 @@
 		8B379E94180FCFE50012FF06 /* ActionSheetDistancePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E8C180FCFE50012FF06 /* ActionSheetDistancePicker.m */; };
 		8B379E95180FCFE50012FF06 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E8E180FCFE50012FF06 /* ActionSheetStringPicker.m */; };
 		8B379E96180FCFE50012FF06 /* DistancePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E90180FCFE50012FF06 /* DistancePickerView.m */; };
+		8B379E99181116200012FF06 /* TradeSettleQueryResViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E981811161F0012FF06 /* TradeSettleQueryResViewController.m */; };
+		8B379E9C181133B00012FF06 /* SettleQueryContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E9B181133B00012FF06 /* SettleQueryContent.m */; };
+		8B379E9F1811350A0012FF06 /* SettleQueryTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B379E9E181135090012FF06 /* SettleQueryTableCell.m */; };
 		8B80A58E17CB3E7900DE4CB7 /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B80A58D17CB3E7900DE4CB7 /* BaseService.m */; };
 		8B80A59317CB4A1D00DE4CB7 /* CPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B80A59217CB4A1D00DE4CB7 /* CPRequest.m */; };
 		8B80A59617CB4A6900DE4CB7 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B80A59517CB4A6900DE4CB7 /* Settings.m */; };
@@ -287,6 +290,12 @@
 		8B379E8E180FCFE50012FF06 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
 		8B379E8F180FCFE50012FF06 /* DistancePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistancePickerView.h; sourceTree = "<group>"; };
 		8B379E90180FCFE50012FF06 /* DistancePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistancePickerView.m; sourceTree = "<group>"; };
+		8B379E971811161F0012FF06 /* TradeSettleQueryResViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleQueryResViewController.h; sourceTree = "<group>"; };
+		8B379E981811161F0012FF06 /* TradeSettleQueryResViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleQueryResViewController.m; sourceTree = "<group>"; };
+		8B379E9A181133B00012FF06 /* SettleQueryContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettleQueryContent.h; sourceTree = "<group>"; };
+		8B379E9B181133B00012FF06 /* SettleQueryContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettleQueryContent.m; sourceTree = "<group>"; };
+		8B379E9D181135090012FF06 /* SettleQueryTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettleQueryTableCell.h; sourceTree = "<group>"; };
+		8B379E9E181135090012FF06 /* SettleQueryTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettleQueryTableCell.m; sourceTree = "<group>"; };
 		8B80A58C17CB3E7900DE4CB7 /* BaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseService.h; sourceTree = "<group>"; };
 		8B80A58D17CB3E7900DE4CB7 /* BaseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
 		8B80A59117CB4A1D00DE4CB7 /* CPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRequest.h; sourceTree = "<group>"; };
@@ -893,6 +902,8 @@
 				8BC4F31317F3C54300D0929C /* TradeSettleMgtViewController.m */,
 				8BC4F32017F5289B00D0929C /* TradeSettleScopeViewController.h */,
 				8BC4F32117F5289C00D0929C /* TradeSettleScopeViewController.m */,
+				8B379E971811161F0012FF06 /* TradeSettleQueryResViewController.h */,
+				8B379E981811161F0012FF06 /* TradeSettleQueryResViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -968,6 +979,10 @@
 				8BEAFFA417F022900080A8F5 /* DetailContent.m */,
 				8BEAFFA617F022BF0080A8F5 /* DetailTableCell.h */,
 				8BEAFFA717F022BF0080A8F5 /* DetailTableCell.m */,
+				8B379E9A181133B00012FF06 /* SettleQueryContent.h */,
+				8B379E9B181133B00012FF06 /* SettleQueryContent.m */,
+				8B379E9D181135090012FF06 /* SettleQueryTableCell.h */,
+				8B379E9E181135090012FF06 /* SettleQueryTableCell.m */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -1174,6 +1189,9 @@
 				8B379E94180FCFE50012FF06 /* ActionSheetDistancePicker.m in Sources */,
 				8B379E95180FCFE50012FF06 /* ActionSheetStringPicker.m in Sources */,
 				8B379E96180FCFE50012FF06 /* DistancePickerView.m in Sources */,
+				8B379E99181116200012FF06 /* TradeSettleQueryResViewController.m in Sources */,
+				8B379E9C181133B00012FF06 /* SettleQueryContent.m in Sources */,
+				8B379E9F1811350A0012FF06 /* SettleQueryTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

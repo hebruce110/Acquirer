@@ -13,4 +13,9 @@
 //请求结算管理
 -(void)requestForSettleManagement;
 
+//请求结算查询
+-(void)requestForSettleQuery:(NSString *)startDateSTR
+                     endDate:(NSString *)endDateSTR
+                  resendFlag:(NSString *)resendFlag;
+
 @end
