@@ -25,7 +25,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         CGFloat leftOffset = 30;
-        CGFloat rightOffset = 40;
+        CGFloat rightOffset = 90;
         
         bankCardLabel = [[UILabel alloc] init] ;
         bankCardLabel.frame = CGRectMake(leftOffset, 5, 120, 20);
