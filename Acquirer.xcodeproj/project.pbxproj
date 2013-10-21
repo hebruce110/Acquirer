@@ -14,6 +14,8 @@
 		0F911E7E17DAB4BA00640BF8 /* dashed.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F911E7C17DAB4BA00640BF8 /* dashed.png */; };
 		0F911E7F17DAB4BA00640BF8 /* dashed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F911E7D17DAB4BA00640BF8 /* dashed@2x.png */; };
 		0F911E8517DAF27800640BF8 /* ActivateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F911E8417DAF27800640BF8 /* ActivateViewController.m */; };
+		8B020B461814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B020B451814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m */; };
+		8B020B4918152472001E2EFF /* UILabel+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B020B4818152472001E2EFF /* UILabel+Size.m */; };
 		8B09992C17D814B3001430AA /* BUTT_red_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09992817D814B3001430AA /* BUTT_red_off.png */; };
 		8B09992D17D814B3001430AA /* BUTT_red_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09992917D814B3001430AA /* BUTT_red_off@2x.png */; };
 		8B09992E17D814B3001430AA /* BUTT_red_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09992A17D814B3001430AA /* BUTT_red_on.png */; };
@@ -171,6 +173,10 @@
 		0F911E7D17DAB4BA00640BF8 /* dashed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashed@2x.png"; sourceTree = "<group>"; };
 		0F911E8317DAF27800640BF8 /* ActivateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivateViewController.h; sourceTree = "<group>"; };
 		0F911E8417DAF27800640BF8 /* ActivateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivateViewController.m; sourceTree = "<group>"; };
+		8B020B441814C5E6001E2EFF /* TradeSettleQueryInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleQueryInfoViewController.h; sourceTree = "<group>"; };
+		8B020B451814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleQueryInfoViewController.m; sourceTree = "<group>"; };
+		8B020B471815243D001E2EFF /* UILabel+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Size.h"; sourceTree = "<group>"; };
+		8B020B4818152472001E2EFF /* UILabel+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Size.m"; sourceTree = "<group>"; };
 		8B09992817D814B3001430AA /* BUTT_red_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BUTT_red_off.png; sourceTree = "<group>"; };
 		8B09992917D814B3001430AA /* BUTT_red_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BUTT_red_off@2x.png"; sourceTree = "<group>"; };
 		8B09992A17D814B3001430AA /* BUTT_red_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BUTT_red_on.png; sourceTree = "<group>"; };
@@ -517,6 +523,8 @@
 				8B15ED1517CC72AE00975AA9 /* Helper.m */,
 				8B379E7E180FCF550012FF06 /* NSDate+TCUtils.h */,
 				8B379E7F180FCF550012FF06 /* NSDate+TCUtils.m */,
+				8B020B471815243D001E2EFF /* UILabel+Size.h */,
+				8B020B4818152472001E2EFF /* UILabel+Size.m */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -904,6 +912,8 @@
 				8BC4F32117F5289C00D0929C /* TradeSettleScopeViewController.m */,
 				8B379E971811161F0012FF06 /* TradeSettleQueryResViewController.h */,
 				8B379E981811161F0012FF06 /* TradeSettleQueryResViewController.m */,
+				8B020B441814C5E6001E2EFF /* TradeSettleQueryInfoViewController.h */,
+				8B020B451814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -1192,6 +1202,8 @@
 				8B379E99181116200012FF06 /* TradeSettleQueryResViewController.m in Sources */,
 				8B379E9C181133B00012FF06 /* SettleQueryContent.m in Sources */,
 				8B379E9F1811350A0012FF06 /* SettleQueryTableCell.m in Sources */,
+				8B020B461814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m in Sources */,
+				8B020B4918152472001E2EFF /* UILabel+Size.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

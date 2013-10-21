@@ -359,6 +359,7 @@ static Acquirer *sInstance = nil;
 }
 
 //code.csv状态码描述
+//状态失败的状态码对应的原因
 -(NSString *)codeCSVDesc:(NSString *)codeSTR{
     for (CodeInfo *info in codeList) {
         if ([info.codeNumSTR isEqualToString:codeSTR]) {

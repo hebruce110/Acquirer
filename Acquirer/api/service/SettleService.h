@@ -7,6 +7,7 @@
 //
 
 #import "BaseService.h"
+#import "SettleQueryContent.h"
 
 @interface SettleService : BaseService
 
@@ -17,5 +18,8 @@
 -(void)requestForSettleQuery:(NSString *)startDateSTR
                      endDate:(NSString *)endDateSTR
                   resendFlag:(NSString *)resendFlag;
+
+//请求结算详情
+-(void)requestForSettleInfo:(SettleQueryContent *)sqModel;
 
 @end

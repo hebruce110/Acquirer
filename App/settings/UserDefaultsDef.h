@@ -92,4 +92,6 @@ typedef enum {
 #define DEFAULT_TAB_BAR_HEIGHT 49
 #define DEFAULT_TAB_WIDTH 160
 
+#define PLAIN_CELL_TEXT_WIDTH 180
+
 #endif

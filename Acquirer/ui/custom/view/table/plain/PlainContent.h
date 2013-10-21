@@ -11,7 +11,10 @@
 typedef enum _CellStyle{
     Cell_Style_Standard = 0,
     Cell_Style_Plain,
+    //title在上, text在下
     Cell_Style_LineBreak,
+    //title在左, text在右
+    Cell_Style_Text_LineBreak,
 }CellStyle;
 
 @interface PlainContent : NSObject{

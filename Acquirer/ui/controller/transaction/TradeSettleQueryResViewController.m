@@ -9,6 +9,7 @@
 #import "TradeSettleQueryResViewController.h"
 #import "SettleQueryContent.h"
 #import "SettleQueryTableCell.h"
+#import "TradeSettleQueryInfoViewController.h"
 
 @implementation TradeSettleQueryResViewController
 
@@ -51,6 +52,8 @@
     
     [self setNavigationTitle:@"查询结果"];
     
+    [sqList removeAllObjects];
+    
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.frame = CGRectMake(0, 10, self.contentView.bounds.size.width, 20);
     titleLabel.font = [UIFont systemFontOfSize:14];
@@ -73,7 +76,6 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    [sqList removeAllObjects];
     if (needRefreshTableView) {
         [self requestForSettleQuery];
     }
@@ -115,20 +117,12 @@
                                                                      notifyType:NOTIFICATION_TYPE_WARNING];
     }
     
-    NSDateFormatter *formatterString = [[[NSDateFormatter alloc] init] autorelease];
-    [formatterString setDateFormat:@"yyyyMMdd"];
-    
-    NSDateFormatter *formatterDate = [[[NSDateFormatter alloc] init] autorelease];
-    [formatterDate setDateFormat:@"yyyy-MM-dd"];
-    
     for (NSDictionary *dict in queryList) {
         SettleQueryContent *sqModel = [[[SettleQueryContent alloc] init] autorelease];
         sqModel.accountIdSTR = [dict objectForKey:@"acctId"];
         sqModel.balAmtSTR = [dict objectForKey:@"balAmt"];
         
-        NSString *balDateSTR = [dict objectForKey:@"balDate"];
-        NSDate *balDate = [formatterString dateFromString:balDateSTR];
-        sqModel.balDateSTR = [formatterDate stringFromDate:balDate];
+        sqModel.balDateSTR = [dict objectForKey:@"balDate"];
         
         sqModel.balSeqIdSTR = [dict objectForKey:@"balSeqId"];
         sqModel.balStatSTR = [dict objectForKey:@"balStat"];
@@ -198,7 +192,15 @@
     
     SettleQueryContent *dc = (SettleQueryContent *)[sqList objectAtIndex:indexPath.row];
     cell.bankCardLabel.text = dc.accountIdSTR;
-    cell.tradeTimeLabel.text = dc.balDateSTR;
+    
+    NSDateFormatter *formatterString = [[[NSDateFormatter alloc] init] autorelease];
+    [formatterString setDateFormat:@"yyyyMMdd"];
+    NSDateFormatter *formatterDate = [[[NSDateFormatter alloc] init] autorelease];
+    [formatterDate setDateFormat:@"yyyy-MM-dd"];
+    NSDate *balDate = [formatterString dateFromString:dc.balDateSTR];
+    NSString *balDateSTR = [formatterDate stringFromDate:balDate];
+    cell.tradeTimeLabel.text = balDateSTR;
+    
     cell.balanceAmtLabel.text = [NSString stringWithFormat:@"%@元", dc.balAmtSTR];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -211,6 +213,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSLog(@"sqList count:%d", sqList.count);
     
     if ([sqList count] != 0) {
         //载入新的内容
@@ -225,6 +229,10 @@
         //跳转操作
         needRefreshTableView = NO;
         
+        SettleQueryContent *sqContent = [sqList objectAtIndex:indexPath.row];
+        TradeSettleQueryInfoViewController *tsqiCTRL = [[[TradeSettleQueryInfoViewController alloc] init] autorelease];
+        tsqiCTRL.sqContent = sqContent;
+        [self.navigationController pushViewController:tsqiCTRL animated:YES];
     }
 }
 

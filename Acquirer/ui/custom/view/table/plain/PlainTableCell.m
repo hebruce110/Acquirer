@@ -7,6 +7,7 @@
 //
 
 #import "PlainTableCell.h"
+#import "UILabel+Size.h"
 
 @implementation PlainTableCell
 
@@ -22,7 +23,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        CGFloat offset = 30;
+        CGFloat offset = 20;
         CGFloat titleWidth = 180;
         CGRect titleFrame = CGRectMake(offset, 0, titleWidth, DEFAULT_ROW_HEIGHT);
         titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
@@ -31,12 +32,13 @@
         titleLabel.font = [UIFont boldSystemFontOfSize:16];
         [self addSubview:titleLabel];
         
-        CGFloat textWidth = 180;
+        CGFloat textWidth = PLAIN_CELL_TEXT_WIDTH;
         CGRect textFrame = CGRectMake(self.bounds.size.width-textWidth-offset, 0, textWidth, self.bounds.size.height);
         textLabel = [[UILabel alloc] initWithFrame:textFrame];
         textLabel.textAlignment = NSTextAlignmentRight;
         textLabel.backgroundColor = [UIColor clearColor];
         textLabel.font = [UIFont boldSystemFontOfSize:16];
+        textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self addSubview:textLabel];
     }
     return self;

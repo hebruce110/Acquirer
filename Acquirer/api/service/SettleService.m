@@ -54,11 +54,11 @@
     AddOptionalReqInfomation(dict);
     
     AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
-    [acReq onRespondTarget:self selector:@selector(settleQueryRequestDidFinished:)];
+    [acReq onRespondTarget:self selector:@selector(settleQueryResRequestDidFinished:)];
     [acReq execute];
 }
 
--(void)settleQueryRequestDidFinished:(AcquirerCPRequest *)req{
+-(void)settleQueryResRequestDidFinished:(AcquirerCPRequest *)req{
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
     NSDictionary *body = (NSDictionary *)req.responseAsJson;
@@ -67,5 +67,37 @@
         [target performSelector:@selector(processSettleQueryData:) withObject:body];
     }
 }
+
+//请求结算详情
+-(void)requestForSettleInfo:(SettleQueryContent *)sqModel{
+    Acquirer *ac = [Acquirer sharedInstance];
+    [ac showUIPromptMessage:@"查询中..." animated:YES];
+    
+    NSString* url = [NSString stringWithFormat:@"/balance/queryBalById"];
+    
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
+    [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
+    [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
+    [dict setValue:sqModel.balDateSTR forKey:@"balDate"];
+    [dict setValue:sqModel.balSeqIdSTR forKey:@"balSeqId"];
+    [dict setValue:sqModel.cashChannelSTR forKey:@"cashChannel"];
+    AddOptionalReqInfomation(dict);
+    
+    AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
+    [acReq onRespondTarget:self selector:@selector(settleQueryInfoRequestDidFinished:)];
+    [acReq execute];
+}
+
+-(void)settleQueryInfoRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
+    NSDictionary *body = (NSDictionary *)req.responseAsJson;
+    
+    if (target && [target respondsToSelector:@selector(processSettleQueryInfoData:)]) {
+        [target performSelector:@selector(processSettleQueryInfoData:) withObject:body];
+    }
+    
+}
+
 
 @end
