@@ -45,7 +45,7 @@
         }
         [tradeDList addObject:secList];
     }
-    ((PlainContent *)((NSArray *)[tradeDList objectAtIndex:0]).lastObject).cellStyle = Cell_Style_LineBreak;
+    ((PlainContent *)((NSArray *)[tradeDList objectAtIndex:0]).lastObject).cellStyle = Cell_Plain_Style_LineBreak;
 }
 
 - (void)viewDidLoad

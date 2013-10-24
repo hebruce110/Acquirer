@@ -36,6 +36,7 @@
 
 @interface TradeEncashViewController : BaseViewController{
     EncashModel *ec;
+    
 }
 
 @property (nonatomic, retain) EncashModel *ec;

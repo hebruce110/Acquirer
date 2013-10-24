@@ -140,7 +140,7 @@
     char *p = strchr(a, '.');
     while (p!=NULL && (p=p-3) > a) {
         char *pend = a + strlen(a);
-        memmove(p+1, p, pend-p);
+        memmove(p+1, p, (pend-p)*sizeof(char));
         *p = ',';
     }
     

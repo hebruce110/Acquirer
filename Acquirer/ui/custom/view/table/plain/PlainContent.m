@@ -19,7 +19,7 @@
 -(id)init{
     self = [super init];
     if (self) {
-        cellStyle = Cell_Style_Plain;
+        cellStyle = Cell_Plain_Style_Plain;
     }
     return self;
 }

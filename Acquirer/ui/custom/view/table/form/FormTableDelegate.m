@@ -47,7 +47,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"Login_Identifier";
+    static NSString *identifier = @"Form_Identifier";
     
     FormTableCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
