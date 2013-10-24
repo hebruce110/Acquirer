@@ -82,6 +82,14 @@
  */
 +(BOOL)containInvalidChar:(NSString *)string;
 
+/*
+ 处理金额显示
+ 当输入金额为XXXXX.XX的格式时，小数点前的每三位加入一个逗号，分隔符,
+ 修改后的格式为: XX,XXX,XXX.XX 格式
+ */
+
++(NSString *)processAmtDisplay:(NSString *)amtSTR;
+
 //十六进制颜色字符串转UIColor
 +(UIColor *) hexStringToColor: (NSString *) stringToConvert;
 

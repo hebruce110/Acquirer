@@ -96,7 +96,6 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
         
         return;
     }
-    
     //账号未激活
     //jump to activate page
     else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02127"))

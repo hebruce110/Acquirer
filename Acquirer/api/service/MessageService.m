@@ -23,6 +23,7 @@
     ACUser *usr = [[Acquirer sharedInstance] currentUser];
     
     NSString* url = [NSString stringWithFormat:@"/user/sendMsgByLogin"];
+    
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:usr.instSTR forKey:@"instId"];
     [dict setValue:usr.opratorSTR forKey:@"operId"];

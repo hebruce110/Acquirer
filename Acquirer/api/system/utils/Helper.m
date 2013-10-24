@@ -126,6 +126,28 @@
     return NO;
 }
 
+/*
+ 处理金额显示
+ 当输入金额为XXXXX.XX的格式时，小数点前的每三位加入一个逗号，分隔符,
+ 修改后的格式为: XX,XXX,XXX.XX 格式
+ */
+
++(NSString *)processAmtDisplay:(NSString *)amtSTR{
+    char a[30];
+    bzero(a, sizeof(a));
+    strcpy(a, [amtSTR UTF8String]);
+    
+    char *p = strchr(a, '.');
+    while (p!=NULL && (p=p-3) > a) {
+        char *pend = a + strlen(a);
+        memmove(p+1, p, pend-p);
+        *p = ',';
+    }
+    
+    NSString *processedSTR = [NSString stringWithUTF8String:a];
+    return processedSTR;
+}
+
 /**
  MD5加密
  @param str 输入初始参数

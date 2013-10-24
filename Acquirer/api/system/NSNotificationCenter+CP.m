@@ -37,6 +37,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_UI_AUTO_PROMPT object:nil userInfo:dict];
 }
 
+
+//
 -(void)postAutoTitaniumProtoNotification:(NSString *)message notifyType:(NSString *)typeSTR{
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:message, NOTIFICATION_MESSAGE,
                                                                     typeSTR, NOTIFICATION_TYPE, nil];
