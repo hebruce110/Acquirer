@@ -124,6 +124,16 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02324") ||
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02325") ||
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02326")){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:[[Acquirer sharedInstance] codeCSVDesc:[body objectForKey:MTP_RESPONSE_CODE]]
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"确定", nil];
+        [alert show];
+        [alert release];
+    }
+    //不做处理
+    else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02327")){
         
     }
     //其他情况，只显示提示

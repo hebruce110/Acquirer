@@ -96,8 +96,33 @@
     if (target && [target respondsToSelector:@selector(processSettleQueryInfoData:)]) {
         [target performSelector:@selector(processSettleQueryInfoData:) withObject:body];
     }
-    
 }
 
+//请求银行结算帐户
+-(void)requestForBankSettleAccount{
+    Acquirer *ac = [Acquirer sharedInstance];
+    [ac showUIPromptMessage:@"查询中..." animated:YES];
+    
+    NSString* url = [NSString stringWithFormat:@"/balance/queryAcctInfo"];
+    
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
+    [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
+    [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
+    [dict setValue:@"" forKey:@"checkValue"];
+    
+    AcquirerCPRequest *acReq = [AcquirerCPRequest getRequestWithPath:url andQuery:dict];
+    [acReq onRespondTarget:self selector:@selector(bankSettleAccountRequestDidFinished:)];
+    [acReq execute];
+}
+
+-(void)bankSettleAccountRequestDidFinished:(AcquirerCPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
+    NSDictionary *body = (NSDictionary *)req.responseAsJson;
+    
+    if (target && [target respondsToSelector:@selector(processBankSettleAccountData:)]) {
+        [target performSelector:@selector(processBankSettleAccountData:) withObject:body];
+    }
+}
 
 @end

@@ -22,4 +22,7 @@
 //请求结算详情
 -(void)requestForSettleInfo:(SettleQueryContent *)sqModel;
 
+//请求银行结算帐户
+-(void)requestForBankSettleAccount;
+
 @end

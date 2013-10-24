@@ -97,7 +97,7 @@
     if (content.cellStyle == Cell_Style_LineBreak){
         return DEFAULT_ROW_HEIGHT*2.0;
     }
-    else if (content.cellStyle == Cell_Style_Text_LineBreak){
+    else if (content.cellStyle == Cell_Style_Text_LineBreak || content.cellStyle == Cell_Style_Plain){
         CGFloat lines = [UILabel calcLabelLineWithString:content.textSTR andFont:[UIFont boldSystemFontOfSize:16] lineWidth:PLAIN_CELL_TEXT_WIDTH];
         if (lines >= 1) {
             return DEFAULT_ROW_HEIGHT+(lines-1)*[content.textSTR sizeWithFont:[UIFont boldSystemFontOfSize:16]].height;

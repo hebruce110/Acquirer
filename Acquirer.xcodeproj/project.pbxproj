@@ -14,6 +14,13 @@
 		0F911E7E17DAB4BA00640BF8 /* dashed.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F911E7C17DAB4BA00640BF8 /* dashed.png */; };
 		0F911E7F17DAB4BA00640BF8 /* dashed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F911E7D17DAB4BA00640BF8 /* dashed@2x.png */; };
 		0F911E8517DAF27800640BF8 /* ActivateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F911E8417DAF27800640BF8 /* ActivateViewController.m */; };
+		17402C461817B424009A901E /* encashment.png in Resources */ = {isa = PBXBuildFile; fileRef = 17402C441817B424009A901E /* encashment.png */; };
+		17402C471817B424009A901E /* encashment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17402C451817B424009A901E /* encashment@2x.png */; };
+		17402C4A1817B6EE009A901E /* EncashService.m in Sources */ = {isa = PBXBuildFile; fileRef = 17402C491817B6EE009A901E /* EncashService.m */; };
+		17402C4D1817C05F009A901E /* TradeEncashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17402C4C1817C05F009A901E /* TradeEncashViewController.m */; };
+		17402C501817C0F5009A901E /* TradeEncashProtocalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17402C4F1817C0F5009A901E /* TradeEncashProtocalViewController.m */; };
+		1762A85D181770D0005A8893 /* TradeSettleBankAcctViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1762A85C181770CF005A8893 /* TradeSettleBankAcctViewController.m */; };
+		17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17FDA10C1818B49100D08A55 /* EncashAgreement.txt */; };
 		8B020B461814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B020B451814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m */; };
 		8B020B4918152472001E2EFF /* UILabel+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B020B4818152472001E2EFF /* UILabel+Size.m */; };
 		8B09992C17D814B3001430AA /* BUTT_red_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B09992817D814B3001430AA /* BUTT_red_off.png */; };
@@ -173,6 +180,17 @@
 		0F911E7D17DAB4BA00640BF8 /* dashed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashed@2x.png"; sourceTree = "<group>"; };
 		0F911E8317DAF27800640BF8 /* ActivateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivateViewController.h; sourceTree = "<group>"; };
 		0F911E8417DAF27800640BF8 /* ActivateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivateViewController.m; sourceTree = "<group>"; };
+		17402C441817B424009A901E /* encashment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = encashment.png; sourceTree = "<group>"; };
+		17402C451817B424009A901E /* encashment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "encashment@2x.png"; sourceTree = "<group>"; };
+		17402C481817B6EE009A901E /* EncashService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncashService.h; sourceTree = "<group>"; };
+		17402C491817B6EE009A901E /* EncashService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncashService.m; sourceTree = "<group>"; };
+		17402C4B1817C05F009A901E /* TradeEncashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeEncashViewController.h; sourceTree = "<group>"; };
+		17402C4C1817C05F009A901E /* TradeEncashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeEncashViewController.m; sourceTree = "<group>"; };
+		17402C4E1817C0F5009A901E /* TradeEncashProtocalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeEncashProtocalViewController.h; sourceTree = "<group>"; };
+		17402C4F1817C0F5009A901E /* TradeEncashProtocalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeEncashProtocalViewController.m; sourceTree = "<group>"; };
+		1762A85B181770CF005A8893 /* TradeSettleBankAcctViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleBankAcctViewController.h; sourceTree = "<group>"; };
+		1762A85C181770CF005A8893 /* TradeSettleBankAcctViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleBankAcctViewController.m; sourceTree = "<group>"; };
+		17FDA10C1818B49100D08A55 /* EncashAgreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EncashAgreement.txt; sourceTree = "<group>"; };
 		8B020B441814C5E6001E2EFF /* TradeSettleQueryInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleQueryInfoViewController.h; sourceTree = "<group>"; };
 		8B020B451814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleQueryInfoViewController.m; sourceTree = "<group>"; };
 		8B020B471815243D001E2EFF /* UILabel+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Size.h"; sourceTree = "<group>"; };
@@ -480,6 +498,8 @@
 				8BC4F31617F41F9500D0929C /* tradesettleaccount@2x.png */,
 				8BC4F31717F41F9500D0929C /* tradesettlesearch.png */,
 				8BC4F31817F41F9500D0929C /* tradesettlesearch@2x.png */,
+				17402C441817B424009A901E /* encashment.png */,
+				17402C451817B424009A901E /* encashment@2x.png */,
 			);
 			path = trade;
 			sourceTree = "<group>";
@@ -654,6 +674,8 @@
 				8BEAFFAD17F121F70080A8F5 /* DetailService.m */,
 				8BC4F31D17F4231400D0929C /* SettleService.h */,
 				8BC4F31E17F4231500D0929C /* SettleService.m */,
+				17402C481817B6EE009A901E /* EncashService.h */,
+				17402C491817B6EE009A901E /* EncashService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -719,6 +741,7 @@
 				8BB6A6FE17CAF74F00C71279 /* settings */,
 				8B31046717D43A1B00764F7B /* code.csv */,
 				8B09994317D99A0A001430AA /* RespCodeDesc.geojson */,
+				17FDA10C1818B49100D08A55 /* EncashAgreement.txt */,
 				8BB6A69917CAE73500C71279 /* Acquirer-Info.plist */,
 				8BB6A69A17CAE73500C71279 /* Acquirer-Prefix.pch */,
 				8BB6A69B17CAE73500C71279 /* InfoPlist.strings */,
@@ -914,6 +937,12 @@
 				8B379E981811161F0012FF06 /* TradeSettleQueryResViewController.m */,
 				8B020B441814C5E6001E2EFF /* TradeSettleQueryInfoViewController.h */,
 				8B020B451814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m */,
+				1762A85B181770CF005A8893 /* TradeSettleBankAcctViewController.h */,
+				1762A85C181770CF005A8893 /* TradeSettleBankAcctViewController.m */,
+				17402C4B1817C05F009A901E /* TradeEncashViewController.h */,
+				17402C4C1817C05F009A901E /* TradeEncashViewController.m */,
+				17402C4E1817C0F5009A901E /* TradeEncashProtocalViewController.h */,
+				17402C4F1817C0F5009A901E /* TradeEncashProtocalViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -1023,8 +1052,13 @@
 		8BB6A66617CAE5C400C71279 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = chinaPnr;
+				TargetAttributes = {
+					8BB6A66D17CAE5C400C71279 = {
+						DevelopmentTeam = Y3697NHB4K;
+					};
+				};
 			};
 			buildConfigurationList = 8BB6A66917CAE5C400C71279 /* Build configuration list for PBXProject "Acquirer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1080,6 +1114,7 @@
 				8B3104AB17D6E05600764F7B /* sd_logo@2x.png in Resources */,
 				8B09992C17D814B3001430AA /* BUTT_red_off.png in Resources */,
 				8B09992D17D814B3001430AA /* BUTT_red_off@2x.png in Resources */,
+				17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */,
 				8B09992E17D814B3001430AA /* BUTT_red_on.png in Resources */,
 				8B09992F17D814B3001430AA /* BUTT_red_on@2x.png in Resources */,
 				8B09993B17D88AE4001430AA /* deal-ico-hover.png in Resources */,
@@ -1094,6 +1129,7 @@
 				0F911E7917DAB21700640BF8 /* BUTT_whi_off@2x.png in Resources */,
 				0F911E7A17DAB21700640BF8 /* BUTT_whi_on.png in Resources */,
 				0F911E7B17DAB21700640BF8 /* BUTT_whi_on@2x.png in Resources */,
+				17402C461817B424009A901E /* encashment.png in Resources */,
 				0F911E7E17DAB4BA00640BF8 /* dashed.png in Resources */,
 				0F911E7F17DAB4BA00640BF8 /* dashed@2x.png in Resources */,
 				8B09995117DD6735001430AA /* back.png in Resources */,
@@ -1115,6 +1151,7 @@
 				8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */,
 				8BEAFFA117EFDF8D0080A8F5 /* nav-btn@2x.png in Resources */,
 				8BC4F31917F41F9500D0929C /* tradesettleaccount.png in Resources */,
+				17402C471817B424009A901E /* encashment@2x.png in Resources */,
 				8BC4F31A17F41F9500D0929C /* tradesettleaccount@2x.png in Resources */,
 				8BC4F31B17F41F9500D0929C /* tradesettlesearch.png in Resources */,
 				8BC4F31C17F41F9500D0929C /* tradesettlesearch@2x.png in Resources */,
@@ -1139,6 +1176,7 @@
 				8BB6A6E217CAF61500C71279 /* ASIFormDataRequest.m in Sources */,
 				8BB6A6E317CAF61500C71279 /* ASIHTTPRequest.m in Sources */,
 				8BB6A6E417CAF61500C71279 /* ASIInputStream.m in Sources */,
+				17402C501817C0F5009A901E /* TradeEncashProtocalViewController.m in Sources */,
 				8BB6A6E517CAF61500C71279 /* ASINetworkQueue.m in Sources */,
 				8BB6A6E617CAF61500C71279 /* Reachability.m in Sources */,
 				8BB6A6E717CAF61500C71279 /* NSObject+SBJSON.m in Sources */,
@@ -1181,6 +1219,7 @@
 				8B09999B17E9941C001430AA /* PlainTableDelegate.m in Sources */,
 				8B09999E17E99770001430AA /* PlainTableCell.m in Sources */,
 				8B0999A117E9A8AF001430AA /* PlainContent.m in Sources */,
+				17402C4A1817B6EE009A901E /* EncashService.m in Sources */,
 				8B0999A417E9AC23001430AA /* TradeTSummaryViewController.m in Sources */,
 				8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */,
 				8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */,
@@ -1189,6 +1228,7 @@
 				8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */,
 				8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */,
 				8BC4F31117F3C2E000D0929C /* PlainLineBreakTableCell.m in Sources */,
+				1762A85D181770D0005A8893 /* TradeSettleBankAcctViewController.m in Sources */,
 				8BC4F31417F3C54300D0929C /* TradeSettleMgtViewController.m in Sources */,
 				8BC4F31F17F4231500D0929C /* SettleService.m in Sources */,
 				8BC4F32217F5289C00D0929C /* TradeSettleScopeViewController.m in Sources */,
@@ -1199,6 +1239,7 @@
 				8B379E94180FCFE50012FF06 /* ActionSheetDistancePicker.m in Sources */,
 				8B379E95180FCFE50012FF06 /* ActionSheetStringPicker.m in Sources */,
 				8B379E96180FCFE50012FF06 /* DistancePickerView.m in Sources */,
+				17402C4D1817C05F009A901E /* TradeEncashViewController.m in Sources */,
 				8B379E99181116200012FF06 /* TradeSettleQueryResViewController.m in Sources */,
 				8B379E9C181133B00012FF06 /* SettleQueryContent.m in Sources */,
 				8B379E9F1811350A0012FF06 /* SettleQueryTableCell.m in Sources */,
@@ -1246,11 +1287,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.0;
 			};
 			name = Debug;
 		};
@@ -1272,11 +1313,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1284,17 +1325,18 @@
 		8BB6A68C17CAE5C400C71279 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: yi jun (UP2W7HXJFN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yi jun (UP2W7HXJFN)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "App/Acquirer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
-				SDKROOT = iphoneos6.1;
+				PROVISIONING_PROFILE = "A3DC8930-BBF6-45AD-A4B2-3094A5361BB5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3DC8930-BBF6-45AD-A4B2-3094A5361BB5";
+				SDKROOT = iphoneos6.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1302,17 +1344,18 @@
 		8BB6A68D17CAE5C400C71279 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: yi jun (UP2W7HXJFN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yi jun (UP2W7HXJFN)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "App/Acquirer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C4F82EF4-7F1D-4F07-A35C-F99FBA61DD08";
-				SDKROOT = iphoneos6.1;
+				PROVISIONING_PROFILE = "A3DC8930-BBF6-45AD-A4B2-3094A5361BB5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3DC8930-BBF6-45AD-A4B2-3094A5361BB5";
+				SDKROOT = iphoneos6.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

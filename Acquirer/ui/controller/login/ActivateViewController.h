@@ -26,7 +26,7 @@ typedef enum{
     ACTIVATE_FIRST_CONFIRM
 }ActivateType;
 
-@interface ActivateViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>{
+@interface ActivateViewController : BaseViewController <UIGestureRecognizerDelegate>{
     UIScrollView *bgScrollView;
     UILabel *wrongMobileLabel;
     

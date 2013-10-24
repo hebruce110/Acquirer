@@ -22,7 +22,10 @@
 @property (nonatomic, retain) PlainTableView *settleTV;
 
 -(void)processSettleMgtData:(NSDictionary *)body;
+//处理即时结算返回数据
+-(void)processEncashData:(NSDictionary *)dict;
 
-
+//跳转到对应页面
+-(void)jumpToViewController:(Class)CTRLClass;
 
 @end

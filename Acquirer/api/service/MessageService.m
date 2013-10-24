@@ -2,6 +2,8 @@
 //  MessageService.m
 //  Acquirer
 //
+//  短信请求
+//
 //  Created by chinapnr on 13-9-9.
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //

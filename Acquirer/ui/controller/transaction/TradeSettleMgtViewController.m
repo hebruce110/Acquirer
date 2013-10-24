@@ -10,6 +10,8 @@
 #import "PlainTableView.h"
 #import "PlainContent.h"
 #import "TradeSettleScopeViewController.h"
+#import "TradeSettleBankAcctViewController.h"
+#import "TradeEncashViewController.h"
 
 @implementation TradeSettleMgtViewController
 
@@ -32,8 +34,10 @@
 
 -(void)setUpSettleList{
     NSArray *secListOne = @[@"最近一次结算金额", @"最近一次结算日期", @"结算状态"];
-    NSArray *secListTwo = @[@[@"结算查询", @"tradesettleaccount.png", TradeSettleScopeViewController.class], @[@"银行结算账户", @"tradesettlesearch.png", NSObject.class]];
-    NSArray *templeList = @[secListOne, secListTwo];
+    NSArray *secListTwo = @[@[@"结算查询", @"tradesettleaccount.png", TradeSettleScopeViewController.class], @[@"银行结算账户", @"tradesettlesearch.png", TradeSettleBankAcctViewController.class]];
+    NSArray *secListThree = @[@[@"即时结算", @"encashment.png", NSObject.class]];
+    
+    NSArray *templeList = @[secListOne, secListTwo, secListThree];
     
     for (NSArray *list in templeList) {
         NSMutableArray *secList = [[[NSMutableArray alloc] init] autorelease];
@@ -53,6 +57,8 @@
         }
         [settleList addObject:secList];
     }
+    
+    
 }
 
 - (void)viewDidLoad
@@ -62,10 +68,10 @@
     [self setNavigationTitle:@"结算管理"];
     
     CGFloat contentWidth = self.contentView.bounds.size.width;
-    //CGFloat contentHeight = self.contentView.bounds.size.height;
+    CGFloat contentHeight = self.contentView.bounds.size.height;
     
     [self setUpSettleList];
-    self.settleTV = [[[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 280) style:UITableViewStyleGrouped] autorelease];
+    self.settleTV = [[[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight) style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [settleTV setTableHeaderView:marginView];
@@ -111,7 +117,30 @@
         BaseViewController *jpCTRL = [[[content.jumpClass alloc] init] autorelease];
         [self.navigationController pushViewController:jpCTRL animated:YES];
     }
+    
+    if (indexPath.section == 2 && indexPath.row == 0) {
+        [[AcquirerService sharedInstance].encashService onRespondTarget:self];
+        [[AcquirerService sharedInstance].encashService requestForBalanceAuth];
+    }
 }
 
+-(void)processEncashData:(NSDictionary *)dict{
+    EncashModel *em = [[[EncashModel alloc] init] autorelease];
+    em.cashAmtSTR = [dict objectForKey:@"cashAmt"];
+    em.avlBalSTR = [dict objectForKey:@"avlBal"];
+    em.miniAmtSTR = [dict objectForKey:@"minAmt"];
+    em.bankNameSTR = [dict objectForKey:@"bankName"];
+    em.acctIdSTR = [dict objectForKey:@"acctId"];
+    em.agentNameSTR = [dict objectForKey:@"agentName"];
+    
+    TradeEncashViewController *teCTRL = [[[TradeEncashViewController alloc] init] autorelease];
+    teCTRL.ec = em;
+    [self.navigationController pushViewController:teCTRL animated:YES];
+}
+
+-(void)jumpToViewController:(Class)CTRLClass{
+    BaseViewController *CTRL = [[[CTRLClass alloc] init] autorelease];
+    [self.navigationController pushViewController:CTRL animated:YES];
+}
 
 @end

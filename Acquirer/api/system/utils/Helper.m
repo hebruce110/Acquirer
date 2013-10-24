@@ -61,7 +61,7 @@
 	
 	CGSize expectedLabelSize = [inputString sizeWithFont:font
                                        constrainedToSize:maximumLabelSize
-										   lineBreakMode:UILineBreakModeWordWrap];
+										   lineBreakMode:NSLineBreakByWordWrapping];
 	return expectedLabelSize.height;
 }
 

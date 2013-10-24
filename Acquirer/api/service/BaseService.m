@@ -50,6 +50,7 @@ void AddOptionalReqInfomation(NSMutableDictionary *dict){
 
 //ASIHTTPRequest failure callback
 - (void) requestFailed:(AcquirerCPRequest *)acReq{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
     NSError *error = [acReq.request error];
     NSString *description = [error localizedDescription];
@@ -64,6 +65,7 @@ void AddOptionalReqInfomation(NSMutableDictionary *dict){
 //ASIHTTPRequest failure callback
 //use asihttprequest
 - (void) asiRequestDidFailed:(ASIHTTPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
     NSError *error = [req error];
     NSString *description = [error localizedDescription];

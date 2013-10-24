@@ -31,6 +31,7 @@ static Acquirer *sInstance = nil;
 
 -(void)dealloc{
     [codeList release];
+    [codeAdditionDict release];
     
     [uiPromptHUD release];
     [sysPromptHUD release];
@@ -55,6 +56,7 @@ static Acquirer *sInstance = nil;
         currentUser = nil;
         
         codeList = [[NSMutableArray alloc] init];
+        codeAdditionDict = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -96,6 +98,7 @@ static Acquirer *sInstance = nil;
     
     //初始化code.csv版本
     [instance initCodeCSVVersion];
+    
     //拷贝code.csv文件到Documents目录
     [instance copyConfigFileToDocuments];
     
@@ -366,7 +369,8 @@ static Acquirer *sInstance = nil;
             return info.codeDesc;
         }
     }
-    return @"";
+    
+    return [self respDesc:codeSTR];
 }
 
 //解析MTP服务端返回码对应的描述文字

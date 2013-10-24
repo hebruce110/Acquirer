@@ -32,6 +32,8 @@ typedef enum _AcquirerLoginReason {
     //配置文件code.csv版本号
     int codeCSVVersion;
     NSMutableArray *codeList;
+    //为code.csv添加其他对应信息
+    NSMutableDictionary *codeAdditionDict;
     
     NSString *uidSTR;
     
