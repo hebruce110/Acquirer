@@ -7,7 +7,7 @@
 //
 
 #import "TradeSettleQueryInfoViewController.h"
-#import "PlainContent.h"
+#import "PlainCellContent.h"
 
 @implementation TradeSettleQueryInfoViewController
 
@@ -39,13 +39,13 @@
     CGFloat contentWidth = self.contentView.bounds.size.width;
     //CGFloat contentHeight = self.contentView.bounds.size.height;
     
-    self.settleTV = [[PlainTableView alloc] initWithFrame:self.contentView.bounds
+    self.settleTV = [[GeneralTableView alloc] initWithFrame:self.contentView.bounds
                                                            style:UITableViewStyleGrouped];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [settleTV setTableHeaderView:marginView];
     [settleTV setTableFooterView:marginView];
-    [settleTV setPlainTableDataSource:settleList];
+    [settleTV setGeneralTableDataSource:settleList];
     settleTV.scrollEnabled = YES;
     settleTV.backgroundColor = [UIColor clearColor];
     settleTV.backgroundView = nil;
@@ -93,7 +93,7 @@
         NSArray *stateTitleList = @[@"结算日期:", @"结算类型:", @"总结算金额:", @"手续费:", @"结算状态:"];
         NSArray *stateTextList = @[settleDateSTR, settleTypeSTR, settlePTotalAmtSTR, settlePFeeAmtSTR, settlePStatSTR];
         for (int i=0; i<stateTitleList.count; i++) {
-            PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+            PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
             pc.titleSTR = [stateTitleList objectAtIndex:i];
             pc.textSTR = [stateTextList objectAtIndex:i];
             pc.cellStyle = Cell_Style_Plain;
@@ -104,7 +104,7 @@
         NSArray *stateTitleList = @[@"结算日期:", @"总结算金额:", @"结算状态:"];
         NSArray *stateTextList = @[settleDateSTR, settleTotalAmtSTR, settleStatSTR];
         for (int i=0; i<stateTitleList.count; i++) {
-            PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+            PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
             pc.titleSTR = [stateTitleList objectAtIndex:i];
             pc.textSTR = [stateTextList objectAtIndex:i];
             pc.cellStyle = Cell_Style_Plain;
@@ -112,7 +112,7 @@
         }
     }
     if (NotNilAndEqualsTo(dict, @"balStat", @"F") || NotNilAndEqualsTo(dict, @"pBalStat", @"F")) {
-        PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+        PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
         pc.titleSTR = @"原因：";
         pc.textSTR = [[Acquirer sharedInstance] codeCSVDesc:[dict objectForKey:@"remarks"]];
         pc.cellStyle = Cell_Style_LineBreak;
@@ -125,7 +125,7 @@
     NSArray *infoTitleList = @[@"账号:", @"账户名:", @"账户银行:", @"开户地:", @"支行信息:"];
     NSArray *infoTextList = @[acctIdSTR, acctNameSTR, bankNameSTR, bankAddrSTR, branchNameSTR];
     for (int i=0; i<infoTitleList.count; i++) {
-        PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+        PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
         pc.cellStyle = Cell_Style_Text_LineBreak;
         pc.titleSTR = [infoTitleList objectAtIndex:i];
         pc.textSTR = [infoTextList objectAtIndex:i];
@@ -134,7 +134,7 @@
     
     [settleList addObject:settleInfoList];
     
-    [settleTV setPlainTableDataSource:settleList];
+    [settleTV setGeneralTableDataSource:settleList];
     [settleTV reloadData];
 }
 

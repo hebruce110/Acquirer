@@ -1,19 +1,19 @@
 //
-//  FormCellPattern.m
+//  FormCellContent.m
 //  Acquirer
 //
 //  Created by ben on 13-9-10.
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "FormCellPattern.h"
+#import "FormCellContent.h"
 #import "FormTableCell.h"
 
-@implementation FormCellPattern
+@implementation FormCellContent
 
 @synthesize titleSTR, placeHolderSTR, textSTR;
 @synthesize titleFont, titleColor, titleAlignment;
-@synthesize textFont;
+@synthesize textFont, textAlignment;
 @synthesize keyboardType, returnKeyType;
 @synthesize secure, maxLength;
 @synthesize scrollOffset;
@@ -36,6 +36,8 @@
 -(id)init{
     self = [super init];
     if (self != nil) {
+        self.cellStyle = Cell_Style_Form;
+        
         titleSTR = [[NSString stringWithFormat:@""] retain];
         placeHolderSTR = [[NSString stringWithFormat:@""] retain];
         textSTR = [[NSString stringWithFormat:@""] retain];
@@ -45,6 +47,7 @@
         titleAlignment = NSTextAlignmentLeft;
         
         textFont = [[UIFont systemFontOfSize:17] retain];
+        textAlignment = NSTextAlignmentLeft;
         
         keyboardType = UIKeyboardTypeAlphabet;
         secure = NO;

@@ -8,17 +8,17 @@
 
 #import "BaseViewController.h"
 
-@class FormTableView;
+@class GeneralTableView;
 
 @interface ReviseMobileViewController : BaseViewController <UIGestureRecognizerDelegate>{
     NSString *pnrDevIdSTR;
     
-    FormTableView *mobileTableView;
+    GeneralTableView *mobileTableView;
     UIButton *submitBtn;
 }
 
 @property (nonatomic, retain) UIButton *submitBtn;
 @property (nonatomic, copy) NSString *pnrDevIdSTR;
-@property (nonatomic, retain) FormTableView *mobileTableView;
+@property (nonatomic, retain) GeneralTableView *mobileTableView;
 
 @end

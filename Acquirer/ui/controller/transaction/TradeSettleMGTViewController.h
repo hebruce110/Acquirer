@@ -8,18 +8,18 @@
 
 #import "BaseViewController.h"
 
-@class PlainTableView;
+@class GeneralTableView;
 
 @interface TradeSettleMgtViewController : BaseViewController{
     NSMutableArray *settleList;
-    PlainTableView *settleTV;
+    GeneralTableView *settleTV;
     
     //是否要刷新TableView
     //从上个页面pop到当前页, 不做刷新操作
     BOOL needRefreshTableView;
 }
 
-@property (nonatomic, retain) PlainTableView *settleTV;
+@property (nonatomic, retain) GeneralTableView *settleTV;
 
 -(void)processSettleMgtData:(NSDictionary *)body;
 //处理即时结算返回数据

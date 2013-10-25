@@ -7,16 +7,16 @@
 //
 
 #import "BaseViewController.h"
-#import "PlainTableView.h"
+#import "GeneralTableView.h"
 
 @interface TradeTDetailInfoViewController : BaseViewController{
-    PlainTableView *tradeInfoTV;
+    GeneralTableView *tradeInfoTV;
     NSMutableArray *tradeDList;
     
     NSString *orderIdSTR;
 }
 
-@property (nonatomic, retain) PlainTableView *tradeInfoTV;
+@property (nonatomic, retain) GeneralTableView *tradeInfoTV;
 @property (nonatomic, copy) NSString *orderIdSTR;
 
 -(void)processDetailData:(NSDictionary *)body;

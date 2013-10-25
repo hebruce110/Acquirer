@@ -7,19 +7,19 @@
 //  Copyright (c) 2013年 chinaPnr. All rights reserved.
 //
 
-#import "PlainContent.h"
+#import "PlainCellContent.h"
 
-@implementation PlainContent
+@implementation PlainCellContent
 
 @synthesize titleSTR, textSTR;
 @synthesize imgNameSTR;
-@synthesize cellStyle;
 @synthesize jumpClass;
+@synthesize bgColor;
 
 -(id)init{
     self = [super init];
     if (self) {
-        cellStyle = Cell_Plain_Style_Plain;
+        cellStyle = Cell_Style_Plain;
     }
     return self;
 }
@@ -28,6 +28,7 @@
     [titleSTR release];
     [textSTR release];
     [imgNameSTR release];
+    [bgColor release];
     
     [super dealloc];
 }

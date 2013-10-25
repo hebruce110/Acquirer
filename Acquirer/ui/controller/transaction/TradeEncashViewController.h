@@ -10,6 +10,8 @@
 
 #import "BaseViewController.h"
 
+@class GeneralTableView;
+
 @interface EncashModel : NSObject{
     //商户可取款金额
     NSString *avlBalSTR;
@@ -34,11 +36,14 @@
 
 @end
 
-@interface TradeEncashViewController : BaseViewController{
+@interface TradeEncashViewController : BaseViewController <UIGestureRecognizerDelegate>{
     EncashModel *ec;
     
+    GeneralTableView *encashTV;
+    NSMutableArray *encashList;
 }
 
 @property (nonatomic, retain) EncashModel *ec;
+@property (nonatomic, retain) GeneralTableView *encashTV;
 
 @end

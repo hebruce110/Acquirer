@@ -8,14 +8,14 @@
 
 #import "BaseViewController.h"
 
-@class FormTableView;
+@class GeneralTableView;
 
 @interface LoginViewController : BaseViewController <UIGestureRecognizerDelegate>{
-    FormTableView *loginTableView;
+    GeneralTableView *loginTableView;
     
     NSMutableArray *patternList;
 }
 
-@property (nonatomic, retain) FormTableView *loginTableView;
+@property (nonatomic, retain) GeneralTableView *loginTableView;
 
 @end

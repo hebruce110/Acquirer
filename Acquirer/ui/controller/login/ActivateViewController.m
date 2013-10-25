@@ -9,8 +9,8 @@
 #import "ActivateViewController.h"
 #import "AcquirerService.h"
 #import "Acquirer.h"
-#import "FormCellPattern.h"
-#import "FormTableView.h"
+#import "FormCellContent.h"
+#import "GeneralTableView.h"
 #import "FormTableCell.h"
 #import "ReviseMobileViewController.h"
 
@@ -75,7 +75,7 @@
                               [NSNumber numberWithInt:20],nil];
     
     for (int i=0; i<[titleList count]; i++) {
-        FormCellPattern *pattern = [[[FormCellPattern alloc] init] autorelease];
+        FormCellContent *pattern = [[[FormCellContent alloc] init] autorelease];
         pattern.titleSTR = [titleList objectAtIndex:i];
         pattern.placeHolderSTR = [placeHolderList objectAtIndex:i];
         pattern.keyboardType = [[keyboardTypeList objectAtIndex:i] integerValue];
@@ -189,13 +189,13 @@
     
     [self setUpFormPatternList];
     CGRect tableFrame = CGRectMake(0, frameHeighOffset(dashFrame)+VERTICAL_PADDING-5, contentWidth, 150);
-    self.activateTableView = [[[FormTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
+    self.activateTableView = [[[GeneralTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
     activateTableView.scrollEnabled = NO;
     activateTableView.backgroundColor = [UIColor clearColor];
     activateTableView.backgroundView = nil;
     [self.contentView addSubview:activateTableView];
     
-    [activateTableView setFormTableDataSource:patternList];
+    [activateTableView setGeneralTableDataSource:[NSMutableArray arrayWithObject:patternList]];
     [activateTableView setDelegateViewController:self];
     
     

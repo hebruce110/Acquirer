@@ -8,7 +8,7 @@
 
 #import "ValiIdentityViewController.h"
 #import "ActivateViewController.h"
-#import "FormCellPattern.h"
+#import "FormCellContent.h"
 #import "FormTableCell.h"
 
 @interface ValiIdentityViewController ()
@@ -57,22 +57,24 @@
     contentView.frame = contentView.bounds;
     [bgScrollView addSubview:contentView];
     
-    FormCellPattern *posPattern = [[[FormCellPattern alloc] init] autorelease];
+    FormCellContent *posPattern = [[[FormCellContent alloc] init] autorelease];
     posPattern.titleSTR = @"订单号前8位：";
     posPattern.placeHolderSTR = @"POS小票订单号前8位";
     posPattern.maxLength = 8;
     posPattern.keyboardType = UIKeyboardTypeNumberPad;
-    NSMutableArray *posPatternList = [[[NSMutableArray alloc] init] autorelease];
-    [posPatternList addObject:posPattern];
+    NSMutableArray *posSec = [[[NSMutableArray alloc] init] autorelease];
+    [posSec addObject:posPattern];
+    NSMutableArray *posList = [[[NSMutableArray alloc] init] autorelease];
+    [posList addObject:posSec];
     
     CGRect posOrdertableFrame = CGRectMake(0, 10, contentWidth, 60);
-    self.posOrderTableView = [[[FormTableView alloc] initWithFrame:posOrdertableFrame style:UITableViewStyleGrouped] autorelease];
+    self.posOrderTableView = [[[GeneralTableView alloc] initWithFrame:posOrdertableFrame style:UITableViewStyleGrouped] autorelease];
     posOrderTableView.scrollEnabled = NO;
     posOrderTableView.backgroundColor = [UIColor clearColor];
     posOrderTableView.backgroundView = nil;
     [self.contentView addSubview:posOrderTableView];
     //posOrderTableView.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), posOrderTableView.center.y);
-    [posOrderTableView setFormTableDataSource:posPatternList];
+    [posOrderTableView setGeneralTableDataSource:posList];
     
     UIImage *orderEgImg = [UIImage imageNamed:@"order_eg.png"];
     UIImageView *orderEgImgView = [[[UIImageView alloc] initWithImage:orderEgImg] autorelease];
@@ -80,22 +82,24 @@
     orderEgImgView.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), orderEgImgView.center.y);
     [self.contentView addSubview:orderEgImgView];
     
-    FormCellPattern *captchaPattern = [[[FormCellPattern alloc] init] autorelease];
+    FormCellContent *captchaPattern = [[[FormCellContent alloc] init] autorelease];
     captchaPattern.titleSTR = @"验证码：";
     captchaPattern.placeHolderSTR = @"验证码";
     captchaPattern.maxLength = 4;
     captchaPattern.keyboardType = UIKeyboardTypeAlphabet;
     captchaPattern.scrollOffset = CGPointMake(0, 100);
-    NSMutableArray *captchaPatternList = [[[NSMutableArray alloc] init] autorelease];
-    [captchaPatternList addObject:captchaPattern];
+    NSMutableArray *captchaSec = [[[NSMutableArray alloc] init] autorelease];
+    [captchaSec addObject:captchaPattern];
+    NSMutableArray *captchaList = [[[NSMutableArray alloc] init] autorelease];
+    [captchaList addObject:captchaSec];
     
     CGRect tableFrame = CGRectMake(0, 220, 170, 60);
-    self.captchaTableView = [[[FormTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
+    self.captchaTableView = [[[GeneralTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
     captchaTableView.scrollEnabled = NO;
     captchaTableView.backgroundColor = [UIColor clearColor];
     captchaTableView.backgroundView = nil;
     [self.contentView addSubview:captchaTableView];
-    [captchaTableView setFormTableDataSource:captchaPatternList];
+    [captchaTableView setGeneralTableDataSource:captchaList];
     [captchaTableView setDelegateViewController:self];
     
     UIImage *authImg = [UIImage imageNamed:@"auth_loading.png"];

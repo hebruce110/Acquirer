@@ -10,7 +10,7 @@
 
 #import "FormTableCell.h"
 #import "BaseViewController.h"
-#import "FormCellPattern.h"
+#import "FormCellContent.h"
 
 @implementation FormTableCell
 
@@ -64,7 +64,7 @@
     }
 }
 
--(void)setFormCellPattern:(FormCellPattern *)pattern{
+-(void)setFormCellPattern:(FormCellContent *)pattern{
     titleLabel.text = pattern.titleSTR;
     textField.placeholder = pattern.placeHolderSTR;
     
@@ -78,6 +78,7 @@
     textField.keyboardType = pattern.keyboardType;
     textField.returnKeyType = pattern.returnKeyType;
     textField.text = pattern.textSTR;
+    textField.textAlignment = pattern.textAlignment;
     
     if (pattern.secure) {
         textField.secureTextEntry = YES;
@@ -101,7 +102,7 @@
     
     textField.frame = CGRectMake(titleLabel.frame.origin.x+titleLabel.bounds.size.width,
                                  textField.frame.origin.y,
-                                 self.bounds.size.width-titleLabel.frame.origin.x-titleLabel.bounds.size.width-10,
+                                 self.bounds.size.width-titleLabel.frame.origin.x-titleLabel.bounds.size.width-20,
                                  textField.bounds.size.height);
 }
 

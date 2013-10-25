@@ -7,14 +7,14 @@
 //
 
 #import "BaseViewController.h"
-#import "PlainTableView.h"
+#import "GeneralTableView.h"
 
 @interface TradeTSummaryViewController : BaseViewController{
-    PlainTableView *summaryTV;
+    GeneralTableView *summaryTV;
     NSMutableArray *summaryList;
 }
 
-@property (nonatomic, retain) PlainTableView *summaryTV;
+@property (nonatomic, retain) GeneralTableView *summaryTV;
 @property (nonatomic, readonly) NSMutableArray *summaryList;
 
 -(void)processSummaryData:(NSDictionary *)dict;

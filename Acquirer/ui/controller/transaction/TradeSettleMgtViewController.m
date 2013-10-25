@@ -7,8 +7,8 @@
 //
 
 #import "TradeSettleMgtViewController.h"
-#import "PlainTableView.h"
-#import "PlainContent.h"
+#import "GeneralTableView.h"
+#import "PlainCellContent.h"
 #import "TradeSettleScopeViewController.h"
 #import "TradeSettleBankAcctViewController.h"
 #import "TradeEncashViewController.h"
@@ -42,7 +42,7 @@
     for (NSArray *list in templeList) {
         NSMutableArray *secList = [[[NSMutableArray alloc] init] autorelease];
         for (int i=0; i<list.count; i++) {
-            PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+            PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
             if ([[list objectAtIndex:i] isKindOfClass:NSString.class]) {
                 pc.titleSTR = [list objectAtIndex:i];
                 pc.cellStyle = Cell_Style_Plain;
@@ -71,7 +71,7 @@
     CGFloat contentHeight = self.contentView.bounds.size.height;
     
     [self setUpSettleList];
-    self.settleTV = [[[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight) style:UITableViewStyleGrouped] autorelease];
+    self.settleTV = [[[GeneralTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight) style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [settleTV setTableHeaderView:marginView];
@@ -79,7 +79,7 @@
     [settleTV setBackgroundColor:[UIColor clearColor]];
     [settleTV setBackgroundView:nil];
     
-    [settleTV setPlainTableDataSource:settleList];
+    [settleTV setGeneralTableDataSource:settleList];
     [settleTV setDelegateViewController:self];
     
     [self.contentView addSubview:settleTV];
@@ -104,15 +104,15 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     
     NSArray *secListOne = [settleList objectAtIndex:0];
-    ((PlainContent*)[secListOne objectAtIndex:0]).textSTR = [NSString stringWithFormat:@"%@元", [body objectForKey:@"lastBalAmt"]];
-    ((PlainContent*)[secListOne objectAtIndex:1]).textSTR = [formatter stringFromDate:dateFromSTR];
-    ((PlainContent*)[secListOne objectAtIndex:2]).textSTR = [[Acquirer sharedInstance] settleStatDesc:[body objectForKey:@"lastBalStat"]];
+    ((PlainCellContent*)[secListOne objectAtIndex:0]).textSTR = [NSString stringWithFormat:@"%@元", [body objectForKey:@"lastBalAmt"]];
+    ((PlainCellContent*)[secListOne objectAtIndex:1]).textSTR = [formatter stringFromDate:dateFromSTR];
+    ((PlainCellContent*)[secListOne objectAtIndex:2]).textSTR = [[Acquirer sharedInstance] settleStatDesc:[body objectForKey:@"lastBalStat"]];
     
     [settleTV reloadData];
 }
 
 -(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    PlainContent *content = [[settleList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    PlainCellContent *content = [[settleList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (content.jumpClass && [content.jumpClass isSubclassOfClass:BaseViewController.class]) {
         BaseViewController *jpCTRL = [[[content.jumpClass alloc] init] autorelease];
         [self.navigationController pushViewController:jpCTRL animated:YES];

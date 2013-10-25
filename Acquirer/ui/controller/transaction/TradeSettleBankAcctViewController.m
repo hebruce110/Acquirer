@@ -7,7 +7,7 @@
 //
 
 #import "TradeSettleBankAcctViewController.h"
-#import "PlainContent.h"
+#import "PlainCellContent.h"
 
 @implementation TradeSettleBankAcctViewController
 
@@ -36,13 +36,13 @@
     
     CGFloat contentWidth = self.contentView.bounds.size.width;
     
-    self.bankAcctTV = [[PlainTableView alloc] initWithFrame:self.contentView.bounds
+    self.bankAcctTV = [[GeneralTableView alloc] initWithFrame:self.contentView.bounds
                                                     style:UITableViewStyleGrouped];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [bankAcctTV setTableHeaderView:marginView];
     [bankAcctTV setTableFooterView:marginView];
-    [bankAcctTV setPlainTableDataSource:bankAcctList];
+    [bankAcctTV setGeneralTableDataSource:bankAcctList];
     bankAcctTV.scrollEnabled = YES;
     bankAcctTV.backgroundColor = [UIColor clearColor];
     bankAcctTV.backgroundView = nil;
@@ -70,7 +70,7 @@
     
     NSMutableArray *secOne = [[[NSMutableArray alloc] init] autorelease];
     for (int i=0; i<titleList.count; i++) {
-        PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+        PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
         pc.titleSTR = [titleList objectAtIndex:i];
         pc.textSTR = [textList objectAtIndex:i];
         pc.cellStyle = Cell_Style_Plain;
@@ -78,7 +78,7 @@
     }
     [bankAcctList addObject:secOne];
     
-    [self.bankAcctTV setPlainTableDataSource:bankAcctList];
+    [self.bankAcctTV setGeneralTableDataSource:bankAcctList];
     [self.bankAcctTV reloadData];
 }
 

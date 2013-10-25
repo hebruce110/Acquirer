@@ -14,8 +14,8 @@
 #import "AcquirerService.h"
 #import "ACUser.h"
 #import "ValiIdentityViewController.h"
-#import "FormTableView.h"
-#import "FormCellPattern.h"
+#import "GeneralTableView.h"
+#import "FormCellContent.h"
 #import "FormTableCell.h"
 
 @interface LoginFormTableCell : FormTableCell
@@ -69,7 +69,7 @@
                                                        [NSNumber numberWithInt:32],nil];
     
     for (int i=0; i<[titleList count]; i++) {
-        FormCellPattern *pattern = [[[FormCellPattern alloc] init] autorelease];
+        FormCellContent *pattern = [[[FormCellContent alloc] init] autorelease];
         pattern.titleSTR = [titleList objectAtIndex:i];
         pattern.placeHolderSTR = [placeHolderList objectAtIndex:i];
         pattern.textSTR = [textList objectAtIndex:i];
@@ -104,13 +104,13 @@
     [self setUpFormCellPatternList];
     
     CGRect tableFrame = CGRectMake(0, 90, contentWidth, 160);
-    self.loginTableView = [[[FormTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
+    self.loginTableView = [[[GeneralTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
     loginTableView.scrollEnabled = NO;
     loginTableView.backgroundColor = [UIColor clearColor];
     loginTableView.backgroundView = nil;
     [self.contentView addSubview:loginTableView];
     //loginTableView.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), loginTableView.center.y);
-    [loginTableView setFormTableDataSource:patternList];
+    [loginTableView setGeneralTableDataSource:[NSMutableArray arrayWithObject:patternList]];
     [loginTableView setDelegateViewController:self];
     
     

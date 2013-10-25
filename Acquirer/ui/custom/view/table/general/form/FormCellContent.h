@@ -1,5 +1,5 @@
 //
-//  FormCellPattern.h
+//  FormCellContent.h
 //  Acquirer
 //
 //  Created by ben on 13-9-10.
@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface FormCellPattern : NSObject{
+#import "CellContent.h"
+@interface FormCellContent : CellContent{
     //标题
     NSString *titleSTR;
     //默认提示字符串
@@ -25,6 +25,8 @@
     
     //输入问题字体
     UIFont *textFont;
+    //text布局
+    NSTextAlignment textAlignment;
     
     //弹出键盘类型
     UIKeyboardType keyboardType;
@@ -52,6 +54,7 @@
 @property (nonatomic, assign) NSTextAlignment titleAlignment;
 
 @property (nonatomic, retain) UIFont *textFont;
+@property (nonatomic, assign) NSTextAlignment textAlignment;
 
 @property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, assign) UIReturnKeyType returnKeyType;

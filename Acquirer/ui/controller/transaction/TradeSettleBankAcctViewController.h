@@ -7,14 +7,14 @@
 //
 
 #import "BaseViewController.h"
-#import "PlainTableView.h"
+#import "GeneralTableView.h"
 
 @interface TradeSettleBankAcctViewController : BaseViewController{
     NSMutableArray *bankAcctList;
-    PlainTableView *bankAcctTV;
+    GeneralTableView *bankAcctTV;
 }
 
-@property (nonatomic, retain) PlainTableView *bankAcctTV;
+@property (nonatomic, retain) GeneralTableView *bankAcctTV;
 
 -(void)processBankSettleAccountData:(NSDictionary *)dict;
 

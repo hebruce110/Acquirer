@@ -7,27 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CellContent.h"
 
-typedef enum _CellStyle{
-    //系统标准列表
-    Cell_Style_Standard = 0,
-    //左title, 右text
-    Cell_Style_Plain,
-    //title在上, text在下
-    Cell_Style_LineBreak,
-    //title在左, text在右,右侧text换行
-    Cell_Style_Text_LineBreak,
-    //表单样式, 左侧title，右侧输入框
-    Cell_Style_Form,
-}CellStyle;
 
-@interface PlainContent : NSObject{
+@interface PlainCellContent : CellContent{
     NSString *titleSTR;
     NSString *textSTR;
     
     NSString *imgNameSTR;
     
-    CellStyle cellStyle;
+    //cell的背景颜色
+    UIColor *bgColor;
     
     Class jumpClass;
 }
@@ -35,7 +25,7 @@ typedef enum _CellStyle{
 @property (nonatomic, copy) NSString *titleSTR;
 @property (nonatomic, copy) NSString *textSTR;
 @property (nonatomic, copy) NSString *imgNameSTR;
-@property (nonatomic, assign) CellStyle cellStyle;
+@property (nonatomic, copy) UIColor *bgColor;
 
 @property (nonatomic, assign) Class jumpClass;
 

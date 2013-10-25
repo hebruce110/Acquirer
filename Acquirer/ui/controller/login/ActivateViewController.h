@@ -10,7 +10,7 @@
 #import "MessageService.h"
 #import "LoginService.h"
 
-@class FormTableView;
+@class GeneralTableView;
 
 typedef enum{
     //初始正常状态用户可点击按钮获取短信
@@ -30,7 +30,7 @@ typedef enum{
     UIScrollView *bgScrollView;
     UILabel *wrongMobileLabel;
     
-    FormTableView *activateTableView;
+    GeneralTableView *activateTableView;
     UIButton *submitBtn;
     
     UIButton *msgBtn;
@@ -51,7 +51,7 @@ typedef enum{
 
 @property (nonatomic, retain) UILabel *wrongMobileLabel;
 
-@property (nonatomic, retain) FormTableView *activateTableView;
+@property (nonatomic, retain) GeneralTableView *activateTableView;
 @property (nonatomic, retain) UIButton *submitBtn;
 
 @property (nonatomic, retain) UIButton *msgBtn;

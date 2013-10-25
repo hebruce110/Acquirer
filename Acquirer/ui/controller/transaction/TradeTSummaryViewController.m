@@ -7,8 +7,9 @@
 //
 
 #import "TradeTSummaryViewController.h"
-#import "PlainTableView.h"
-#import "PlainContent.h"
+#import "GeneralTableView.h"
+#import "FormCellContent.h"
+#import "PlainCellContent.h"
 
 @implementation TradeTSummaryViewController
 
@@ -42,7 +43,7 @@
     for (NSArray *list in templeList) {
         NSMutableArray *secList = [[[NSMutableArray alloc] init] autorelease];
         for (NSString *title in list) {
-            PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+            PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
             pc.titleSTR = [NSString stringWithFormat:@"%@：", title];
             [secList addObject:pc];
         }
@@ -62,13 +63,13 @@
     
     [self setUpSummaryList];
 
-    self.summaryTV = [[[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight)
+    self.summaryTV = [[[GeneralTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight)
                                                      style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [summaryTV setTableHeaderView:marginView];
     [summaryTV setTableFooterView:marginView];
-    [summaryTV setPlainTableDataSource:self.summaryList];
+    [summaryTV setGeneralTableDataSource:self.summaryList];
     summaryTV.scrollEnabled = YES;
     summaryTV.backgroundColor = [UIColor clearColor];
     summaryTV.backgroundView = nil;
@@ -99,22 +100,22 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
     NSArray *sectionOne = [summaryList objectAtIndex:0];
-    ((PlainContent *)[sectionOne objectAtIndex:0]).textSTR = [dateFormatter stringFromDate:[NSDate date]];
-    ((PlainContent *)[sectionOne objectAtIndex:1]).textSTR = [dict objectForKey:@"totalNetAmt"];
+    ((PlainCellContent *)[sectionOne objectAtIndex:0]).textSTR = [dateFormatter stringFromDate:[NSDate date]];
+    ((PlainCellContent *)[sectionOne objectAtIndex:1]).textSTR = [dict objectForKey:@"totalNetAmt"];
     
     NSArray *sectionTwo = [summaryList objectAtIndex:1];
-    ((PlainContent *)[sectionTwo objectAtIndex:0]).textSTR = [dict objectForKey:@"totalXpAmt"];
-    ((PlainContent *)[sectionTwo objectAtIndex:1]).textSTR = [dict objectForKey:@"totalXpCnt"];
-    ((PlainContent *)[sectionTwo objectAtIndex:2]).textSTR = [dict objectForKey:@"totalXwAmt"];
-    ((PlainContent *)[sectionTwo objectAtIndex:3]).textSTR = [dict objectForKey:@"totalXwCnt"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:0]).textSTR = [dict objectForKey:@"totalXpAmt"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:1]).textSTR = [dict objectForKey:@"totalXpCnt"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:2]).textSTR = [dict objectForKey:@"totalXwAmt"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:3]).textSTR = [dict objectForKey:@"totalXwCnt"];
     
     NSArray *sectionThree = [summaryList objectAtIndex:2];
-    ((PlainContent *)[sectionThree objectAtIndex:0]).textSTR = [dict objectForKey:@"totalXqAmt"];
-    ((PlainContent *)[sectionThree objectAtIndex:1]).textSTR = [dict objectForKey:@"totalXqCnt"];
-    ((PlainContent *)[sectionThree objectAtIndex:2]).textSTR = [dict objectForKey:@"totalXdAmt"];
-    ((PlainContent *)[sectionThree objectAtIndex:3]).textSTR = [dict objectForKey:@"totalXdCnt"];
-    ((PlainContent *)[sectionThree objectAtIndex:4]).textSTR = [dict objectForKey:@"totalXrAmt"];
-    ((PlainContent *)[sectionThree objectAtIndex:5]).textSTR = [dict objectForKey:@"totalXrCnt"];
+    ((PlainCellContent *)[sectionThree objectAtIndex:0]).textSTR = [dict objectForKey:@"totalXqAmt"];
+    ((PlainCellContent *)[sectionThree objectAtIndex:1]).textSTR = [dict objectForKey:@"totalXqCnt"];
+    ((PlainCellContent *)[sectionThree objectAtIndex:2]).textSTR = [dict objectForKey:@"totalXdAmt"];
+    ((PlainCellContent *)[sectionThree objectAtIndex:3]).textSTR = [dict objectForKey:@"totalXdCnt"];
+    ((PlainCellContent *)[sectionThree objectAtIndex:4]).textSTR = [dict objectForKey:@"totalXrAmt"];
+    ((PlainCellContent *)[sectionThree objectAtIndex:5]).textSTR = [dict objectForKey:@"totalXrCnt"];
     
     [self.summaryTV reloadData];
 }

@@ -7,8 +7,8 @@
 //
 
 #import "TradeTDetailInfoViewController.h"
-#import "PlainTableView.h"
-#import "PlainContent.h"
+#import "GeneralTableView.h"
+#import "PlainCellContent.h"
 
 @implementation TradeTDetailInfoViewController
 
@@ -39,13 +39,13 @@
     for (NSArray *list in templeList) {
         NSMutableArray *secList = [[[NSMutableArray alloc] init] autorelease];
         for (NSString *title in list) {
-            PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+            PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
             pc.titleSTR = title;
             [secList addObject:pc];
         }
         [tradeDList addObject:secList];
     }
-    ((PlainContent *)((NSArray *)[tradeDList objectAtIndex:0]).lastObject).cellStyle = Cell_Plain_Style_LineBreak;
+    ((PlainCellContent *)((NSArray *)[tradeDList objectAtIndex:0]).lastObject).cellStyle = Cell_Style_LineBreak;
 }
 
 - (void)viewDidLoad
@@ -59,13 +59,13 @@
     
     [self setUpDetailList];
     
-    self.tradeInfoTV = [[[PlainTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight)
+    self.tradeInfoTV = [[[GeneralTableView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, contentHeight)
                                                       style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [tradeInfoTV setTableHeaderView:marginView];
     [tradeInfoTV setTableFooterView:marginView];
-    [tradeInfoTV setPlainTableDataSource:tradeDList];
+    [tradeInfoTV setGeneralTableDataSource:tradeDList];
     tradeInfoTV.scrollEnabled = YES;
     tradeInfoTV.backgroundColor = [UIColor clearColor];
     tradeInfoTV.backgroundView = nil;
@@ -89,20 +89,20 @@
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     
     NSArray *sectionOne = [tradeDList objectAtIndex:0];
-    ((PlainContent *)[sectionOne objectAtIndex:0]).textSTR = [body objectForKey:@"cardNo"];
-    ((PlainContent *)[sectionOne objectAtIndex:1]).textSTR = [body objectForKey:@"pnrDevId"];
-    ((PlainContent *)[sectionOne objectAtIndex:2]).textSTR = [body objectForKey:@"ordId"];
-    ((PlainContent *)[sectionOne objectAtIndex:3]).textSTR = [formatter stringFromDate:tradeDate];
-    ((PlainContent *)[sectionOne objectAtIndex:4]).textSTR = [NSString stringWithFormat:@"%@元", [body objectForKey:@"amt"]];
-    ((PlainContent *)[sectionOne objectAtIndex:5]).textSTR = [[Acquirer sharedInstance] tradeTypeDesc:[body objectForKey:@"transType"]];
-    ((PlainContent *)[sectionOne objectAtIndex:6]).textSTR = [[Acquirer sharedInstance] tradeStatDesc:[body objectForKey:@"transStat"]];
-    ((PlainContent *)[sectionOne objectAtIndex:7]).textSTR = [[Acquirer sharedInstance] codeCSVDesc:[body objectForKey:@"remarks"]];
+    ((PlainCellContent *)[sectionOne objectAtIndex:0]).textSTR = [body objectForKey:@"cardNo"];
+    ((PlainCellContent *)[sectionOne objectAtIndex:1]).textSTR = [body objectForKey:@"pnrDevId"];
+    ((PlainCellContent *)[sectionOne objectAtIndex:2]).textSTR = [body objectForKey:@"ordId"];
+    ((PlainCellContent *)[sectionOne objectAtIndex:3]).textSTR = [formatter stringFromDate:tradeDate];
+    ((PlainCellContent *)[sectionOne objectAtIndex:4]).textSTR = [NSString stringWithFormat:@"%@元", [body objectForKey:@"amt"]];
+    ((PlainCellContent *)[sectionOne objectAtIndex:5]).textSTR = [[Acquirer sharedInstance] tradeTypeDesc:[body objectForKey:@"transType"]];
+    ((PlainCellContent *)[sectionOne objectAtIndex:6]).textSTR = [[Acquirer sharedInstance] tradeStatDesc:[body objectForKey:@"transStat"]];
+    ((PlainCellContent *)[sectionOne objectAtIndex:7]).textSTR = [[Acquirer sharedInstance] codeCSVDesc:[body objectForKey:@"remarks"]];
     
     NSArray *sectionTwo = [tradeDList objectAtIndex:1];
-    ((PlainContent *)[sectionTwo objectAtIndex:0]).textSTR = [body objectForKey:@"batchId"];
-    ((PlainContent *)[sectionTwo objectAtIndex:1]).textSTR = [body objectForKey:@"posSeqId"];
-    ((PlainContent *)[sectionTwo objectAtIndex:2]).textSTR = [body objectForKey:@"authCode"];
-    ((PlainContent *)[sectionTwo objectAtIndex:3]).textSTR = [body objectForKey:@"refNum"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:0]).textSTR = [body objectForKey:@"batchId"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:1]).textSTR = [body objectForKey:@"posSeqId"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:2]).textSTR = [body objectForKey:@"authCode"];
+    ((PlainCellContent *)[sectionTwo objectAtIndex:3]).textSTR = [body objectForKey:@"refNum"];
     
     [self.tradeInfoTV reloadData];
 }

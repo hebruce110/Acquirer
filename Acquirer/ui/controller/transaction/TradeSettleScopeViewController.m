@@ -7,8 +7,8 @@
 //
 
 #import "TradeSettleScopeViewController.h"
-#import "PlainContent.h"
-#import "PlainTableView.h"
+#import "PlainCellContent.h"
+#import "GeneralTableView.h"
 #import "PlainTableCell.h"
 #import "TradeSettleQueryResViewController.h"
 
@@ -44,7 +44,7 @@
     for (NSArray *list in templeList) {
         NSMutableArray *secList = [[[NSMutableArray alloc] init] autorelease];
         for (NSString *title in secListOne) {
-            PlainContent *pc = [[[PlainContent alloc] init] autorelease];
+            PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
             pc.titleSTR = title;
             pc.textSTR = [formatter stringFromDate:[NSDate date]];
             [secList addObject:pc];
@@ -71,14 +71,14 @@
     
     [self setUpDateScopeList];
     CGRect dsFrame = CGRectMake(0, 30, self.contentView.bounds.size.width, 105);
-    self.dateScopeTV = [[PlainTableView alloc] initWithFrame:dsFrame style:UITableViewStyleGrouped];
+    self.dateScopeTV = [[GeneralTableView alloc] initWithFrame:dsFrame style:UITableViewStyleGrouped];
     dateScopeTV.backgroundColor = [UIColor clearColor];
     dateScopeTV.backgroundView = nil;
     [self.contentView addSubview:dateScopeTV];
     dateScopeTV.scrollEnabled = NO;
     
     [dateScopeTV setDelegateViewController:self];
-    [dateScopeTV setPlainTableDataSource:dsList];
+    [dateScopeTV setGeneralTableDataSource:dsList];
     
     
     UIImage *dashImg = [UIImage imageNamed:@"dashed.png"];

@@ -8,8 +8,8 @@
 //
 
 #import "ReviseMobileViewController.h"
-#import "FormTableView.h"
-#import "FormCellPattern.h"
+#import "GeneralTableView.h"
+#import "FormCellContent.h"
 #import "FormTableCell.h"
 
 @interface ReviseMobileViewController ()
@@ -48,7 +48,7 @@
     [self.contentView addSubview:introMsgLabel];
     
     NSMutableArray *patternList = [[[NSMutableArray alloc] init] autorelease];
-    FormCellPattern *mobilePattern = [[[FormCellPattern alloc] init] autorelease];
+    FormCellContent *mobilePattern = [[[FormCellContent alloc] init] autorelease];
     mobilePattern.titleSTR = @"手机号：";
     mobilePattern.placeHolderSTR = @"您现在使用的手机号";
     mobilePattern.maxLength = 11;
@@ -56,12 +56,12 @@
     [patternList addObject:mobilePattern];
     
     CGRect mobileFrame = CGRectMake(0, 50, contentWidth, 60);
-    self.mobileTableView = [[[FormTableView alloc] initWithFrame:mobileFrame style:UITableViewStyleGrouped] autorelease];
+    self.mobileTableView = [[[GeneralTableView alloc] initWithFrame:mobileFrame style:UITableViewStyleGrouped] autorelease];
     mobileTableView.scrollEnabled = NO;
     mobileTableView.backgroundColor = [UIColor clearColor];
     mobileTableView.backgroundView = nil;
     [self.contentView addSubview:mobileTableView];
-    [mobileTableView setFormTableDataSource:patternList];
+    [mobileTableView setGeneralTableDataSource:[NSMutableArray arrayWithObject:patternList]];
     [mobileTableView setDelegateViewController:self];
     
     UIImage *dashImg = [UIImage imageNamed:@"dashed.png"];

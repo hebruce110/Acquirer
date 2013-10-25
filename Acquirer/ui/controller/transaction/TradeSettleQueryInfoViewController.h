@@ -8,18 +8,18 @@
 
 #import "BaseViewController.h"
 #import "SettleQueryContent.h"
-#import "PlainTableView.h"
+#import "GeneralTableView.h"
 
 @interface TradeSettleQueryInfoViewController : BaseViewController{
     SettleQueryContent *sqContent;
     
     NSMutableArray *settleList;
-    PlainTableView *settleTV;
+    GeneralTableView *settleTV;
 }
 
 @property (nonatomic, retain) SettleQueryContent *sqContent;
 
-@property (nonatomic, retain) PlainTableView *settleTV;
+@property (nonatomic, retain) GeneralTableView *settleTV;
 
 -(void)processSettleQueryInfoData:(NSDictionary *)dict;
 

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class BaseViewController;
-@class FormCellPattern;
+@class FormCellContent;
 
 @interface FormTableCell : UITableViewCell <UITextFieldDelegate>{
     BaseViewController *CTRLdelegate;
@@ -28,7 +28,7 @@
 @property (nonatomic, readonly) UILabel *titleLabel;
 @property (nonatomic, readonly) UITextField *textField;
 
--(void)setFormCellPattern:(FormCellPattern *)pattern;
+-(void)setFormCellPattern:(FormCellContent *)pattern;
 
 //layout title and text frame for custom form
 -(void)adjustLayoutForViewController;

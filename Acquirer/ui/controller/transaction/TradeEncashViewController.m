@@ -9,9 +9,10 @@
 //
 
 #import "TradeEncashViewController.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
+#import "GeneralTableView.h"
+#import "FormCellContent.h"
+#import "PlainCellContent.h"
+#import "FormTableCell.h"
 
 @implementation EncashModel
 
@@ -33,12 +34,53 @@
 
 @implementation TradeEncashViewController
 
-@synthesize ec;
+@synthesize ec, encashTV;
 
 -(void)dealloc{
     [ec release];
+    [encashTV release];
+    [encashList release];
     
     [super dealloc];
+}
+
+-(id)init{
+    self = [super init];
+    if (self) {
+        encashList = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+-(void)setUpEncashList{
+    NSMutableArray *secOne = [[[NSMutableArray alloc] init] autorelease];
+    
+    FormCellContent *miniBalContent = [[[FormCellContent alloc] init] autorelease];
+    miniBalContent.titleSTR = @"取现金额：";
+    miniBalContent.titleFont = [UIFont boldSystemFontOfSize:16];
+    
+    miniBalContent.placeHolderSTR = [NSString stringWithFormat:@"最低取现金额为%@元", ec.miniAmtSTR];
+    miniBalContent.textFont = [UIFont boldSystemFontOfSize:16];
+    miniBalContent.textAlignment = NSTextAlignmentRight;
+    
+    miniBalContent.maxLength = 8;
+    miniBalContent.keyboardType = UIKeyboardTypeDecimalPad;
+    [secOne addObject:miniBalContent];
+    
+    PlainCellContent *bankContent = [[[PlainCellContent alloc] init] autorelease];
+    bankContent.titleSTR = @"到账银行";
+    bankContent.bgColor = [Helper hexStringToColor:@"#E8E8E8"];
+    bankContent.textSTR = ec.bankNameSTR;
+    bankContent.cellStyle = Cell_Style_Plain;
+    [secOne addObject:bankContent];
+    
+    PlainCellContent *acctContent = [[[PlainCellContent alloc] init] autorelease];
+    acctContent.titleSTR = @"到账帐户";
+    acctContent.bgColor = [Helper hexStringToColor:@"#E8E8E8"];
+    acctContent.textSTR = ec.acctIdSTR;
+    [secOne addObject:acctContent];
+    
+    [encashList addObject:secOne];
 }
 
 - (void)viewDidLoad
@@ -118,8 +160,28 @@
     dashImgView.center = CGPointMake(self.contentView.center.x, dashImgView.center.y);
     [self.contentView addSubview:dashImgView];
     
+    [self setUpEncashList];
     
+    CGRect encashTVFrame = CGRectMake(0, frameHeighOffset(dashFrame)+VERTICAL_PADDING, contentWidth, 150);
+    self.encashTV = [[[GeneralTableView alloc] initWithFrame:encashTVFrame style:UITableViewStyleGrouped] autorelease];
+    [encashTV setBackgroundColor:[UIColor clearColor]];
+    [encashTV setBackgroundView:nil];
+    [encashTV setDelegateViewController:self];
+    [encashTV setGeneralTableDataSource:encashList];
+    [self.contentView addSubview:encashTV];
     
+    UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [contentView addGestureRecognizer:tg];
+    tg.delegate = self;
+    [tg release];
+}
+
+-(void) tapGesture:(UITapGestureRecognizer *)sender{
+    for (UITableViewCell *cell in [self.encashTV visibleCells]) {
+        if ([cell isKindOfClass:FormTableCell.class]) {
+            [((FormTableCell*)cell).textField resignFirstResponder];
+        }
+    }
 }
 
 @end

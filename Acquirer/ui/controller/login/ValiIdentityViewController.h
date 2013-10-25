@@ -7,20 +7,20 @@
 //
 
 #import "BaseViewController.h"
-#import "FormTableView.h"
+#import "GeneralTableView.h"
 
 @interface ValiIdentityViewController : BaseViewController <UIGestureRecognizerDelegate>{
     UIScrollView *bgScrollView;
     
-    FormTableView *posOrderTableView;
-    FormTableView *captchaTableView;
+    GeneralTableView *posOrderTableView;
+    GeneralTableView *captchaTableView;
     
     UIImageView *authImgView;
 }
 
 @property (nonatomic, retain) UIScrollView *bgScrollView;
-@property (nonatomic, retain) FormTableView *posOrderTableView;
-@property (nonatomic, retain) FormTableView *captchaTableView;
+@property (nonatomic, retain) GeneralTableView *posOrderTableView;
+@property (nonatomic, retain) GeneralTableView *captchaTableView;
 @property (nonatomic, retain) UIImageView *authImgView;
 
 -(void)refreshAuthImgView:(NSData *)imgData;
