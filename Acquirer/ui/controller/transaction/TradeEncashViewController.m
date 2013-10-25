@@ -63,7 +63,7 @@
     miniBalContent.textFont = [UIFont boldSystemFontOfSize:16];
     miniBalContent.textAlignment = NSTextAlignmentRight;
     
-    miniBalContent.maxLength = 8;
+    miniBalContent.maxLength = 12;
     miniBalContent.keyboardType = UIKeyboardTypeDecimalPad;
     [secOne addObject:miniBalContent];
     
@@ -168,6 +168,7 @@
     [encashTV setBackgroundView:nil];
     [encashTV setDelegateViewController:self];
     [encashTV setGeneralTableDataSource:encashList];
+    encashTV.scrollEnabled = NO;
     [self.contentView addSubview:encashTV];
     
     UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
