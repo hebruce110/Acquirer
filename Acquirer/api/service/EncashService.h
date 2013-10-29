@@ -16,4 +16,10 @@
 //请求同意协议
 -(void)requestForProtocalAgreement;
 
+//请求即时取现
+-(void)requestForEncashImmediately:(NSString *)amtSTR;
+
+//即时取现确认
+-(void)requestForEncashConfirm:(NSString *)amtSTR;
+
 @end

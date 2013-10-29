@@ -19,6 +19,9 @@
 -(id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
     self = [super initWithFrame:frame style:style];
     if (self) {
+        [self setBackgroundColor:[UIColor clearColor]];
+        [self setBackgroundView:nil];
+        
         generalDelegate = [[GeneralTableDelegate alloc] init];
         self.delegate = generalDelegate;
         self.dataSource = generalDelegate;

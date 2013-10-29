@@ -210,6 +210,11 @@
     return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
 }
 
+//收单的显示金额红色RGB
++(UIColor *) amountRedColor{
+    return [UIColor colorWithRed:185.0/255.0 green:29.0/255.0 blue:38.0/255.0 alpha:1.0];
+}
+
 //十六进制颜色字符串转UIColor
 +(UIColor *) hexStringToColor: (NSString *) stringToConvert
 {

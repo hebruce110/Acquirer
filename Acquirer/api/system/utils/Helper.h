@@ -90,6 +90,10 @@
 
 +(NSString *)processAmtDisplay:(NSString *)amtSTR;
 
+
+//收单的显示金额红色RGB
++(UIColor *) amountRedColor;
+
 //十六进制颜色字符串转UIColor
 +(UIColor *) hexStringToColor: (NSString *) stringToConvert;
 

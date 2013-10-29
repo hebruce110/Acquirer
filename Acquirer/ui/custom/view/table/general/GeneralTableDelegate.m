@@ -14,6 +14,7 @@
 #import "PlainTableCell.h"
 #import "UILabel+Size.h"
 #import "PlainLineBreakTableCell.h"
+#import "PlainUnitTableCell.h"
 #import "BaseViewController.h"
 
 @implementation GeneralTableDelegate
@@ -39,6 +40,7 @@
     static NSString *plain_identifier = @"Plain_Identifier";
     static NSString *standard_identifier = @"Standard_Identifier";
     static NSString *linebreak_identifier = @"Linebreak_Identifier";
+    static NSString *unit_identifier = @"Unit_Identifier";
     static NSString *form_identifier = @"Form_Identifier";
     
     CellContent *cc = [[genList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -99,6 +101,20 @@
         plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell = plaincell;
         
+    }
+    else if (cc.cellStyle == Cell_Style_Unit){
+        PlainCellContent *content = (PlainCellContent *)cc;
+        
+        PlainUnitTableCell *plaincell = [tableView dequeueReusableCellWithIdentifier:unit_identifier];
+        if (plaincell == nil) {
+            plaincell = [[[PlainUnitTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:linebreak_identifier] autorelease];
+        }
+        
+        plaincell.titleLabel.text = content.titleSTR;
+        plaincell.textLabel.text = content.textSTR;
+        
+        plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell = plaincell;
     }
     else if (cc.cellStyle == Cell_Style_Form){
         FormCellContent *content = (FormCellContent *)cc;
