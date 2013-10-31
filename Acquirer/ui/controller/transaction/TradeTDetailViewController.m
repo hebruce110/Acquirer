@@ -13,11 +13,16 @@
 
 @implementation TradeTDetailViewController
 
+@synthesize tradeType;
+@synthesize beginDateSTR,endDateSTR;
 @synthesize segControl, detailTableView, resendFlag;
 @synthesize showMoreLabel, showMoreIndicator;
 @synthesize needRefreshTableView;
 
 -(void)dealloc{
+    [beginDateSTR release];
+    [endDateSTR release];
+    
     [segControl release];
     [detailTableView release];
     
@@ -38,6 +43,9 @@
         tradeList = [[NSMutableArray alloc] init];
         resendFlag = [DEFAULT_RESEND_FLAG copy];
         needRefreshTableView = YES;
+        
+        //默认今日明细查询
+        tradeType = TradeDetailToday;
     }
     return self;
 }
@@ -46,18 +54,30 @@
 {
     [super viewDidLoad];
     
-    [self setNavigationTitle:@"今日刷卡明细"];
+    if (tradeType == TradeDetailToday) {
+        [self setNavigationTitle:@"今日刷卡明细"];
+    }else{
+        [self setNavigationTitle:@"历史刷卡明细"];
+    }
+    
+    
     
     NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    CGRect dateFrame = CGRectMake(0, 10, 160, 20);
+    CGRect dateFrame = CGRectMake(0, 10, 280, 20);
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:dateFrame];
     dateLabel.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), dateLabel.center.y);
     dateLabel.backgroundColor = [UIColor clearColor];
     dateLabel.font = [UIFont systemFontOfSize:15];
     dateLabel.textAlignment = UITextAlignmentCenter;
-    dateLabel.text = [NSString stringWithFormat:@"日期：%@", [dateFormatter stringFromDate:[NSDate date]]];
+    
+    if (tradeType == TradeDetailToday) {
+        dateLabel.text = [NSString stringWithFormat:@"日期：%@", [dateFormatter stringFromDate:[NSDate date]]];
+    }else if (tradeType == TradeDetailHistory){
+        dateLabel.text = [NSString stringWithFormat:@"日期：%@ 至 %@", beginDateSTR, endDateSTR];
+    }
+    
     [self.contentView addSubview:dateLabel];
     [dateLabel release];
     
@@ -96,17 +116,37 @@
 }
 
 -(void)refreshTodayTradeDetail{
-    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [dateFormatter setDateFormat:@"yyyyMMdd"];
-    NSString *curDateSTR = [dateFormatter stringFromDate:[NSDate date]];
-    [[AcquirerService sharedInstance].detailService onRespondTarget:self];
-    [[AcquirerService sharedInstance].detailService requestForTradeDetail:Detail_Type_Today
-                                                           withResendFlag:resendFlag
-                                                              withReqFlag:reqFlagType
-                                                               withCardNo:@""
-                                                                  withAmt:@""
-                                                                 fromDate:curDateSTR
-                                                                   toDate:curDateSTR];
+    NSDateFormatter *dsFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dsFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDateFormatter *sdFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [sdFormatter setDateFormat:@"yyyyMMdd"];
+    
+    if (tradeType == TradeDetailToday) {
+        NSString *curDateSTR = [sdFormatter stringFromDate:[NSDate date]];
+        [[AcquirerService sharedInstance].detailService onRespondTarget:self];
+        [[AcquirerService sharedInstance].detailService requestForTradeDetail:Detail_Type_Today
+                                                               withResendFlag:resendFlag
+                                                                  withReqFlag:reqFlagType
+                                                                   withCardNo:@""
+                                                                      withAmt:@""
+                                                                     fromDate:curDateSTR
+                                                                       toDate:curDateSTR];
+    }else if (tradeType == TradeDetailHistory){
+        
+        NSString *beginDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:beginDateSTR]];
+        NSString *endDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:endDateSTR]];
+        
+        [[AcquirerService sharedInstance].detailService onRespondTarget:self];
+        [[AcquirerService sharedInstance].detailService requestForTradeDetail:Detail_Type_History
+                                                               withResendFlag:resendFlag
+                                                                  withReqFlag:reqFlagType
+                                                                   withCardNo:@""
+                                                                      withAmt:@""
+                                                                     fromDate:beginDateParamSTR
+                                                                       toDate:endDateParamSTR];
+    }
+    
+    
 }
 
 -(void)segControlChanged:(id)sender{
@@ -206,6 +246,7 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierShowMore] autorelease];
             self.showMoreLabel = [[[UILabel alloc] init] autorelease];
             showMoreLabel.frame = CGRectMake(0, 0, 200, cell.bounds.size.height);
+            showMoreLabel.backgroundColor = [UIColor clearColor];
             showMoreLabel.center = CGPointMake(CGRectGetMidX(cell.bounds), showMoreLabel.center.y);
             showMoreLabel.textAlignment = NSTextAlignmentCenter;
             showMoreLabel.font = [UIFont systemFontOfSize:16];

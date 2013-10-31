@@ -19,6 +19,8 @@ typedef enum _CellStyle{
     Cell_Style_Text_LineBreak,
     //金额样式，金额数字字体变大，后面加入单位
     Cell_Style_Unit,
+    //上下格式，title在上, text在下，同时左对齐
+    Cell_Style_UpDown,
     //表单样式, 左侧title，右侧输入框
     Cell_Style_Form,
 }CellStyle;

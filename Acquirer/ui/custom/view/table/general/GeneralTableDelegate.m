@@ -15,6 +15,7 @@
 #import "UILabel+Size.h"
 #import "PlainLineBreakTableCell.h"
 #import "PlainUnitTableCell.h"
+#import "PlainCellUpDownCell.h"
 #import "BaseViewController.h"
 
 @implementation GeneralTableDelegate
@@ -41,6 +42,7 @@
     static NSString *standard_identifier = @"Standard_Identifier";
     static NSString *linebreak_identifier = @"Linebreak_Identifier";
     static NSString *unit_identifier = @"Unit_Identifier";
+    static NSString *updown_identifier = @"UpDown_Identifier";
     static NSString *form_identifier = @"Form_Identifier";
     
     CellContent *cc = [[genList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -114,6 +116,21 @@
         plaincell.textLabel.text = content.textSTR;
         
         plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
+        plaincell.accessoryType = content.accessoryType;
+        
+        cell = plaincell;
+    }
+    else if (cc.cellStyle == Cell_Style_UpDown){
+        PlainCellContent *content = (PlainCellContent *)cc;
+        
+        PlainCellUpDownCell *plaincell = [tableView dequeueReusableCellWithIdentifier:updown_identifier];
+        if (plaincell == nil) {
+            plaincell = [[[PlainCellUpDownCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:updown_identifier] autorelease];
+        }
+        
+        plaincell.titleLabel.text = content.titleSTR;
+        plaincell.textLabel.text = content.textSTR;
+        
         cell = plaincell;
     }
     else if (cc.cellStyle == Cell_Style_Form){
@@ -148,6 +165,9 @@
         if (lines >= 1) {
             return DEFAULT_ROW_HEIGHT+(lines-1)*[content.textSTR sizeWithFont:[UIFont boldSystemFontOfSize:16]].height;
         }
+    }
+    else if (cc.cellStyle == Cell_Style_UpDown){
+        return DEFAULT_ROW_HEIGHT*4/3;
     }
     return DEFAULT_ROW_HEIGHT;
 }

@@ -72,8 +72,6 @@
     [self setUpDateScopeList];
     CGRect dsFrame = CGRectMake(0, 30, self.contentView.bounds.size.width, 105);
     self.dateScopeTV = [[GeneralTableView alloc] initWithFrame:dsFrame style:UITableViewStyleGrouped];
-    dateScopeTV.backgroundColor = [UIColor clearColor];
-    dateScopeTV.backgroundView = nil;
     [self.contentView addSubview:dateScopeTV];
     dateScopeTV.scrollEnabled = NO;
     

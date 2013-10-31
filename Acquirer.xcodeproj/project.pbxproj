@@ -23,6 +23,13 @@
 		170C1892181E725D0070E57A /* fail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 170C188C181E725D0070E57A /* fail@2x.png */; };
 		170C1893181E725D0070E57A /* success.png in Resources */ = {isa = PBXBuildFile; fileRef = 170C188D181E725D0070E57A /* success.png */; };
 		170C1894181E725D0070E57A /* success@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 170C188E181E725D0070E57A /* success@2x.png */; };
+		170C189A181F44C50070E57A /* TradeHScopeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 170C1899181F44C50070E57A /* TradeHScopeViewController.m */; };
+		170C189D181F79030070E57A /* TradeHSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 170C189C181F79030070E57A /* TradeHSummaryViewController.m */; };
+		170C18A0181F7C0B0070E57A /* PlainCellUpDownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 170C189F181F7C0B0070E57A /* PlainCellUpDownCell.m */; };
+		170C18A3181FA6C70070E57A /* btn-bg-l@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 170C18A1181FA6C70070E57A /* btn-bg-l@2x.png */; };
+		170C18A4181FA6C70070E57A /* btn-bg-s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 170C18A2181FA6C70070E57A /* btn-bg-s@2x.png */; };
+		170C18A7181FA6D40070E57A /* btn-bg-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 170C18A5181FA6D40070E57A /* btn-bg-l.png */; };
+		170C18A8181FA6D40070E57A /* btn-bg-s.png in Resources */ = {isa = PBXBuildFile; fileRef = 170C18A6181FA6D40070E57A /* btn-bg-s.png */; };
 		17402C461817B424009A901E /* encashment.png in Resources */ = {isa = PBXBuildFile; fileRef = 17402C441817B424009A901E /* encashment.png */; };
 		17402C471817B424009A901E /* encashment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17402C451817B424009A901E /* encashment@2x.png */; };
 		17402C4A1817B6EE009A901E /* EncashService.m in Sources */ = {isa = PBXBuildFile; fileRef = 17402C491817B6EE009A901E /* EncashService.m */; };
@@ -200,6 +207,16 @@
 		170C188C181E725D0070E57A /* fail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fail@2x.png"; sourceTree = "<group>"; };
 		170C188D181E725D0070E57A /* success.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = success.png; sourceTree = "<group>"; };
 		170C188E181E725D0070E57A /* success@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "success@2x.png"; sourceTree = "<group>"; };
+		170C1898181F44C50070E57A /* TradeHScopeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeHScopeViewController.h; sourceTree = "<group>"; };
+		170C1899181F44C50070E57A /* TradeHScopeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeHScopeViewController.m; sourceTree = "<group>"; };
+		170C189B181F79030070E57A /* TradeHSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeHSummaryViewController.h; sourceTree = "<group>"; };
+		170C189C181F79030070E57A /* TradeHSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeHSummaryViewController.m; sourceTree = "<group>"; };
+		170C189E181F7C0B0070E57A /* PlainCellUpDownCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainCellUpDownCell.h; sourceTree = "<group>"; };
+		170C189F181F7C0B0070E57A /* PlainCellUpDownCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainCellUpDownCell.m; sourceTree = "<group>"; };
+		170C18A1181FA6C70070E57A /* btn-bg-l@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-bg-l@2x.png"; sourceTree = "<group>"; };
+		170C18A2181FA6C70070E57A /* btn-bg-s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-bg-s@2x.png"; sourceTree = "<group>"; };
+		170C18A5181FA6D40070E57A /* btn-bg-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-bg-l.png"; sourceTree = "<group>"; };
+		170C18A6181FA6D40070E57A /* btn-bg-s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-bg-s.png"; sourceTree = "<group>"; };
 		17402C441817B424009A901E /* encashment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = encashment.png; sourceTree = "<group>"; };
 		17402C451817B424009A901E /* encashment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "encashment@2x.png"; sourceTree = "<group>"; };
 		17402C481817B6EE009A901E /* EncashService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncashService.h; sourceTree = "<group>"; };
@@ -511,6 +528,8 @@
 				17FDA12E181A4B5900D08A55 /* PlainTableCell.m */,
 				170C1883181E33FE0070E57A /* PlainUnitTableCell.h */,
 				170C1884181E33FE0070E57A /* PlainUnitTableCell.m */,
+				170C189E181F7C0B0070E57A /* PlainCellUpDownCell.h */,
+				170C189F181F7C0B0070E57A /* PlainCellUpDownCell.m */,
 			);
 			path = plain;
 			sourceTree = "<group>";
@@ -564,6 +583,10 @@
 				170C188C181E725D0070E57A /* fail@2x.png */,
 				170C188D181E725D0070E57A /* success.png */,
 				170C188E181E725D0070E57A /* success@2x.png */,
+				170C18A5181FA6D40070E57A /* btn-bg-l.png */,
+				170C18A6181FA6D40070E57A /* btn-bg-s.png */,
+				170C18A1181FA6C70070E57A /* btn-bg-l@2x.png */,
+				170C18A2181FA6C70070E57A /* btn-bg-s@2x.png */,
 			);
 			path = trade;
 			sourceTree = "<group>";
@@ -979,6 +1002,10 @@
 				170C1887181E6FA70070E57A /* TradeEncashResultViewController.m */,
 				17402C4E1817C0F5009A901E /* TradeEncashProtocalViewController.h */,
 				17402C4F1817C0F5009A901E /* TradeEncashProtocalViewController.m */,
+				170C1898181F44C50070E57A /* TradeHScopeViewController.h */,
+				170C1899181F44C50070E57A /* TradeHScopeViewController.m */,
+				170C189B181F79030070E57A /* TradeHSummaryViewController.h */,
+				170C189C181F79030070E57A /* TradeHSummaryViewController.m */,
 			);
 			path = transaction;
 			sourceTree = "<group>";
@@ -1130,6 +1157,8 @@
 				8B31046117CF34E600764F7B /* info_success.png in Resources */,
 				8B31046217CF34E600764F7B /* info_success2.png in Resources */,
 				8B31046317CF34E600764F7B /* info_success2@x2.png in Resources */,
+				170C18A8181FA6D40070E57A /* btn-bg-s.png in Resources */,
+				170C18A7181FA6D40070E57A /* btn-bg-l.png in Resources */,
 				8B31046417CF34E600764F7B /* info_success@2x.png in Resources */,
 				170C1893181E725D0070E57A /* success.png in Resources */,
 				8B31046517CF34E600764F7B /* info_warning.png in Resources */,
@@ -1155,6 +1184,7 @@
 				17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */,
 				8B09992E17D814B3001430AA /* BUTT_red_on.png in Resources */,
 				8B09992F17D814B3001430AA /* BUTT_red_on@2x.png in Resources */,
+				170C18A4181FA6C70070E57A /* btn-bg-s@2x.png in Resources */,
 				170C1892181E725D0070E57A /* fail@2x.png in Resources */,
 				8B09993B17D88AE4001430AA /* deal-ico-hover.png in Resources */,
 				170C1890181E725D0070E57A /* dealing@2x.png in Resources */,
@@ -1181,6 +1211,7 @@
 				8B09996917E06173001430AA /* auth_loading@2x.png in Resources */,
 				8B09997E17E9710F001430AA /* tradehistorygather.png in Resources */,
 				8B09997F17E9710F001430AA /* tradehistorygather@2x.png in Resources */,
+				170C18A3181FA6C70070E57A /* btn-bg-l@2x.png in Resources */,
 				8B09998017E9710F001430AA /* tradehistorylist.png in Resources */,
 				8B09998117E9710F001430AA /* tradehistorylist@2x.png in Resources */,
 				8B09998217E9710F001430AA /* tradesettle.png in Resources */,
@@ -1229,6 +1260,7 @@
 				8BB6A6EB17CAF61500C71279 /* SBJsonParser.m in Sources */,
 				17FDA11A181A4B2700D08A55 /* CellContent.m in Sources */,
 				8BB6A6EC17CAF61500C71279 /* SBJsonWriter.m in Sources */,
+				170C189A181F44C50070E57A /* TradeHScopeViewController.m in Sources */,
 				8BB6A6ED17CAF61500C71279 /* MBProgressHUD.m in Sources */,
 				8BB6A6EE17CAF61500C71279 /* SFHFKeychainUtils.m in Sources */,
 				8BB6A70417CB3D8D00C71279 /* BaseViewController.m in Sources */,
@@ -1263,6 +1295,7 @@
 				17FDA114181A344500D08A55 /* GeneralTableView.m in Sources */,
 				17402C4A1817B6EE009A901E /* EncashService.m in Sources */,
 				8B0999A417E9AC23001430AA /* TradeTSummaryViewController.m in Sources */,
+				170C189D181F79030070E57A /* TradeHSummaryViewController.m in Sources */,
 				8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */,
 				8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */,
 				8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */,
@@ -1274,6 +1307,7 @@
 				8BC4F31F17F4231500D0929C /* SettleService.m in Sources */,
 				8BC4F32217F5289C00D0929C /* TradeSettleScopeViewController.m in Sources */,
 				8B379E80180FCF550012FF06 /* NSDate+TCUtils.m in Sources */,
+				170C18A0181F7C0B0070E57A /* PlainCellUpDownCell.m in Sources */,
 				17FDA125181A4B5100D08A55 /* FormTableCell.m in Sources */,
 				8B379E91180FCFE50012FF06 /* AbstractActionSheetPicker.m in Sources */,
 				8B379E92180FCFE50012FF06 /* ActionSheetCustomPicker.m in Sources */,

@@ -8,7 +8,19 @@
 
 #import "BaseViewController.h"
 
+typedef enum _TradeDetailType{
+    TradeDetailToday = 1,
+    TradeDetailHistory,
+} TradeDetailType;
+
 @interface TradeTDetailViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>{
+    TradeDetailType tradeType;
+    
+    //历史刷卡明细的起始时间
+    NSString *beginDateSTR;
+    //历史刷卡明细的结束时间
+    NSString *endDateSTR;
+    
     UISegmentedControl *segControl;
     UITableView *detailTableView;
     
@@ -26,6 +38,11 @@
     //从上个页面pop到当前页, 不做刷新操作
     BOOL needRefreshTableView;
 }
+
+@property (nonatomic, assign) TradeDetailType tradeType;
+
+@property (nonatomic, copy) NSString *beginDateSTR;
+@property (nonatomic, copy) NSString *endDateSTR;
 
 @property (nonatomic, copy) NSString *resendFlag;
 @property (nonatomic, retain) UISegmentedControl *segControl;

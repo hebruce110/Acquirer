@@ -19,6 +19,8 @@
     //cell的背景颜色
     UIColor *bgColor;
     
+    UITableViewCellAccessoryType accessoryType;
+    
     Class jumpClass;
 }
 
@@ -26,6 +28,8 @@
 @property (nonatomic, copy) NSString *textSTR;
 @property (nonatomic, copy) NSString *imgNameSTR;
 @property (nonatomic, copy) UIColor *bgColor;
+
+@property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
 @property (nonatomic, assign) Class jumpClass;
 

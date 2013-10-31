@@ -10,6 +10,7 @@
 #import "TradeTSummaryViewController.h"
 #import "TradeTDetailViewController.h"
 #import "TradeSettleMgtViewController.h"
+#import "TradeHScopeViewController.h"
 
 @interface TradeHomeViewController ()
 
@@ -44,7 +45,8 @@
         
         classList = [[NSArray arrayWithObjects: TradeTSummaryViewController.class,
                                                 TradeTDetailViewController.class,
-                                                TradeSettleMgtViewController.class, nil] retain];
+                                                TradeSettleMgtViewController.class,
+                                                TradeHScopeViewController.class, nil] retain];
     }
     return self;
 }

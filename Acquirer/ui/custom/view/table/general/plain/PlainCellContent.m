@@ -14,12 +14,14 @@
 @synthesize titleSTR, textSTR;
 @synthesize imgNameSTR;
 @synthesize jumpClass;
+@synthesize accessoryType;
 @synthesize bgColor;
 
 -(id)init{
     self = [super init];
     if (self) {
         cellStyle = Cell_Style_Plain;
+        accessoryType = UITableViewCellAccessoryNone;
     }
     return self;
 }

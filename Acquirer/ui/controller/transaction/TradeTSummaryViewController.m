@@ -26,6 +26,7 @@
     if (self) {
         isShowRefreshBtn = YES;
         summaryList = [[NSMutableArray alloc] init];
+        
     }
     return self;
 }
