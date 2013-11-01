@@ -8,6 +8,13 @@
 
 #import "BaseViewController.h"
 
-@interface HelpHomeViewController : BaseViewController
+@class GeneralTableView;
+
+@interface HelpHomeViewController : BaseViewController{
+    GeneralTableView *helpTV;
+    NSMutableArray *helpList;
+}
+
+@property (nonatomic, retain) GeneralTableView *helpTV;
 
 @end

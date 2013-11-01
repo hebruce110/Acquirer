@@ -60,8 +60,6 @@
         [self setNavigationTitle:@"历史刷卡明细"];
     }
     
-    
-    
     NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     

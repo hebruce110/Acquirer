@@ -36,6 +36,17 @@
 		17402C4D1817C05F009A901E /* TradeEncashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17402C4C1817C05F009A901E /* TradeEncashViewController.m */; };
 		17402C501817C0F5009A901E /* TradeEncashProtocalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17402C4F1817C0F5009A901E /* TradeEncashProtocalViewController.m */; };
 		1762A85D181770D0005A8893 /* TradeSettleBankAcctViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1762A85C181770CF005A8893 /* TradeSettleBankAcctViewController.m */; };
+		17C2320618235512001054E9 /* faq.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C231FC18235512001054E9 /* faq.png */; };
+		17C2320718235512001054E9 /* faq@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C231FD18235512001054E9 /* faq@2x.png */; };
+		17C2320818235512001054E9 /* helpservice.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C231FE18235512001054E9 /* helpservice.png */; };
+		17C2320918235512001054E9 /* helpservice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C231FF18235512001054E9 /* helpservice@2x.png */; };
+		17C2320A18235512001054E9 /* news.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320018235512001054E9 /* news.png */; };
+		17C2320B18235512001054E9 /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320118235512001054E9 /* news@2x.png */; };
+		17C2320C18235512001054E9 /* returncode.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320218235512001054E9 /* returncode.png */; };
+		17C2320D18235512001054E9 /* returncode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320318235512001054E9 /* returncode@2x.png */; };
+		17C2320E18235512001054E9 /* setup.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320418235512001054E9 /* setup.png */; };
+		17C2320F18235512001054E9 /* setup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320518235512001054E9 /* setup@2x.png */; };
+		17CC7C5D18236D2B00850D0A /* ReturnCodeQueryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C5C18236D2B00850D0A /* ReturnCodeQueryViewController.m */; };
 		17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17FDA10C1818B49100D08A55 /* EncashAgreement.txt */; };
 		17FDA114181A344500D08A55 /* GeneralTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA113181A344500D08A55 /* GeneralTableView.m */; };
 		17FDA117181A346100D08A55 /* GeneralTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA116181A346100D08A55 /* GeneralTableDelegate.m */; };
@@ -227,6 +238,18 @@
 		17402C4F1817C0F5009A901E /* TradeEncashProtocalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeEncashProtocalViewController.m; sourceTree = "<group>"; };
 		1762A85B181770CF005A8893 /* TradeSettleBankAcctViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeSettleBankAcctViewController.h; sourceTree = "<group>"; };
 		1762A85C181770CF005A8893 /* TradeSettleBankAcctViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeSettleBankAcctViewController.m; sourceTree = "<group>"; };
+		17C231FC18235512001054E9 /* faq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faq.png; sourceTree = "<group>"; };
+		17C231FD18235512001054E9 /* faq@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "faq@2x.png"; sourceTree = "<group>"; };
+		17C231FE18235512001054E9 /* helpservice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = helpservice.png; sourceTree = "<group>"; };
+		17C231FF18235512001054E9 /* helpservice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "helpservice@2x.png"; sourceTree = "<group>"; };
+		17C2320018235512001054E9 /* news.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = news.png; sourceTree = "<group>"; };
+		17C2320118235512001054E9 /* news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news@2x.png"; sourceTree = "<group>"; };
+		17C2320218235512001054E9 /* returncode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = returncode.png; sourceTree = "<group>"; };
+		17C2320318235512001054E9 /* returncode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "returncode@2x.png"; sourceTree = "<group>"; };
+		17C2320418235512001054E9 /* setup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setup.png; sourceTree = "<group>"; };
+		17C2320518235512001054E9 /* setup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setup@2x.png"; sourceTree = "<group>"; };
+		17CC7C5B18236D2B00850D0A /* ReturnCodeQueryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnCodeQueryViewController.h; sourceTree = "<group>"; };
+		17CC7C5C18236D2B00850D0A /* ReturnCodeQueryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReturnCodeQueryViewController.m; sourceTree = "<group>"; };
 		17FDA10C1818B49100D08A55 /* EncashAgreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EncashAgreement.txt; sourceTree = "<group>"; };
 		17FDA112181A344500D08A55 /* GeneralTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralTableView.h; sourceTree = "<group>"; };
 		17FDA113181A344500D08A55 /* GeneralTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralTableView.m; sourceTree = "<group>"; };
@@ -491,6 +514,23 @@
 			path = table;
 			sourceTree = "<group>";
 		};
+		17C231FB18235512001054E9 /* help */ = {
+			isa = PBXGroup;
+			children = (
+				17C231FC18235512001054E9 /* faq.png */,
+				17C231FD18235512001054E9 /* faq@2x.png */,
+				17C231FE18235512001054E9 /* helpservice.png */,
+				17C231FF18235512001054E9 /* helpservice@2x.png */,
+				17C2320018235512001054E9 /* news.png */,
+				17C2320118235512001054E9 /* news@2x.png */,
+				17C2320218235512001054E9 /* returncode.png */,
+				17C2320318235512001054E9 /* returncode@2x.png */,
+				17C2320418235512001054E9 /* setup.png */,
+				17C2320518235512001054E9 /* setup@2x.png */,
+			);
+			path = help;
+			sourceTree = "<group>";
+		};
 		17FDA111181A342100D08A55 /* general */ = {
 			isa = PBXGroup;
 			children = (
@@ -628,6 +668,7 @@
 				8B3104A517D6E05600764F7B /* login */,
 				8B09992717D814B3001430AA /* button */,
 				8B09997317E9710F001430AA /* trade */,
+				17C231FB18235512001054E9 /* help */,
 				8B31047917D6C63800764F7B /* bg-568h@2x.png */,
 				8B31047A17D6C63800764F7B /* bg.png */,
 				8B31047B17D6C63800764F7B /* bg@2x.png */,
@@ -954,6 +995,8 @@
 			children = (
 				8B31048217D6CAB100764F7B /* HelpHomeViewController.h */,
 				8B31048317D6CAB100764F7B /* HelpHomeViewController.m */,
+				17CC7C5B18236D2B00850D0A /* ReturnCodeQueryViewController.h */,
+				17CC7C5C18236D2B00850D0A /* ReturnCodeQueryViewController.m */,
 			);
 			path = helpcenter;
 			sourceTree = "<group>";
@@ -1145,7 +1188,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17C2320818235512001054E9 /* helpservice.png in Resources */,
 				8B09994417D9A627001430AA /* RespCodeDesc.geojson in Resources */,
+				17C2320D18235512001054E9 /* returncode@2x.png in Resources */,
 				8BB6A69F17CAE73500C71279 /* InfoPlist.strings in Resources */,
 				8BB6A6FA17CAF69F00C71279 /* Default-568h@2x.png in Resources */,
 				8BB6A6FB17CAF69F00C71279 /* Default.png in Resources */,
@@ -1158,6 +1203,7 @@
 				8B31046217CF34E600764F7B /* info_success2.png in Resources */,
 				8B31046317CF34E600764F7B /* info_success2@x2.png in Resources */,
 				170C18A8181FA6D40070E57A /* btn-bg-s.png in Resources */,
+				17C2320B18235512001054E9 /* news@2x.png in Resources */,
 				170C18A7181FA6D40070E57A /* btn-bg-l.png in Resources */,
 				8B31046417CF34E600764F7B /* info_success@2x.png in Resources */,
 				170C1893181E725D0070E57A /* success.png in Resources */,
@@ -1171,6 +1217,7 @@
 				8B31047E17D6C63800764F7B /* bg@2x.png in Resources */,
 				8B31048F17D6D76500764F7B /* menu-bg-hover.png in Resources */,
 				8B31049017D6D76500764F7B /* menu-bg-hover@2x.png in Resources */,
+				17C2320C18235512001054E9 /* returncode.png in Resources */,
 				8B31049117D6D76500764F7B /* menu-bg.png in Resources */,
 				8B31049217D6D76500764F7B /* menu-bg@2x.png in Resources */,
 				8B31049317D6D76500764F7B /* nav-bg.png in Resources */,
@@ -1186,6 +1233,7 @@
 				8B09992F17D814B3001430AA /* BUTT_red_on@2x.png in Resources */,
 				170C18A4181FA6C70070E57A /* btn-bg-s@2x.png in Resources */,
 				170C1892181E725D0070E57A /* fail@2x.png in Resources */,
+				17C2320E18235512001054E9 /* setup.png in Resources */,
 				8B09993B17D88AE4001430AA /* deal-ico-hover.png in Resources */,
 				170C1890181E725D0070E57A /* dealing@2x.png in Resources */,
 				8B09993C17D88AE4001430AA /* deal-ico-hover@2x.png in Resources */,
@@ -1196,9 +1244,11 @@
 				8B09994117D88AE4001430AA /* help-ico.png in Resources */,
 				8B09994217D88AE4001430AA /* help-ico@2x.png in Resources */,
 				0F911E7817DAB21700640BF8 /* BUTT_whi_off.png in Resources */,
+				17C2320918235512001054E9 /* helpservice@2x.png in Resources */,
 				0F911E7917DAB21700640BF8 /* BUTT_whi_off@2x.png in Resources */,
 				0F911E7A17DAB21700640BF8 /* BUTT_whi_on.png in Resources */,
 				0F911E7B17DAB21700640BF8 /* BUTT_whi_on@2x.png in Resources */,
+				17C2320A18235512001054E9 /* news.png in Resources */,
 				170C1894181E725D0070E57A /* success@2x.png in Resources */,
 				17402C461817B424009A901E /* encashment.png in Resources */,
 				0F911E7E17DAB4BA00640BF8 /* dashed.png in Resources */,
@@ -1211,6 +1261,7 @@
 				8B09996917E06173001430AA /* auth_loading@2x.png in Resources */,
 				8B09997E17E9710F001430AA /* tradehistorygather.png in Resources */,
 				8B09997F17E9710F001430AA /* tradehistorygather@2x.png in Resources */,
+				17C2320618235512001054E9 /* faq.png in Resources */,
 				170C18A3181FA6C70070E57A /* btn-bg-l@2x.png in Resources */,
 				8B09998017E9710F001430AA /* tradehistorylist.png in Resources */,
 				8B09998117E9710F001430AA /* tradehistorylist@2x.png in Resources */,
@@ -1221,11 +1272,13 @@
 				8B09998617E9710F001430AA /* tradetodaylist.png in Resources */,
 				8B09998717E9710F001430AA /* tradetodaylist@2x.png in Resources */,
 				170C188F181E725D0070E57A /* dealing.png in Resources */,
+				17C2320718235512001054E9 /* faq@2x.png in Resources */,
 				8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */,
 				8BEAFFA117EFDF8D0080A8F5 /* nav-btn@2x.png in Resources */,
 				8BC4F31917F41F9500D0929C /* tradesettleaccount.png in Resources */,
 				17402C471817B424009A901E /* encashment@2x.png in Resources */,
 				8BC4F31A17F41F9500D0929C /* tradesettleaccount@2x.png in Resources */,
+				17C2320F18235512001054E9 /* setup@2x.png in Resources */,
 				8BC4F31B17F41F9500D0929C /* tradesettlesearch.png in Resources */,
 				8BC4F31C17F41F9500D0929C /* tradesettlesearch@2x.png in Resources */,
 			);
@@ -1316,6 +1369,7 @@
 				17FDA133181A4B5900D08A55 /* PlainCellContent.m in Sources */,
 				8B379E95180FCFE50012FF06 /* ActionSheetStringPicker.m in Sources */,
 				8B379E96180FCFE50012FF06 /* DistancePickerView.m in Sources */,
+				17CC7C5D18236D2B00850D0A /* ReturnCodeQueryViewController.m in Sources */,
 				17402C4D1817C05F009A901E /* TradeEncashViewController.m in Sources */,
 				17FDA124181A4B5100D08A55 /* FormCellContent.m in Sources */,
 				8B379E99181116200012FF06 /* TradeSettleQueryResViewController.m in Sources */,
