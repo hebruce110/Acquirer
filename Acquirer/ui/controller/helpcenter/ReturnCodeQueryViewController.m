@@ -10,15 +10,19 @@
 #import "PlainCellContent.h"
 #import "GeneralTableView.h"
 #import "PlainTableCell.h"
+#import "Acquirer.h"
+#import "ActionSheetStringPicker.h"
 
 @implementation ReturnCodeQueryViewController
 
 @synthesize codeTV, codeDescTextView;
+@synthesize stringPicker;
 
 -(void)dealloc{
     [codeList release];
     [codeTV release];
     [codeDescTextView release];
+    [stringPicker release];
     
     [super dealloc];
 }
@@ -27,18 +31,14 @@
     self = [super init];
     if (self) {
         codeList = [[NSMutableArray alloc] init];
+        
+        for (CodeInfo *info in [Acquirer sharedInstance].codeList) {
+            if ([info.codeTypeSTR isEqualToString:@"1"]) {
+                [codeList addObject:info.codeNumSTR];
+            }
+        }
     }
     return self;
-}
-
--(void)setUpQueryCodeList{
-    NSMutableArray *secOne = [[[NSMutableArray alloc] init] autorelease];
-    PlainCellContent *pc = [[PlainCellContent new] autorelease];
-    pc.titleSTR = @"返回码";
-    pc.textSTR = @"23";
-    pc.cellStyle = Cell_Style_Plain;
-    [secOne addObject:pc];
-    [codeList addObject:secOne];
 }
 
 - (void)viewDidLoad
@@ -46,11 +46,17 @@
     [super viewDidLoad];
     [self setNavigationTitle:@"刷卡返回码查询"];
     
-    [self setUpQueryCodeList];
+    NSMutableArray *secOne = [[[NSMutableArray alloc] init] autorelease];
+    PlainCellContent *pc = [[PlainCellContent new] autorelease];
+    pc.titleSTR = @"返回码";
+    pc.textSTR = @"23";
+    pc.cellStyle = Cell_Style_Plain;
+    [secOne addObject:pc];
+    
     self.codeTV = [[GeneralTableView alloc] initWithFrame:CGRectMake(0, 20, self.contentView.bounds.size.width, 60)
                                                     style:UITableViewStyleGrouped];
     [codeTV setDelegateViewController:self];
-    [codeTV setGeneralTableDataSource:codeList];
+    [codeTV setGeneralTableDataSource:[NSArray arrayWithObject:secOne]];
     [self.contentView addSubview:codeTV];
     
     UIImage *btnSelImg = [UIImage imageNamed:@"BUTT_red_on.png"];
@@ -88,10 +94,25 @@
     
 }
 
+
+- (void)devWasSelected:(NSNumber *)selectedIndex element:(id)element {
+    NSString *codeSTR = [codeList objectAtIndex:[selectedIndex intValue]];
+    
+    PlainTableCell *cell = (PlainTableCell *) [codeTV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    cell.textLabel.text = codeSTR;
+}
+
+-(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row==0 && indexPath.section==0) {
+        self.stringPicker = [[[ActionSheetStringPicker alloc] initWithTitle:@"" rows:codeList initialSelection:0 target:self successAction:@selector(devWasSelected:element:) cancelAction:nil origin:self.contentView] autorelease];
+        [stringPicker showActionSheetPicker];
+    }
+}
+
 -(void)pressQuery:(id)sender{
     PlainTableCell *cell = (PlainTableCell *)[codeTV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
-    
+    codeDescTextView.text = [[Acquirer sharedInstance] codeCSVDesc:cell.textLabel.text];
 }
 
 @end

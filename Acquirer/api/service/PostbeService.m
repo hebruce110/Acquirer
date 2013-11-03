@@ -56,6 +56,33 @@
     }
 }
 
+//Postbe记录用户行为
+-(void)requestForPostbe:(NSString *)functionId{
+    NSDateFormatter *_dateFormatter = [[[NSDateFormatter alloc]init]autorelease];
+    [_dateFormatter setDateFormat:@"yyyy-MM-dd%20HH:mm:ss"];
+    NSDate *date = [NSDate date];
+    
+    
+    NSString *url = [NSString stringWithFormat:@"http://www.ttyfund.com/api/services/postbe.php?act=postbe&key=TTYFUND-CHINAPNR&app_client=minipos_client&app_platform=ios&app_version=%@&id=%@&uid=%@&model=%@&channel=&mail=&date=%@",
+                     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+                     [[DeviceIntrospection sharedInstance] uuid],
+                     [Helper getValueByKey:POSTBE_UID],
+                     [[DeviceIntrospection sharedInstance] platformName],
+                     [_dateFormatter stringFromDate:date]];
+    
+    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    //postbe经常超时,要设置超时时间
+    req.timeOutSeconds = 30;
+    
+    [req setDidFinishSelector:@selector(posteDidFinished:)];
+    req.delegate = self;
+    [req startAsynchronous];
+}
+
+-(void)posteDidFinished:(ASIHTTPRequest *)req{
+    //do nothing here
+}
+
 //请求收单版本
 -(void)requestForVersionCheck{
     [[Acquirer sharedInstance] showUIPromptMessage:@"检查版本更新" animated:YES];

@@ -56,6 +56,7 @@ typedef enum _AcquirerLoginReason {
 @property (nonatomic, retain) ACUser *currentUser;
 
 @property (nonatomic, assign) int codeCSVVersion;
+@property (nonatomic, readonly) NSMutableArray *codeList;
 
 @property (nonatomic, copy) NSString *uidSTR;
 

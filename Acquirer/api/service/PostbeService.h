@@ -15,4 +15,7 @@
 //检查版本更新，并记录当前版本
 -(void)requestForVersionCheck;
 
+//Postbe记录用户行为
+-(void)requestForPostbe:(NSString *)functionId;
+
 @end

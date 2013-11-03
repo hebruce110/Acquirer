@@ -25,7 +25,7 @@ static Acquirer *sInstance = nil;
 
 @synthesize uiPromptHUD, sysPromptHUD;
 @synthesize codedescMap, currentUser;
-@synthesize codeCSVVersion;
+@synthesize codeCSVVersion, codeList;
 @synthesize uidSTR;
 @synthesize logReason;
 
