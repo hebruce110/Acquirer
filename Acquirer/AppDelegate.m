@@ -42,6 +42,7 @@
     LoginViewController *loginCTRL = [[LoginViewController alloc] init];
     loginNavi = [[CPNavigationController alloc] initWithRootViewController:loginCTRL];
     
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000014"];
     TradeHomeViewController *transCTRL = [[[TradeHomeViewController alloc] init] autorelease];
     transNavi = [[CPNavigationController alloc] initWithRootViewController:transCTRL];
     
@@ -58,6 +59,8 @@
 //第一次启动应用或手动点退出登录,  做　self.window.rootViewController = transNavi;
 //其他情况:session超时,          做　dismissModalViewControllerAnimated
 -(void) loginSucceed{
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000018"];
+    
     //第一次启动应用或手动退出登录
     NSLog(@"%d", [Acquirer sharedInstance].logReason);
     if ([Acquirer sharedInstance].logReason) {
@@ -102,7 +105,12 @@
     [Acquirer initializeAcquirer];
     
     //请求UID
-    [Acquirer UID];
+    //启动请求postbe
+    if (![Helper stringNullOrEmpty:[Acquirer UID]]) {
+        //启动客户端postbe
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000000"];
+    }
+    
     //检查版本更新
     [[AcquirerService sharedInstance].postbeService requestForVersionCheck];
 }

@@ -260,6 +260,8 @@
         return;
     }
     
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000021"];
+    
     NSNumberFormatter *numFormatter = [[[NSNumberFormatter alloc] init] autorelease];
     [numFormatter setNumberStyle:NSNumberFormatterNoStyle];
     [numFormatter setPositiveFormat:@"0.00"];

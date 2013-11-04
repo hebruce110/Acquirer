@@ -229,6 +229,8 @@
         //跳转操作
         needRefreshTableView = NO;
         
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000007"];
+        
         SettleQueryContent *sqContent = [sqList objectAtIndex:indexPath.row];
         TradeSettleQueryInfoViewController *tsqiCTRL = [[[TradeSettleQueryInfoViewController alloc] init] autorelease];
         tsqiCTRL.sqContent = sqContent;

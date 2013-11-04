@@ -185,6 +185,7 @@
 
 -(void)pressConfirm:(id)sender{
     
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000022"];
 }
 
 

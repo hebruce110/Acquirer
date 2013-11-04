@@ -56,7 +56,7 @@
     self.codeTV = [[GeneralTableView alloc] initWithFrame:CGRectMake(0, 20, self.contentView.bounds.size.width, 60)
                                                     style:UITableViewStyleGrouped];
     [codeTV setDelegateViewController:self];
-    [codeTV setGeneralTableDataSource:[NSArray arrayWithObject:secOne]];
+    [codeTV setGeneralTableDataSource:[NSMutableArray arrayWithObject:secOne]];
     [self.contentView addSubview:codeTV];
     
     UIImage *btnSelImg = [UIImage imageNamed:@"BUTT_red_on.png"];

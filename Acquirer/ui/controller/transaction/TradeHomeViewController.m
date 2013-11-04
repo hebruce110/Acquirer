@@ -98,6 +98,14 @@
     Class ViewController = [classList objectAtIndex:indexPath.row];
     BaseViewController *CTRL = [[[ViewController alloc] init] autorelease];
     [self.navigationController pushViewController:CTRL animated:YES];
+    
+    if ([CTRL isKindOfClass:TradeTSummaryViewController.class]) {
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000010"];
+    }else if ([CTRL isKindOfClass:TradeTDetailViewController.class]){
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000011"];
+    }else if ([CTRL isKindOfClass:TradeSettleMgtViewController.class]){
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000012"];
+    }
 }
 
 #pragma mark UITableViewDelegate Method

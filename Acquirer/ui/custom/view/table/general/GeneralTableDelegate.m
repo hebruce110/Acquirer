@@ -17,6 +17,7 @@
 #import "PlainUnitTableCell.h"
 #import "PlainCellUpDownCell.h"
 #import "BaseViewController.h"
+#import "LineBreakTableCell.h"
 
 @implementation GeneralTableDelegate
 
@@ -44,6 +45,7 @@
     static NSString *unit_identifier = @"Unit_Identifier";
     static NSString *updown_identifier = @"UpDown_Identifier";
     static NSString *form_identifier = @"Form_Identifier";
+    static NSString *titlelinebreak_indentifier = @"titlelinebreak_indentifier";
     
     CellContent *cc = [[genList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
@@ -74,6 +76,39 @@
         
         cell = plaincell;
     }
+    
+    else if (cc.cellStyle == Cell_Style_Title_LineBreak){
+        PlainCellContent *content = (PlainCellContent *)cc;
+        
+        LineBreakTableCell *plaincell = [tableView dequeueReusableCellWithIdentifier:titlelinebreak_indentifier];
+        if (plaincell==nil) {
+            plaincell = [[[LineBreakTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:titlelinebreak_indentifier] autorelease];
+        }
+        if (content.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+            CGFloat titleWidth = plaincell.bounds.size.width-60;
+            plaincell.titleLabel.frame = CGRectMake(plaincell.titleLabel.frame.origin.x,
+                                                    plaincell.titleLabel.frame.origin.y,
+                                                    titleWidth,
+                                                    plaincell.bounds.size.height);
+        }
+        
+        plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
+        
+        plaincell.titleLabel.text = content.titleSTR;
+        
+        plaincell.titleLabel.numberOfLines = [UILabel calcLabelLineWithString:content.titleSTR andFont:plaincell.titleLabel.font lineWidth:plaincell.titleLabel.bounds.size.width];
+        
+        if (plaincell.titleLabel.numberOfLines > 1) {
+            plaincell.titleLabel.center = CGPointMake(plaincell.titleLabel.center.x, CGRectGetMidY(plaincell.bounds)+10);
+        }
+        
+        //[plaincell.titleLabel setContentMode:UIViewContentModeCenter];
+        
+        plaincell.accessoryType = content.accessoryType;
+        
+        cell = plaincell;
+    }
+    
     else if (cc.cellStyle == Cell_Style_Standard){
         PlainCellContent *content = (PlainCellContent *)cc;
         
@@ -169,6 +204,30 @@
     else if (cc.cellStyle == Cell_Style_UpDown){
         return DEFAULT_ROW_HEIGHT*4/3;
     }
+    
+    
+    else if (cc.cellStyle == Cell_Style_Title_LineBreak){
+        PlainCellContent *content = (PlainCellContent *)cc;
+        
+        LineBreakTableCell *cell = [[[LineBreakTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""] autorelease];
+        
+        CGFloat lines;
+        if (content.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+            lines = [UILabel calcLabelLineWithString:content.titleSTR
+                                               andFont:cell.titleLabel.font
+                                             lineWidth:cell.titleLabel.bounds.size.width-30];
+        }else{
+            lines = [UILabel calcLabelLineWithString:content.titleSTR
+                                             andFont:cell.titleLabel.font
+                                           lineWidth:cell.titleLabel.bounds.size.width];
+        }
+        
+        if (lines >= 1) {
+            return DEFAULT_ROW_HEIGHT+(lines-1)*[content.titleSTR sizeWithFont:cell.titleLabel.font].height;
+        }
+    }
+    
+    
     return DEFAULT_ROW_HEIGHT;
 }
 

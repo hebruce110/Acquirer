@@ -120,6 +120,9 @@
 
 -(void)encashConfirmRequestDidFinished:(AcquirerCPRequest *)req{
     
+    //取现成功
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000023"];
+    
 }
 
 

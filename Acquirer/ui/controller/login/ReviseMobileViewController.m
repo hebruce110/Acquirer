@@ -119,6 +119,8 @@
                                                                      notifyType:NOTIFICATION_TYPE_ERROR];
     }
     
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000002"];
+    
     [[AcquirerService sharedInstance].valiService onRespondTarget:self];
     [[AcquirerService sharedInstance].valiService requestForNewMobile:newMobileSTR withPNRDevId:pnrDevIdSTR];
 }

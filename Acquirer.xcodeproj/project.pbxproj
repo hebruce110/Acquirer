@@ -47,6 +47,11 @@
 		17C2320E18235512001054E9 /* setup.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320418235512001054E9 /* setup.png */; };
 		17C2320F18235512001054E9 /* setup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C2320518235512001054E9 /* setup@2x.png */; };
 		17CC7C5D18236D2B00850D0A /* ReturnCodeQueryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C5C18236D2B00850D0A /* ReturnCodeQueryViewController.m */; };
+		17CC7C6018277A3D00850D0A /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C5F18277A3D00850D0A /* FAQViewController.m */; };
+		17CC7C6318277C7000850D0A /* FAQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C6218277C7000850D0A /* FAQuestionViewController.m */; };
+		17CC7C65182780B500850D0A /* faq.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C64182780B500850D0A /* faq.txt */; };
+		17CC7C6818278F5F00850D0A /* LineBreakTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C6718278F5F00850D0A /* LineBreakTableCell.m */; };
+		17CC7C6B1827A17100850D0A /* FAQuestionAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C6A1827A17100850D0A /* FAQuestionAnswerViewController.m */; };
 		17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17FDA10C1818B49100D08A55 /* EncashAgreement.txt */; };
 		17FDA114181A344500D08A55 /* GeneralTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA113181A344500D08A55 /* GeneralTableView.m */; };
 		17FDA117181A346100D08A55 /* GeneralTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA116181A346100D08A55 /* GeneralTableDelegate.m */; };
@@ -250,6 +255,15 @@
 		17C2320518235512001054E9 /* setup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setup@2x.png"; sourceTree = "<group>"; };
 		17CC7C5B18236D2B00850D0A /* ReturnCodeQueryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnCodeQueryViewController.h; sourceTree = "<group>"; };
 		17CC7C5C18236D2B00850D0A /* ReturnCodeQueryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReturnCodeQueryViewController.m; sourceTree = "<group>"; };
+		17CC7C5E18277A3D00850D0A /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
+		17CC7C5F18277A3D00850D0A /* FAQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQViewController.m; sourceTree = "<group>"; };
+		17CC7C6118277C7000850D0A /* FAQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQuestionViewController.h; sourceTree = "<group>"; };
+		17CC7C6218277C7000850D0A /* FAQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQuestionViewController.m; sourceTree = "<group>"; };
+		17CC7C64182780B500850D0A /* faq.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = faq.txt; sourceTree = "<group>"; };
+		17CC7C6618278F5F00850D0A /* LineBreakTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBreakTableCell.h; sourceTree = "<group>"; };
+		17CC7C6718278F5F00850D0A /* LineBreakTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBreakTableCell.m; sourceTree = "<group>"; };
+		17CC7C691827A17100850D0A /* FAQuestionAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQuestionAnswerViewController.h; sourceTree = "<group>"; };
+		17CC7C6A1827A17100850D0A /* FAQuestionAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQuestionAnswerViewController.m; sourceTree = "<group>"; };
 		17FDA10C1818B49100D08A55 /* EncashAgreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EncashAgreement.txt; sourceTree = "<group>"; };
 		17FDA112181A344500D08A55 /* GeneralTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralTableView.h; sourceTree = "<group>"; };
 		17FDA113181A344500D08A55 /* GeneralTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralTableView.m; sourceTree = "<group>"; };
@@ -536,12 +550,12 @@
 			children = (
 				17FDA118181A4B2700D08A55 /* CellContent.h */,
 				17FDA119181A4B2700D08A55 /* CellContent.m */,
-				17FDA11B181A4B5100D08A55 /* form */,
-				17FDA128181A4B5800D08A55 /* plain */,
 				17FDA112181A344500D08A55 /* GeneralTableView.h */,
 				17FDA113181A344500D08A55 /* GeneralTableView.m */,
 				17FDA115181A346100D08A55 /* GeneralTableDelegate.h */,
 				17FDA116181A346100D08A55 /* GeneralTableDelegate.m */,
+				17FDA11B181A4B5100D08A55 /* form */,
+				17FDA128181A4B5800D08A55 /* plain */,
 			);
 			path = general;
 			sourceTree = "<group>";
@@ -570,6 +584,8 @@
 				170C1884181E33FE0070E57A /* PlainUnitTableCell.m */,
 				170C189E181F7C0B0070E57A /* PlainCellUpDownCell.h */,
 				170C189F181F7C0B0070E57A /* PlainCellUpDownCell.m */,
+				17CC7C6618278F5F00850D0A /* LineBreakTableCell.h */,
+				17CC7C6718278F5F00850D0A /* LineBreakTableCell.m */,
 			);
 			path = plain;
 			sourceTree = "<group>";
@@ -837,6 +853,7 @@
 				8BB6A6FE17CAF74F00C71279 /* settings */,
 				8B31046717D43A1B00764F7B /* code.csv */,
 				8B09994317D99A0A001430AA /* RespCodeDesc.geojson */,
+				17CC7C64182780B500850D0A /* faq.txt */,
 				17FDA10C1818B49100D08A55 /* EncashAgreement.txt */,
 				8BB6A69917CAE73500C71279 /* Acquirer-Info.plist */,
 				8BB6A69A17CAE73500C71279 /* Acquirer-Prefix.pch */,
@@ -995,6 +1012,12 @@
 			children = (
 				8B31048217D6CAB100764F7B /* HelpHomeViewController.h */,
 				8B31048317D6CAB100764F7B /* HelpHomeViewController.m */,
+				17CC7C5E18277A3D00850D0A /* FAQViewController.h */,
+				17CC7C5F18277A3D00850D0A /* FAQViewController.m */,
+				17CC7C6118277C7000850D0A /* FAQuestionViewController.h */,
+				17CC7C6218277C7000850D0A /* FAQuestionViewController.m */,
+				17CC7C691827A17100850D0A /* FAQuestionAnswerViewController.h */,
+				17CC7C6A1827A17100850D0A /* FAQuestionAnswerViewController.m */,
 				17CC7C5B18236D2B00850D0A /* ReturnCodeQueryViewController.h */,
 				17CC7C5C18236D2B00850D0A /* ReturnCodeQueryViewController.m */,
 			);
@@ -1229,6 +1252,7 @@
 				170C1891181E725D0070E57A /* fail.png in Resources */,
 				8B09992D17D814B3001430AA /* BUTT_red_off@2x.png in Resources */,
 				17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */,
+				17CC7C65182780B500850D0A /* faq.txt in Resources */,
 				8B09992E17D814B3001430AA /* BUTT_red_on.png in Resources */,
 				8B09992F17D814B3001430AA /* BUTT_red_on@2x.png in Resources */,
 				170C18A4181FA6C70070E57A /* btn-bg-s@2x.png in Resources */,
@@ -1316,6 +1340,7 @@
 				170C189A181F44C50070E57A /* TradeHScopeViewController.m in Sources */,
 				8BB6A6ED17CAF61500C71279 /* MBProgressHUD.m in Sources */,
 				8BB6A6EE17CAF61500C71279 /* SFHFKeychainUtils.m in Sources */,
+				17CC7C6018277A3D00850D0A /* FAQViewController.m in Sources */,
 				8BB6A70417CB3D8D00C71279 /* BaseViewController.m in Sources */,
 				8BB6A70E17CB3DFF00C71279 /* CPNavigationController.m in Sources */,
 				170C1885181E33FE0070E57A /* PlainUnitTableCell.m in Sources */,
@@ -1354,7 +1379,9 @@
 				8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */,
 				8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */,
 				8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */,
+				17CC7C6818278F5F00850D0A /* LineBreakTableCell.m in Sources */,
 				8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */,
+				17CC7C6B1827A17100850D0A /* FAQuestionAnswerViewController.m in Sources */,
 				1762A85D181770D0005A8893 /* TradeSettleBankAcctViewController.m in Sources */,
 				8BC4F31417F3C54300D0929C /* TradeSettleMgtViewController.m in Sources */,
 				8BC4F31F17F4231500D0929C /* SettleService.m in Sources */,
@@ -1373,6 +1400,7 @@
 				17402C4D1817C05F009A901E /* TradeEncashViewController.m in Sources */,
 				17FDA124181A4B5100D08A55 /* FormCellContent.m in Sources */,
 				8B379E99181116200012FF06 /* TradeSettleQueryResViewController.m in Sources */,
+				17CC7C6318277C7000850D0A /* FAQuestionViewController.m in Sources */,
 				8B379E9C181133B00012FF06 /* SettleQueryContent.m in Sources */,
 				8B379E9F1811350A0012FF06 /* SettleQueryTableCell.m in Sources */,
 				8B020B461814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m in Sources */,
@@ -1465,8 +1493,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "217FF255-5736-4F5D-8910-93C5813D03BF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "217FF255-5736-4F5D-8910-93C5813D03BF";
 				SDKROOT = iphoneos6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1484,8 +1512,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "217FF255-5736-4F5D-8910-93C5813D03BF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "217FF255-5736-4F5D-8910-93C5813D03BF";
 				SDKROOT = iphoneos6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

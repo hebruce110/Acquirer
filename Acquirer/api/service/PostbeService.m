@@ -62,24 +62,46 @@
     [_dateFormatter setDateFormat:@"yyyy-MM-dd%20HH:mm:ss"];
     NSDate *date = [NSDate date];
     
+    NSString *url = [NSString stringWithFormat:@"http://www.ttyfund.com/api/services/postbe.php"];
     
-    NSString *url = [NSString stringWithFormat:@"http://www.ttyfund.com/api/services/postbe.php?act=postbe&key=TTYFUND-CHINAPNR&app_client=minipos_client&app_platform=ios&app_version=%@&id=%@&uid=%@&model=%@&channel=&mail=&date=%@",
-                     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
-                     [[DeviceIntrospection sharedInstance] uuid],
-                     [Helper getValueByKey:POSTBE_UID],
-                     [[DeviceIntrospection sharedInstance] platformName],
-                     [_dateFormatter stringFromDate:date]];
+    NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
+    [params setObject:@"postbe" forKey:@"act"];
+    [params setObject:@"TTYFUND-CHINAPNR" forKey:@"key"];
+    [params setObject:@"sd_pos" forKey:@"app_client"];
+    [params setObject:@"ios" forKey:@"app_platform"];
+    [params setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"app_version"];
+    [params setObject:functionId forKey:@"function_id"];
+    [params setObject:[[DeviceIntrospection sharedInstance] uuid] forKey:@"id"];
+    [params setObject:[Acquirer UID] forKey:@"uid"];
+    [params setObject:[[DeviceIntrospection sharedInstance] platformName] forKey:@"model"];
+    [params setObject:@"chinapnr" forKey:@"channel"];
+    [params setObject:@"" forKey:@"mail"];
+    [params setObject:[_dateFormatter stringFromDate:date] forKey:@"date"];
     
-    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    NSMutableString *paramSTR = nil;
+    for (NSString *k in [params allKeys]){
+        if (paramSTR) {
+            [paramSTR appendFormat:@"&%@=%@", k, [params objectForKey:k]];
+        }else{
+            paramSTR = [NSMutableString stringWithFormat:@"%@=%@", k, [params objectForKey:k]];
+        }
+    }
+    
+    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", url, paramSTR]]];
     //postbe经常超时,要设置超时时间
     req.timeOutSeconds = 30;
     
-    [req setDidFinishSelector:@selector(posteDidFinished:)];
+    [req setDidFinishSelector:@selector(postbeDidFinished:)];
+    [req setDidFailSelector:@selector(postbeDidFailed:)];
     req.delegate = self;
     [req startAsynchronous];
 }
 
--(void)posteDidFinished:(ASIHTTPRequest *)req{
+-(void)postbeDidFinished:(ASIHTTPRequest *)req{
+    //do nothing here
+}
+
+-(void)postbeDidFailed:(ASIHTTPRequest *)req{
     //do nothing here
 }
 

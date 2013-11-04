@@ -249,6 +249,8 @@
         return;
     }
     
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000013"];
+    
     ACUser *usr = [[[ACUser alloc] init] autorelease];
     usr.instSTR = corpIdSTR;
     usr.opratorSTR = opratorIdSTR;
@@ -260,6 +262,8 @@
 }
 
 -(void)notLogin:(id)sender{
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000001"];
+    
     ValiIdentityViewController *valiIdentityCTRL = [[[ValiIdentityViewController alloc] init] autorelease];
     [self.navigationController pushViewController:valiIdentityCTRL animated:YES];
 }

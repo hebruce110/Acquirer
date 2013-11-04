@@ -94,11 +94,20 @@
 
 -(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row==0 && indexPath.section==0) {
-        [self pressCheckDetail:nil];
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000036"];
+        
+        TradeTDetailViewController *tradeDetailCTRL = [[[TradeTDetailViewController alloc] init] autorelease];
+        tradeDetailCTRL.tradeType = TradeDetailHistory;
+        tradeDetailCTRL.beginDateSTR = self.beginDateSTR;
+        tradeDetailCTRL.endDateSTR = self.endDateSTR;
+        tradeDetailCTRL.tradeType = TradeDetailHistory;
+        [self.navigationController pushViewController:tradeDetailCTRL animated:YES];
     }
 }
 
 -(void)pressCheckDetail:(id)sender{
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000015"];
+    
     TradeTDetailViewController *tradeDetailCTRL = [[[TradeTDetailViewController alloc] init] autorelease];
     tradeDetailCTRL.tradeType = TradeDetailHistory;
     tradeDetailCTRL.beginDateSTR = self.beginDateSTR;

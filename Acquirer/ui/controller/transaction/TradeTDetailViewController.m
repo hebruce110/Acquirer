@@ -301,6 +301,12 @@
             return;
         }
         
+        if (tradeType == TradeDetailToday) {
+            [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000004"];
+        }else if (tradeType == TradeDetailHistory){
+            [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000016"];
+        }
+        
         //跳转操作
         TradeTDetailInfoViewController *ttdi = [[[TradeTDetailInfoViewController alloc] init] autorelease];
         ttdi.orderIdSTR = ((DetailContent *)[tradeList objectAtIndex:indexPath.row]).orderIdSTR;

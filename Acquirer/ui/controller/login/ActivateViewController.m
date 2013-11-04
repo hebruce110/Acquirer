@@ -336,6 +336,8 @@
         return;
     }
     
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000003"];
+    
     [[AcquirerService sharedInstance].logService onRespondTarget:self];
     [[AcquirerService sharedInstance].logService requestForActivateLogin:msgCode withPass:passSTR];
 }

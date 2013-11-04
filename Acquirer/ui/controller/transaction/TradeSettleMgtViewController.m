@@ -121,6 +121,8 @@
     if (indexPath.section == 2 && indexPath.row == 0) {
         [[AcquirerService sharedInstance].encashService onRespondTarget:self];
         [[AcquirerService sharedInstance].encashService requestForBalanceAuth];
+        
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000019"];
     }
 }
 

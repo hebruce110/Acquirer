@@ -82,6 +82,8 @@
 
 -(void)pressAgreeProtocal:(id)sender{
     if (hasReadAll) {
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000020"];
+        
         [[AcquirerService sharedInstance].encashService onRespondTarget:self];
         [[AcquirerService sharedInstance].encashService requestForProtocalAgreement];
         return ;

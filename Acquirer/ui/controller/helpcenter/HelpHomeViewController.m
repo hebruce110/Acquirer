@@ -10,6 +10,7 @@
 #import "PlainCellContent.h"
 #import "GeneralTableView.h"
 #import "ReturnCodeQueryViewController.h"
+#import "FAQViewController.h"
 
 @implementation HelpHomeViewController
 
@@ -31,8 +32,8 @@
 }
 
 -(void)setUpHelpList{
-    NSArray *secOne = @[@[@"POS常见问题", @"faq.png", NSObject.class],
-                        @[@"生利宝常见问题", @"helpservice.png", NSObject.class],
+    NSArray *secOne = @[@[@"POS常见问题", @"faq.png", FAQViewController.class],
+                        /*@[@"生利宝常见问题", @"helpservice.png", NSObject.class],*/
                         @[@"刷卡返回码查询", @"returncode.png", ReturnCodeQueryViewController.class]];
     
     NSArray *secTwo = @[@[@"消息中心", @"news.png", NSObject.class]];

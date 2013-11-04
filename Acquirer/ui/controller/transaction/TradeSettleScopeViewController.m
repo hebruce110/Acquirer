@@ -216,6 +216,8 @@
         return;
     }
     
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000006"];
+    
     NSString *beginDateSTR = [formatter stringFromDate:startDate];
     NSString *endDateSTR = [formatter stringFromDate:endDate];
     TradeSettleQueryResViewController *tsrCTRL = [[TradeSettleQueryResViewController alloc] initWithStartDate:beginDateSTR endDate:endDateSTR];

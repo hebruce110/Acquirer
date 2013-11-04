@@ -23,6 +23,8 @@ typedef enum _CellStyle{
     Cell_Style_UpDown,
     //表单样式, 左侧title，右侧输入框
     Cell_Style_Form,
+    //只有title，且title换行
+    Cell_Style_Title_LineBreak,
 }CellStyle;
 
 @interface CellContent : NSObject{
