@@ -30,7 +30,7 @@
     
     NSMutableArray *secOne = [[[NSMutableArray alloc] init] autorelease];
     PlainCellContent *pc = [[PlainCellContent new] autorelease];
-    pc.titleSTR = [NSString stringWithFormat:@"Q:%@ A:%@", faqModel.questionSTR, faqModel.answerSTR];
+    pc.titleSTR = [NSString stringWithFormat:@"Q:%@ \n\nA:%@", faqModel.questionSTR, faqModel.answerSTR];
     pc.accessoryType = UITableViewCellAccessoryNone;
     pc.cellStyle = Cell_Style_Title_LineBreak;
     [secOne addObject:pc];

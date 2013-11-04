@@ -18,6 +18,7 @@
 #import "PlainCellUpDownCell.h"
 #import "BaseViewController.h"
 #import "LineBreakTableCell.h"
+#import "UILabel+Size.h"
 
 @implementation GeneralTableDelegate
 
@@ -64,10 +65,6 @@
         
         plaincell.textLabel.numberOfLines = [UILabel calcLabelLineWithString:content.textSTR andFont:plaincell.textLabel.font lineWidth:plaincell.textLabel.bounds.size.width];
         
-        if (plaincell.textLabel.numberOfLines > 1) {
-            plaincell.textLabel.center = CGPointMake(plaincell.textLabel.center.x, CGRectGetMidY(plaincell.bounds)+10);
-        }
-        
         [plaincell.textLabel setContentMode:UIViewContentModeCenter];
         
         if (content.bgColor != nil) {
@@ -84,25 +81,33 @@
         if (plaincell==nil) {
             plaincell = [[[LineBreakTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:titlelinebreak_indentifier] autorelease];
         }
+        
+        
         if (content.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
             CGFloat titleWidth = plaincell.bounds.size.width-60;
+            CGFloat height = [UILabel calcLabelSizeWithString:content.titleSTR
+                                                      andFont:plaincell.titleLabel.font
+                                                     maxLines:100
+                                                    lineWidth:titleWidth].height;
             plaincell.titleLabel.frame = CGRectMake(plaincell.titleLabel.frame.origin.x,
                                                     plaincell.titleLabel.frame.origin.y,
                                                     titleWidth,
-                                                    plaincell.bounds.size.height);
+                                                    height);
+        }else{
+            CGFloat height = [UILabel calcLabelSizeWithString:content.titleSTR
+                                                      andFont:plaincell.titleLabel.font
+                                                     maxLines:100
+                                                    lineWidth:plaincell.titleLabel.frame.size.width].height;
+            plaincell.titleLabel.frame = CGRectMake(plaincell.titleLabel.frame.origin.x,
+                                                    plaincell.titleLabel.frame.origin.y,
+                                                    plaincell.titleLabel.frame.size.width,
+                                                    height);
         }
         
         plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
-        
         plaincell.titleLabel.text = content.titleSTR;
         
         plaincell.titleLabel.numberOfLines = [UILabel calcLabelLineWithString:content.titleSTR andFont:plaincell.titleLabel.font lineWidth:plaincell.titleLabel.bounds.size.width];
-        
-        if (plaincell.titleLabel.numberOfLines > 1) {
-            plaincell.titleLabel.center = CGPointMake(plaincell.titleLabel.center.x, CGRectGetMidY(plaincell.bounds)+10);
-        }
-        
-        //[plaincell.titleLabel setContentMode:UIViewContentModeCenter];
         
         plaincell.accessoryType = content.accessoryType;
         
@@ -204,8 +209,6 @@
     else if (cc.cellStyle == Cell_Style_UpDown){
         return DEFAULT_ROW_HEIGHT*4/3;
     }
-    
-    
     else if (cc.cellStyle == Cell_Style_Title_LineBreak){
         PlainCellContent *content = (PlainCellContent *)cc;
         

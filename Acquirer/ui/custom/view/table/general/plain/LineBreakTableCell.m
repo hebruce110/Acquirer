@@ -21,7 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         CGFloat offset = 20;
-        CGFloat titleWidth = self.bounds.size.width-20;
+        CGFloat titleWidth = self.bounds.size.width-40;
         CGRect titleFrame = CGRectMake(offset, 0, titleWidth, self.bounds.size.height);
         titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
         titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -31,6 +31,12 @@
         [self addSubview:titleLabel];
     }
     return self;
+}
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    
+    titleLabel.center = CGPointMake(titleLabel.center.x, CGRectGetMidY(self.bounds));
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{
