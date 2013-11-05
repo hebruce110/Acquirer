@@ -17,6 +17,7 @@
 #import "GeneralTableView.h"
 #import "FormCellContent.h"
 #import "FormTableCell.h"
+#import "ActivateViewController.h"
 
 @interface LoginFormTableCell : FormTableCell
 @end
@@ -170,17 +171,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(dismissLoginViewController:)
-                                                 name:NOTIFICATION_USER_LOGIN_SUCCEED
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(jumpToActivateViewController:)
-                                                 name:NOTIFICATION_JUMP_ACTIVATE_PAGE
-                                               object:nil];
-    
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -204,16 +194,6 @@
     }
 }
 
--(void)dismissLoginViewController:(NSNotification *)notification{
-    [self dismissModalViewControllerAnimated:YES];
-}
-
--(void)jumpToActivateViewController:(NSNotification *)notification{
-    ActivateViewController *activateCTRL = [[[ActivateViewController alloc] init] autorelease];
-    activateCTRL.mobileSTR = [Acquirer sharedInstance].currentUser.mobileSTR;
-    [self.navigationController pushViewController:activateCTRL animated:YES];
-}
-
 -(void)login:(id)sender{
     NSArray *visibleCellList = [self.loginTableView visibleCells];
     for (FormTableCell *cell in visibleCellList) {
@@ -226,26 +206,32 @@
     
     //校验合规
     if ([Helper stringNullOrEmpty:corpIdSTR]) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号为空，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }else if ([corpIdSTR rangeOfString:@"6"].location != 0){
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号有误，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"机构号有误，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return ;
     }
     
     if ([Helper stringNullOrEmpty:opratorIdSTR]) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"操作员号为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"操作员号为空，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }else if ([Helper containInvalidChar:opratorIdSTR]){
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"操作员号有误，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"操作员号有误，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }
     
     if ([Helper stringNullOrEmpty:passSTR]) {
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码为空，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }else if ([Helper containInvalidChar:passSTR]){
-        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码有误，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"密码有误，请重新输入"
+                                                                     notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }
     
@@ -258,7 +244,17 @@
     usr.state = USER_STATE_UNKNOWN;
     [Acquirer sharedInstance].currentUser = usr;
     
+    ((FormTableCell *)[visibleCellList objectAtIndex:2]).textField.text = @"";
+    
+    [[AcquirerService sharedInstance].logService onRespondTarget:self];
     [[AcquirerService sharedInstance].logService requestForLogin];
+}
+
+-(void)LoginForActivate:(NSString *)mobileSTR{
+    ActivateViewController *activateCTRL = [[[ActivateViewController alloc] init] autorelease];
+    activateCTRL.CTRLType = ACTIVATE_FIRST_CONFIRM;
+    activateCTRL.mobileSTR = mobileSTR;
+    [self.navigationController pushViewController:activateCTRL animated:YES];
 }
 
 -(void)notLogin:(id)sender{

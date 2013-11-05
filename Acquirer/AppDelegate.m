@@ -39,7 +39,7 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    LoginViewController *loginCTRL = [[LoginViewController alloc] init];
+    LoginViewController *loginCTRL = [[[LoginViewController alloc] init] autorelease];
     loginNavi = [[CPNavigationController alloc] initWithRootViewController:loginCTRL];
     
     [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000014"];
@@ -56,6 +56,43 @@
     [self.window makeKeyAndVisible];
 }
 
+//session超时
+-(void)presentLoginViewController{
+    static Boolean presentMessage = YES;
+    
+    if (presentMessage == YES) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:@"您长时间未使用，请重新登录"
+                                                           delegate:self
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"确定", nil];
+        [alertView show];
+        [alertView release];
+        
+        presentMessage = NO;
+        return;
+    }
+    
+    //如果当前为login状态
+    if ([Acquirer sharedInstance].logReason == LoginAlready) {
+        [Acquirer sharedInstance].logReason = LoginSessionTimeOut;
+        [self.window.rootViewController presentViewController:loginNavi animated:YES completion:^(void){ }];
+    }
+    presentMessage = YES;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [self presentLoginViewController];
+}
+
+//手动退出应用
+-(void)manuallyLogout{
+    [helpNavi popToRootViewControllerAnimated:NO];
+    
+    [Acquirer sharedInstance].logReason = LoginManuallyLogOut;
+    self.window.rootViewController = loginNavi;
+}
+
 //第一次启动应用或手动点退出登录,  做　self.window.rootViewController = transNavi;
 //其他情况:session超时,          做　dismissModalViewControllerAnimated
 -(void) loginSucceed{
@@ -63,7 +100,9 @@
     
     //第一次启动应用或手动退出登录
     NSLog(@"%d", [Acquirer sharedInstance].logReason);
-    if ([Acquirer sharedInstance].logReason) {
+    if ([Acquirer sharedInstance].logReason == LoginAppLunchEachTime ||
+        [Acquirer sharedInstance].logReason == LoginManuallyLogOut) {
+        
         self.window.rootViewController = transNavi;
         
         //show loading view
@@ -77,23 +116,26 @@
         //做code.csv版本检查工作
         [[AcquirerService sharedInstance].codeCSVService requestForCodeCSVVersion];
         
-    }else{
-        [[Acquirer sharedInstance] hideUIPromptMessage:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_USER_LOGIN_SUCCEED object:nil];
     }
+    else if([Acquirer sharedInstance].logReason == LoginSessionTimeOut){
+        [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+        
+        [loginNavi dismissViewControllerAnimated:YES completion:^(void){}];
+    }
+    
+    [Acquirer sharedInstance].logReason = LoginAlready;
+    [loginNavi popToRootViewControllerAnimated:NO];
 }
 
 - (void)changeToIndex:(int)index
 {
-    static int curIndex = 0;
-    
     CPNavigationController *cpNavi = [naviArray objectAtIndex:index];
     
-    if (index != curIndex) {
+    if (index != cpTabBar.index) {
         [cpTabBar removeFromSuperview];
         self.window.rootViewController = cpNavi;
         [self.window.rootViewController.view addSubview:cpTabBar];
-        curIndex = index;
+        cpTabBar.index = index;
     }else{
         [cpNavi popToRootViewControllerAnimated:YES];
     }

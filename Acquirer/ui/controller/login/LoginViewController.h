@@ -18,4 +18,6 @@
 
 @property (nonatomic, retain) GeneralTableView *loginTableView;
 
+-(void)LoginForActivate:(NSString *)mobileSTR;
+
 @end

@@ -123,8 +123,10 @@
         }
         
         plaincell.textLabel.text = content.titleSTR;
+        plaincell.textLabel.textAlignment = content.alignment;
         plaincell.imageView.image = [UIImage imageNamed:content.imgNameSTR];
-        plaincell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        plaincell.accessoryType = content.accessoryType;
         
         plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell = plaincell;

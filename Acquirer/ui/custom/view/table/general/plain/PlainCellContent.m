@@ -15,6 +15,7 @@
 @synthesize imgNameSTR;
 @synthesize jumpClass;
 @synthesize accessoryType;
+@synthesize alignment;
 @synthesize bgColor;
 
 -(id)init{
@@ -22,6 +23,7 @@
     if (self) {
         cellStyle = Cell_Style_Plain;
         accessoryType = UITableViewCellAccessoryNone;
+        alignment = NSTextAlignmentLeft;
     }
     return self;
 }

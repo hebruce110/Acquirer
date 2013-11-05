@@ -11,6 +11,7 @@
 @implementation CPTabBar
 
 @synthesize tabViewList, delegate;
+@synthesize index;
 
 -(void)dealloc{
     [tabViewList release];

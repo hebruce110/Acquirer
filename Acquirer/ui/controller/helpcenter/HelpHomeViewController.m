@@ -11,6 +11,7 @@
 #import "GeneralTableView.h"
 #import "ReturnCodeQueryViewController.h"
 #import "FAQViewController.h"
+#import "SettingsViewController.h"
 
 @implementation HelpHomeViewController
 
@@ -37,7 +38,7 @@
                         @[@"刷卡返回码查询", @"returncode.png", ReturnCodeQueryViewController.class]];
     
     NSArray *secTwo = @[@[@"消息中心", @"news.png", NSObject.class]];
-    NSArray *secThree = @[@[@"设置", @"setup.png", NSObject.class]];
+    NSArray *secThree = @[@[@"设置", @"setup.png", SettingsViewController.class]];
     
     NSArray *templeList = @[secOne, secTwo, secThree];
     

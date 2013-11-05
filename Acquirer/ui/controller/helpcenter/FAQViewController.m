@@ -34,6 +34,7 @@
         PlainCellContent *pc = [[PlainCellContent new] autorelease];
         pc.titleSTR = title;
         pc.cellStyle = Cell_Style_Standard;
+        pc.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         [secOne addObject:pc];
     }
     

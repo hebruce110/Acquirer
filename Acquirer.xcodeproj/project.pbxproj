@@ -52,6 +52,16 @@
 		17CC7C65182780B500850D0A /* faq.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C64182780B500850D0A /* faq.txt */; };
 		17CC7C6818278F5F00850D0A /* LineBreakTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C6718278F5F00850D0A /* LineBreakTableCell.m */; };
 		17CC7C6B1827A17100850D0A /* FAQuestionAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C6A1827A17100850D0A /* FAQuestionAnswerViewController.m */; };
+		17CC7C6E18288D4200850D0A /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C6D18288D4200850D0A /* SettingsViewController.m */; };
+		17CC7C73182891E800850D0A /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C6F182891E800850D0A /* about.png */; };
+		17CC7C74182891E800850D0A /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C70182891E800850D0A /* about@2x.png */; };
+		17CC7C75182891E800850D0A /* logininfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C71182891E800850D0A /* logininfo.png */; };
+		17CC7C76182891E800850D0A /* logininfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C72182891E800850D0A /* logininfo@2x.png */; };
+		17CC7C791828B5D800850D0A /* UserInfomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C781828B5D800850D0A /* UserInfomationViewController.m */; };
+		17CC7C7D1828C42900850D0A /* aboutus-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C7A1828C42900850D0A /* aboutus-568h@2x.png */; };
+		17CC7C7E1828C42900850D0A /* aboutus.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C7B1828C42900850D0A /* aboutus.png */; };
+		17CC7C7F1828C42900850D0A /* aboutus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C7C1828C42900850D0A /* aboutus@2x.png */; };
+		17CC7C821828CE0D00850D0A /* AboutAcquirerAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C811828CE0D00850D0A /* AboutAcquirerAppViewController.m */; };
 		17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17FDA10C1818B49100D08A55 /* EncashAgreement.txt */; };
 		17FDA114181A344500D08A55 /* GeneralTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA113181A344500D08A55 /* GeneralTableView.m */; };
 		17FDA117181A346100D08A55 /* GeneralTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA116181A346100D08A55 /* GeneralTableDelegate.m */; };
@@ -264,6 +274,19 @@
 		17CC7C6718278F5F00850D0A /* LineBreakTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBreakTableCell.m; sourceTree = "<group>"; };
 		17CC7C691827A17100850D0A /* FAQuestionAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQuestionAnswerViewController.h; sourceTree = "<group>"; };
 		17CC7C6A1827A17100850D0A /* FAQuestionAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQuestionAnswerViewController.m; sourceTree = "<group>"; };
+		17CC7C6C18288D4200850D0A /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		17CC7C6D18288D4200850D0A /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		17CC7C6F182891E800850D0A /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
+		17CC7C70182891E800850D0A /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
+		17CC7C71182891E800850D0A /* logininfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logininfo.png; sourceTree = "<group>"; };
+		17CC7C72182891E800850D0A /* logininfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logininfo@2x.png"; sourceTree = "<group>"; };
+		17CC7C771828B5D800850D0A /* UserInfomationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfomationViewController.h; sourceTree = "<group>"; };
+		17CC7C781828B5D800850D0A /* UserInfomationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfomationViewController.m; sourceTree = "<group>"; };
+		17CC7C7A1828C42900850D0A /* aboutus-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutus-568h@2x.png"; sourceTree = "<group>"; };
+		17CC7C7B1828C42900850D0A /* aboutus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutus.png; sourceTree = "<group>"; };
+		17CC7C7C1828C42900850D0A /* aboutus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutus@2x.png"; sourceTree = "<group>"; };
+		17CC7C801828CE0D00850D0A /* AboutAcquirerAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutAcquirerAppViewController.h; sourceTree = "<group>"; };
+		17CC7C811828CE0D00850D0A /* AboutAcquirerAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutAcquirerAppViewController.m; sourceTree = "<group>"; };
 		17FDA10C1818B49100D08A55 /* EncashAgreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EncashAgreement.txt; sourceTree = "<group>"; };
 		17FDA112181A344500D08A55 /* GeneralTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralTableView.h; sourceTree = "<group>"; };
 		17FDA113181A344500D08A55 /* GeneralTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralTableView.m; sourceTree = "<group>"; };
@@ -531,6 +554,9 @@
 		17C231FB18235512001054E9 /* help */ = {
 			isa = PBXGroup;
 			children = (
+				17CC7C7A1828C42900850D0A /* aboutus-568h@2x.png */,
+				17CC7C7B1828C42900850D0A /* aboutus.png */,
+				17CC7C7C1828C42900850D0A /* aboutus@2x.png */,
 				17C231FC18235512001054E9 /* faq.png */,
 				17C231FD18235512001054E9 /* faq@2x.png */,
 				17C231FE18235512001054E9 /* helpservice.png */,
@@ -541,6 +567,10 @@
 				17C2320318235512001054E9 /* returncode@2x.png */,
 				17C2320418235512001054E9 /* setup.png */,
 				17C2320518235512001054E9 /* setup@2x.png */,
+				17CC7C6F182891E800850D0A /* about.png */,
+				17CC7C70182891E800850D0A /* about@2x.png */,
+				17CC7C71182891E800850D0A /* logininfo.png */,
+				17CC7C72182891E800850D0A /* logininfo@2x.png */,
 			);
 			path = help;
 			sourceTree = "<group>";
@@ -1020,6 +1050,12 @@
 				17CC7C6A1827A17100850D0A /* FAQuestionAnswerViewController.m */,
 				17CC7C5B18236D2B00850D0A /* ReturnCodeQueryViewController.h */,
 				17CC7C5C18236D2B00850D0A /* ReturnCodeQueryViewController.m */,
+				17CC7C6C18288D4200850D0A /* SettingsViewController.h */,
+				17CC7C6D18288D4200850D0A /* SettingsViewController.m */,
+				17CC7C771828B5D800850D0A /* UserInfomationViewController.h */,
+				17CC7C781828B5D800850D0A /* UserInfomationViewController.m */,
+				17CC7C801828CE0D00850D0A /* AboutAcquirerAppViewController.h */,
+				17CC7C811828CE0D00850D0A /* AboutAcquirerAppViewController.m */,
 			);
 			path = helpcenter;
 			sourceTree = "<group>";
@@ -1235,10 +1271,12 @@
 				8B31046817D43A1B00764F7B /* code.csv in Resources */,
 				8B31047317D58B5A00764F7B /* Icon.png in Resources */,
 				8B31047417D58B5A00764F7B /* Icon@2x.png in Resources */,
+				17CC7C76182891E800850D0A /* logininfo@2x.png in Resources */,
 				8B31047C17D6C63800764F7B /* bg-568h@2x.png in Resources */,
 				8B31047D17D6C63800764F7B /* bg.png in Resources */,
 				8B31047E17D6C63800764F7B /* bg@2x.png in Resources */,
 				8B31048F17D6D76500764F7B /* menu-bg-hover.png in Resources */,
+				17CC7C7F1828C42900850D0A /* aboutus@2x.png in Resources */,
 				8B31049017D6D76500764F7B /* menu-bg-hover@2x.png in Resources */,
 				17C2320C18235512001054E9 /* returncode.png in Resources */,
 				8B31049117D6D76500764F7B /* menu-bg.png in Resources */,
@@ -1247,6 +1285,7 @@
 				8B31049417D6D76500764F7B /* nav-bg@2x.png in Resources */,
 				8B3104A917D6E05600764F7B /* sd_logo-568h@2x.png in Resources */,
 				8B3104AA17D6E05600764F7B /* sd_logo.png in Resources */,
+				17CC7C74182891E800850D0A /* about@2x.png in Resources */,
 				8B3104AB17D6E05600764F7B /* sd_logo@2x.png in Resources */,
 				8B09992C17D814B3001430AA /* BUTT_red_off.png in Resources */,
 				170C1891181E725D0070E57A /* fail.png in Resources */,
@@ -1254,6 +1293,7 @@
 				17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */,
 				17CC7C65182780B500850D0A /* faq.txt in Resources */,
 				8B09992E17D814B3001430AA /* BUTT_red_on.png in Resources */,
+				17CC7C75182891E800850D0A /* logininfo.png in Resources */,
 				8B09992F17D814B3001430AA /* BUTT_red_on@2x.png in Resources */,
 				170C18A4181FA6C70070E57A /* btn-bg-s@2x.png in Resources */,
 				170C1892181E725D0070E57A /* fail@2x.png in Resources */,
@@ -1269,6 +1309,7 @@
 				8B09994217D88AE4001430AA /* help-ico@2x.png in Resources */,
 				0F911E7817DAB21700640BF8 /* BUTT_whi_off.png in Resources */,
 				17C2320918235512001054E9 /* helpservice@2x.png in Resources */,
+				17CC7C7E1828C42900850D0A /* aboutus.png in Resources */,
 				0F911E7917DAB21700640BF8 /* BUTT_whi_off@2x.png in Resources */,
 				0F911E7A17DAB21700640BF8 /* BUTT_whi_on.png in Resources */,
 				0F911E7B17DAB21700640BF8 /* BUTT_whi_on@2x.png in Resources */,
@@ -1296,11 +1337,13 @@
 				8B09998617E9710F001430AA /* tradetodaylist.png in Resources */,
 				8B09998717E9710F001430AA /* tradetodaylist@2x.png in Resources */,
 				170C188F181E725D0070E57A /* dealing.png in Resources */,
+				17CC7C7D1828C42900850D0A /* aboutus-568h@2x.png in Resources */,
 				17C2320718235512001054E9 /* faq@2x.png in Resources */,
 				8BEAFFA017EFDF8D0080A8F5 /* nav-btn.png in Resources */,
 				8BEAFFA117EFDF8D0080A8F5 /* nav-btn@2x.png in Resources */,
 				8BC4F31917F41F9500D0929C /* tradesettleaccount.png in Resources */,
 				17402C471817B424009A901E /* encashment@2x.png in Resources */,
+				17CC7C73182891E800850D0A /* about.png in Resources */,
 				8BC4F31A17F41F9500D0929C /* tradesettleaccount@2x.png in Resources */,
 				17C2320F18235512001054E9 /* setup@2x.png in Resources */,
 				8BC4F31B17F41F9500D0929C /* tradesettlesearch.png in Resources */,
@@ -1322,11 +1365,13 @@
 				8BB6A6DE17CAF61500C71279 /* ASIAuthenticationDialog.m in Sources */,
 				8BB6A6DF17CAF61500C71279 /* ASIDataCompressor.m in Sources */,
 				8BB6A6E017CAF61500C71279 /* ASIDataDecompressor.m in Sources */,
+				17CC7C791828B5D800850D0A /* UserInfomationViewController.m in Sources */,
 				8BB6A6E117CAF61500C71279 /* ASIDownloadCache.m in Sources */,
 				8BB6A6E217CAF61500C71279 /* ASIFormDataRequest.m in Sources */,
 				8BB6A6E317CAF61500C71279 /* ASIHTTPRequest.m in Sources */,
 				8BB6A6E417CAF61500C71279 /* ASIInputStream.m in Sources */,
 				17402C501817C0F5009A901E /* TradeEncashProtocalViewController.m in Sources */,
+				17CC7C821828CE0D00850D0A /* AboutAcquirerAppViewController.m in Sources */,
 				8BB6A6E517CAF61500C71279 /* ASINetworkQueue.m in Sources */,
 				8BB6A6E617CAF61500C71279 /* Reachability.m in Sources */,
 				17FDA135181A4B5900D08A55 /* PlainTableCell.m in Sources */,
@@ -1405,6 +1450,7 @@
 				8B379E9F1811350A0012FF06 /* SettleQueryTableCell.m in Sources */,
 				8B020B461814C5E6001E2EFF /* TradeSettleQueryInfoViewController.m in Sources */,
 				8B020B4918152472001E2EFF /* UILabel+Size.m in Sources */,
+				17CC7C6E18288D4200850D0A /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1493,8 +1539,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "57CD1033-1B75-47F8-961C-E71B7999DA63";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "57CD1033-1B75-47F8-961C-E71B7999DA63";
 				SDKROOT = iphoneos6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1512,8 +1558,8 @@
 				INFOPLIST_FILE = "App/Acquirer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12A60BDA-17E0-4989-A1D6-FD76AE090F14";
+				PROVISIONING_PROFILE = "57CD1033-1B75-47F8-961C-E71B7999DA63";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "57CD1033-1B75-47F8-961C-E71B7999DA63";
 				SDKROOT = iphoneos6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

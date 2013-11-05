@@ -11,7 +11,7 @@
 #import "CPTabBarDelegate.h"
 #import "CPTabBar.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, CPTabBarDelegate>{
+@interface AppDelegate : UIResponder <UIApplicationDelegate, CPTabBarDelegate, UIAlertViewDelegate>{
     CPNavigationController *loginNavi;
     CPNavigationController *transNavi;
     CPNavigationController *helpNavi;
@@ -28,6 +28,9 @@
 @property (readonly, nonatomic) CPNavigationController *helpNavi;
 @property (retain, nonatomic) CPTabBar *cpTabBar;
 
+-(void)presentLoginViewController;
+
+-(void)manuallyLogout;
 -(void) loginSucceed;
 
 @end

@@ -59,7 +59,7 @@
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeight = self.contentView.bounds.size.height;
     
-    CGRect tradeFrame = CGRectMake(0, 20, contentWidth, contentHeight-20);
+    CGRect tradeFrame = CGRectMake(0, 10, contentWidth, contentHeight-20);
     self.tradeTableView = [[[UITableView alloc] initWithFrame:tradeFrame style:UITableViewStyleGrouped] autorelease];
     tradeTableView.delegate = self;
     tradeTableView.dataSource = self;

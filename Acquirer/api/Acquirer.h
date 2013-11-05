@@ -18,7 +18,10 @@ typedef enum _AcquirerLoginReason {
     //每次启动应用
     LoginAppLunchEachTime,
     //用户手动点击退出
-    LoginManuallyLogOut
+    LoginManuallyLogOut,
+    //用户已登录,已登录的状态
+    //在登录过程中，也会有session超时的情况，作已登录标记
+    LoginAlready,
 } AcquirerLoginReason;
 
 @interface Acquirer : NSObject <MBProgressHUDDelegate>{

@@ -15,6 +15,12 @@
 #import "ACUser.h"
 #import "AppDelegate.h"
 #import "ASIHTTPRequest.h"
+#import "NSNotificationCenter+CP.h"
+
+typedef enum _RequestType{
+    RequestTypeLogin = 1,
+    RequestTypeActivate,
+}RequestType;
 
 @implementation LoginService
 
@@ -33,8 +39,7 @@
     AddOptionalReqInfomation(dict);
     
     AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
-    
-    NSLog(@"%@", acReq.request.url.absoluteString);
+    acReq.reqtype = RequestTypeLogin;
     
     [acReq onRespondTarget:self selector:@selector(loginRequestDidFinished:)];
     [acReq execute];
@@ -56,9 +61,8 @@
     [dict setValue:[[DeviceIntrospection sharedInstance] platformName] forKey:@"platform"];
     AddOptionalReqInfomation(dict);
     
-    NSLog(@"%@", dict);
-    
     AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
+    acReq.reqtype = RequestTypeActivate;
     [acReq onRespondTarget:self selector:@selector(loginRequestDidFinished:)];
     [acReq execute];
 }
@@ -79,10 +83,25 @@
         
         [(AppDelegate *)[UIApplication sharedApplication].delegate loginSucceed];
         
-    }else{
+    }else if(NotNilAndEqualsTo(body, @"loginFlag", @"I")){
         //清空机构号和操作员号
+        /*
         [Helper saveValue:@"" forKey:ACQUIRER_LOGIN_INSTITUTE];
         [Helper saveValue:@"" forKey:ACQUIRER_LOGIN_OPERATOR];
+         */
+        //登录未激活
+        if (req.reqtype == RequestTypeLogin) {
+            
+            if (target && [target respondsToSelector:@selector(LoginForActivate:)]) {
+                [target performSelector:@selector(LoginForActivate:) withObject:[body objectForKey:@"mobile"]];
+            }
+            
+        }
+        //激活页面返回的状态还是未激活
+        else if (req.reqtype == RequestTypeActivate){
+            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"激活失败"
+                                                                         notifyType:NOTIFICATION_TYPE_WARNING];
+        }
     }
 }
 

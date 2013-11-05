@@ -27,6 +27,8 @@
 
 @property (nonatomic, assign) id<CPTabBarDelegate> delegate;
 
+@property (nonatomic, assign) int index;
+
 //process tap event
 -(void) tapGesture:(UITapGestureRecognizer *)tapGesuture;
 

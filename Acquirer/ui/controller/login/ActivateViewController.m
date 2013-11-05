@@ -336,7 +336,12 @@
         return;
     }
     
-    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000003"];
+    if (CTRLType == ACTIVATE_VALIIDENTITY) {
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000003"];
+    }else if (CTRLType == ACTIVATE_FIRST_CONFIRM){
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000017"];
+    }
+    
     
     [[AcquirerService sharedInstance].logService onRespondTarget:self];
     [[AcquirerService sharedInstance].logService requestForActivateLogin:msgCode withPass:passSTR];

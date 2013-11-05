@@ -12,6 +12,7 @@
 #import "ASIFormDataRequest.h"
 #import "Helper.h"
 #import "Acquirer.h"
+#import "AppDelegate.h"
 
 //avoid serverside return nil, lead to app crash
 //JSON assign null value as [NSNull null], totally different from nil or NULL
@@ -114,7 +115,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02110") ||
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02111") ||
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02210")){
-        
+        [(AppDelegate *)[UIApplication sharedApplication].delegate presentLoginViewController];
     }
     //02322, 02323, 02324, 02325, 02326
     //show alert

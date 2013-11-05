@@ -214,6 +214,7 @@
     NSString *pnrDevIdSTR = ((FormTableCell *)[[posOrderTableView visibleCells] objectAtIndex:0]).textField.text;
     
     ActivateViewController *valiCTRL = [[[ActivateViewController alloc] init] autorelease];
+    valiCTRL.CTRLType = ACTIVATE_VALIIDENTITY;
     valiCTRL.mobileSTR = mobileSTR;
     valiCTRL.pnrDevIdSTR = pnrDevIdSTR;
     [self.navigationController pushViewController:valiCTRL animated:YES];

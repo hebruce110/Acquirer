@@ -21,6 +21,8 @@
     
     UITableViewCellAccessoryType accessoryType;
     
+    NSTextAlignment alignment;
+    
     Class jumpClass;
 }
 
@@ -30,6 +32,7 @@
 @property (nonatomic, copy) UIColor *bgColor;
 
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
+@property (nonatomic, assign) NSTextAlignment alignment;
 
 @property (nonatomic, assign) Class jumpClass;
 
