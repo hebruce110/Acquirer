@@ -58,8 +58,10 @@ void AddOptionalReqInfomation(NSMutableDictionary *dict){
     
     NSLog(@"网络异常　url:%@", acReq.request.url);
     
+    /*
     [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:description
                                                                  notifyType:NOTIFICATION_TYPE_WARNING];
+     */
 }
 
 //ASIHTTPRequest failure callback
@@ -73,8 +75,10 @@ void AddOptionalReqInfomation(NSMutableDictionary *dict){
     
     NSLog(@"网络异常　url:%@", req.url);
     
+    /*
     [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"请求UID超时，请稍后再试"
                                                                  notifyType:NOTIFICATION_TYPE_WARNING];
+    */
 }
 
 //默认提示超时

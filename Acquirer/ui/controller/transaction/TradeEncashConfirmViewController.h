@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "GeneralTableView.h"
+#import "EncashRes.h"
 
 @interface ConfirmEncashModel : NSObject{
     //银行名称
@@ -40,5 +41,7 @@
 
 @property (nonatomic, retain) ConfirmEncashModel *ceModel;
 @property (nonatomic, retain) GeneralTableView *encashTV;
+
+-(void)processEncashRes:(EncashRes)enRes;
 
 @end

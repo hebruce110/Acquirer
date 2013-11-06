@@ -15,7 +15,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+
+    [self setNavigationTitle:@"取现结果"];
+    naviBackBtn.hidden = YES;
+    
     UIImage *successImg = [UIImage imageNamed:@"success.png"];
     UIImage *failureImg = [UIImage imageNamed:@"fail.png"];
     UIImage *pendingImg = [UIImage imageNamed:@"dealing.png"];
@@ -32,12 +35,11 @@
     CGFloat heightOffset = 40;
     
     UIImageView *stateImgView = [[[UIImageView alloc] initWithImage:[imgList objectAtIndex:encashRes]] autorelease];
-    stateImgView.frame = CGRectMake(0, heightOffset, stateImgView.bounds.size.width, stateImgView.bounds.size.height);
-    stateImgView.center = CGPointMake(CGRectGetMidX(self.contentView.bounds)/2, stateImgView.center.y);
+    stateImgView.frame = CGRectMake(70, 0, stateImgView.bounds.size.width, stateImgView.bounds.size.height);
     [self.contentView addSubview:stateImgView];
     
     UILabel *stateLabel = [[UILabel alloc] init];
-    stateLabel.frame = CGRectMake(stateImgView.frame.origin.x+stateImgView.frame.size.width+10, heightOffset, 80, 40);
+    stateLabel.frame = CGRectMake(stateImgView.frame.origin.x+stateImgView.frame.size.width+20, heightOffset, 180, 40);
     stateLabel.backgroundColor = [UIColor clearColor];
     stateLabel.textAlignment = NSTextAlignmentLeft;
     stateLabel.font = [UIFont boldSystemFontOfSize:24];
@@ -45,33 +47,37 @@
     [self.contentView addSubview:stateLabel];
     [stateLabel release];
     
+    stateImgView.center = CGPointMake(stateImgView.center.x, stateLabel.center.y);
+    
     UIImage *dashImg = [UIImage imageNamed:@"dashed.png"];
-    CGRect dashFrame = CGRectMake(0, frameHeighOffset(stateLabel.frame)+VERTICAL_PADDING*2, dashImg.size.width, dashImg.size.height);
+    CGRect dashFrame = CGRectMake(0, frameHeighOffset(stateLabel.frame)+VERTICAL_PADDING*3, dashImg.size.width, dashImg.size.height);
     UIImageView *dashImgView = [[[UIImageView alloc] initWithImage:dashImg] autorelease];
     dashImgView.frame = dashFrame;
     dashImgView.center = CGPointMake(self.contentView.center.x, dashImgView.center.y);
     [self.contentView addSubview:dashImgView];
     
     UILabel *descLabel = [[UILabel alloc] init];
-    descLabel.frame = CGRectMake(0, frameHeighOffset(dashFrame)+VERTICAL_PADDING, 300, 50);
+    descLabel.frame = CGRectMake(0, frameHeighOffset(dashFrame)+VERTICAL_PADDING, 280, 50);
     descLabel.backgroundColor = [UIColor clearColor];
-    descLabel.textAlignment = NSTextAlignmentNatural;
+    descLabel.textAlignment = NSTextAlignmentCenter;
     descLabel.font = [UIFont boldSystemFontOfSize:18];
     descLabel.lineBreakMode = NSLineBreakByWordWrapping;
     descLabel.numberOfLines = 3;
     descLabel.text = [descList objectAtIndex:encashRes];
     [self.contentView addSubview:descLabel];
+    descLabel.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), descLabel.center.y);
     [descLabel release];
     
     UIImage *btnSelImg = [UIImage imageNamed:@"BUTT_whi_on.png"];
     UIImage *btnDeSelImg = [UIImage imageNamed:@"BUTT_whi_off.png"];
-    CGRect buttonFrame = CGRectMake(10, frameHeighOffset(descLabel.frame)+VERTICAL_PADDING, 100, 40);
+    CGRect buttonFrame = CGRectMake(10, frameHeighOffset(descLabel.frame)+VERTICAL_PADDING*4, 100, 40);
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     submitBtn.frame = buttonFrame;
     submitBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), submitBtn.center.y);
     submitBtn.backgroundColor = [UIColor clearColor];
     [submitBtn setBackgroundImage:btnDeSelImg forState:UIControlStateNormal];
     [submitBtn setBackgroundImage:btnSelImg forState:UIControlStateSelected];
+    [submitBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     submitBtn.layer.cornerRadius = 10.0;
     submitBtn.clipsToBounds = YES;
     submitBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];

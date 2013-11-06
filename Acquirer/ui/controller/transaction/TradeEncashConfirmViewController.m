@@ -8,6 +8,7 @@
 
 #import "TradeEncashConfirmViewController.h"
 #import "PlainCellContent.h"
+#import "TradeEncashResultViewController.h"
 
 @implementation ConfirmEncashModel
 
@@ -41,6 +42,7 @@
 -(id)init{
     self = [super init];
     if (self) {
+        
         encashList = [[NSMutableArray alloc] init];
     }
     return self;
@@ -187,7 +189,15 @@
     
     [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000022"];
     
-    
+    [[AcquirerService sharedInstance].encashService onRespondTarget:self];
+    [[AcquirerService sharedInstance].encashService requestForEncashConfirm:ceModel.cashAmtSTR];
+}
+
+-(void)processEncashRes:(EncashRes)enRes{
+    TradeEncashResultViewController *terCTRL = [[[TradeEncashResultViewController alloc] init] autorelease];
+    terCTRL.bankIdSTR = [ceModel.acctIdSTR substringFromIndex:ceModel.acctIdSTR.length-4];
+    terCTRL.encashRes = enRes;
+    [self.navigationController pushViewController:terCTRL animated:YES];
 }
 
 

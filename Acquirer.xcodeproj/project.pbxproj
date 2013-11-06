@@ -62,6 +62,7 @@
 		17CC7C7E1828C42900850D0A /* aboutus.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C7B1828C42900850D0A /* aboutus.png */; };
 		17CC7C7F1828C42900850D0A /* aboutus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17CC7C7C1828C42900850D0A /* aboutus@2x.png */; };
 		17CC7C821828CE0D00850D0A /* AboutAcquirerAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CC7C811828CE0D00850D0A /* AboutAcquirerAppViewController.m */; };
+		17CC7C851829D4EC00850D0A /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17CC7C841829D4EC00850D0A /* CoreText.framework */; };
 		17FDA10D1818B49100D08A55 /* EncashAgreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 17FDA10C1818B49100D08A55 /* EncashAgreement.txt */; };
 		17FDA114181A344500D08A55 /* GeneralTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA113181A344500D08A55 /* GeneralTableView.m */; };
 		17FDA117181A346100D08A55 /* GeneralTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FDA116181A346100D08A55 /* GeneralTableDelegate.m */; };
@@ -287,6 +288,8 @@
 		17CC7C7C1828C42900850D0A /* aboutus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutus@2x.png"; sourceTree = "<group>"; };
 		17CC7C801828CE0D00850D0A /* AboutAcquirerAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutAcquirerAppViewController.h; sourceTree = "<group>"; };
 		17CC7C811828CE0D00850D0A /* AboutAcquirerAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutAcquirerAppViewController.m; sourceTree = "<group>"; };
+		17CC7C831829D3EF00850D0A /* EncashRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncashRes.h; sourceTree = "<group>"; };
+		17CC7C841829D4EC00850D0A /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		17FDA10C1818B49100D08A55 /* EncashAgreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EncashAgreement.txt; sourceTree = "<group>"; };
 		17FDA112181A344500D08A55 /* GeneralTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralTableView.h; sourceTree = "<group>"; };
 		17FDA113181A344500D08A55 /* GeneralTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralTableView.m; sourceTree = "<group>"; };
@@ -527,6 +530,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17CC7C851829D4EC00850D0A /* CoreText.framework in Frameworks */,
 				8BB6A70117CAFD5100C71279 /* MobileCoreServices.framework in Frameworks */,
 				8BB6A67617CAE5C400C71279 /* CoreGraphics.framework in Frameworks */,
 				8BB6A69717CAE61600C71279 /* Security.framework in Frameworks */,
@@ -852,6 +856,7 @@
 		8BB6A67017CAE5C400C71279 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				17CC7C841829D4EC00850D0A /* CoreText.framework */,
 				8BB6A68E17CAE5EA00C71279 /* libz.1.2.5.dylib */,
 				8BB6A69617CAE61600C71279 /* Security.framework */,
 				8BB6A69417CAE60D00C71279 /* SystemConfiguration.framework */,
@@ -1108,6 +1113,7 @@
 				170C1899181F44C50070E57A /* TradeHScopeViewController.m */,
 				170C189B181F79030070E57A /* TradeHSummaryViewController.h */,
 				170C189C181F79030070E57A /* TradeHSummaryViewController.m */,
+				17CC7C831829D3EF00850D0A /* EncashRes.h */,
 			);
 			path = transaction;
 			sourceTree = "<group>";

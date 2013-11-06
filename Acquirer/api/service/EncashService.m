@@ -13,6 +13,7 @@
 
 #import "TradeEncashProtocalViewController.h"
 #import "TradeEncashViewController.h"
+#import "TradeEncashConfirmViewController.h"
 
 @implementation EncashService
 
@@ -119,12 +120,14 @@
 }
 
 -(void)encashConfirmRequestDidFinished:(AcquirerCPRequest *)req{
-    
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     //取现成功
     [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000023"];
     
+    if (target && [target respondsToSelector:@selector(processEncashRes:)]) {
+        [(TradeEncashConfirmViewController *)target processEncashRes:EncashSuccess];
+    }
 }
-
 
 //处理非标准返回码
 -(void) processMTPRespCode:(AcquirerCPRequest *)req{
@@ -138,7 +141,15 @@
         }
     }
     
-    
+    if (target && [target isKindOfClass:[TradeEncashConfirmViewController class]]) {
+        if (NotNilAndEqualsTo(dict, MTP_RESPONSE_CODE, @"02330")) {
+            [(TradeEncashConfirmViewController *)target processEncashRes:EncashPending];
+        }else{
+            [(TradeEncashConfirmViewController *)target processEncashRes:EncashFailure];
+        }
+    }
 }
+
+
 
 @end

@@ -7,15 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
-typedef enum _EncashRes{
-    //取现成功
-    EncashSuccess = 0,
-    //取现失败
-    EncashFailure,
-    //处理中
-    EncashPending
-} EncashRes;
+#import "EncashRes.h"
 
 @interface TradeEncashResultViewController : BaseViewController{
     EncashRes encashRes;
