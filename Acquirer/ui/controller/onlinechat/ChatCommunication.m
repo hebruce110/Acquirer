@@ -54,6 +54,8 @@
         [webSocket send:msgSTR];
     }
     else{
+        //消息队列 
+        
         [self establishConnection];
         [self sendMessage:msgSTR];
     }
