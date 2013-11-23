@@ -148,6 +148,29 @@
     return processedSTR;
 }
 
+/*
+ 处理unicode字符串, 将unicode字符串转换为可读的字符串
+ @param unicodeSTR
+ @return returnSTR
+ */
+
++ (NSString *)replaceUnicode:(NSString *)unicodeSTR {
+    
+    NSString *tempSTR1 = [unicodeSTR stringByReplacingOccurrencesOfString:@"\\u" withString:@"\\U"];
+    NSString *tempSTR2 = [tempSTR1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    NSString *tempSTR3 = [[@"\"" stringByAppendingString:tempSTR2] stringByAppendingString:@"\""];
+    NSData *tempData = [tempSTR3 dataUsingEncoding:NSUTF8StringEncoding];
+    NSString* returnSTR = [NSPropertyListSerialization propertyListFromData:tempData
+                                                           mutabilityOption:NSPropertyListImmutable
+                                                                     format:NULL
+                                                           errorDescription:NULL];
+    
+    //NSLog(@"Output = %@", returnStr);
+    
+    return [returnSTR stringByReplacingOccurrencesOfString:@"\\r\\n" withString:@"\n"];
+}
+
+
 /**
  MD5加密
  @param str 输入初始参数
@@ -258,7 +281,8 @@
 +(NSData*)base64DataFromString:(NSString *)string
 {
     unsigned long ixtext, lentext;
-    unsigned char ch, inbuf[4], outbuf[3];
+    unsigned char ch, inbuf[4] , outbuf[3];
+    memset(inbuf, 0, sizeof(inbuf));
     short i, ixinbuf;
     Boolean flignore, flendtext = false;
     const unsigned char *tempcstring;

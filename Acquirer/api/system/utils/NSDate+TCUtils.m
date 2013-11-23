@@ -12,7 +12,7 @@
 - (NSDate *)TC_dateByAddingCalendarUnits:(NSCalendarUnit)calendarUnit amount:(NSInteger)amount {
 	NSDateComponents *components = [[NSDateComponents alloc] init];
 	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDate *newDate;
+	NSDate *newDate = nil;
 	
 	switch (calendarUnit) {
 		case NSSecondCalendarUnit:
@@ -42,6 +42,9 @@
 	}
 	
 	newDate = [gregorian dateByAddingComponents:components toDate:self options:0];
+    [gregorian release];
+    [components release];
+    
 	return newDate;
 }
 

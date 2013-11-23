@@ -15,8 +15,6 @@
 #import "TradeHomeViewController.h"
 #import "HelpHomeViewController.h"
 
-#import "TestViewController.h"
-
 @implementation AppDelegate
 
 @synthesize loginNavi, transNavi, helpNavi, cpTabBar;

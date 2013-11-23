@@ -39,8 +39,8 @@
     CGFloat contentWidth = self.contentView.bounds.size.width;
     //CGFloat contentHeight = self.contentView.bounds.size.height;
     
-    self.settleTV = [[GeneralTableView alloc] initWithFrame:self.contentView.bounds
-                                                           style:UITableViewStyleGrouped];
+    self.settleTV = [[[GeneralTableView alloc] initWithFrame:self.contentView.bounds
+                                                           style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [settleTV setTableHeaderView:marginView];

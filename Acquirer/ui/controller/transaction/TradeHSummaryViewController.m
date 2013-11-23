@@ -54,8 +54,8 @@
     [self.naviBgView addSubview:detailBtn];
     detailBtn.center = CGPointMake(detailBtn.center.x, CGRectGetMidY(self.naviBgView.bounds));
     
-    self.summaryTV = [[GeneralTableView alloc] initWithFrame:self.contentView.bounds
-                                                      style:UITableViewStyleGrouped];
+    self.summaryTV = [[[GeneralTableView alloc] initWithFrame:self.contentView.bounds
+                                                      style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [summaryTV setTableHeaderView:marginView];

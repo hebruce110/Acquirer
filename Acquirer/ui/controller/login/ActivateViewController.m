@@ -103,7 +103,7 @@
     contentView.frame = contentView.bounds;
     [bgScrollView addSubview:contentView];
     
-    CGRect introFrame ;
+    CGRect introFrame = CGRectZero;
     UILabel *introMsgLabel;
     if (CTRLType == ACTIVATE_FIRST_CONFIRM) {
         introFrame =  CGRectMake(20, 10, 280, 40);
@@ -136,6 +136,7 @@
     NSString *blurMobileSTR = [mobileSTR stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
     mobileLabel.text = [NSString stringWithFormat:@"手机号：%@", blurMobileSTR];
     [self.contentView addSubview:mobileLabel];
+    [mobileLabel release];
     
     wrongMobileLabel = nil;
     if (CTRLType == ACTIVATE_VALIIDENTITY) {
@@ -157,6 +158,7 @@
     hintMsgLabel.text = [NSString stringWithFormat:@"提示：该手机号是签订POS协议时预留的号码"];
     hintMsgLabel.textColor = [Helper hexStringToColor:@"#CC0000"];
     [self.contentView addSubview:hintMsgLabel];
+    [hintMsgLabel release];
     
     UIImage *btnWSelImg = [UIImage imageNamed:@"BUTT_whi_on.png"];
     UIImage *btnWDeSelImg = [UIImage imageNamed:@"BUTT_whi_off.png"];

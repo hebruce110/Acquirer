@@ -132,6 +132,13 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
         [alert show];
         [alert release];
     }
+    //生利宝异常
+    else if(NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02333"))
+    {
+        NSString *respMsg = [body objectForKey:@"respMsg"];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:respMsg
+                                                                     notifyType:NOTIFICATION_TYPE_WARNING];
+    }
     //不做处理
     else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02327")){
         

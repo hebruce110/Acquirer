@@ -52,6 +52,7 @@
                 pc.imgNameSTR = [array objectAtIndex:1];
                 pc.jumpClass = [array objectAtIndex:2];
                 pc.cellStyle = Cell_Style_Standard;
+                pc.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             [secList addObject:pc];
         }

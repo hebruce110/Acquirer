@@ -71,7 +71,7 @@
     
     [self setUpDateScopeList];
     CGRect dsFrame = CGRectMake(0, 30, self.contentView.bounds.size.width, 105);
-    self.dateScopeTV = [[GeneralTableView alloc] initWithFrame:dsFrame style:UITableViewStyleGrouped];
+    self.dateScopeTV = [[[GeneralTableView alloc] initWithFrame:dsFrame style:UITableViewStyleGrouped] autorelease];
     [self.contentView addSubview:dateScopeTV];
     dateScopeTV.scrollEnabled = NO;
     
@@ -142,6 +142,7 @@
     hintLabel.textColor = [UIColor redColor];
     hintLabel.text = @"提示：开始日期和结束日期跨度不能超过31天";
     [self.contentView addSubview:hintLabel];
+    [hintLabel release];
 }
 
 -(void)setTableCellDate:(NSDate *)date anIndexPath:(NSIndexPath *)idp{

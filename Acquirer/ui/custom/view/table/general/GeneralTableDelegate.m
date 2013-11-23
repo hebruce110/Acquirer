@@ -160,6 +160,11 @@
         plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
         plaincell.accessoryType = content.accessoryType;
         
+        if (plaincell.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+            plaincell.textLabel.center = CGPointMake(plaincell.textLabel.center.x-20, plaincell.textLabel.center.y);
+            plaincell.unitLabel.center = CGPointMake(plaincell.unitLabel.center.x-20, plaincell.unitLabel.center.y);
+        }
+        
         cell = plaincell;
     }
     else if (cc.cellStyle == Cell_Style_UpDown){
@@ -172,6 +177,8 @@
         
         plaincell.titleLabel.text = content.titleSTR;
         plaincell.textLabel.text = content.textSTR;
+        
+        plaincell.selectionStyle = UITableViewCellSelectionStyleGray;
         
         cell = plaincell;
     }

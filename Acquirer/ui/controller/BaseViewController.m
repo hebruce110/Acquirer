@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "NSNotificationCenter+CP.h"
+#import "AppDelegate.h"
 
 //def utility
 CGFloat frameHeighOffset(CGRect rect){
@@ -154,12 +155,11 @@ CGFloat frameHeighOffset(CGRect rect){
     
     //以动画形式隐藏或显示下面Tabbar
     if (self.navigationController!=nil) {
-        UIView *subView = [self.navigationController.view viewWithTag:CPTABBAR_UIVIEW_TAG];
+        UIView *subView = ((AppDelegate *)[UIApplication sharedApplication].delegate).cpTabBar;
         
         if(isShowTabBar)
         {
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            [UIView beginAnimations:@"Dialog" context:context];
+            [UIView beginAnimations:@"Dialog" context:nil];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [UIView setAnimationDuration:0.2];
             
@@ -169,11 +169,12 @@ CGFloat frameHeighOffset(CGRect rect){
         }
         else
         {
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            [UIView beginAnimations:@"Dialog" context:context];
+            [UIView beginAnimations:@"DisMissDialog" context:nil];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [UIView setAnimationDuration:0.2];
+            
             subView.frame = CGRectMake(0, rootController.view.frame.size.height, self.view.frame.size.width, DEFAULT_TAB_BAR_HEIGHT);
+            
             [UIView commitAnimations];
         }
     }

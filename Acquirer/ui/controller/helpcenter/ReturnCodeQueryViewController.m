@@ -53,8 +53,8 @@
     pc.cellStyle = Cell_Style_Plain;
     [secOne addObject:pc];
     
-    self.codeTV = [[GeneralTableView alloc] initWithFrame:CGRectMake(0, 20, self.contentView.bounds.size.width, 60)
-                                                    style:UITableViewStyleGrouped];
+    self.codeTV = [[[GeneralTableView alloc] initWithFrame:CGRectMake(0, 20, self.contentView.bounds.size.width, 60)
+                                      style:UITableViewStyleGrouped] autorelease];
     [codeTV setDelegateViewController:self];
     [codeTV setGeneralTableDataSource:[NSMutableArray arrayWithObject:secOne]];
     [self.contentView addSubview:codeTV];
@@ -116,3 +116,4 @@
 }
 
 @end
+

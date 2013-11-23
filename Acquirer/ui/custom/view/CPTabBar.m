@@ -88,7 +88,7 @@
 
 //设置选中Tab
 -(void) setTabSelected:(int)tab_index{
-    UIImageView *preTabView = (UIImageView *)[tabViewList objectAtIndex:index];
+    UIImageView *preTabView = (UIImageView *)[tabViewList objectAtIndex:abs(tab_index-1)];
     preTabView.image = [UIImage imageNamed:@"menu-bg.png"];
     
     //将之前选中的Tab里面的图片和文字修改成普通状态
@@ -100,14 +100,14 @@
         
         if ([subView isKindOfClass:[UIImageView class]]) {
             UIImageView *preIconView = (UIImageView *)subView;
-            preIconView.image = [tabIconList objectAtIndex:index];
+            preIconView.image = [tabIconList objectAtIndex:abs(tab_index-1)];
         }
     }
     
     index = tab_index;
     
     //将当前选中的Tab背景色修改成选中状态
-    UIImageView *nowBgView = (UIImageView *)[tabViewList objectAtIndex:index];
+    UIImageView *nowBgView = (UIImageView *)[tabViewList objectAtIndex:tab_index];
     nowBgView.image = [UIImage imageNamed:@"menu-bg-hover.png"];
     //将当前选中的Tab中的图片，修改成选中状态的图片
     for(UIView *subView in nowBgView.subviews) {

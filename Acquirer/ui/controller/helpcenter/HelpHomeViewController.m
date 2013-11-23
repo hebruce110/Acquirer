@@ -11,7 +11,13 @@
 #import "GeneralTableView.h"
 #import "ReturnCodeQueryViewController.h"
 #import "FAQViewController.h"
+#import "MessageCenterViewController.h"
 #import "SettingsViewController.h"
+#import "SLBUserNotiDocViewController.h"
+
+//----------------
+#import "ChatViewController.h"
+//----------------
 
 @implementation HelpHomeViewController
 
@@ -33,11 +39,14 @@
 }
 
 -(void)setUpHelpList{
-    NSArray *secOne = @[@[@"POS常见问题", @"faq.png", FAQViewController.class],
-                        /*@[@"生利宝常见问题", @"helpservice.png", NSObject.class],*/
+    NSArray *secOne = @[/*@[@"POS常见问题", @"faq.png", FAQViewController.class],*/
+                        
+                        @[@"POS常见问题", @"faq.png", ChatViewController.class],
+                        
+                        @[@"生利宝常见问题", @"helpservice.png", SLBUserNotiDocViewController.class],
                         @[@"刷卡返回码查询", @"returncode.png", ReturnCodeQueryViewController.class]];
     
-    NSArray *secTwo = @[@[@"消息中心", @"news.png", NSObject.class]];
+    NSArray *secTwo = @[@[@"消息中心", @"news.png", MessageCenterViewController.class]];
     NSArray *secThree = @[@[@"设置", @"setup.png", SettingsViewController.class]];
     
     NSArray *templeList = @[secOne, secTwo, secThree];
@@ -82,6 +91,12 @@
     PlainCellContent *content = [[helpList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (content.jumpClass && [content.jumpClass isSubclassOfClass:BaseViewController.class]) {
         BaseViewController *jpCTRL = [[[content.jumpClass alloc] init] autorelease];
+        if([jpCTRL isKindOfClass:[SLBUserNotiDocViewController class]])
+        {
+            SLBUserNotiDocViewController *slbAgCtrl = (SLBUserNotiDocViewController *)jpCTRL;
+            slbAgCtrl.isShowTabBar = YES;
+            slbAgCtrl.agreementType = SLBUserNotiTypeIntroduction;
+        }
         [self.navigationController pushViewController:jpCTRL animated:YES];
     }
 }

@@ -36,8 +36,8 @@
     
     CGFloat contentWidth = self.contentView.bounds.size.width;
     
-    self.bankAcctTV = [[GeneralTableView alloc] initWithFrame:self.contentView.bounds
-                                                    style:UITableViewStyleGrouped];
+    self.bankAcctTV = [[[GeneralTableView alloc] initWithFrame:self.contentView.bounds
+                                                    style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [bankAcctTV setTableHeaderView:marginView];

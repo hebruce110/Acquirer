@@ -8,15 +8,14 @@
 
 #import "BaseViewController.h"
 
-@interface TradeHomeViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>{
+@interface TradeHomeViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
+{
+    UITableView *tradeTableView;
     NSArray *imageList;
     NSArray *titleList;
-    
-    UITableView *tradeTableView;
-    
     NSArray *classList;
 }
 
-@property (nonatomic, retain) UITableView *tradeTableView;
+@property (retain, nonatomic) UITableView *tradeTableView;
 
 @end

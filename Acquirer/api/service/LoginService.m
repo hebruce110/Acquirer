@@ -75,6 +75,9 @@ typedef enum _RequestType{
         usr.state = USER_STATE_ALREADY_ACTIVATED;
         usr.opratorNameSTR = [body objectForKey:@"operName"];
         usr.mobileSTR = [body objectForKey:@"mobile"];
+        usr.latestYield = [body objectForKey:@"latestYield"];
+        usr.agentSlbFlag = [body objectForKey:@"agentSlbFlag"];
+        usr.acctStat = [body objectForKey:@"acctStat"];
         [usr deepCopyDevList:[body objectForKey:@"devIdList"]];
         
         //记住机构号和操作员号

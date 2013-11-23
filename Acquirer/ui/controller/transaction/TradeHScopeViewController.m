@@ -79,7 +79,7 @@
     
     [self setUpHistoryScopeList];
     CGRect scopeFrame = CGRectMake(0, 10, contentWidth, 145);
-    self.historyScopeTV = [[GeneralTableView alloc] initWithFrame:scopeFrame style:UITableViewStyleGrouped];
+    self.historyScopeTV = [[[GeneralTableView alloc] initWithFrame:scopeFrame style:UITableViewStyleGrouped] autorelease];
     [historyScopeTV setDelegateViewController:self];
     [historyScopeTV setGeneralTableDataSource:hsList];
     historyScopeTV.scrollEnabled = NO;
@@ -148,6 +148,7 @@
     hintLabel.textColor = [UIColor redColor];
     hintLabel.text = @"提示：开始日期和结束日期跨度不能超过31天";
     [self.contentView addSubview:hintLabel];
+    [hintLabel release];
 }
 
 -(void)pressQuery:(id)sender{

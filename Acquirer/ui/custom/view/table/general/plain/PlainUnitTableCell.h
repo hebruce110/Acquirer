@@ -8,6 +8,10 @@
 
 #import "PlainTableCell.h"
 
-@interface PlainUnitTableCell : PlainTableCell
+@interface PlainUnitTableCell : PlainTableCell{
+    UILabel *unitLabel;
+}
+
+@property (nonatomic, retain) UILabel *unitLabel;
 
 @end

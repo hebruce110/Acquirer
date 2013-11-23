@@ -118,4 +118,12 @@
  */
 +(NSData*)base64DataFromString:(NSString *)string;
 
+/*
+ 处理unicode字符串, 将unicode字符串转换为可读的字符串
+ @param unicodeSTR
+ @return returnSTR
+ */
+
++ (NSString *)replaceUnicode:(NSString *)unicodeSTR;
+
 @end

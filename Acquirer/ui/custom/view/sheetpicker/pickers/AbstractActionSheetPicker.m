@@ -174,6 +174,7 @@
         value = [NSNumber numberWithInt:0];
     NSDictionary *buttonDetails = [[NSDictionary alloc] initWithObjectsAndKeys:title, @"buttonTitle", value, @"buttonValue", nil];
     [self.customButtons addObject:buttonDetails];
+    [buttonDetails release];
 }
 
 - (IBAction)customButtonPressed:(id)sender {
@@ -227,8 +228,12 @@
     //UIBarButtonItem *doneButton = [self createButtonWithType:UIBarButtonSystemItemDone target:self action:@selector(actionPickerDone:)];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(actionPickerDone:)];
     [barItems addObject:doneButton];
+    [doneButton release];
+    
     [pickerToolbar setItems:barItems animated:YES];
-    return pickerToolbar;
+    [barItems release];
+    
+    return [pickerToolbar autorelease];
 }
 
 - (UIBarButtonItem *)createToolbarLabelWithTitle:(NSString *)aTitle {
@@ -238,12 +243,13 @@
     [toolBarItemlabel setFont:[UIFont boldSystemFontOfSize:16]];    
     [toolBarItemlabel setBackgroundColor:[UIColor clearColor]];    
     toolBarItemlabel.text = aTitle;    
-    UIBarButtonItem *buttonLabel = [[UIBarButtonItem alloc]initWithCustomView:toolBarItemlabel];
-    return buttonLabel;
+    UIBarButtonItem *buttonLabel = [[UIBarButtonItem alloc] initWithCustomView:toolBarItemlabel];
+    [toolBarItemlabel release];
+    return ([buttonLabel autorelease]);
 }
 
 - (UIBarButtonItem *)createButtonWithType:(UIBarButtonSystemItem)type target:(id)target action:(SEL)buttonAction {
-    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:type target:target action:buttonAction];
+    return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:type target:target action:buttonAction] autorelease];
 }
 
 #pragma mark - Utilities and Accessors
@@ -300,6 +306,7 @@
     _actionSheet = [[UIActionSheet alloc] initWithTitle:paddedSheetTitle delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
     [_actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
     [_actionSheet addSubview:aView];
+    [aView release];
     [self presentActionSheet:_actionSheet];
     _actionSheet.bounds = CGRectMake(0, 0, self.viewSize.width, sheetHeight);
 }
@@ -317,8 +324,10 @@
 - (void)configureAndPresentPopoverForView:(UIView *)aView {
     UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     viewController.view = aView;
+    [aView release];
     viewController.contentSizeForViewInPopover = viewController.view.frame.size;
     _popOverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
+    [viewController release];
     [self presentPopover:_popOverController];
 }
 

@@ -11,6 +11,14 @@
 
 @implementation PlainUnitTableCell
 
+@synthesize unitLabel;
+
+-(void)dealloc{
+    [unitLabel release];
+    
+    [super dealloc];
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -25,7 +33,7 @@
                                      textFrame.size.height);
         
         CGRect unitFrame = CGRectMake(textLabel.frame.origin.x+textLabel.frame.size.width+5, 0, 15, DEFAULT_ROW_HEIGHT);
-        UILabel *unitLabel = [[UILabel alloc] initWithFrame:unitFrame];
+        self.unitLabel = [[[UILabel alloc] initWithFrame:unitFrame] autorelease];
         unitLabel.textAlignment = NSTextAlignmentLeft;
         unitLabel.backgroundColor = [UIColor clearColor];
         unitLabel.font = [UIFont boldSystemFontOfSize:16];

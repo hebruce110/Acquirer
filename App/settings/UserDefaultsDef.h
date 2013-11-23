@@ -83,7 +83,16 @@ typedef enum {
     UITABLE_VIEW_CELL_CONTENT
 } PosMiniUIViewTag;
 
+//======================================================
+//CHAT Component
+//======================================================
+
+#define CHAT_CELL_VERTICAL_PADDING 15
+#define CHAT_TIME_LABEL_HEIGHT 20
+
+
 #define VERTICAL_PADDING 10
+#define HORIZONTAL_PADDING 10
 #define DEFAULT_TABLE_SECITON_PADDING 10
 #define DEFAULT_ROW_HEIGHT 45
 #define DEFAULT_STATUS_BAR_HEIGHT 20
@@ -93,5 +102,7 @@ typedef enum {
 #define DEFAULT_TAB_WIDTH 160
 
 #define PLAIN_CELL_TEXT_WIDTH 180
+
+#define GENERALTABLE_OFFSET 10
 
 #endif

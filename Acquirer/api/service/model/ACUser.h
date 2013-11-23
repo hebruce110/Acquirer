@@ -36,6 +36,14 @@ typedef enum _UserState{
     
     //操作员的设备列表
     NSMutableArray *devList;
+    
+    //生利宝新加参数
+    //最新收益率
+    NSString *latestYield;
+    //服务商开通生利宝权限标志位：Y／N
+    NSString *agentSlbFlag;
+    //生利宝帐户状态：正常－N，未开户－C
+    NSString *acctStat;
 }
 
 @property (nonatomic, copy) NSString *instSTR;
@@ -47,6 +55,10 @@ typedef enum _UserState{
 @property (nonatomic, assign) UserState state;
 
 @property (nonatomic, retain) NSMutableArray *devList;
+
+@property (nonatomic, copy) NSString *latestYield;
+@property (nonatomic, copy) id agentSlbFlag;
+@property (nonatomic, copy) id acctStat;
 
 -(void)deepCopyDevList:(NSArray *)list;
 
