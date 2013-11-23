@@ -19,6 +19,7 @@
 
 -(void)dealloc{
     self.webSocket = nil;
+    [messageQueue release];
     
     [super dealloc];
 }
@@ -26,7 +27,7 @@
 -(id)init{
     self = [super init];
     if (self) {
-        
+        messageQueue = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -54,7 +55,7 @@
         [webSocket send:msgSTR];
     }
     else{
-        //消息队列 
+        //消息队列
         
         [self establishConnection];
         [self sendMessage:msgSTR];

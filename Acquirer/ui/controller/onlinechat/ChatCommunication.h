@@ -11,6 +11,8 @@
 
 @interface ChatCommunication : NSObject <SRWebSocketDelegate>{
     SRWebSocket *webSocket;
+    
+    NSMutableArray *messageQueue;
 }
 
 @property (nonatomic, retain) SRWebSocket *webSocket;
