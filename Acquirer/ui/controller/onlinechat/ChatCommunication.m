@@ -56,9 +56,9 @@
     }
     else{
         //消息队列
-        
         [self establishConnection];
-        [self sendMessage:msgSTR];
+        
+        [messageQueue addObject:msgSTR];
     }
 }
 
@@ -85,10 +85,9 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    NSLog(@"Websocket Did Connected");
     
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
-    [dict setObject:@"question" forKey:@"0"];
+    [dict setObject:@"0" forKey:@"question"];
     [self sendMessage:[dict JSONRepresentation]];
 }
 
