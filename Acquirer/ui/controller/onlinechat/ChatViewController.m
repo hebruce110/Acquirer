@@ -76,7 +76,7 @@
     
     CGRect textFrame = CGRectMake(10, 8, contentWidth-sendBtn.bounds.size.width-offset*2, 32);
     self.dialogueTextField = [[[UITextField alloc] initWithFrame:textFrame] autorelease];
-    dialogueTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    dialogueTextField.keyboardType = UIKeyboardTypePhonePad; //UIKeyboardTypeNumbersAndPunctuation;
     dialogueTextField.borderStyle = UITextBorderStyleRoundedRect;
     dialogueTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     dialogueTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
