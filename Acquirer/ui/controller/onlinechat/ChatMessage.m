@@ -28,6 +28,9 @@
         sentState = MessageSentStatePending;
         msgTag = MessageTagIM;
         
+        sentBy = MessageSentByCS;
+        
+        /*
         static int i=0;
         if (i%2 == 0) {
             sentBy = MessageSentByUser;
@@ -35,6 +38,7 @@
             sentBy = MessageSentByCS;
         }
         i++;
+        */
     }
     return self;
 }

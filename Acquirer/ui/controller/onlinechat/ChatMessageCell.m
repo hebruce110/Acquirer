@@ -87,7 +87,7 @@
             failImageView.center = CGPointMake(bubbleView.frame.origin.x-15, CGRectGetMidY(self.bounds));
         }
         else if (cm.sentState == MessageSentStateSucceed){
-            
+            [loadingIndicator stopAnimating];
         }
     }
 }

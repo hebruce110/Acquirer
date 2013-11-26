@@ -32,4 +32,16 @@
 
 @property (nonatomic, retain) EGORefreshTableHeaderView *refreshHeaderView;
 
+//建立WebSocket连接
+-(void)setUpWebSocketEnvironment;
+
+//插入消息
+-(void)insertMsgToChatTV:(ChatMessage *)cm;
+
+//收到客服JSON格式的回复消息
+-(void)replyFromCS:(NSDictionary *)dict;
+
+//刷新消息的状态
+-(void)refreshMsgState:(ChatMessage *)cm;
+
 @end

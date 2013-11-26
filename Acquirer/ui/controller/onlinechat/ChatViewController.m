@@ -12,6 +12,7 @@
 #import "ChatMessageCell.h"
 #import "ChatTimeLabelCell.h"
 #import "NSNotificationCenter+CP.h"
+#import "JSON.h"
 
 @implementation ChatViewController
 
@@ -42,6 +43,7 @@
         [cmModel loadMessages];
         
         cc = [[ChatCommunication alloc] init];
+        cc.delegateCTRL = self;
     }
     return self;
 }
@@ -67,13 +69,14 @@
     [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
     [sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     sendBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    [sendBtn addTarget:self action:@selector(pressSendBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [sendBtn addTarget:self action:@selector(questionSendBtn:) forControlEvents:UIControlEventTouchUpInside];
     [dialogueBgView addSubview:sendBtn];
     
     int offset = 10;
     
     CGRect textFrame = CGRectMake(10, 8, contentWidth-sendBtn.bounds.size.width-offset*2, 32);
     self.dialogueTextField = [[[UITextField alloc] initWithFrame:textFrame] autorelease];
+    dialogueTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     dialogueTextField.borderStyle = UITextBorderStyleRoundedRect;
     dialogueTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     dialogueTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -148,8 +151,71 @@
 -(void)setUpWebSocketEnvironment{
     [[Acquirer sharedInstance] showUIPromptMessage:@"网络连接中请稍后..." animated:YES];
     [cc establishConnection];
+    
+    ChatMessage *firstMsg = [[[ChatMessage alloc] init] autorelease];
+    firstMsg.messageSTR = @"0";
+    
+    [cc sendMessage:firstMsg];
 }
 
+-(void)questionSendBtn:(id)sender{
+    if ([Helper stringNullOrEmpty:dialogueTextField.text]) {
+        return;
+    }
+    
+    NSString *inputSTR = [[dialogueTextField.text copy] autorelease];
+    dialogueTextField.text = @"";
+    
+    ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
+    cm.messageSTR = inputSTR;
+    cm.date = [NSDate date];
+    cm.sentBy = MessageSentByUser;
+    cm.sentState = MessageSentStatePending;
+    cm.msgTag = MessageTagIM;
+    
+    [self insertMsgToChatTV:cm];
+    [cc sendMessage:cm];
+}
+
+//收到客服JSON格式的回复消息
+-(void)replyFromCS:(NSDictionary *)dict{
+    ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
+    cm.messageSTR = [dict objectForKey:@"answer"];
+    cm.date = [NSDate date];
+    cm.sentBy = MessageSentByCS;
+    cm.msgTag = MessageTagIM;
+    
+    [self insertMsgToChatTV:cm];
+}
+
+//插入消息
+-(void)insertMsgToChatTV:(ChatMessage *)cm{
+    int index = [cmModel addMessage:cm];
+    
+    [self.chatTV insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]
+                       withRowAnimation:UITableViewRowAnimationFade];
+    [self scrollToNewestMessage];
+}
+
+//刷新消息的状态
+-(void)refreshMsgState:(ChatMessage *)cm{
+    int index = [cmModel.messages indexOfObject:cm];
+    if (index!=NSNotFound && index>0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        UITableViewCell *cell = [self.chatTV cellForRowAtIndexPath:indexPath];
+        [cell setNeedsLayout];
+    }
+}
+
+
+-(void)backToPreviousView:(id)sender{
+    [cc closeConnection];
+    [cmModel.messages removeAllObjects];
+    self.chatTV.delegate = nil;
+    self.chatTV.dataSource = nil;
+    
+    [super backToPreviousView:sender];
+}
 
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
@@ -269,32 +335,7 @@
     }
     
 	NSIndexPath* indexPath = [NSIndexPath indexPathForRow:(cmModel.messages.count - 1) inSection:0];
-	[self.chatTV scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-}
-
-
--(void)pressSendBtn:(id)sender{
-    NSString *inputSTR = [[dialogueTextField.text copy] autorelease];
-    dialogueTextField.text = @"";
-    
-    ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
-    cm.messageSTR = inputSTR;
-    //cm.sentBy = MessageSentByUser;
-    
-    int index = [cmModel addMessage:cm];
-    
-    [self.chatTV insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]
-                       withRowAnimation:UITableViewRowAnimationFade];
-    [self scrollToNewestMessage];
-    
-    //向服务端发送消息
-    [cc sendMessage:cm.messageSTR];
-}
-
--(void)backToPreviousView:(id)sender{
-    [cc closeConnection];
-    
-    [super backToPreviousView:sender];
+	[self.chatTV scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 -(void)keyboardWillShow:(NSNotification *)notification{
