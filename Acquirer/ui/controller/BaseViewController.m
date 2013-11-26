@@ -151,7 +151,9 @@ CGFloat frameHeighOffset(CGRect rect){
 }
 
 -(void)tabBarAnimation{
-    UIViewController *rootController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    //UIViewController *rootController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    UIScreen *screen = [UIScreen mainScreen];
     
     //以动画形式隐藏或显示下面Tabbar
     if (self.navigationController!=nil) {
@@ -163,7 +165,7 @@ CGFloat frameHeighOffset(CGRect rect){
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [UIView setAnimationDuration:0.2];
             
-            subView.frame = CGRectMake(0, rootController.view.frame.size.height-DEFAULT_TAB_BAR_HEIGHT,
+            subView.frame = CGRectMake(0, screen.bounds.size.height-DEFAULT_TAB_BAR_HEIGHT,
                                        self.view.frame.size.width, DEFAULT_TAB_BAR_HEIGHT);
             [UIView commitAnimations];
         }
@@ -173,7 +175,7 @@ CGFloat frameHeighOffset(CGRect rect){
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [UIView setAnimationDuration:0.2];
             
-            subView.frame = CGRectMake(0, rootController.view.frame.size.height, self.view.frame.size.width, DEFAULT_TAB_BAR_HEIGHT);
+            subView.frame = CGRectMake(0, screen.bounds.size.height, self.view.frame.size.width, DEFAULT_TAB_BAR_HEIGHT);
             
             [UIView commitAnimations];
         }

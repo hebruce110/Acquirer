@@ -37,11 +37,6 @@
     if (self) {
         messageQueue = [[NSMutableArray alloc] init];
         questionIdJoinSTR = [[NSMutableString alloc] init];
-        
-        for (int i=0; i<=100; i++) {
-            NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:i userInfo:nil];
-            NSLog(@"%@", error);
-        }
     }
     return self;
 }
@@ -112,8 +107,6 @@
     
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    
-    
     if (messageQueue.count > 0) {
         [self sendMessage:[messageQueue lastObject]];
         [messageQueue removeAllObjects];
@@ -161,7 +154,7 @@
     if (error.code==57 || error.code==51 ||
         error.code==61 || error.code==54 ||
         error.code==53) {
-        [[NSNotificationCenter defaultCenter] postAutoUIPromptNotification:@"网络连接失败"];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"网络连接失败" notifyType:NOTIFICATION_TYPE_WARNING];
     }
     
     
