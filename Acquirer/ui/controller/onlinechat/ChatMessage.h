@@ -34,6 +34,10 @@ typedef enum _MessageTag{
 } MessageTag;
 
 @interface ChatMessage : NSObject{
+    //主键
+    NSString *msgIdSTR;
+    //是否已保存到数据库
+    BOOL saved;
     
     NSString *messageSTR;
     NSDate *date;
@@ -44,6 +48,9 @@ typedef enum _MessageTag{
     
     CGSize bubbleSize;
 }
+
+@property (nonatomic, copy) NSString *msgIdSTR;
+@property (nonatomic, assign) BOOL saved;
 
 @property (nonatomic, copy) NSString *messageSTR;
 @property (nonatomic, copy) NSDate *date;

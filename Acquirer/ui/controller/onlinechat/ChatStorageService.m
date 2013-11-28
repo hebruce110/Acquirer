@@ -8,6 +8,7 @@
 
 #import "ChatStorageService.h"
 #import "CPSqlQuery.h"
+#import "ChatMessage.h"
 
 static ChatStorageService *sInstance = nil;
 
@@ -40,17 +41,44 @@ static ChatStorageService *sInstance = nil;
 + (void)initialize{
     [self setUpChatStorageDataBase];
     
-    NSString *createCMTable = @"CREATE TABLE IF NOT EXISTS chat_msg("
+    NSString *createCMTableSQL = @"CREATE TABLE IF NOT EXISTS chat_msg("
                                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                                     "msg_tag INTEGER,"
                                     "sent_by INTEGER,"
                                     "sent_state  INTEGER,"
                                     "date TEXT );";
     
-    [[CPSqlQuery queryWithDb:[self sharedInstance]->chatMessageDBHandle query:createCMTable] execute];
+    [[CPSqlQuery queryWithDb:[self sharedInstance]->chatMessageDBHandle query:createCMTableSQL] execute];
 }
 
+//统一日期存取格式
++(NSDateFormatter *)chatMsgGeneralDBDateFormatter{
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    return dateFormatter;
+}
 
+-(void)doChatMsgBatchSaveExecution:(NSMutableArray *)messages{
+    NSDateFormatter *formatter = [self.class chatMsgGeneralDBDateFormatter];
+    
+    NSString *insertCMSQL = @"INSERT INTO chat_msg (msg, msg_tag, sent_by, sent_state, date) values ("Hello World!", 1, 1, 1, "2013-11-28 20:31:11");";
+    CPSqlQuery *cmSaveQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:insertValuesSQL];
+    
+    sqlite3_exec(chatMessageDBHandle, "BEGIN TRANSACTION", nil, nil, nil);
+    
+    for (ChatMessage *cm in messages) {
+        //聊天消息 &&
+        if (cm.msgTag==MessageTagIM && cm.saved==NO) {
+            NSString *dateSTR = [formatter stringFromDate:cm.date];
+            
+            
+            
+            cm.saved = YES;
+        }
+    }
+    
+    sqlite3_exec(chatMessageDBHandle, "COMMIT TRANSACTION", nil, nil, nil);
+}
 
 
 +(ChatStorageService *)sharedInstance{

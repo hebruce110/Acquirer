@@ -10,12 +10,13 @@
 
 @implementation ChatMessage
 
+@synthesize msgIdSTR, saved;
 @synthesize messageSTR, date;
-
 @synthesize sentBy, sentState, msgTag;
 @synthesize bubbleSize;
 
 -(void)dealloc{
+    [msgIdSTR release];
     [messageSTR release];
     [date release];
     

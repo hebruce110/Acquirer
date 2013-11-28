@@ -211,8 +211,11 @@
 -(void)backToPreviousView:(id)sender{
     [cc closeConnection];
     [cmModel.messages removeAllObjects];
+    [cmModel.msgTimer invalidate];
     self.chatTV.delegate = nil;
     self.chatTV.dataSource = nil;
+    
+    //保存最后的数据
     
     [super backToPreviousView:sender];
 }

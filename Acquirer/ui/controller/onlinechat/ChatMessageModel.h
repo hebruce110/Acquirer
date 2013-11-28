@@ -11,9 +11,12 @@
 
 @interface ChatMessageModel : NSObject{
     NSMutableArray *messages;
+    
+    NSTimer *msgTimer;
 }
 
 @property (nonatomic, readonly) NSMutableArray *messages;
+@property (nonatomic, readonly) NSTimer *msgTimer;
 
 //加载历史聊天记录
 -(void)loadMessages;

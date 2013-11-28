@@ -19,6 +19,7 @@
 @property (nonatomic, assign) int lastStepResult;
 @property (nonatomic, copy) NSString *tableNameSTR;
 
++(NSDateFormatter *)chatMsgGeneralDBDateFormatter;
 +(ChatStorageService *)sharedInstance;
 +(void)destroySharedInstance;
 
