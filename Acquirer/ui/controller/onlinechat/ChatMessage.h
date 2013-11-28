@@ -34,6 +34,7 @@ typedef enum _MessageTag{
 } MessageTag;
 
 @interface ChatMessage : NSObject{
+    
     NSString *messageSTR;
     NSDate *date;
     

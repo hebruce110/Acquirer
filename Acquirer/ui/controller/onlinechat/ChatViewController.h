@@ -9,7 +9,7 @@
 #import "BaseViewController.h"
 #import "ChatMessageModel.h"
 #import "EGORefreshTableHeaderView.h"
-#import "ChatCommunication.h"
+#import "ChatCommService.h"
 
 @interface ChatViewController : BaseViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, EGORefreshTableHeaderDelegate>{
     UITableView *chatTV;
@@ -18,7 +18,7 @@
     
     EGORefreshTableHeaderView *refreshHeaderView;
     
-    ChatCommunication *cc;
+    ChatCommService *cc;
     
     ChatMessageModel *cmModel;
     

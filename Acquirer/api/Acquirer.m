@@ -17,6 +17,7 @@
 #import "LoginViewController.h"
 #import "CPNavigationController.h"
 #import "AcquirerService.h"
+#import "ChatStorageService.h"
 #import "JSON.h"
 
 static Acquirer *sInstance = nil;
@@ -82,6 +83,7 @@ static Acquirer *sInstance = nil;
     
     [Settings destroySharedInstance];
     [AcquirerService destroySharedInstance];
+    [ChatStorageService destroySharedInstance];
     
     [Acquirer destroySharedInstance];
 }
@@ -93,6 +95,7 @@ static Acquirer *sInstance = nil;
     
     [Settings sharedInstance];
     [AcquirerService sharedInstance];
+    [ChatStorageService sharedInstance];
     
     [instance initTradeTypeAndStatCode];
     

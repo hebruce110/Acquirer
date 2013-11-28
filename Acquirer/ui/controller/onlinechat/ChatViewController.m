@@ -42,7 +42,7 @@
         cmModel = [[ChatMessageModel alloc] init];
         [cmModel loadMessages];
         
-        cc = [[ChatCommunication alloc] init];
+        cc = [[ChatCommService alloc] init];
         cc.delegateCTRL = self;
     }
     return self;

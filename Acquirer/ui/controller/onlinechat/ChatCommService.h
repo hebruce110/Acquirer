@@ -12,7 +12,7 @@
 
 @class ChatViewController;
 
-@interface ChatCommunication : NSObject <SRWebSocketDelegate>{
+@interface ChatCommService : NSObject <SRWebSocketDelegate>{
     SRWebSocket *webSocket;
     //当前发送的聊天对象
     ChatMessage *currentCM;

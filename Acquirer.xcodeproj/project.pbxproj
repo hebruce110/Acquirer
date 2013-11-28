@@ -18,10 +18,13 @@
 		170BDED5183E2F5100FF8EB6 /* ChatTimeLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDED4183E2F5100FF8EB6 /* ChatTimeLabelCell.m */; };
 		170BDED9183F27D100FF8EB6 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDED8183F27D100FF8EB6 /* EGORefreshTableHeaderView.m */; };
 		170BDEE5184055B400FF8EB6 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 170BDEE4184055B400FF8EB6 /* libicucore.dylib */; };
-		170BDEEA18406B2F00FF8EB6 /* ChatCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDEE918406B2F00FF8EB6 /* ChatCommunication.m */; };
+		170BDEEA18406B2F00FF8EB6 /* ChatCommService.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDEE918406B2F00FF8EB6 /* ChatCommService.m */; };
 		170BDEEC1840832500FF8EB6 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 170BDEEB1840832500FF8EB6 /* base64.c */; };
 		170BDEEE1840832C00FF8EB6 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDEED1840832C00FF8EB6 /* NSData+SRB64Additions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		170BDEF01840833000FF8EB6 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDEEF1840833000FF8EB6 /* SRWebSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		170BDEF3184715C000FF8EB6 /* ChatStorageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDEF2184715C000FF8EB6 /* ChatStorageService.m */; };
+		170BDEF51847161000FF8EB6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 170BDEF41847161000FF8EB6 /* libsqlite3.0.dylib */; };
+		170BDEFC1847303A00FF8EB6 /* CPSqlQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 170BDEFB1847303A00FF8EB6 /* CPSqlQuery.m */; };
 		170C1882181E2D4C0070E57A /* TradeEncashConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 170C1881181E2D4C0070E57A /* TradeEncashConfirmViewController.m */; };
 		170C1885181E33FE0070E57A /* PlainUnitTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 170C1884181E33FE0070E57A /* PlainUnitTableCell.m */; };
 		170C1888181E6FA70070E57A /* TradeEncashResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 170C1887181E6FA70070E57A /* TradeEncashResultViewController.m */; };
@@ -309,11 +312,16 @@
 		170BDEDD1840534D00FF8EB6 /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
 		170BDEDF1840534D00FF8EB6 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		170BDEE4184055B400FF8EB6 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
-		170BDEE818406B2F00FF8EB6 /* ChatCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCommunication.h; sourceTree = "<group>"; };
-		170BDEE918406B2F00FF8EB6 /* ChatCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCommunication.m; sourceTree = "<group>"; };
+		170BDEE818406B2F00FF8EB6 /* ChatCommService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCommService.h; sourceTree = "<group>"; };
+		170BDEE918406B2F00FF8EB6 /* ChatCommService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCommService.m; sourceTree = "<group>"; };
 		170BDEEB1840832500FF8EB6 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
 		170BDEED1840832C00FF8EB6 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
 		170BDEEF1840833000FF8EB6 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
+		170BDEF1184715C000FF8EB6 /* ChatStorageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatStorageService.h; sourceTree = "<group>"; };
+		170BDEF2184715C000FF8EB6 /* ChatStorageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatStorageService.m; sourceTree = "<group>"; };
+		170BDEF41847161000FF8EB6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		170BDEFA1847303A00FF8EB6 /* CPSqlQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSqlQuery.h; sourceTree = "<group>"; };
+		170BDEFB1847303A00FF8EB6 /* CPSqlQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSqlQuery.m; sourceTree = "<group>"; };
 		170C1880181E2D4C0070E57A /* TradeEncashConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeEncashConfirmViewController.h; sourceTree = "<group>"; };
 		170C1881181E2D4C0070E57A /* TradeEncashConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeEncashConfirmViewController.m; sourceTree = "<group>"; };
 		170C1883181E33FE0070E57A /* PlainUnitTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainUnitTableCell.h; sourceTree = "<group>"; };
@@ -730,6 +738,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				170BDEF51847161000FF8EB6 /* libsqlite3.0.dylib in Frameworks */,
 				170BDEE5184055B400FF8EB6 /* libicucore.dylib in Frameworks */,
 				17CC7C851829D4EC00850D0A /* CoreText.framework in Frameworks */,
 				8BB6A70117CAFD5100C71279 /* MobileCoreServices.framework in Frameworks */,
@@ -785,8 +794,10 @@
 				171DDD201839E3F3001F4DF7 /* ChatViewController.m */,
 				171DDD251839F552001F4DF7 /* ChatMessageModel.h */,
 				171DDD261839F552001F4DF7 /* ChatMessageModel.m */,
-				170BDEE818406B2F00FF8EB6 /* ChatCommunication.h */,
-				170BDEE918406B2F00FF8EB6 /* ChatCommunication.m */,
+				170BDEE818406B2F00FF8EB6 /* ChatCommService.h */,
+				170BDEE918406B2F00FF8EB6 /* ChatCommService.m */,
+				170BDEF1184715C000FF8EB6 /* ChatStorageService.h */,
+				170BDEF2184715C000FF8EB6 /* ChatStorageService.m */,
 				171DDD221839E45E001F4DF7 /* ChatMessage.h */,
 				171DDD231839E45E001F4DF7 /* ChatMessage.m */,
 				171DDD39183B3387001F4DF7 /* ChatBubbleView.h */,
@@ -795,6 +806,8 @@
 				170BDED1183B8B8900FF8EB6 /* ChatMessageCell.m */,
 				170BDED3183E2F5100FF8EB6 /* ChatTimeLabelCell.h */,
 				170BDED4183E2F5100FF8EB6 /* ChatTimeLabelCell.m */,
+				170BDEFA1847303A00FF8EB6 /* CPSqlQuery.h */,
+				170BDEFB1847303A00FF8EB6 /* CPSqlQuery.m */,
 			);
 			path = onlinechat;
 			sourceTree = "<group>";
@@ -1238,6 +1251,7 @@
 		8BB6A67017CAE5C400C71279 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				170BDEF41847161000FF8EB6 /* libsqlite3.0.dylib */,
 				170BDEE4184055B400FF8EB6 /* libicucore.dylib */,
 				17CC7C841829D4EC00850D0A /* CoreText.framework */,
 				8BB6A68E17CAE5EA00C71279 /* libz.1.2.5.dylib */,
@@ -1798,6 +1812,7 @@
 				17CC7CFD1829EBF400850D0A /* SLBDetailListCell.m in Sources */,
 				8BB6A6DF17CAF61500C71279 /* ASIDataCompressor.m in Sources */,
 				171DDD3B183B3387001F4DF7 /* ChatBubbleView.m in Sources */,
+				170BDEFC1847303A00FF8EB6 /* CPSqlQuery.m in Sources */,
 				17CC7CF61829EBF400850D0A /* SLBAttributedView.m in Sources */,
 				17CC7CF41829EBF400850D0A /* MarkupParser.m in Sources */,
 				8BB6A6E017CAF61500C71279 /* ASIDataDecompressor.m in Sources */,
@@ -1883,13 +1898,14 @@
 				8BEAFF9A17EE99EC0080A8F5 /* SummaryService.m in Sources */,
 				8BEAFF9D17EFDDCF0080A8F5 /* TradeTDetailViewController.m in Sources */,
 				8BEAFFA517F022900080A8F5 /* DetailContent.m in Sources */,
+				170BDEF3184715C000FF8EB6 /* ChatStorageService.m in Sources */,
 				8BEAFFA817F022BF0080A8F5 /* DetailTableCell.m in Sources */,
 				8BEAFFAE17F121F80080A8F5 /* DetailService.m in Sources */,
 				17CC7C6818278F5F00850D0A /* LineBreakTableCell.m in Sources */,
 				8BC4F30E17F2D69C00D0929C /* TradeTDetailInfoViewController.m in Sources */,
 				17CC7CF31829EBF400850D0A /* CTView.m in Sources */,
 				17CC7D0B1829EBF400850D0A /* SLBService.m in Sources */,
-				170BDEEA18406B2F00FF8EB6 /* ChatCommunication.m in Sources */,
+				170BDEEA18406B2F00FF8EB6 /* ChatCommService.m in Sources */,
 				17CC7C6B1827A17100850D0A /* FAQuestionAnswerViewController.m in Sources */,
 				1762A85D181770D0005A8893 /* TradeSettleBankAcctViewController.m in Sources */,
 				8BC4F31417F3C54300D0929C /* TradeSettleMgtViewController.m in Sources */,

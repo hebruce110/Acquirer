@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 chinaPnr. All rights reserved.
 //
 
-#import "ChatCommunication.h"
+#import "ChatCommService.h"
 #import "JSON.h"
 #import "Helper.h"
 #import "Acquirer.h"
@@ -16,7 +16,7 @@
 
 #define WEBSOCKET_URL @"ws://192.168.29.21:8088/chat/wsChat/aa-bb-cc2"
 
-@implementation ChatCommunication
+@implementation ChatCommService
 
 @synthesize delegateCTRL;
 @synthesize webSocket;
@@ -153,7 +153,7 @@
     //61 Connection refused
     if (error.code==57 || error.code==51 ||
         error.code==61 || error.code==54 ||
-        error.code==53) {
+        error.code==53 || error.code==60) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"网络连接失败" notifyType:NOTIFICATION_TYPE_WARNING];
     }
     

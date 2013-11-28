@@ -29,6 +29,7 @@
 -(void)loadMessages{
     [messages removeAllObjects];
     
+    
 }
 
 //保存聊天记录
