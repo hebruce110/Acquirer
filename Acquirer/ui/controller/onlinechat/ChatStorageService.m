@@ -9,6 +9,7 @@
 #import "ChatStorageService.h"
 #import "CPSqlQuery.h"
 #import "ChatMessage.h"
+#import "Acquirer.h"
 
 static ChatStorageService *sInstance = nil;
 
@@ -24,7 +25,7 @@ static ChatStorageService *sInstance = nil;
 }
 
 +(void)setUpChatStorageDataBase{
-    NSString *dbNameSTR = @"ChatMessage.db";
+    NSString *dbNameSTR = @"chatmessage.db";
     
     NSArray* folders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *dbPath = [[folders objectAtIndex:0] stringByAppendingPathComponent:dbNameSTR];
@@ -38,17 +39,18 @@ static ChatStorageService *sInstance = nil;
     }
 }
 
++(void)tearDownChatStorageDateBase{
+    sqlite3_close([self sharedInstance]->chatMessageDBHandle);
+}
+
++ (NSString *)chatMsgTableName{
+    Acquirer *ac = [Acquirer sharedInstance];
+    NSString *chatMsgTableSTR = [NSString stringWithFormat:@"chat_msg_%@_%@", ac.currentUser.instSTR, ac.currentUser.opratorSTR];
+    return chatMsgTableSTR;
+}
+
 + (void)initialize{
     [self setUpChatStorageDataBase];
-    
-    NSString *createCMTableSQL = @"CREATE TABLE IF NOT EXISTS chat_msg("
-                                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                    "msg_tag INTEGER,"
-                                    "sent_by INTEGER,"
-                                    "sent_state  INTEGER,"
-                                    "date TEXT );";
-    
-    [[CPSqlQuery queryWithDb:[self sharedInstance]->chatMessageDBHandle query:createCMTableSQL] execute];
 }
 
 //统一日期存取格式
@@ -58,26 +60,81 @@ static ChatStorageService *sInstance = nil;
     return dateFormatter;
 }
 
+-(void)doChatMsgCreateTable{
+    NSString *createCMTableSQLFormat = @"CREATE TABLE IF NOT EXISTS %@("
+                                        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                        "msg TEXT DEFAULT NULL,"
+                                        "msg_tag TEXT,"
+                                        "sent_by TEXT,"
+                                        "sent_state  TEXT,"
+                                        "date TEXT );";
+    
+    NSString *createCMTableSQL = [NSString stringWithFormat:createCMTableSQLFormat, [self.class chatMsgTableName]];
+    
+    [[CPSqlQuery queryWithDb:chatMessageDBHandle query:createCMTableSQL] execute];
+}
+
 -(void)doChatMsgBatchSaveExecution:(NSMutableArray *)messages{
     NSDateFormatter *formatter = [self.class chatMsgGeneralDBDateFormatter];
     
-    NSString *insertCMSQL = @"INSERT INTO chat_msg (msg, msg_tag, sent_by, sent_state, date) values ("Hello World!", 1, 1, 1, "2013-11-28 20:31:11");";
-    CPSqlQuery *cmSaveQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:insertValuesSQL];
+    NSString *insertCMSQLFormat = @"INSERT INTO %@ (msg, msg_tag, sent_by, sent_state, date) "
+                            "values (:msg, :msg_tag, :sent_by, :sent_state, :date);";
+    NSString *insertCMSQL = [NSString stringWithFormat:insertCMSQLFormat, [self.class chatMsgTableName]];
+    CPSqlQuery *cmSaveQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:insertCMSQL];
     
     sqlite3_exec(chatMessageDBHandle, "BEGIN TRANSACTION", nil, nil, nil);
     
     for (ChatMessage *cm in messages) {
-        //聊天消息 &&
         if (cm.msgTag==MessageTagIM && cm.saved==NO) {
             NSString *dateSTR = [formatter stringFromDate:cm.date];
             
+            [cmSaveQuery bind:@"msg" value:cm.messageSTR];
+            [cmSaveQuery bind:@"msg_tag" value:[NSString stringWithFormat:@"%d", cm.msgTag]];
+            [cmSaveQuery bind:@"sent_by" value:[NSString stringWithFormat:@"%d", cm.sentBy]];
+            [cmSaveQuery bind:@"sent_state" value:[NSString stringWithFormat:@"%d", cm.sentState]];
+            [cmSaveQuery bind:@"date" value:dateSTR];
             
+            [cmSaveQuery execute];
+            
+            if (cmSaveQuery.lastStepResult == SQLITE_OK) {
+                NSInteger lastRowID = sqlite3_last_insert_rowid(chatMessageDBHandle);
+                NSLog(@"last Row ID %d", lastRowID);
+                cm.msgIdSTR = [NSString stringWithFormat:@"%d", lastRowID];
+            }else{
+                NSLog(@"save Query state error");
+            }
             
             cm.saved = YES;
         }
     }
     
     sqlite3_exec(chatMessageDBHandle, "COMMIT TRANSACTION", nil, nil, nil);
+}
+
+//加载历史数据
+-(void)doChatMsgQueryExecution:(NSMutableArray *)messages firstQuery:(BOOL)isFirst{
+    int queryLimit = isFirst ? 3 : 100;
+    
+    //取最新的数据
+    for (ChatMessage *cm in messages) {
+        
+    }
+    
+    int count = 0;
+    NSString *countAllSQLFormat = @"SELECT count(*) as 'count' FROM %@";
+    NSString *countAllSQL = [NSString stringWithFormat:countAllSQLFormat, [self.class chatMsgTableName]];
+    
+    CPSqlQuery *cpCountQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:countAllSQL];
+    [cpCountQuery execute];
+    if (cpCountQuery.lastStepResult == SQLITE_ROW) {
+        count = [cpCountQuery intValue:@"count"];
+        NSLog(@"count in table:%d", count);
+    }
+    
+    NSDateFormatter *formatter = [self.class chatMsgGeneralDBDateFormatter];
+    
+    
+    
 }
 
 
@@ -91,13 +148,5 @@ static ChatStorageService *sInstance = nil;
 +(void)destroySharedInstance{
     CPSafeRelease(sInstance);
 }
-
-+(void)tearDownChatStorageDateBase{
-    BOOL closeRes = sqlite3_close([self sharedInstance]->chatMessageDBHandle);
-    if (closeRes == SQLITE_BUSY) {
-        
-    }
-}
-
 
 @end

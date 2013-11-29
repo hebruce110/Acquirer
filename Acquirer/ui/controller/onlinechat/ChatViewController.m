@@ -13,6 +13,7 @@
 #import "ChatTimeLabelCell.h"
 #import "NSNotificationCenter+CP.h"
 #import "JSON.h"
+#import "ChatStorageService.h"
 
 @implementation ChatViewController
 
@@ -139,6 +140,7 @@
                                                object:nil];
     
     [self setUpWebSocketEnvironment];
+    [self setUpChatMsgDBEnvironment];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -156,6 +158,10 @@
     firstMsg.messageSTR = @"0";
     
     [cc sendMessage:firstMsg];
+}
+
+-(void)setUpChatMsgDBEnvironment{
+    [[ChatStorageService sharedInstance] doChatMsgCreateTable];
 }
 
 -(void)questionSendBtn:(id)sender{
@@ -208,10 +214,15 @@
 }
 
 
+
 -(void)backToPreviousView:(id)sender{
     [cc closeConnection];
+    
+    
+    
+    
+    
     [cmModel.messages removeAllObjects];
-    [cmModel.msgTimer invalidate];
     self.chatTV.delegate = nil;
     self.chatTV.dataSource = nil;
     
@@ -226,6 +237,8 @@
 - (void)reloadTableViewDataSource{
 	reloading = YES;
 	
+    [[ChatStorageService sharedInstance] doChatMsgQueryExecution:nil firstQuery:NO];
+    
     [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
 }
 
@@ -384,7 +397,5 @@
     self.chatTV.frame = CGRectMake(0, 0, chatTV.frame.size.width,
                                    self.contentView.bounds.size.height-dialogueBgView.bounds.size.height);
 }
-
-
 
 @end

@@ -7,13 +7,13 @@
 //
 
 #import "ChatMessageModel.h"
+#import "ChatStorageService.h"
 
 @implementation ChatMessageModel
 
-@synthesize messages, msgTimer;
+@synthesize messages;
 
 -(void)dealloc{
-    [msgTimer release];
     [messages release];
     [super dealloc];
 }
@@ -22,22 +22,12 @@
     self = [super init];
     if (self) {
         messages = [[NSMutableArray alloc] init];
-        
-        msgTimer = [[NSTimer alloc] initWithFireDate:[NSDate distantFuture]
-                                                 interval:3.0
-                                                   target:self
-                                                 selector:@selector(saveMsgToDBEvent:)
-                                                 userInfo:nil
-                                                  repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:msgTimer forMode:NSDefaultRunLoopMode];
     }
     return self;
 }
 
-
-//保存消息到数据库，间隔3秒
--(void)saveMsgToDBEvent:(NSTimer *)timer{
-    
+-(void)saveChatMsgToDB{
+    [[ChatStorageService sharedInstance] doChatMsgBatchSaveExecution:self.messages];
 }
 
 //加载历史聊天记录

@@ -34,6 +34,8 @@
 
 //建立WebSocket连接
 -(void)setUpWebSocketEnvironment;
+//建立ChatMsg数据表
+-(void)setUpChatMsgDBEnvironment;
 
 //插入消息
 -(void)insertMsgToChatTV:(ChatMessage *)cm;
