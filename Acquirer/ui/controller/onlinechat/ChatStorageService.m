@@ -10,16 +10,17 @@
 #import "CPSqlQuery.h"
 #import "ChatMessage.h"
 #import "Acquirer.h"
+#import "Helper.h"
+#import "ChatViewController.h"
 
 static ChatStorageService *sInstance = nil;
 
 @implementation ChatStorageService
 
-@synthesize lastStepResult, tableNameSTR;
+@synthesize cvCTRL;
 
 -(void)dealloc{
     [ChatStorageService tearDownChatStorageDateBase];
-    [tableNameSTR release];
     
     [super dealloc];
 }
@@ -71,7 +72,8 @@ static ChatStorageService *sInstance = nil;
     
     NSString *createCMTableSQL = [NSString stringWithFormat:createCMTableSQLFormat, [self.class chatMsgTableName]];
     
-    [[CPSqlQuery queryWithDb:chatMessageDBHandle query:createCMTableSQL] execute];
+    CPSqlQuery *createQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:createCMTableSQL];
+    [createQuery execute];
 }
 
 -(void)doChatMsgBatchSaveExecution:(NSMutableArray *)messages{
@@ -85,7 +87,7 @@ static ChatStorageService *sInstance = nil;
     sqlite3_exec(chatMessageDBHandle, "BEGIN TRANSACTION", nil, nil, nil);
     
     for (ChatMessage *cm in messages) {
-        if (cm.msgTag==MessageTagIM && cm.saved==NO) {
+        if (cm.saved==NO) {
             NSString *dateSTR = [formatter stringFromDate:cm.date];
             
             [cmSaveQuery bind:@"msg" value:cm.messageSTR];
@@ -111,30 +113,130 @@ static ChatStorageService *sInstance = nil;
     sqlite3_exec(chatMessageDBHandle, "COMMIT TRANSACTION", nil, nil, nil);
 }
 
+//取第一条有msgId的ChatMessage
+-(NSString *)msgIdForFirstRecord:(NSMutableArray *)messages{
+    NSString *msgId = nil;
+
+    for (ChatMessage *cm in messages) {
+        if (![Helper stringNullOrEmpty:cm.msgIdSTR]) {
+            msgId = [[cm.msgIdSTR copy] autorelease];
+            break;
+        }
+    }
+    
+    if ([Helper stringNullOrEmpty:msgId]) {
+        NSLog(@"No msgId found in messages, encounter error");
+    }
+    
+    return msgId;
+}
+
+//获取总记录数
+-(int)countAllRecordChatMsg:(NSMutableArray *)messages firstQuery:(BOOL)isFirst{
+    int recordCount = 0;
+    
+    NSString *countAllSQL = nil;
+    //第一次进入获取总条数
+    //根据总条数做OFFSET计算
+    if (isFirst == TRUE) {
+        NSString *countAllSQLFormat = @"SELECT count(*) as 'count' FROM %@";
+        countAllSQL = [NSString stringWithFormat:countAllSQLFormat, [self.class chatMsgTableName]];
+    }
+    //不是第一次刷新获取100条数据
+    //检查是否有新数据
+    else{
+        NSString *msgIdSTR = [self msgIdForFirstRecord:messages];
+        
+        if ([Helper stringNullOrEmpty:msgIdSTR]) {
+            return recordCount;
+        }
+        
+        NSString *countAllSQLFormat = @"SELECT count(*) as 'count' FROM %@ WHERE id<%@";
+        countAllSQL = [NSString stringWithFormat:countAllSQLFormat, [self.class chatMsgTableName], msgIdSTR];
+    }
+    
+    CPSqlQuery *chatMsgCountQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:countAllSQL];
+    [chatMsgCountQuery execute];
+    
+    if (chatMsgCountQuery.lastStepResult == SQLITE_ROW) {
+        recordCount = [chatMsgCountQuery intValue:@"count"];
+        NSLog(@"count in table:%d", recordCount);
+    }
+    [chatMsgCountQuery reset];
+    
+    return recordCount;
+}
+
+
 //加载历史数据
 -(void)doChatMsgQueryExecution:(NSMutableArray *)messages firstQuery:(BOOL)isFirst{
-    int queryLimit = isFirst ? 3 : 100;
     
-    //取最新的数据
-    for (ChatMessage *cm in messages) {
+    //检查是否有记录
+    int totalRecordCount = [self countAllRecordChatMsg:messages firstQuery:isFirst];
+    
+    //无历史记录
+    if (totalRecordCount <= 0) {
+        //通知下拉刷新无记录
+        [cvCTRL doneLoadingDBChatMsgData:@""];
         
+        return;
     }
     
-    int count = 0;
-    NSString *countAllSQLFormat = @"SELECT count(*) as 'count' FROM %@";
-    NSString *countAllSQL = [NSString stringWithFormat:countAllSQLFormat, [self.class chatMsgTableName]];
+    int queryLimit = isFirst ? 3 : 100;
+    NSString *selectSQL = nil;
     
-    CPSqlQuery *cpCountQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:countAllSQL];
-    [cpCountQuery execute];
-    if (cpCountQuery.lastStepResult == SQLITE_ROW) {
-        count = [cpCountQuery intValue:@"count"];
-        NSLog(@"count in table:%d", count);
+    //第一次刷新取最后3条数据
+    if (isFirst == TRUE) {
+        NSString *selectSQLFormat = @"SELECT * FROM %@ ORDER BY id DESC LIMIT %d";
+        selectSQL = [NSString stringWithFormat:selectSQLFormat, [self.class chatMsgTableName], queryLimit];
+    }
+    //刷新前100条数据
+    else{
+        NSString *msgId = [self msgIdForFirstRecord:messages];
+        
+        //msgId一定不为空，第一次会加载3条数据，如果没有数据，程序出错
+        if ([Helper stringNullOrEmpty:msgId]) {
+            return;
+        }
+        
+        NSString *selectSQLFormat = @"SELECT * FROM %@ WHERE id<%@ ORDER BY id DESC LIMIT %d";
+        selectSQL = [NSString stringWithFormat:selectSQLFormat, [self.class chatMsgTableName], msgId, queryLimit];
     }
     
+    //do insertion messages operation
+    //从头插入到messages
+ 
     NSDateFormatter *formatter = [self.class chatMsgGeneralDBDateFormatter];
+ 
+    CPSqlQuery *chatMsgQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:selectSQL];
     
+    [chatMsgQuery execute];
     
+    while (chatMsgQuery.lastStepResult == SQLITE_ROW) {
+        ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
+        cm.msgIdSTR = [NSString stringWithFormat:@"%d", [chatMsgQuery intValue:@"id"]];
+        cm.messageSTR = [chatMsgQuery stringValue:@"msg"];
+        cm.msgTag = [[chatMsgQuery stringValue:@"msg_tag"] intValue];
+        cm.sentBy = [[chatMsgQuery stringValue:@"sent_by"] intValue];
+        cm.sentState = [[chatMsgQuery stringValue:@"sent_state"] intValue];
+        //去除发送等待状态
+        if (cm.sentState == MessageSentStatePending) {
+            cm.sentState = MessageSentStateFailure;
+        }
+        cm.date = [formatter dateFromString:[chatMsgQuery stringValue:@"date"]];
+        cm.saved = YES;
+        
+        NSLog(@"%@", cm);
+        
+        //从头插入消息
+        [messages insertObject:cm atIndex:0];
+        
+        [chatMsgQuery execute];
+    }
     
+    if (isFirst == NO) {
+        [cvCTRL performSelectorOnMainThread:@selector(doneLoadingDBChatMsgData:) withObject:@"" waitUntilDone:NO];
+    }
 }
 
 

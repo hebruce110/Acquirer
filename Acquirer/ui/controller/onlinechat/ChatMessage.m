@@ -31,6 +31,8 @@
         
         sentBy = MessageSentByCS;
         
+        saved = NO;
+        
         /*
         static int i=0;
         if (i%2 == 0) {
@@ -44,5 +46,8 @@
     return self;
 }
 
+-(NSString *)description{
+    return [NSString stringWithFormat:@"msgId:%@, msg:%@, sentBy:%d, sentState:%d, msgTag:%d, saved:%d, date:%@", msgIdSTR, messageSTR, sentBy, sentState, msgTag, saved, date];
+}
 
 @end

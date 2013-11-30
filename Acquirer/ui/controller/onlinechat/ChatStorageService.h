@@ -9,15 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
+@class ChatViewController;
+
 @interface ChatStorageService : NSObject{
     struct sqlite3* chatMessageDBHandle;
-    NSString *tableNameSTR;
     
-    int lastStepResult;
+    ChatViewController *cvCTRL;
 }
 
 @property (nonatomic, assign) int lastStepResult;
-@property (nonatomic, copy) NSString *tableNameSTR;
+@property (nonatomic, assign) ChatViewController *cvCTRL;
 
 +(NSDateFormatter *)chatMsgGeneralDBDateFormatter;
 +(ChatStorageService *)sharedInstance;

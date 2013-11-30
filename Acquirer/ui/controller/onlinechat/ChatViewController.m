@@ -45,6 +45,8 @@
         
         cc = [[ChatCommService alloc] init];
         cc.delegateCTRL = self;
+        
+        [ChatStorageService sharedInstance].cvCTRL = self;
     }
     return self;
 }
@@ -119,6 +121,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [self setUpChatMsgDBEnvironment];
+    [[ChatStorageService sharedInstance] doChatMsgQueryExecution:cmModel.messages firstQuery:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -140,7 +145,6 @@
                                                object:nil];
     
     [self setUpWebSocketEnvironment];
-    [self setUpChatMsgDBEnvironment];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -168,6 +172,9 @@
     if ([Helper stringNullOrEmpty:dialogueTextField.text]) {
         return;
     }
+    
+    //插入时间戳
+    
     
     NSString *inputSTR = [[dialogueTextField.text copy] autorelease];
     dialogueTextField.text = @"";
@@ -219,14 +226,13 @@
     [cc closeConnection];
     
     
-    
+    //保存聊天数据
+
     
     
     [cmModel.messages removeAllObjects];
     self.chatTV.delegate = nil;
     self.chatTV.dataSource = nil;
-    
-    //保存最后的数据
     
     [super backToPreviousView:sender];
 }
@@ -237,18 +243,65 @@
 - (void)reloadTableViewDataSource{
 	reloading = YES;
 	
-    [[ChatStorageService sharedInstance] doChatMsgQueryExecution:nil firstQuery:NO];
+    cmRef = [cmModel.messages objectAtIndex:0];
     
-    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    [self performSelectorInBackground:@selector(performDataLoadingAtBackgroundThread) withObject:nil];
+}
+
+-(void)performDataLoadingAtBackgroundThread{
+    [[ChatStorageService sharedInstance] doChatMsgQueryExecution:cmModel.messages firstQuery:NO];
+}
+
+-(void)doneLoadingDBChatMsgData:(NSString *)noticeSTR{
+    //修改下拉刷新loading为提示
+    
+    /*
+    int index = [cmModel.messages indexOfObject:cmRef];
+    if (index > 0) {
+        NSMutableArray *IPList = [[[NSMutableArray alloc] init] autorelease];
+        
+        for (int i=0; i<index; i++) {
+            NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];
+            [IPList addObject:ip];
+        }
+        
+        
+        //[self.chatTV insertRowsAtIndexPaths:IPList withRowAnimation:UITableViewRowAnimationNone];
+    }
+    */
+    
+    
+    [self performSelector:@selector(performSelector) withObject:nil afterDelay:1.0];
+    
+    
+    
+    [self doneLoadingTableViewData];
+}
+
+-(void)performSelector{
+    NSIndexPath *oldIndexPath = self.chatTV.indexPathsForVisibleRows[0];
+    CGRect before = [self.chatTV rectForRowAtIndexPath:oldIndexPath];
+    CGPoint contentOffset = [self.chatTV contentOffset];
+    [self.chatTV reloadData];
+    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:oldIndexPath.row inSection:oldIndexPath.section];
+    CGRect after = [self.chatTV rectForRowAtIndexPath:newIndexPath];
+    contentOffset.y += (after.origin.y - before.origin.y);
+    self.chatTV.contentOffset = contentOffset;
 }
 
 - (void)doneLoadingTableViewData{
 	
-	//  model should call this when its done loading
+	//model should call this when its done loading
 	reloading = NO;
+    
 	[refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.chatTV];
+    
+    
+    /*
+    [self.chatTV scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[cmModel.messages indexOfObject:cmRef] inSection:0]
+                       atScrollPosition:UITableViewScrollPositionTop animated:NO];
+     */
 }
-
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods

@@ -23,6 +23,7 @@
     ChatMessageModel *cmModel;
     
     BOOL reloading;
+    ChatMessage *cmRef;
 }
 
 @property (nonatomic, retain) UITableView *chatTV;
@@ -45,5 +46,8 @@
 
 //刷新消息的状态
 -(void)refreshMsgState:(ChatMessage *)cm;
+
+//完成从数据库的数据加载
+-(void)doneLoadingDBChatMsgData:(NSString *)noticeSTR;
 
 @end
