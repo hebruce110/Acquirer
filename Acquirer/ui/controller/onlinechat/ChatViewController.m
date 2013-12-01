@@ -225,7 +225,6 @@
 -(void)backToPreviousView:(id)sender{
     [cc closeConnection];
     
-    
     //保存聊天数据
 
     
@@ -255,38 +254,16 @@
 -(void)doneLoadingDBChatMsgData:(NSString *)noticeSTR{
     //修改下拉刷新loading为提示
     
-    /*
+    
     int index = [cmModel.messages indexOfObject:cmRef];
-    if (index > 0) {
-        NSMutableArray *IPList = [[[NSMutableArray alloc] init] autorelease];
-        
-        for (int i=0; i<index; i++) {
-            NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];
-            [IPList addObject:ip];
-        }
-        
-        
-        //[self.chatTV insertRowsAtIndexPaths:IPList withRowAnimation:UITableViewRowAnimationNone];
-    }
-    */
     
+    [self.chatTV reloadData];
     
-    [self performSelector:@selector(performSelector) withObject:nil afterDelay:1.0];
-    
-    
+    [self.chatTV scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]
+                       atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
     
     [self doneLoadingTableViewData];
-}
-
--(void)performSelector{
-    NSIndexPath *oldIndexPath = self.chatTV.indexPathsForVisibleRows[0];
-    CGRect before = [self.chatTV rectForRowAtIndexPath:oldIndexPath];
-    CGPoint contentOffset = [self.chatTV contentOffset];
-    [self.chatTV reloadData];
-    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:oldIndexPath.row inSection:oldIndexPath.section];
-    CGRect after = [self.chatTV rectForRowAtIndexPath:newIndexPath];
-    contentOffset.y += (after.origin.y - before.origin.y);
-    self.chatTV.contentOffset = contentOffset;
 }
 
 - (void)doneLoadingTableViewData{
@@ -295,12 +272,6 @@
 	reloading = NO;
     
 	[refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.chatTV];
-    
-    
-    /*
-    [self.chatTV scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[cmModel.messages indexOfObject:cmRef] inSection:0]
-                       atScrollPosition:UITableViewScrollPositionTop animated:NO];
-     */
 }
 
 #pragma mark -

@@ -177,6 +177,7 @@ static ChatStorageService *sInstance = nil;
     //无历史记录
     if (totalRecordCount <= 0) {
         //通知下拉刷新无记录
+        [NSThread sleepForTimeInterval:1.0];
         [cvCTRL doneLoadingDBChatMsgData:@""];
         
         return;
@@ -235,6 +236,7 @@ static ChatStorageService *sInstance = nil;
     }
     
     if (isFirst == NO) {
+        [NSThread sleepForTimeInterval:1.0];
         [cvCTRL performSelectorOnMainThread:@selector(doneLoadingDBChatMsgData:) withObject:@"" waitUntilDone:NO];
     }
 }
