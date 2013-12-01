@@ -41,6 +41,9 @@
 //插入消息
 -(void)insertMsgToChatTV:(ChatMessage *)cm;
 
+//插入消息列表
+-(void)insertMsgListToChatTV:(NSArray *)msgList;
+
 //收到客服JSON格式的回复消息
 -(void)replyFromCS:(NSDictionary *)dict;
 

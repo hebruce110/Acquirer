@@ -173,21 +173,48 @@
         return;
     }
     
+    NSMutableArray *msgList = [[[NSMutableArray alloc] init] autorelease];
+    
     //插入时间戳
+    BOOL needTimestamp = NO;
+    
+    for (int i=cmModel.messages.count-1; i>=0; i--) {
+        ChatMessage *cm = [cmModel.messages objectAtIndex:i];
+        if (cm.msgTag == MessageTagTime) {
+            NSDate *curDate = [NSDate date];
+            NSTimeInterval time = [curDate timeIntervalSinceDate:cm.date];
+            //5分钟
+            if (time > 5 * 60) {
+                needTimestamp = YES;
+            }
+            break;
+        }
+    }
+    
+    if (needTimestamp) {
+        
+        ChatMessage *timeCM = [[[ChatMessage alloc] init] autorelease];
+        timeCM.msgTag = MessageTagTime;
+        timeCM.date = [NSDate date];
+        
+        [msgList addObject:timeCM];
+    }
     
     
     NSString *inputSTR = [[dialogueTextField.text copy] autorelease];
     dialogueTextField.text = @"";
     
-    ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
-    cm.messageSTR = inputSTR;
-    cm.date = [NSDate date];
-    cm.sentBy = MessageSentByUser;
-    cm.sentState = MessageSentStatePending;
-    cm.msgTag = MessageTagIM;
+    ChatMessage *msgCM = [[[ChatMessage alloc] init] autorelease];
+    msgCM.messageSTR = inputSTR;
+    msgCM.date = [NSDate date];
+    msgCM.sentBy = MessageSentByUser;
+    msgCM.sentState = MessageSentStatePending;
+    msgCM.msgTag = MessageTagIM;
     
-    [self insertMsgToChatTV:cm];
-    [cc sendMessage:cm];
+    [msgList addObject:msgCM];
+    [self insertMsgListToChatTV:msgList];
+    
+    [cc sendMessage:msgCM];
 }
 
 //收到客服JSON格式的回复消息
@@ -210,6 +237,19 @@
     [self scrollToNewestMessage];
 }
 
+//插入消息
+-(void)insertMsgListToChatTV:(NSArray *)msgList{
+    NSMutableArray *ipList = [[[NSMutableArray alloc] init] autorelease];
+    
+    for (ChatMessage *cm in msgList) {
+        int index = [cmModel addMessage:cm];
+        [ipList addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    
+    [self.chatTV insertRowsAtIndexPaths:ipList withRowAnimation:UITableViewRowAnimationFade];
+    [self scrollToNewestMessage];
+}
+
 //刷新消息的状态
 -(void)refreshMsgState:(ChatMessage *)cm{
     int index = [cmModel.messages indexOfObject:cm];
@@ -224,9 +264,9 @@
 
 -(void)backToPreviousView:(id)sender{
     [cc closeConnection];
-    
-    //保存聊天数据
 
+    //保存聊天数据
+    [[ChatStorageService sharedInstance] doChatMsgBatchSaveExecution:cmModel.messages];
     
     
     [cmModel.messages removeAllObjects];

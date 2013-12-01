@@ -167,6 +167,7 @@ static ChatStorageService *sInstance = nil;
     return recordCount;
 }
 
+#define TIMEINTERNAL_TO_SLEEP 0.5
 
 //加载历史数据
 -(void)doChatMsgQueryExecution:(NSMutableArray *)messages firstQuery:(BOOL)isFirst{
@@ -177,8 +178,8 @@ static ChatStorageService *sInstance = nil;
     //无历史记录
     if (totalRecordCount <= 0) {
         //通知下拉刷新无记录
-        [NSThread sleepForTimeInterval:1.0];
-        [cvCTRL doneLoadingDBChatMsgData:@""];
+        [NSThread sleepForTimeInterval:TIMEINTERNAL_TO_SLEEP];
+        [cvCTRL doneLoadingDBChatMsgData:@"无历史数据"];
         
         return;
     }
@@ -236,7 +237,7 @@ static ChatStorageService *sInstance = nil;
     }
     
     if (isFirst == NO) {
-        [NSThread sleepForTimeInterval:1.0];
+        [NSThread sleepForTimeInterval:TIMEINTERNAL_TO_SLEEP];
         [cvCTRL performSelectorOnMainThread:@selector(doneLoadingDBChatMsgData:) withObject:@"" waitUntilDone:NO];
     }
 }
