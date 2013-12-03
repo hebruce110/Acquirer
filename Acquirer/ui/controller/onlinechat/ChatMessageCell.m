@@ -11,7 +11,7 @@
 
 @implementation ChatMessageCell
 
-@synthesize cm;
+@synthesize cm, msgStateTimer;
 
 -(void)dealloc{
     [bubbleView release];
@@ -19,6 +19,7 @@
     [csHeadView release];
     [cm release];
 
+    self.msgStateTimer = nil;
     [super dealloc];
 }
 
@@ -93,6 +94,8 @@
     }
 }
 
+#define CHAT_MSG_TIME_OUT 15
+
 - (void)setMessage:(ChatMessage*)message{
     self.cm = message;
     
@@ -112,6 +115,21 @@
     rect.size = message.bubbleSize;
     bubbleView.frame = rect;
     [bubbleView setText:message.messageSTR bubbleType:bubbleType];
+    
+    if (cm.sentBy == MessageSentByUser) {
+        self.msgStateTimer = [NSTimer scheduledTimerWithTimeInterval:CHAT_MSG_TIME_OUT
+                                                              target:self
+                                                            selector:@selector(chatMsgSentFailure)
+                                                            userInfo:nil
+                                                             repeats:NO];
+    }
+}
+
+-(void)chatMsgSentFailure{
+    if (cm.sentState == MessageSentStatePending) {
+        cm.sentState = MessageSentStateFailure;
+        [self setNeedsLayout];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

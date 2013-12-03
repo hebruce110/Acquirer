@@ -15,12 +15,6 @@
 
 @property (nonatomic, readonly) NSMutableArray *messages;
 
-//加载历史聊天记录
--(void)loadMessages;
-
-//保存聊天记录
--(void)saveMessages;
-
 //添加聊天记录
 -(int)addMessage:(ChatMessage *)chatMsg;
 

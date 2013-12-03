@@ -50,6 +50,9 @@
 //刷新消息的状态
 -(void)refreshMsgState:(ChatMessage *)cm;
 
+//刷新最近几个消息的发送状态
+-(void)refreshLatestMsgState:(MessageSentState)state;
+
 //完成从数据库的数据加载
 -(void)doneLoadingDBChatMsgData:(NSString *)noticeSTR;
 

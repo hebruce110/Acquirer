@@ -15,6 +15,7 @@
 #import "ChatViewController.h"
 
 #define WEBSOCKET_URL @"ws://192.168.29.21:8088/chat/wsChat/aa-bb-cc2"
+//#define WEBSOCKET_URL @"ws://service.chinapnr.com:8088/chat/wsChat/aa-bb-cc2"
 
 @implementation ChatCommService
 
@@ -60,7 +61,7 @@
 }
 
 -(void)joinQuestionId:(ChatMessage *)cm{
-    //如果输入＃返回上级菜单
+    //如果输入#返回上级菜单
     if ([cm.messageSTR isEqualToString:@"#"]) {
         
         NSRange range = [questionIdJoinSTR rangeOfString:@"," options:NSBackwardsSearch];
@@ -129,8 +130,12 @@
     //回顶层菜单，设置菜单为空
     if (NotNilAndEqualsTo(msgDict, @"question", @"0")) {
         [questionIdJoinSTR setString:@""];
-    }else{
+    }else if(NotNil(msgDict, @"question")){
         [questionIdJoinSTR setString:[msgDict objectForKey:@"question"]];
+    }
+    
+    if (NotNil(msgDict, @"error")) {
+        [[NSNotificationCenter defaultCenter] postAutoUIPromptNotification:[msgDict objectForKey:@"message"]];
     }
 }
 
@@ -139,9 +144,11 @@
     
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
+    [delegateCTRL refreshLatestMsgState:MessageSentStateFailure];
+    
     //Operation timed out
     if ([error code] == 60) {
-        [self refreshMsgState:MessageSentStateFailure];
+        
         return;
     }
     

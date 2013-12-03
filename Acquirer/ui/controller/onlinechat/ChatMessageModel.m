@@ -26,26 +26,9 @@
     return self;
 }
 
--(void)saveChatMsgToDB{
-    [[ChatStorageService sharedInstance] doChatMsgBatchSaveExecution:self.messages];
-}
-
-//加载历史聊天记录
--(void)loadMessages{
-    [messages removeAllObjects];
-    
-    
-}
-
-//保存聊天记录
--(void)saveMessages{
-    
-}
-
 //添加聊天记录
 -(int)addMessage:(ChatMessage *)chatMsg{
     [self.messages addObject:chatMsg];
-    [self saveMessages];
     
     return self.messages.count-1;
 }

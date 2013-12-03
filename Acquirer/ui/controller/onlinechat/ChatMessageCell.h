@@ -19,9 +19,13 @@
     UIImageView *csHeadView;
     
     UIActivityIndicatorView *loadingIndicator;
+    
+    //设置聊天状态
+    NSTimer *msgStateTimer;
 }
 
 @property (nonatomic, retain) ChatMessage *cm;
+@property (nonatomic, retain) NSTimer *msgStateTimer;
 
 - (void)setMessage:(ChatMessage*)message;
 

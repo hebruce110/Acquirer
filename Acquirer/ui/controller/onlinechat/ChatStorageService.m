@@ -13,6 +13,14 @@
 #import "Helper.h"
 #import "ChatViewController.h"
 
+#define TIMEINTERNAL_TO_SLEEP 0.5
+//第一次取3条数据
+#define SQLITE_FIRST_QUERY_COUNT 3
+//每次取100条数据
+#define SQLITE_EACH_QUERY_COUNT 100
+//最多存储300条数据
+#define SQLITE_MAX_STORE_COUNT 300
+
 static ChatStorageService *sInstance = nil;
 
 @implementation ChatStorageService
@@ -111,6 +119,31 @@ static ChatStorageService *sInstance = nil;
     }
     
     sqlite3_exec(chatMessageDBHandle, "COMMIT TRANSACTION", nil, nil, nil);
+    
+
+    //select count(*) from chat_msg_table;
+    int totalCount = [self countAllRecordChatMsg:nil firstQuery:YES];
+    if (totalCount > SQLITE_MAX_STORE_COUNT) {
+        NSString *selectSQLFormat = @"SELECT * FROM %@ ORDER BY id DESC LIMIT 1 OFFSET %d";
+        NSString *selectSQL = [NSString stringWithFormat:selectSQLFormat, [self.class chatMsgTableName], SQLITE_MAX_STORE_COUNT];
+        CPSqlQuery *msgEdgesQuery = [CPSqlQuery queryWithDb:chatMessageDBHandle query:selectSQL];
+        [msgEdgesQuery execute];
+        
+        int edgesId = 0;
+        if (msgEdgesQuery.lastStepResult == SQLITE_ROW) {
+            edgesId = [msgEdgesQuery intValue:@"id"];
+            NSLog(@"edgesId:%d", edgesId);
+        }
+        
+        if (edgesId > 0) {
+            NSString *purgeTableSQLFormat = @"DELETE FROM %@ WHERE id<%d";
+            
+            NSString *purgeTableSQL = [NSString stringWithFormat:purgeTableSQLFormat, [self.class chatMsgTableName], edgesId];
+            
+            [[CPSqlQuery queryWithDb:chatMessageDBHandle query:purgeTableSQL] executeWithAssert:YES];
+        }
+    }
+    
 }
 
 //取第一条有msgId的ChatMessage
@@ -167,8 +200,6 @@ static ChatStorageService *sInstance = nil;
     return recordCount;
 }
 
-#define TIMEINTERNAL_TO_SLEEP 0.5
-
 //加载历史数据
 -(void)doChatMsgQueryExecution:(NSMutableArray *)messages firstQuery:(BOOL)isFirst{
     
@@ -184,7 +215,7 @@ static ChatStorageService *sInstance = nil;
         return;
     }
     
-    int queryLimit = isFirst ? 3 : 100;
+    int queryLimit = isFirst ? SQLITE_FIRST_QUERY_COUNT : SQLITE_EACH_QUERY_COUNT;
     NSString *selectSQL = nil;
     
     //第一次刷新取最后3条数据

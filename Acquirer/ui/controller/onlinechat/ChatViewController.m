@@ -41,7 +41,6 @@
         isShowTabBar = NO;
         
         cmModel = [[ChatMessageModel alloc] init];
-        [cmModel loadMessages];
         
         cc = [[ChatCommService alloc] init];
         cc.delegateCTRL = self;
@@ -219,13 +218,15 @@
 
 //收到客服JSON格式的回复消息
 -(void)replyFromCS:(NSDictionary *)dict{
-    ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
-    cm.messageSTR = [dict objectForKey:@"answer"];
-    cm.date = [NSDate date];
-    cm.sentBy = MessageSentByCS;
-    cm.msgTag = MessageTagIM;
-    
-    [self insertMsgToChatTV:cm];
+    if (NotNil(dict, @"answer")) {
+        ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
+        cm.messageSTR = [dict objectForKey:@"answer"];
+        cm.date = [NSDate date];
+        cm.sentBy = MessageSentByCS;
+        cm.msgTag = MessageTagIM;
+        
+        [self insertMsgToChatTV:cm];
+    }
 }
 
 //插入消息
@@ -260,14 +261,30 @@
     }
 }
 
-
+//刷新最近几个消息的发送状态
+-(void)refreshLatestMsgState:(MessageSentState)state{
+    NSMutableArray *ipList = [[[NSMutableArray alloc] init] autorelease];
+    for (int i=cmModel.messages.count-1; i>=0; i--) {
+        ChatMessage *cm = [cmModel.messages objectAtIndex:i];
+        if (cm.sentBy == MessageSentByCS) {
+            break;
+        }else if (cm.sentBy == MessageSentByUser){
+            cm.sentState = state;
+            [ipList addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        }
+    }
+    
+    for (NSIndexPath *ip in ipList) {
+        UITableViewCell *cell = [self.chatTV cellForRowAtIndexPath:ip];
+        [cell setNeedsLayout];
+    }
+}
 
 -(void)backToPreviousView:(id)sender{
     [cc closeConnection];
 
     //保存聊天数据
     [[ChatStorageService sharedInstance] doChatMsgBatchSaveExecution:cmModel.messages];
-    
     
     [cmModel.messages removeAllObjects];
     self.chatTV.delegate = nil;
@@ -302,7 +319,6 @@
     [self.chatTV scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]
                        atScrollPosition:UITableViewScrollPositionTop animated:NO];
 
-    
     [self doneLoadingTableViewData];
 }
 
@@ -399,7 +415,7 @@
         }
         
         timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [timeCell formatDateTime:cm.date];
+        [timeCell formatDateTime:cm.date]; 
         
         cell = timeCell;
     }
