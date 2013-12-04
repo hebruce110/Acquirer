@@ -53,7 +53,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self setNavigationTitle:@"客服在线"];
+	[self setNavigationTitle:@"在线客服"];
     
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeight = self.contentView.bounds.size.height;

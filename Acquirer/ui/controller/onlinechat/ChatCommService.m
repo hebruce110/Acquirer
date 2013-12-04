@@ -14,8 +14,8 @@
 #import "ChatMessage.h"
 #import "ChatViewController.h"
 
-#define WEBSOCKET_URL @"ws://192.168.29.21:8088/chat/wsChat/aa-bb-cc2"
-//#define WEBSOCKET_URL @"ws://service.chinapnr.com:8088/chat/wsChat/aa-bb-cc2"
+//#define WEBSOCKET_URL @"ws://192.168.29.21:8088/chat/wsChat/%@"
+#define WEBSOCKET_URL @"ws://service.chinapnr.com/chat/wsChat/%@"
 
 @implementation ChatCommService
 
@@ -42,9 +42,19 @@
     return self;
 }
 
++(NSString *)customerServiceChatId{
+    Acquirer *ac = [Acquirer sharedInstance];
+    
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970] * 1000;
+    
+    NSString *chatIdSTR = [NSString stringWithFormat:@"%@-%@-%@-%lf", ac.currentUser.instSTR, ac.currentUser.opratorSTR, [Helper getValueByKey:ACQUIRER_LOCAL_SESSION_KEY], timestamp];
+    
+    return chatIdSTR;
+}
+
 -(void)setUpWebSocket{
     if (self.webSocket == nil) {
-        NSURL *url = [NSURL URLWithString:WEBSOCKET_URL];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:WEBSOCKET_URL, [self.class customerServiceChatId]]];
         NSURLRequest *req = [NSURLRequest requestWithURL:url];
         
         self.webSocket = [[[SRWebSocket alloc] initWithURLRequest:req] autorelease];
