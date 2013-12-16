@@ -26,6 +26,7 @@
 -(id)init{
     self = [super init];
     if (self) {
+        self.isNeedRefresh = YES;
         tradeDList = [[NSMutableArray alloc] init];
     }
     return self;
@@ -75,8 +76,12 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
     [[AcquirerService sharedInstance].detailService onRespondTarget:self];
     [[AcquirerService sharedInstance].detailService requestForTradeDetailInfo:orderIdSTR];
+    }
 }
 
 -(void)processDetailData:(NSDictionary *)body
@@ -88,6 +93,15 @@
     NSDate *tradeDate = [formatter dateFromString:tradeTime];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     
+    NSString *remarkString = nil;
+    if (NotNil(body, @"remarks") && ![[body objectForKey:@"remarks"] isEqualToString:@"<null>"]) {
+        remarkString = [[Acquirer sharedInstance] codeCSVDesc:[body objectForKey:@"remarks"]];
+    }
+    else
+    {
+        remarkString = @"详细原因请联系当地服务商";
+    }
+    
     NSArray *sectionOne = [tradeDList objectAtIndex:0];
     ((PlainCellContent *)[sectionOne objectAtIndex:0]).textSTR = [body objectForKey:@"cardNo"];
     ((PlainCellContent *)[sectionOne objectAtIndex:1]).textSTR = [body objectForKey:@"pnrDevId"];
@@ -96,7 +110,7 @@
     ((PlainCellContent *)[sectionOne objectAtIndex:4]).textSTR = [NSString stringWithFormat:@"%@元", [body objectForKey:@"amt"]];
     ((PlainCellContent *)[sectionOne objectAtIndex:5]).textSTR = [[Acquirer sharedInstance] tradeTypeDesc:[body objectForKey:@"transType"]];
     ((PlainCellContent *)[sectionOne objectAtIndex:6]).textSTR = [[Acquirer sharedInstance] tradeStatDesc:[body objectForKey:@"transStat"]];
-    ((PlainCellContent *)[sectionOne objectAtIndex:7]).textSTR = [[Acquirer sharedInstance] codeCSVDesc:[body objectForKey:@"remarks"]];
+    ((PlainCellContent *)[sectionOne objectAtIndex:7]).textSTR = remarkString;
     
     NSArray *sectionTwo = [tradeDList objectAtIndex:1];
     ((PlainCellContent *)[sectionTwo objectAtIndex:0]).textSTR = [body objectForKey:@"batchId"];
@@ -106,6 +120,5 @@
     
     [self.tradeInfoTV reloadData];
 }
-
 
 @end

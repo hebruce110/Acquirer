@@ -12,8 +12,7 @@
 
 - (id)safeObjectAtIndex:(NSUInteger)index
 {
-    if(index > self.count - 1)
-    {
+    if(index > MAX(self.count - 1, 0)) {
         NSLog(@"-- array objectAtIndex:out of array range ---");
         return (nil);
     }
@@ -29,8 +28,7 @@
 
 - (void)safeAddObject:(id)anObject
 {
-    if(!anObject)
-    {
+    if(!anObject) {
         NSLog(@"--- addObject:object must not nil ---");
         return;
     }
@@ -39,14 +37,12 @@
 
 - (void)safeInsertObject:(id)anObject atIndex:(NSUInteger)index
 {
-    if(index > self.count - 1)
-    {
+    if(index > MAX(self.count - 1, 0)) {
         NSLog(@"--- insertObject:atIndex:out of array range ---");
         return;
     }
     
-    if(!anObject)
-    {
+    if(!anObject) {
         NSLog(@"--- insertObject:atIndex:object must not nil ---");
         return;
     }
@@ -55,8 +51,7 @@
 
 - (void)safeRemoveObjectAtIndex:(NSUInteger)index
 {
-    if(index > self.count - 1)
-    {
+    if(index > MAX(self.count - 1, 0)) {
         NSLog(@"--- removeObjectAtIndex:out of array range ---");
         return;
     }
@@ -66,14 +61,12 @@
 
 - (void)safeReplaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject
 {
-    if(index > self.count - 1)
-    {
+    if(index > MAX(self.count - 1, 0)) {
         NSLog(@"--- replaceObjectAtIndex:atIndex:out of array range ---");
         return;
     }
     
-    if(!anObject)
-    {
+    if(!anObject) {
         NSLog(@"--- replaceObjectAtIndex:atIndex:object must not nil ---");
         return;
     }
@@ -87,12 +80,12 @@
 
 @implementation NSDictionary(SafeObject)
 
-- (id)safeObjectForKey:(id)key
+- (id)stringObjectForKey:(id <NSCopying>)key
 {
     return (checkNull([self objectForKey:key]));
 }
 
-- (id)safeJsonObjForKey:(id)key
+- (id)safeJsonObjForKey:(id <NSCopying>)key
 {
     return (([self objectForKey:key] == [NSNull null]) ? (nil) : ([self objectForKey:key]));
 }
@@ -104,16 +97,13 @@
 
 - (void)safeSetObject:(id)anObject forKey:(id <NSCopying>)aKey
 {
-    if(!aKey)
-    {
+    if(!aKey) {
         NSLog(@"--- setObject:forKey: key must not nil");
     }
-    else if(!anObject)
-    {
+    else if(!anObject) {
         NSLog(@"--- setObject:forKey: object must not nil");
     }
-    else
-    {
+    else {
         [self setObject:anObject forKey:aKey];
     }
 }

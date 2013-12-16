@@ -20,11 +20,8 @@
 
 - (void)dealloc
 {
-    [_tableView release];
-    _tableView = nil;
-    
-    [_msgList release];
-    _msgList = nil;
+    self.tableView = nil;
+    self.msgList = nil;
     
     [super dealloc];
 }
@@ -65,19 +62,32 @@
 
 - (void)makeMsgList
 {
-    if(_msgList)
-    {
+    if(_msgList) {
         [_msgList removeAllObjects];
         
-        NSArray *imgArray = [NSArray arrayWithObjects:@"", @"", @"", nil];
-        NSArray *textArray = [NSArray arrayWithObjects:@"公告", @"通知", @"留言箱", nil];
-        NSArray *msgTypeArray = [NSArray arrayWithObjects:@(messageNotice), @(messageNotificatin), @(messageLeaveMsg), nil];
-        for(NSInteger index = 0; index < imgArray.count; index ++)
-        {
+        NSArray *imgArray = [NSArray arrayWithObjects:
+                             @"",
+                             @"",
+                             @"", nil];
+        
+        NSArray *textArray = [NSArray arrayWithObjects:
+                              @"公告",
+                              @"通知",
+                              @"留言箱", nil];
+        
+        NSArray *msgTypeArray = [NSArray arrayWithObjects:
+                                 @(messageNotice),
+                                 @(messageNotificatin),
+                                 @(messageLeaveMsg), nil];
+        
+        for(NSInteger index = 0; index < imgArray.count; index ++) {
             NSString *img = [imgArray objectAtIndex:index];
             NSString *text = [textArray objectAtIndex:index];
             id type = [msgTypeArray objectAtIndex:index];
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:img, @"image", text, @"text", type, @"type", nil];
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  img, @"image",
+                                  text, @"text",
+                                  type, @"type", nil];
             [_msgList addObject:dict];
         }
     }
@@ -94,8 +104,7 @@
 {
     static NSString *cellIdentifier = @"messageCenterCellIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if(!cell)
-    {
+    if(!cell) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
     }
     

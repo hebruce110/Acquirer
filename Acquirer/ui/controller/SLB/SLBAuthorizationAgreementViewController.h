@@ -10,4 +10,7 @@
 
 @interface SLBAuthorizationAgreementViewController : BaseViewController
 
+//是否强制跳回
+@property (assign, nonatomic) BOOL isBackToMenuControl;
+
 @end

@@ -28,9 +28,12 @@
 @property (readonly, nonatomic) CPNavigationController *helpNavi;
 @property (retain, nonatomic) CPTabBar *cpTabBar;
 
--(void)presentLoginViewController;
+//打开或关闭接收通知
+@property (assign, nonatomic) BOOL openReceivePushNotification;
+
+-(void)presentLoginViewControllerByCode:(NSString *)code;
 
 -(void)manuallyLogout;
--(void) loginSucceed;
+-(void)loginSucceed;
 
 @end

@@ -18,6 +18,9 @@
 
 @interface ActivateViewController ()
 
+@property (retain, nonatomic) NSTimer *checkTimer;
+@property (assign, nonatomic) BOOL msgButtonClicked;
+
 @end
 
 @implementation ActivateViewController
@@ -29,6 +32,12 @@
 @synthesize pnrDevIdSTR, mobileSTR;
 
 -(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+    
+    [self.checkTimer invalidate];
+    self.checkTimer = nil;
+    
     [bgScrollView release];
     [wrongMobileLabel release];
     
@@ -50,8 +59,10 @@
 -(id)init{
     self = [super init];
     if (self != nil) {
+        self.checkTimer = nil;
         self.isShowNaviBar = YES;
         self.isShowTabBar = NO;
+        self.msgButtonClicked = NO;
         
         msgState = MSG_STATE_NORMAL;
         
@@ -63,7 +74,7 @@
 
 -(void)setUpFormPatternList{
     NSArray *titleList = [NSArray arrayWithObjects:@"短信激活码：", @"新密码：", @"确认新密码：", nil];
-    NSArray *placeHolderList = [NSArray arrayWithObjects:@"发送至手机的激活码", @"密码由6-20个字母、数字组成", @"再次输入新密码", nil];
+    NSArray *placeHolderList = [NSArray arrayWithObjects:@"发送至手机的激活码", @"6-20个字母或数字", @"再次输入新密码", nil];
     NSArray *keyboardTypeList = [NSArray arrayWithObjects:[NSNumber numberWithInt:UIKeyboardTypeNumberPad],
                                  [NSNumber numberWithInt:UIKeyboardTypeAlphabet],
                                  [NSNumber numberWithInt:UIKeyboardTypeAlphabet],nil];
@@ -92,6 +103,35 @@
 	
     [self setNavigationTitle:@"账号激活"];
     
+    [self addSubViews];
+    
+    UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [self.bgImageView addGestureRecognizer:tg];
+    tg.delegate = self;
+    [tg release];
+    
+    self.msgTimer = [[NSTimer alloc] initWithFireDate:[NSDate distantFuture]
+                                             interval:1.0
+                                               target:self
+                                             selector:@selector(timerEvent:)
+                                             userInfo:nil
+                                              repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:msgTimer forMode:NSDefaultRunLoopMode];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide) name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void)addSubViews
+{
     CGFloat contentWidth = self.contentView.bounds.size.width;
     //CGFloat contentHeight = self.contentView.bounds.size.height;
     
@@ -171,7 +211,10 @@
     msgBtn.backgroundColor = [UIColor clearColor];
     [msgBtn setBackgroundImage:btnWDeSelImg forState:UIControlStateNormal];
     [msgBtn setBackgroundImage:btnWSelImg forState:UIControlStateSelected];
-    msgBtn.layer.cornerRadius = 10.0;
+    [msgBtn setBackgroundImage:btnWSelImg forState:UIControlStateHighlighted];
+    msgBtn.layer.cornerRadius = 6.0;
+    msgBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    msgBtn.layer.borderWidth = 0.5f;
     msgBtn.clipsToBounds = YES;
     msgBtn.titleLabel.font = [UIFont boldSystemFontOfSize:17]; //[UIFont fontWithName:@"Arial" size:22];
     [msgBtn setTitle:@"获取激活码" forState:UIControlStateNormal];
@@ -220,29 +263,17 @@
     submitBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [submitBtn addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+    submitBtn.enabled = NO;
     [self.contentView addSubview:submitBtn];
-    
-    UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-    [self.bgImageView addGestureRecognizer:tg];
-    tg.delegate = self;
-    [tg release];
-    
-    self.msgTimer = [[NSTimer alloc] initWithFireDate:[NSDate distantFuture]
-                                             interval:1.0
-                                               target:self
-                                             selector:@selector(timerEvent:)
-                                             userInfo:nil
-                                              repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:msgTimer forMode:NSDefaultRunLoopMode];
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     UIView *touchView = [touch view];
-    if ([touchView isDescendantOfView:self.activateTableView]) {
-        return NO;
+    if([touchView isKindOfClass:[UIControl class]])
+    {
+        return (NO);
     }
-    
-    return YES;
+    return (YES);
 }
 
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
@@ -298,15 +329,28 @@
 
 -(void)retriveActivateCode:(id)sender{
     
+    self.msgButtonClicked = YES;
+    [self checkTimerScheduled:nil];
+    
     msgBtn.enabled = NO;
     [msgBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [msgTimer setFireDate:[NSDate distantPast]];
     
     [[AcquirerService sharedInstance].msgService onRespondTarget:self];
-    [[AcquirerService sharedInstance].msgService requestForShortMessage];
+    if (CTRLType == ACTIVATE_VALIIDENTITY)  //找回机构号
+    {
+        [[AcquirerService sharedInstance].msgService requestForShortMessageByPnrDevId:pnrDevIdSTR];
+    }
+    else if (CTRLType == ACTIVATE_FIRST_CONFIRM) // 登录激活
+    {
+        [[AcquirerService sharedInstance].msgService requestForShortMessage];
+    }
 }
 
 -(void)submit:(id)sender{
+    
+    [self.view endEditing:YES];
+    
     NSArray *visibleCellList = [activateTableView visibleCells];
     NSString *msgCode = ((FormTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
     NSString *passSTR = ((FormTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
@@ -338,15 +382,19 @@
         return;
     }
     
-    if (CTRLType == ACTIVATE_VALIIDENTITY) {
-        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000003"];
-    }else if (CTRLType == ACTIVATE_FIRST_CONFIRM){
-        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000017"];
-    }
-    
-    
     [[AcquirerService sharedInstance].logService onRespondTarget:self];
-    [[AcquirerService sharedInstance].logService requestForActivateLogin:msgCode withPass:passSTR];
+    if (CTRLType == ACTIVATE_VALIIDENTITY)  //找回机构号
+    {
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000003"];
+        
+        [[AcquirerService sharedInstance].logService requestForActivateByActivateId:msgCode pnrDevIdSTR:pnrDevIdSTR password:passSTR];
+    }
+    else if (CTRLType == ACTIVATE_FIRST_CONFIRM) // 登录激活
+    {
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000017"];
+        
+        [[AcquirerService sharedInstance].logService requestForActivateLogin:msgCode withPass:passSTR];
+    }
 }
 
 static BOOL isShowTextEditing = NO;
@@ -362,15 +410,47 @@ static BOOL isShowTextEditing = NO;
     [bgScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
+//重新回到登录界面
+- (void)backToLoginViewCtrl
+{
+    BaseViewController *rtCtrl = (BaseViewController *)[self.navigationController.viewControllers objectAtIndex:0];
+    rtCtrl.isNeedRefresh = YES;
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+//button enable
+- (void)keyboardDidShow
+{
+    if(self.checkTimer)
+    {
+        [self.checkTimer invalidate];
+        self.checkTimer = nil;
+    }
+    
+    self.checkTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(checkTimerScheduled:) userInfo:nil repeats:YES];
+}
+
+- (void)keyboardDidHide
+{
+    if(self.checkTimer)
+    {
+        [self.checkTimer invalidate];
+        self.checkTimer = nil;
+    }
+}
+
+- (void)checkTimerScheduled:(id)sender
+{
+    NSArray *visibleCellList = [activateTableView visibleCells];
+    NSString *msgCode = ((FormTableCell *)[visibleCellList objectAtIndex:0]).textField.text;
+    NSString *passSTR = ((FormTableCell *)[visibleCellList objectAtIndex:1]).textField.text;
+    NSString *confirmPassSTR = ((FormTableCell *)[visibleCellList objectAtIndex:2]).textField.text;
+    
+    BOOL checkMsgCode = msgCode && msgCode.length > 0;
+    BOOL checkPassSTR = passSTR && passSTR.length >= 6;
+    BOOL checkConfirmPassSTR = confirmPassSTR && confirmPassSTR.length >= 6;
+    submitBtn.enabled = (self.msgButtonClicked && checkMsgCode && checkPassSTR && checkConfirmPassSTR);
+}
+
 @end
-
-
-
-
-
-
-
-
-
-
 

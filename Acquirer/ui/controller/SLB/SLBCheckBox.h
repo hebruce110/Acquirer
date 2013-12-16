@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_OPTIONS(NSUInteger, SLBCheckBoxState) {
-    SLBCheckBoxStateDeSelected      = 0,
-    SLBCheckBoxStateSelected        = 1,
+    SLBCheckBoxStateDeSelected  = 0,
+    SLBCheckBoxStateSelected    = 1,
 };
 
 @interface SLBCheckBox : UIControl

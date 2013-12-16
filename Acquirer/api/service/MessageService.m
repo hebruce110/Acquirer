@@ -16,7 +16,42 @@
 
 @implementation MessageService
 
-//请求短信接口
+//发送短信(发送激活码、机构号等信息到手机号码)
+- (void)requestForShortMessageByPnrDevId:(NSString *)pnrDevId
+{
+    [[Acquirer sharedInstance] showUIPromptMessage:@"获取中..." animated:YES];
+    
+    NSString* url = [NSString stringWithFormat:@"/user/sendActivateMsg"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setValue:pnrDevId forKey:@"pnrDevId"];
+    [dict setValue:@"" forKey:@"checkValue"];
+    
+    AcquirerCPRequest *acReq = [AcquirerCPRequest postRequestWithPath:url andBody:dict];
+    [acReq onRespondTarget:self selector:@selector(msgRequestDidFinished:)];
+    [acReq execute];
+}
+
+- (void)msgRequestDidFinished:(AcquirerCPRequest *)request
+{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
+    NSDictionary *body = (NSDictionary *)request.responseAsJson;
+    
+    if (NotNilAndEqualsTo(body, @"isSucc", @"1")) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"短消息校验码已经发送，请注意查收"
+                                                                     notifyType:NOTIFICATION_TYPE_SUCCESS];
+        //设置1分钟内禁用获取激活码按钮
+        if (target && [target respondsToSelector:@selector(disableShortMessageForOneMinute)]) {
+            [target performSelector:@selector(disableShortMessageForOneMinute)];
+        }
+    }else{
+        [self restoreMessageSend];
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"短消发送失败,请稍后再试"
+                                                                     notifyType:NOTIFICATION_TYPE_WARNING];
+    }
+}
+
+//请求短信接口(登录激活)
 -(void)requestForShortMessage{
     [[Acquirer sharedInstance] showUIPromptMessage:@"获取中..." animated:YES];
     

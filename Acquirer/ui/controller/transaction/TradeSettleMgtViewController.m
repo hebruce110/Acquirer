@@ -27,7 +27,7 @@
     self = [super init];
     if (self) {
         settleList = [[NSMutableArray alloc] init];
-        needRefreshTableView = YES;
+        self.isNeedRefresh = YES;
     }
     return self;
 }
@@ -90,8 +90,9 @@
     
     [super viewDidAppear:animated];
     
-    if (needRefreshTableView) {
-        needRefreshTableView = NO;
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
         [[AcquirerService sharedInstance].settleService onRespondTarget:self];
         [[AcquirerService sharedInstance].settleService requestForSettleManagement];
     }

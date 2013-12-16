@@ -10,10 +10,23 @@
 #import "Acquirer.h"
 #import "PostbeService.h"
 #import "AcquirerService.h"
-
+#import "ASIHTTPRequest.h"
 #import "LoginViewController.h"
 #import "TradeHomeViewController.h"
 #import "HelpHomeViewController.h"
+#import "OnlineServrMenuViewController.h"
+#import "APService.h"
+#import "MessageNumberData.h"
+#import "SLBHelper.h"
+#import "ChinaPnrNotificationViewController.h"
+#import "ChinaPnrNotificationDetailViewController.h"
+
+
+@interface AppDelegate ()
+
+@property (retain, nonatomic) NSDictionary *launchOptions;
+
+@end
 
 @implementation AppDelegate
 
@@ -30,7 +43,19 @@
     [naviArray release];
     [cpTabBar release];
     
+    self.launchOptions = nil;
+    
     [super dealloc];
+}
+
+- (id)init
+{
+    self = [super init];
+    if(self)
+    {
+        _launchOptions = nil;
+    }
+    return (self);
 }
 
 - (void)initializeUI{
@@ -44,8 +69,8 @@
     TradeHomeViewController *transCTRL = [[[TradeHomeViewController alloc] init] autorelease];
     transNavi = [[CPNavigationController alloc] initWithRootViewController:transCTRL];
     
-    HelpHomeViewController *helpCTRL = [[[HelpHomeViewController alloc] init] autorelease];
-    helpNavi = [[CPNavigationController alloc] initWithRootViewController:helpCTRL];
+    OnlineServrMenuViewController *onlineServrCTRL = [[[OnlineServrMenuViewController alloc] init] autorelease];
+    helpNavi = [[CPNavigationController alloc] initWithRootViewController:onlineServrCTRL];
     
     naviArray = [[NSArray alloc] initWithObjects:transNavi,helpNavi, nil];
     
@@ -55,12 +80,18 @@
 }
 
 //session超时
--(void)presentLoginViewController{
+-(void)presentLoginViewControllerByCode:(NSString *)code
+{
     static Boolean presentMessage = YES;
     
     if (presentMessage == YES) {
+        
+        if(!(code && code.length > 0))
+        {
+            code = @"02110";
+        }
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                            message:@"您长时间未使用，请重新登录"
+                                                            message:[[Acquirer sharedInstance] codeCSVDesc:code]
                                                            delegate:self
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"确定", nil];
@@ -80,7 +111,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    [self presentLoginViewController];
+    [self presentLoginViewControllerByCode:nil];
 }
 
 //手动退出应用
@@ -95,6 +126,9 @@
 //其他情况:session超时,          做　dismissModalViewControllerAnimated
 -(void) loginSucceed{
     [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000018"];
+    
+    //请求报表数据
+    [[AcquirerService sharedInstance].onlineService requestReportListTarget:[MessageNumberData sharedData] action:@selector(didUpdateMessages:)];
     
     //第一次启动应用或手动退出登录
     NSLog(@"%d", [Acquirer sharedInstance].logReason);
@@ -137,6 +171,12 @@
     }else{
         [cpNavi popToRootViewControllerAnimated:YES];
     }
+    
+    if(index == 1)
+    {
+        //统计码:00000038
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000038"];
+    }
 }
 
 - (void)performApplicationStartUpLogic{
@@ -157,37 +197,120 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.launchOptions = launchOptions;
     
     [self performApplicationStartUpLogic];
+    
+    self.openReceivePushNotification = [MessageNumberData receiveNotification];
+    
+    if(launchOptions && [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey])
+    {
+        [self application:application didReceiveRemoteNotification:launchOptions];
+        
+        //点击系统通知栏进入应用
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000041"];
+    }
     
     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    application.applicationIconBadgeNumber = 1;
+    application.applicationIconBadgeNumber = 0;
+    
+    [application cancelAllLocalNotifications];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSInteger num = application.applicationIconBadgeNumber;
+    if(num > 0)
+    {
+        [self application:application hadPushNotificationCount:application.applicationIconBadgeNumber userInfo:nil];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [APService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    NSLog(@"did fail to register for remote notifications with error:%@", error.description);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [APService handleRemoteNotification:userInfo];
+    
+    [self application:application hadPushNotificationCount:1 userInfo:userInfo];
+}
+
+#pragma mark -
+- (void)setOpenReceivePushNotification:(BOOL)openReceivePushNotification
+{
+    _openReceivePushNotification = openReceivePushNotification;
+    if(_openReceivePushNotification)
+    {
+        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+        [APService setupWithOption:_launchOptions];
+    }
+    else
+    {
+        [APService registerForRemoteNotificationTypes:UIRemoteNotificationTypeNone];
+        [APService setupWithOption:_launchOptions];
+        [[UIApplication sharedApplication] unregisterForRemoteNotifications];
+    }
+}
+
+- (void)application:(UIApplication *)application hadPushNotificationCount:(NSInteger)count userInfo:(NSDictionary *)userInfo
+{
+    count += [MessageNumberData notificationCount];
+
+    //如果当前在公告列表或者公告详情页，则此时收到通知不更新UI
+    BOOL update = !(cpTabBar.index == 1
+                &&  helpNavi.topViewController
+                && ([helpNavi.topViewController isKindOfClass:[ChinaPnrNotificationViewController class]]
+                    || [helpNavi.topViewController isKindOfClass:[ChinaPnrNotificationDetailViewController class]]));
+    
+    [MessageNumberData setNotificationCount:(count * update) update:update];
+    
+    if(NotNilAndEqualsTo(userInfo, @"content_type", @"0"))
+    {
+        NSLog(@"--->userInfo:%@", userInfo);
+        if(NotNil(userInfo, @"date"))
+        {
+            NSString *dateString = [userInfo objectForKey:@"date"];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            if([NSString string:@"年" isRangeOfString:dateString]) {
+                [formatter setDateFormat:@"yyyy年MM月dd日"];
+            }
+            else {
+                [formatter setDateFormat:@"MM月dd日"];
+            }
+            
+            NSDate *date = [formatter dateFromString:dateString];
+            [formatter release];
+            [MessageNumberData setNotificationLastUpdateDate:date update:update];
+        }
+    }
 }
 
 @end

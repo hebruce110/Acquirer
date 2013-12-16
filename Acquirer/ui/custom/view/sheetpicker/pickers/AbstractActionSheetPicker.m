@@ -104,6 +104,8 @@
         [self.pickerView performSelector:@selector(setDataSource:) withObject:nil];
     
     self.target = nil;
+    self.pickerView = nil;
+    self.customButtons = nil;
     
     [super dealloc];
 }
@@ -129,7 +131,7 @@
 #pragma mark - Actions
 
 - (void)showActionSheetPicker {
-    UIView *masterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewSize.width, 260)];    
+    UIView *masterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewSize.width, 259)];
     UIToolbar *pickerToolbar = [self createPickerToolbarWithTitle:self.title];
     [pickerToolbar setBarStyle:UIBarStyleBlackTranslucent];
     [masterView addSubview:pickerToolbar];
@@ -204,14 +206,14 @@
     //修改为先显示取消按钮
     if (NO == self.hideCancel) {
         //UIBarButtonItem *cancelBtn = [self createButtonWithType:UIBarButtonSystemItemCancel target:self action:@selector(actionPickerCancel:)];
-        UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(actionPickerCancel:)];
+        UIBarButtonItem *cancelBtn = [[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(actionPickerCancel:)] autorelease];
         [barItems addObject:cancelBtn];
     }
     
     for (NSDictionary *buttonDetails in self.customButtons) {
         NSString *buttonTitle = [buttonDetails objectForKey:@"buttonTitle"];
       //NSInteger buttonValue = [[buttonDetails objectForKey:@"buttonValue"] intValue];
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStylePlain target:self action:@selector(customButtonPressed:)];
+        UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStylePlain target:self action:@selector(customButtonPressed:)] autorelease];
         button.tag = index;
         [barItems addObject:button];
         index++;
@@ -226,9 +228,8 @@
     }
     
     //UIBarButtonItem *doneButton = [self createButtonWithType:UIBarButtonSystemItemDone target:self action:@selector(actionPickerDone:)];
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(actionPickerDone:)];
+    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(actionPickerDone:)] autorelease];
     [barItems addObject:doneButton];
-    [doneButton release];
     
     [pickerToolbar setItems:barItems animated:YES];
     [barItems release];

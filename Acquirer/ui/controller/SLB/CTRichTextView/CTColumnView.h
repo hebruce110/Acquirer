@@ -10,6 +10,6 @@
 
 @property (retain, nonatomic) NSMutableArray* images;
 
--(void)setCTFrame:(id)f;
+-(void)setCTFrame:(id)frame;
 
 @end

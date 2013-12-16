@@ -13,24 +13,25 @@
 #import "SLBDetailListService.h"
 #import "SLBUser.h"
 
+//生利宝的一些网络处理
 @interface SLBService : BaseService
-{
-    SLBUser *_slbUser;
-    
-    SLBQueryService *_querySer;
-    SLBOpenService *_openSer;
-    SLBChangeAmountService *_changeAmountSer;
-    SLBDetailListService *_detailListSer;
-}
-@property (retain, nonatomic) SLBUser *slbUser;
 
-@property (retain, nonatomic) SLBQueryService *querySer;
-@property (retain, nonatomic) SLBOpenService *openSer;
-@property (retain, nonatomic) SLBChangeAmountService *changeAmountSer;
-@property (retain, nonatomic) SLBDetailListService *detailListSer;
+//生利宝用户
+@property (retain, nonatomic, readonly) SLBUser *slbUser;
+
+//生利宝查询
+@property (retain, nonatomic, readonly) SLBQueryService *querySer;
+
+//生利宝开户
+@property (retain, nonatomic, readonly) SLBOpenService *openSer;
+
+//生利宝存入、转出
+@property (retain, nonatomic, readonly) SLBChangeAmountService *changeAmountSer;
+
+//生利宝查询明细
+@property (retain, nonatomic, readonly) SLBDetailListService *detailListSer;
 
 //单例
 + (SLBService *)sharedService;
-
 
 @end

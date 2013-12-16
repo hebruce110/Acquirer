@@ -27,17 +27,10 @@ static NSInteger textMaxLength = 150;
 
 - (void)dealloc
 {    
-    [_scrView release];
-    _scrView = nil;
-    
-    [_titleTextField release];
-    _titleTextField = nil;
-    
-    [_textView release];
-    _textView = nil;
-    
-    [_submitButton release];
-    _submitButton = nil;
+    self.scrView = nil;
+    self.titleTextField = nil;
+    self.textView = nil;
+    self.submitButton = nil;
     
     [super dealloc];
 }
@@ -141,21 +134,15 @@ static NSInteger textMaxLength = 150;
 
 - (void)checkSubmitButtonState
 {
-    if(_titleTextField.text && _titleTextField.text.length > 0 && _textView.text && _textView.text.length > 0)
-    {
+    if(_titleTextField.text && _titleTextField.text.length > 0 && _textView.text && _textView.text.length > 0) {
         _submitButton.enabled = YES;
-    }
-    else
-    {
+    } else {
         _submitButton.enabled = NO;
     }
     
-    if(_textView.text && _textView.text.length > 0)
-    {
+    if(_textView.text && _textView.text.length > 0) {
         [self hideTextViewPlaceholder];
-    }
-    else
-    {
+    } else {
         [self showTextViewPlaceholder];
     }
 }
@@ -164,8 +151,7 @@ static NSInteger txVwHolderTag = 1000;
 - (void)showTextViewPlaceholder
 {
     UILabel *holderLabel = (UILabel *)[_textView viewWithTag:txVwHolderTag];
-    if(!holderLabel)
-    {
+    if(!holderLabel) {
         CGFloat space = 8.0f;
         holderLabel = [[UILabel alloc] initWithFrame:CGRectMake(space, 0, _textView.bounds.size.width - space * 2.0f, 34)];
         holderLabel.tag = txVwHolderTag;
@@ -181,8 +167,7 @@ static NSInteger txVwHolderTag = 1000;
 - (void)hideTextViewPlaceholder
 {
     UILabel *holderLabel = (UILabel *)[_textView viewWithTag:txVwHolderTag];
-    if(holderLabel)
-    {
+    if(holderLabel) {
         [holderLabel removeFromSuperview];
     }
 }
@@ -191,16 +176,14 @@ static NSInteger txVwHolderTag = 1000;
 - (void)addLeaveMessageTitle:(NSString *)title text:(NSString *)text
 {
     NoticeService *noticeService = [AcquirerService sharedInstance].noticeService;
-    [noticeService requestAddLeaveMessageByTitle:title content:text Taget:self action:@selector(addLeaveMessageDidFinished:)];
+    [noticeService requestAddLeaveMessageByTitle:title content:text Target:self action:@selector(addLeaveMessageDidFinished:)];
 }
 
 - (void)addLeaveMessageDidFinished:(AcquirerCPRequest *)request
 {
     NSDictionary *body = (NSDictionary *)request.responseAsJson;
-    if(NotNilAndEqualsTo(body, @"isSucc", @"1"))
-    {
+    if(NotNilAndEqualsTo(body, @"isSucc", @"1")) {
         //新增成功
-        
         @autoreleasepool {
             [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"提交成功，感谢您的宝贵意见" notifyType:NOTIFICATION_TYPE_SUCCESS];
         }
@@ -208,10 +191,8 @@ static NSInteger txVwHolderTag = 1000;
         _textView.text = nil;
         [self checkSubmitButtonState];
         
-        for(id ctrl in self.navigationController.viewControllers)
-        {
-            if([ctrl isKindOfClass:[NoticeViewController class]])
-            {
+        for(id ctrl in self.navigationController.viewControllers) {
+            if([ctrl isKindOfClass:[NoticeViewController class]]) {
                 NoticeViewController *notiCtrl = (NoticeViewController *)ctrl;
                 notiCtrl.isNeedRefresh = YES;
             }
@@ -223,8 +204,7 @@ static NSInteger txVwHolderTag = 1000;
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     UIView *touchView = [touch view];
-    if([touchView isKindOfClass:[UIControl class]])
-    {
+    if([touchView isKindOfClass:[UIControl class]]) {
         return (NO);
     }
     return (YES);
@@ -253,8 +233,7 @@ static NSInteger txVwHolderTag = 1000;
 {
     [self performSelector:@selector(checkSubmitButtonState) withObject:nil afterDelay:0.1f];
     
-    if(range.location + string.length <= titleMaxLength)
-    {
+    if(range.location + string.length <= titleMaxLength) {
         return (YES);
     }
     return (NO);
@@ -283,8 +262,7 @@ static NSInteger txVwHolderTag = 1000;
 {
     [self performSelector:@selector(checkSubmitButtonState) withObject:nil afterDelay:0.01f];
     
-    if(range.location + text.length <= textMaxLength)
-    {
+    if(range.location + text.length <= textMaxLength) {
         return (YES);
     }
     return (NO);

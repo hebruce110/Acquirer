@@ -34,20 +34,20 @@
         tabViewList = [[NSMutableArray alloc] initWithCapacity:4];
         
         tabIconList = [[NSMutableArray alloc] initWithObjects:
-                       [UIImage imageNamed:@"deal-ico.png"],
-                       [UIImage imageNamed:@"help-ico.png"], nil];
+                       [UIImage imageNamed:@"deal-ico"],
+                       [UIImage imageNamed:@"tb_online"], nil];
         
         tabIconHoverList = [[NSMutableArray alloc] initWithObjects:
-                            [UIImage imageNamed:@"deal-ico-hover.png"],
-                            [UIImage imageNamed:@"help-ico-hover.png"], nil];
+                            [UIImage imageNamed:@"deal-ico-hover"],
+                            [UIImage imageNamed:@"tb_online_hover"], nil];
         
-        tabTitleList = [[NSMutableArray alloc] initWithObjects: @"刷卡交易", @"帮助中心", nil];
+        tabTitleList = [[NSMutableArray alloc] initWithObjects: @"刷卡交易", @"服务中心", nil];
         
         
         for (int i=0; i<tabIconList.count; i++) {
             CGRect tabframe = CGRectMake(i*DEFAULT_TAB_WIDTH, 0, DEFAULT_TAB_WIDTH, DEFAULT_TAB_BAR_HEIGHT);
             UIImageView *tabView = [[UIImageView alloc] initWithFrame:tabframe];
-            tabView.image = [UIImage imageNamed:@"menu-bg.png"];
+            tabView.image = [UIImage imageNamed:@"menu-bg"];
             
             UIImageView *iconView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18, 20)] autorelease];
             iconView.image = [tabIconList objectAtIndex:i];
@@ -89,7 +89,7 @@
 //设置选中Tab
 -(void) setTabSelected:(int)tab_index{
     UIImageView *preTabView = (UIImageView *)[tabViewList objectAtIndex:abs(tab_index-1)];
-    preTabView.image = [UIImage imageNamed:@"menu-bg.png"];
+    preTabView.image = [UIImage imageNamed:@"menu-bg"];
     
     //将之前选中的Tab里面的图片和文字修改成普通状态
     for(UIView *subView in preTabView.subviews) {
@@ -99,8 +99,12 @@
         }
         
         if ([subView isKindOfClass:[UIImageView class]]) {
-            UIImageView *preIconView = (UIImageView *)subView;
-            preIconView.image = [tabIconList objectAtIndex:abs(tab_index-1)];
+            //徽记例外
+            if(![subView isKindOfClass:[CustomBadge class]])
+            {
+                UIImageView *preIconView = (UIImageView *)subView;
+                preIconView.image = [tabIconList objectAtIndex:abs(tab_index-1)];
+            }
         }
     }
     
@@ -108,7 +112,7 @@
     
     //将当前选中的Tab背景色修改成选中状态
     UIImageView *nowBgView = (UIImageView *)[tabViewList objectAtIndex:tab_index];
-    nowBgView.image = [UIImage imageNamed:@"menu-bg-hover.png"];
+    nowBgView.image = [UIImage imageNamed:@"menu-bg-hover"];
     //将当前选中的Tab中的图片，修改成选中状态的图片
     for(UIView *subView in nowBgView.subviews) {
         if ([subView isKindOfClass:[UILabel class]]) {
@@ -117,10 +121,34 @@
         }
         
         if ([subView isKindOfClass:[UIImageView class]]) {
-            UIImageView *preIconView = (UIImageView *)subView;
-            preIconView.image = [tabIconHoverList objectAtIndex:index];
+            //徽记例外
+            if(![subView isKindOfClass:[CustomBadge class]])
+            {
+                UIImageView *preIconView = (UIImageView *)subView;
+                preIconView.image = [tabIconHoverList objectAtIndex:index];
+            }
         }
     }
+}
+
+//badge
+- (void)setBadge:(NSInteger)badge itemIndex:(NSInteger)ix
+{
+    if(tabViewList && tabViewList.count > ix)
+    {
+        UIView *vw = [tabViewList objectAtIndex:ix];
+        [vw setBadge:badge contentCenter:CGPointMake((CGRectGetWidth(vw.frame) + DEF_BADGE_HEIGHT) / 2.0f, DEF_BADGE_HEIGHT / 2.0f)];
+    }
+}
+
+- (CustomBadge *)badgeViewAtItemIndex:(NSInteger)ix
+{
+    if(tabViewList && tabViewList.count > ix)
+    {
+        UIView *vw = [tabViewList objectAtIndex:ix];
+        return (vw.badgeView);
+    }
+    return (nil);
 }
 
 @end

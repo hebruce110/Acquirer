@@ -11,8 +11,8 @@
 
 @interface SLBMenuTopCell ()
 
-@property (copy, nonatomic, readonly) UIImageView *backgroungImgView;
-@property (copy, nonatomic, readonly) SLBAttributedView *attributedView;
+@property (retain, nonatomic) UIImageView *backgroungImgView;
+@property (retain, nonatomic) SLBAttributedView *attributedView;
 
 @end
 
@@ -20,11 +20,8 @@
 
 - (void)dealloc
 {
-    [_backgroungImgView release];
-    _backgroungImgView = nil;
-    
-    [_attributedView release];
-    _attributedView = nil;
+    self.backgroungImgView = nil;
+    self.attributedView = nil;
     
     [super dealloc];
 }
@@ -59,23 +56,12 @@
     [self setSelected:YES];
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    
-}
-
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self setSelected:NO];
-    if(_delegate && [_delegate respondsToSelector:@selector(slbCellDidSelected:)])
-    {
+    if(_delegate && [_delegate respondsToSelector:@selector(slbCellDidSelected:)]) {
         [_delegate slbCellDidSelected:self];
     }
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

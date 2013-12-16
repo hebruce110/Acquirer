@@ -11,14 +11,14 @@
 @implementation SLBChangeAmountService
 
 //转入、转出
-- (void)requestForServeNum:(NSString *)sernum changeType:(SLBChangeType)type changeAmt:(CGFloat)amt taget:(id)tg action:(SEL)action
+- (void)requestForServeNum:(NSString *)sernum changeType:(SLBChangeType)type changeAmt:(NSString *)amt target:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
     
     Acquirer *ac = [Acquirer sharedInstance];
     NSString* url = [NSString stringWithFormat:@"/slb/change"];
-    NSString *amountStr = [NSString stringWithFormat:@"%0.2f", amt];
+    NSString *amountStr = amt;
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
     switch(type)

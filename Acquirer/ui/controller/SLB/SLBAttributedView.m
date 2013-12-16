@@ -12,15 +12,13 @@
 
 @property (retain, nonatomic) NSMutableAttributedString *attributedText;
 
-
 @end
 
 @implementation SLBAttributedView
 
 - (void)dealloc
 {    
-    [_attributedText release];
-    _attributedText = nil;
+    self.attributedText = nil;
     
     [super dealloc];
 }
@@ -37,16 +35,13 @@
 
 - (void)setAttributeString:(NSAttributedString *)attributeString
 {
-    if(_attributedText)
-    {
+    if(_attributedText) {
         [_attributedText release];
         _attributedText = nil;
     }
-    
     _attributedText = [attributeString copy];
     
-    if(_attributedText)
-    {
+    if(_attributedText) {
         [self setNeedsDisplay];
     }
 }
@@ -58,8 +53,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    if(_attributedText)
-    {
+    if(_attributedText) {
         CGContextRef context = UIGraphicsGetCurrentContext();
         UIGraphicsPushContext(context);
         

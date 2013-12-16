@@ -16,13 +16,6 @@
 
 @property (retain, nonatomic) UITableView *tableView;
 
-@property (retain, nonatomic) UILabel *showMoreLabel;
-@property (retain, nonatomic) UIActivityIndicatorView *showMoreIndicator;
-
-@property (assign, nonatomic) BOOL isShowMore;
-@property (copy, nonatomic) NSString *resend;
-@property (retain, nonatomic) NSMutableArray *msgList;
-
 @property (retain, nonatomic) NSString *listKey;
 @property (retain, nonatomic) NSString *textKey;
 @property (retain, nonatomic) NSString *dateKey;
@@ -33,29 +26,14 @@
 
 - (void)dealloc
 {
-    [_showMoreLabel release];
-    _showMoreLabel = nil;
-    
-    [_showMoreIndicator release];
-    _showMoreIndicator = nil;
-    
-    [_tableView release];
-    _tableView = nil;
-    
-    [_msgList release];
-    _msgList = nil;
-    
-    [_resend release];
-    _resend = nil;
-    
-    [_listKey release];
-    _listKey = nil;
-    
-    [_textKey release];
-    _textKey = nil;
-    
-    [_dateKey release];
-    _dateKey = nil;
+    self.showMoreLabel = nil;
+    self.showMoreIndicator = nil;
+    self.tableView = nil;
+    self.msgList = nil;
+    self.resend = nil;
+    self.listKey = nil;
+    self.textKey = nil;
+    self.dateKey = nil;
     
     [super dealloc];
 }
@@ -70,7 +48,7 @@
     self = [super init];
     if (self) {
         _msgFlag = messageUnknow;
-        _isNeedRefresh = YES;
+        self.isNeedRefresh = YES;
         _isShowMore = YES;
         _msgList = nil;
         _tableView = nil;
@@ -117,26 +95,22 @@
 {
     [super viewDidAppear:animated];
     
-    switch(_msgFlag)
-    {
-        case messageNotice:
-        {
-            [self setNavigationTitle:@"公告"];
+    switch(_msgFlag) {
+        case messageNotice: {
+            [self setNavigationTitle:@"汇付公告"];
             self.listKey = @"infoList";
             self.textKey = @"title";
             self.dateKey = @"releaseDate";
         }break;
             
-        case messageNotificatin:
-        {
+        case messageNotificatin: {
             [self setNavigationTitle:@"通知"];
             self.listKey = @"infoList";
             self.textKey = @"title";
             self.dateKey = @"releaseDate";
         }break;
             
-        case messageLeaveMsg:
-        {
+        case messageLeaveMsg: {
             [self setNavigationTitle:@"留言"];
             self.listKey = @"msgList";
             self.textKey = @"title";
@@ -149,9 +123,8 @@
             break;
     }
     
-    if(_isNeedRefresh)
-    {
-        _isNeedRefresh = NO;
+    if(self.isNeedRefresh) {
+        self.isNeedRefresh = NO;
         [self reFreshMessage];
     }
 }
@@ -190,21 +163,17 @@
 - (void)freshMessage
 {
     NoticeService *noticeService = [AcquirerService sharedInstance].noticeService;
-    switch(_msgFlag)
-    {
-        case messageNotice:
-        {
-            [noticeService requestNoticeListByResend:_resend flag:_msgFlag reportFlag:messageReportNotice Taget:self action:@selector(requestDidFinished:)];
+    switch(_msgFlag) {
+        case messageNotice: {
+            [noticeService requestNoticeListByResend:_resend flag:_msgFlag reportFlag:messageReportNotice Target:self action:@selector(requestDidFinished:)];
         }break;
             
-        case messageNotificatin:
-        {
-            [noticeService requestNoticeListByResend:_resend flag:_msgFlag reportFlag:messageReportNotification Taget:self action:@selector(requestDidFinished:)];
+        case messageNotificatin: {
+            [noticeService requestNoticeListByResend:_resend flag:_msgFlag reportFlag:messageReportNotification Target:self action:@selector(requestDidFinished:)];
         }break;
             
-        case messageLeaveMsg:
-        {
-            [noticeService requestLeaveMessageByResend:_resend Taget:self action:@selector(requestDidFinished:)];
+        case messageLeaveMsg: {
+            [noticeService requestLeaveMessageByResend:_resend Target:self action:@selector(requestDidFinished:)];
         }break;
             
         case messageUnknow:
@@ -232,8 +201,7 @@
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"没有数据" notifyType:NOTIFICATION_TYPE_WARNING];
     }
     
-    if(!_msgList)
-    {
+    if(!_msgList) {
         _msgList = [[NSMutableArray alloc] initWithCapacity:0];
     }
     [_msgList addObjectsFromArray:ordList];
@@ -289,8 +257,7 @@
     }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if(!cell)
-    {
+    if(!cell) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
     }
     
@@ -301,7 +268,7 @@
     [formatter setDateFormat:@"yyyyMMdd"];
     NSDate *date = [formatter dateFromString:tranTimeString];
     
-    [formatter setDateFormat:@"yyyy年MM月dd日"];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *tranTime = [formatter stringFromDate:date];
     [formatter release];
     
@@ -323,8 +290,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(_msgList.count == 0 || _msgList.count == indexPath.row)
-    {
+    if(_msgList.count == 0 || _msgList.count == indexPath.row) {
         return (DEFAULT_ROW_HEIGHT);
     }
     return (64.0f);
@@ -339,9 +305,7 @@
         if (_isShowMore && indexPath.row == _msgList.count) {
             [_showMoreIndicator startAnimating];
             [self freshMessage];
-        }
-        else
-        {
+        } else {
             NSDictionary *dict = [_msgList safeObjectAtIndex:indexPath.row];
             NSString *idCountStr = [dict safeJsonObjForKey:@"id"];
             NoticeDetailViewController *detailViewCtrl = [[NoticeDetailViewController alloc] init];

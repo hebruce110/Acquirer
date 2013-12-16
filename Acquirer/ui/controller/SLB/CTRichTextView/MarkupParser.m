@@ -17,11 +17,6 @@ static CGFloat widthCallback( void* ref ){
 
 @implementation MarkupParser
 
-@synthesize font = _font;
-@synthesize color = _color, strokeColor = _strokeColor;
-@synthesize images = _images;
-@synthesize strokeWidth = _strokeWidth, fontSize = _fontSize, lineSpace = _lineSpace, wordSpace = _wordSpace, alignment = _alignment;
-
 -(void)dealloc
 {
     _font = nil;
@@ -52,8 +47,7 @@ static CGFloat widthCallback( void* ref ){
 
 -(NSAttributedString*)attrStringFromMarkup:(NSString*)markup
 {
-    if(!markup)
-    {
+    if(!markup) {
         return (nil);
     }
     
@@ -66,8 +60,7 @@ static CGFloat widthCallback( void* ref ){
     NSArray* chunks = [regex matchesInString:markup options:0 range:NSMakeRange(0, [markup length])];
     [regex release];
     
-    for (NSTextCheckingResult* b in chunks)
-    {
+    for (NSTextCheckingResult* b in chunks) {
         NSArray* parts = [[markup substringWithRange:b.range] componentsSeparatedByString:@"<"];
         
         //NSLog(@"### font:%@, fontSize:%0.2f, alignment:%i, lineSpace:%0.2f, wordSpace:%0.2f", _font, _fontSize, _alignment, _lineSpace, _wordSpace);
@@ -154,7 +147,7 @@ static CGFloat widthCallback( void* ref ){
                     _alignment = [[tag substringWithRange:match.range] floatValue];
                 }];
             }
-            
+//            //不需要处理图片
 //            if ([tag hasPrefix:@"img"]) {
 //                
 //                __block NSNumber* width = [NSNumber numberWithInt:0];

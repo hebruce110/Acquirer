@@ -14,6 +14,7 @@
 #import "NSNotificationCenter+CP.h"
 #import "JSON.h"
 #import "ChatStorageService.h"
+#import "MessageNumberData.h"
 
 @implementation ChatViewController
 
@@ -82,6 +83,7 @@
     dialogueTextField.borderStyle = UITextBorderStyleRoundedRect;
     dialogueTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     dialogueTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    dialogueTextField.placeholder = @"请输入数字以快速获取答复";
     [dialogueBgView addSubview:dialogueTextField];
     dialogueTextField.center = CGPointMake(dialogueTextField.center.x, CGRectGetMidY(naviBgView.bounds));
     
@@ -174,7 +176,6 @@
     
     NSMutableArray *msgList = [[[NSMutableArray alloc] init] autorelease];
     
-    //插入时间戳
     BOOL needTimestamp = NO;
     
     for (int i=cmModel.messages.count-1; i>=0; i--) {
@@ -182,7 +183,7 @@
         if (cm.msgTag == MessageTagTime) {
             NSDate *curDate = [NSDate date];
             NSTimeInterval time = [curDate timeIntervalSinceDate:cm.date];
-            //5分钟
+            //5 * 60 seconds
             if (time > 5 * 60) {
                 needTimestamp = YES;
             }
@@ -191,7 +192,6 @@
     }
     
     if (needTimestamp) {
-        
         ChatMessage *timeCM = [[[ChatMessage alloc] init] autorelease];
         timeCM.msgTag = MessageTagTime;
         timeCM.date = [NSDate date];
@@ -216,7 +216,6 @@
     [cc sendMessage:msgCM];
 }
 
-//收到客服JSON格式的回复消息
 -(void)replyFromCS:(NSDictionary *)dict{
     if (NotNil(dict, @"answer")) {
         ChatMessage *cm = [[[ChatMessage alloc] init] autorelease];
@@ -229,7 +228,6 @@
     }
 }
 
-//插入消息
 -(void)insertMsgToChatTV:(ChatMessage *)cm{
     int index = [cmModel addMessage:cm];
     
@@ -238,7 +236,7 @@
     [self scrollToNewestMessage];
 }
 
-//插入消息
+
 -(void)insertMsgListToChatTV:(NSArray *)msgList{
     NSMutableArray *ipList = [[[NSMutableArray alloc] init] autorelease];
     
@@ -251,7 +249,6 @@
     [self scrollToNewestMessage];
 }
 
-//刷新消息的状态
 -(void)refreshMsgState:(ChatMessage *)cm{
     int index = [cmModel.messages indexOfObject:cm];
     if (index!=NSNotFound && index>0) {
@@ -281,6 +278,9 @@
 }
 
 -(void)backToPreviousView:(id)sender{
+    [MessageNumberData setMessageCount:cmModel.messages.count report:NO];
+    [MessageNumberData setMessageLastUpdateDate:[[cmModel.messages lastObject] date]];
+    
     [cc closeConnection];
 
     //保存聊天数据
@@ -296,6 +296,7 @@
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
+//下拉刷新接口
 - (void)reloadTableViewDataSource{
 	reloading = YES;
 	
@@ -398,7 +399,7 @@
     if (cm.msgTag == MessageTagIM) {
         ChatMessageCell *chatCell = (ChatMessageCell *)[tableView dequeueReusableCellWithIdentifier:MsgCellIdentifier];
         if (chatCell == nil) {
-            chatCell = [[ChatMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MsgCellIdentifier];
+            chatCell = [[[ChatMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MsgCellIdentifier] autorelease];
         }
         
         chatCell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -411,7 +412,7 @@
     else if (cm.msgTag == MessageTagTime){
         ChatTimeLabelCell *timeCell = (ChatTimeLabelCell *)[tableView dequeueReusableCellWithIdentifier:TimeCellIdentifier];
         if (timeCell == nil) {
-            timeCell = [[ChatTimeLabelCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TimeCellIdentifier];
+            timeCell = [[[ChatTimeLabelCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TimeCellIdentifier] autorelease];
         }
         
         timeCell.selectionStyle = UITableViewCellSelectionStyleNone;

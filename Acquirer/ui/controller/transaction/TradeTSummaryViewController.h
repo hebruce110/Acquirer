@@ -9,7 +9,8 @@
 #import "BaseViewController.h"
 #import "GeneralTableView.h"
 
-@interface TradeTSummaryViewController : BaseViewController{
+@interface TradeTSummaryViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
+{
     GeneralTableView *summaryTV;
     NSMutableArray *summaryList;
 }

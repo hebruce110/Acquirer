@@ -11,6 +11,7 @@
 #import "SLBServeAgreementViewController.h"
 #import "SLBUserNotiDocViewController.h"
 #import "SLBCheckBox.h"
+#import "SLBHelper.h"
 
 @interface SLBAuthorizationAgreementViewController ()
 
@@ -25,17 +26,10 @@
 
 - (void)dealloc
 {
-    [_bgImgView release];
-    _bgImgView = nil;
-    
-    [_agreeBox release];
-    _agreeBox = nil;
-    
-    [_agreementButton release];
-    _agreementButton = nil;
-    
-    [_confirmButton release];
-    _confirmButton = nil;
+    self.bgImgView = nil;
+    self.agreeBox = nil;
+    self.agreementButton = nil;
+    self.confirmButton = nil;
     
     [super dealloc];
 }
@@ -57,6 +51,8 @@
         _agreeBox = nil;
         _agreementButton = nil;
         _confirmButton = nil;
+        
+        _isBackToMenuControl = YES;
     }
     return self;
 }
@@ -93,7 +89,7 @@
     [self.contentView addSubview:_agreeBox];
     
     _agreementButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_agreeBox.frame), _agreeBox.frame.origin.y, CGRectGetWidth(self.contentView.bounds) * 0.5f, _agreeBox.bounds.size.height)];
-    [_agreementButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_agreementButton setTitleColor:[UIColor slbBlueColor] forState:UIControlStateNormal];
     [_agreementButton setTitle:@"《生利宝授权协议》" forState:UIControlStateNormal];
     [_agreementButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [_agreementButton addTarget:self action:@selector(agreementButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
@@ -104,25 +100,30 @@
 
 - (void)backToPreviousView:(id)sender
 {
+    if(!_isBackToMenuControl) {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return;
+    }
+    
     TradeHomeViewController *tradeHomeViewCtrl = nil;
-    for(id ctrl in self.navigationController.viewControllers)
-    {
-        if([ctrl isKindOfClass:[TradeHomeViewController class]])
-        {
+    for(id ctrl in self.navigationController.viewControllers) {
+        if([ctrl isKindOfClass:[TradeHomeViewController class]]) {
             tradeHomeViewCtrl = ctrl;
             break;
         }
     }
     
-    if(tradeHomeViewCtrl)
-    {
+    if(tradeHomeViewCtrl) {
         [self.navigationController popToViewController:tradeHomeViewCtrl animated:YES];
     }
-    else
-    {
+    else {
         tradeHomeViewCtrl = [[TradeHomeViewController alloc] init];
-        [self.navigationController popToViewController:tradeHomeViewCtrl animated:YES];
+        NSMutableArray *mtlViewCtrls = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        [mtlViewCtrls insertObject:tradeHomeViewCtrl atIndex:0];
         [tradeHomeViewCtrl release];
+        [self.navigationController setViewControllers:mtlViewCtrls animated:NO];
+        [self.navigationController popToViewController:tradeHomeViewCtrl animated:YES];
     }
 }
 
@@ -133,6 +134,8 @@
 
 - (void)agreementButtonTouched:(id)sender
 {
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000033"];
+    
     SLBUserNotiDocViewController *userNotiViewCtrl = [[SLBUserNotiDocViewController alloc] init];
     userNotiViewCtrl.agreementType = SLBUserNotiTypeAuthorization;
     [self.navigationController pushViewController:userNotiViewCtrl animated:YES];

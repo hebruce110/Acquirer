@@ -11,8 +11,8 @@
 
 @interface CTView : UIScrollView<UIScrollViewDelegate> {
 
-    float frameXOffset;
-    float frameYOffset;
+    CGFloat frameXOffset;
+    CGFloat frameYOffset;
 
     NSAttributedString* attString;
     

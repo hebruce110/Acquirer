@@ -87,7 +87,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
         if (NotNil(body, @"sessionId")) {
             [Helper saveValue:[body valueForKey:@"sessionId"] forKey:ACQUIRER_LOCAL_SESSION_KEY];
         }
-         
+
         if (target && selector)
         {
             if ([target respondsToSelector:selector]) {
@@ -103,10 +103,10 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     {
         
         [[Acquirer sharedInstance] currentUser].state = USER_STATE_WAIT_FOR_ACTIVATE;
-        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:NOTIFICATION_JUMP_ACTIVATE_PAGE
-                                                                        object:nil
-                                                                        userInfo:nil];
-        
+        @autoreleasepool {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_JUMP_ACTIVATE_PAGE
+                                                                object:body];
+        }
     }
     //长时间未登录，显示是否重新登录的提示框 02110
     //已在别处登录，显示是否重新登录的提示框 02111
@@ -115,7 +115,7 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
     else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02110") ||
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02111") ||
              NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02210")){
-        [(AppDelegate *)[UIApplication sharedApplication].delegate presentLoginViewController];
+        [(AppDelegate *)[UIApplication sharedApplication].delegate presentLoginViewControllerByCode:[body objectForKey:MTP_RESPONSE_CODE]];
     }
     //02322, 02323, 02324, 02325, 02326
     //show alert
@@ -140,7 +140,9 @@ BOOL NotNilAndEqualsTo(id dict, NSString *k, NSString *value){
                                                                      notifyType:NOTIFICATION_TYPE_WARNING];
     }
     //不做处理
-    else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02327")){
+    else if (NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02327") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02329") ||
+             NotNilAndEqualsTo(body, MTP_RESPONSE_CODE, @"02330")){
         
     }
     //其他情况，只显示提示

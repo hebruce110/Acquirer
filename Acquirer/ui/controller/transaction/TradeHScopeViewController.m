@@ -106,6 +106,8 @@
     [latestSevenBtn setTitle:@"近七天内" forState:UIControlStateNormal];
     [latestSevenBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     latestSevenBtn.layer.cornerRadius = 10.0;
+    latestSevenBtn.layer.borderColor = [UIColor grayColor].CGColor;
+    latestSevenBtn.layer.borderWidth = 0.5f;
     latestSevenBtn.clipsToBounds = YES;
     latestSevenBtn.tag = 1;
     [latestSevenBtn addTarget:self action:@selector(pressDateScopeBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -119,6 +121,8 @@
     [latestMonthBtn setTitle:@"上一个月" forState:UIControlStateNormal];
     [latestMonthBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     latestMonthBtn.layer.cornerRadius = 10.0;
+    latestMonthBtn.layer.borderColor = [UIColor grayColor].CGColor;
+    latestMonthBtn.layer.borderWidth = 0.5f;
     latestMonthBtn.clipsToBounds = YES;
     latestMonthBtn.tag = 2;
     [latestMonthBtn addTarget:self action:@selector(pressDateScopeBtn:) forControlEvents:UIControlEventTouchUpInside];

@@ -33,6 +33,4 @@
 
 - (void)setObject:(id)anObject forKey:(id <NSCopying>)aKey;
 
-- (void)logAll;
-
 @end

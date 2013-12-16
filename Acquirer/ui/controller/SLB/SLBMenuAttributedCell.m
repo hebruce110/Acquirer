@@ -22,11 +22,8 @@
 
 - (void)dealloc
 {
-    [_attributedTitleView release];
-    _attributedTitleView = nil;
-    
-    [_attributedTextView release];
-    _attributedTextView = nil;
+    self.attributedTitleView = nil;
+    self.attributedTextView = nil;
     
     [super dealloc];
 }
@@ -55,7 +52,7 @@
     
     CGSize bdSize = self.bounds.size;
     CGFloat toLeft = 10.0f;
-    CGFloat titleWidth = bdSize.width * 0.45f;
+    CGFloat titleWidth = bdSize.width * 0.5f;
     CGFloat textWidth = bdSize.width - titleWidth - toLeft * 4.0f;
 
     CGFloat titleHeight = [NSAttributedString heightOfAttributedString:_attributedTitleView.attributeString WidthWidth:titleWidth];
@@ -64,15 +61,13 @@
     
     CGFloat textHeight = [NSAttributedString heightOfAttributedString:_attributedTextView.attributeString WidthWidth:textWidth];
     _attributedTextView.frame = CGRectMake(CGRectGetMinX(_attributedTitleView.frame) + titleWidth, CGRectGetMinY(_attributedTitleView.frame), textWidth, textHeight);
-    switch(_vxAlignment)
-    {
-        case alinmentToCenter:
-        {
+    
+    switch(_vxAlignment) {
+        case alinmentToCenter: {
             _attributedTextView.center = CGPointMake(_attributedTextView.center.x, bdSize.height / 2.0f);
         }break;
             
-        case alinmentToBottom:
-        {
+        case alinmentToBottom: {
             _attributedTextView.center = CGPointMake(_attributedTextView.center.x, CGRectGetMinY(_attributedTitleView.frame) + (CGRectGetHeight(_attributedTitleView.frame) - CGRectGetHeight(_attributedTextView.frame)));
         }break;
           

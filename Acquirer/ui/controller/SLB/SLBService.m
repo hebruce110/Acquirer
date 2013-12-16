@@ -13,8 +13,6 @@ static SLBService *service = nil;
 
 @implementation SLBService
 
-@synthesize slbUser = _slbUser;
-
 + (SLBService *)sharedService
 {
     @synchronized([self class])

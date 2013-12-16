@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+//-----------------------------------------------------
+//-----------------------------------------------------
+
 @interface NSArray(SafeObject)
 
 - (id)safeObjectAtIndex:(NSUInteger)index;
@@ -26,16 +29,21 @@
 
 @end
 
+//-----------------------------------------------------
+//-----------------------------------------------------
 
 @interface NSDictionary(SafeObject)
 
 //return nsstring or @""
-- (id)safeObjectForKey:(id)key;
+- (id)stringObjectForKey:(id <NSCopying>)key;
 
 //return object or nil
-- (id)safeJsonObjForKey:(id)key;
+- (id)safeJsonObjForKey:(id <NSCopying>)key;
 
 @end
+
+//-----------------------------------------------------
+//-----------------------------------------------------
 
 @interface NSMutableDictionary(SafeObject)
 
@@ -43,3 +51,5 @@
 
 @end
 
+//-----------------------------------------------------
+//-----------------------------------------------------

@@ -10,7 +10,7 @@
 
 @interface SLBDetailListService : BaseService
 
-//明细查询
-- (void)requestForResend:(NSString *)resend taget:(id)tg action:(SEL)action;
+//生利宝查询明细
+- (void)requestForResend:(NSString *)resend target:(id)tg action:(SEL)action;
 
 @end

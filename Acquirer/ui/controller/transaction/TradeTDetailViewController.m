@@ -17,7 +17,6 @@
 @synthesize beginDateSTR,endDateSTR;
 @synthesize segControl, detailTableView, resendFlag;
 @synthesize showMoreLabel, showMoreIndicator;
-@synthesize needRefreshTableView;
 
 -(void)dealloc{
     [beginDateSTR release];
@@ -38,11 +37,11 @@
 -(id)init{
     self = [super init];
     if (self) {
-        isShowRefreshBtn = YES;
+        isShowRefreshBtn = NO;
         isShowMore = NO;
         tradeList = [[NSMutableArray alloc] init];
         resendFlag = [DEFAULT_RESEND_FLAG copy];
-        needRefreshTableView = YES;
+        self.isNeedRefresh = YES;
         
         //默认今日明细查询
         tradeType = TradeDetailToday;
@@ -56,8 +55,12 @@
     
     if (tradeType == TradeDetailToday) {
         [self setNavigationTitle:@"今日刷卡明细"];
-    }else{
+    }else if(tradeType == TradeDetailHistory){
         [self setNavigationTitle:@"历史刷卡明细"];
+    }
+    else
+    {
+        [self setNavigationTitle:@"查询结果"];
     }
     
     NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -68,12 +71,13 @@
     dateLabel.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), dateLabel.center.y);
     dateLabel.backgroundColor = [UIColor clearColor];
     dateLabel.font = [UIFont systemFontOfSize:15];
-    dateLabel.textAlignment = UITextAlignmentCenter;
+    dateLabel.textAlignment = NSTextAlignmentCenter;
     
-    if (tradeType == TradeDetailToday) {
-        dateLabel.text = [NSString stringWithFormat:@"日期：%@", [dateFormatter stringFromDate:[NSDate date]]];
-    }else if (tradeType == TradeDetailHistory){
+    if (tradeType == TradeDetailHistory){
         dateLabel.text = [NSString stringWithFormat:@"日期：%@ 至 %@", beginDateSTR, endDateSTR];
+    }
+    else {
+        dateLabel.text = [NSString stringWithFormat:@"日期：%@", [dateFormatter stringFromDate:[NSDate date]]];
     }
     
     [self.contentView addSubview:dateLabel];
@@ -102,7 +106,9 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    if (needRefreshTableView) {
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
         [self refreshTodayTradeDetail];
     }
 }
@@ -119,7 +125,8 @@
     NSDateFormatter *sdFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [sdFormatter setDateFormat:@"yyyyMMdd"];
     
-    if (tradeType == TradeDetailToday) {
+    if (tradeType == TradeDetailToday)
+    {
         NSString *curDateSTR = [sdFormatter stringFromDate:[NSDate date]];
         [[AcquirerService sharedInstance].detailService onRespondTarget:self];
         [[AcquirerService sharedInstance].detailService requestForTradeDetail:Detail_Type_Today
@@ -129,7 +136,10 @@
                                                                       withAmt:@""
                                                                      fromDate:curDateSTR
                                                                        toDate:curDateSTR];
-    }else if (tradeType == TradeDetailHistory){
+    }
+    else
+    if (tradeType == TradeDetailHistory || tradeType == TradeDetailTypeUnknow)
+    {
         
         NSString *beginDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:beginDateSTR]];
         NSString *endDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:endDateSTR]];
@@ -271,14 +281,30 @@
     cell.tradeTimeLabel.text = dc.tradeTimeSTR;
     cell.tradeAmtLabel.text = [NSString stringWithFormat:@"%@元", dc.tradeAmtSTR];
 
-    if ([dc.tradeStatSTR rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"IS"]].location != NSNotFound) {
-        cell.tradeStatLabel.textColor = [UIColor greenColor];
-    }else{
-        cell.tradeStatLabel.textColor = [UIColor redColor];
+    NSString *statStr = dc.tradeStatSTR;
+    if(statStr && statStr.length > 0)
+    {
+        if([statStr isEqualToString:@"I"])      //初始
+        {
+            cell.tradeStatLabel.textColor = [UIColor grayColor];
+        }
+        else if([statStr isEqualToString:@"S"]) //成功
+        {
+            cell.tradeStatLabel.textColor = [UIColor greenColor];
+        }
+        else if([statStr isEqualToString:@"F"]) //失败
+        {
+            cell.tradeStatLabel.textColor = [UIColor redColor];
+        }
+        else if([statStr isEqualToString:@"C"]) //审核失败
+        {
+            cell.tradeStatLabel.textColor = [UIColor redColor];
+        }
     }
+    
     cell.tradeStatLabel.text = [[Acquirer sharedInstance] tradeStatDesc:dc.tradeStatSTR];
     cell.tradeTypeLabel.text = [[Acquirer sharedInstance] tradeTypeDesc:dc.tradeTypeSTR];
-    
+
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -303,7 +329,7 @@
         
         if (tradeType == TradeDetailToday) {
             [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000004"];
-        }else if (tradeType == TradeDetailHistory){
+        }else if (tradeType == TradeDetailHistory || tradeType == TradeDetailTypeUnknow){
             [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000016"];
         }
         
@@ -311,7 +337,6 @@
         TradeTDetailInfoViewController *ttdi = [[[TradeTDetailInfoViewController alloc] init] autorelease];
         ttdi.orderIdSTR = ((DetailContent *)[tradeList objectAtIndex:indexPath.row]).orderIdSTR;
         [self.navigationController pushViewController:ttdi animated:YES];
-        self.needRefreshTableView = NO;
     }
 }
 

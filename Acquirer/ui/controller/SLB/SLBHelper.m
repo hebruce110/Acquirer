@@ -18,8 +18,7 @@
 {
     static NSString *fristTimeEnterSLBKey = @"fristTimeEnterSLBKey";
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if([userDefaults objectForKey:fristTimeEnterSLBKey])
-    {
+    if([userDefaults objectForKey:fristTimeEnterSLBKey]) {
         return (NO);
     }
     [userDefaults setValue:@"" forKey:fristTimeEnterSLBKey];
@@ -29,25 +28,31 @@
 //flag对应ys为YES
 + (BOOL)blFromSLBAgentSlbFlag:(id)flag equalYESString:(NSString *)ys
 {
-    if(!flag)
-    {
+    if(!flag) {
         return (NO);
     }
     
     NSString *flagStr = nil;
-    if(![flag isKindOfClass:[NSString class]])
-    {
+    if(![flag isKindOfClass:[NSString class]]) {
         flagStr = [NSString stringWithFormat:@"%@", flag];
     }
-    else
-    {
+    else {
         flagStr = (NSString *)flag;
     }
-    if([flagStr isEqualToString:ys])
-    {
+    
+    if([flagStr isEqualToString:ys]) {
         return (YES);
     }
     return (NO);
+}
+
++ (BOOL)conformToAmtFormat:(NSString *)amtSTR{
+    if(!amtSTR) {
+        return (NO);
+    }
+    //最多只能有一个小数点
+    NSArray *cutArray = [amtSTR componentsSeparatedByString:@"."];
+    return (cutArray.count < 3);
 }
 
 //取得类cls属性列表
@@ -68,32 +73,27 @@
 //证件类型编号取得类型
 + (NSString *)certNameFromCertType:(id)type
 {
-    if(!type)
-    {
+    if(!type) {
         return (@"其他:");
     }
     
     NSInteger typeInt = [type integerValue];
     switch(typeInt)
     {
-        case 1:
-        {
+        case 1: {
             return (@"身份证号码:");
         }break;
             
-        case 2:
-        {
+        case 2: {
             return (@"护照:");
         }break;
             
-        case 9:
-        {
+        case 9: {
             return (@"港澳台身份证:");
         }break;
             
         case 99:
-        default:
-        {
+        default: {
             return (@"其他:");
         }break;
     }
@@ -144,12 +144,10 @@
 //带千分符的micrometerSymbolString去掉string后得到的float
 + (CGFloat)amountFromMicrometerSymbolString:(NSString *)micrometerSymbolString withOutString:(NSString *)string
 {
-    if(micrometerSymbolString && micrometerSymbolString.length > 0)
-    {
+    if(micrometerSymbolString && micrometerSymbolString.length > 0) {
         NSRange rg = [micrometerSymbolString rangeOfString:string];
         NSString *waiteString = micrometerSymbolString;
-        if(rg.length > 0)
-        {
+        if(rg.length > 0) {
             waiteString = nil;
             waiteString = [micrometerSymbolString substringWithRange:rg];
         }
@@ -160,8 +158,7 @@
         [numberFormatter release];
         return ([number floatValue]);
     }
-    else
-    {
+    else {
         return (0);
     }
 }
@@ -184,8 +181,7 @@
     [formatter release];
     NSMutableString *serialStr = [NSMutableString stringWithString:dateStr];
     NSUInteger appendLength = minLength - dateStr.length;
-    for(NSUInteger ix = 0; ix < appendLength; ix++)
-    {
+    for(NSUInteger ix = 0; ix < appendLength; ix++) {
         [serialStr appendFormat:@"%i", arc4random() % 10];
     }
     return (serialStr);
@@ -211,7 +207,7 @@
 
 + (UIColor *)slbBlueColor
 {
-    return ([UIColor colorWithRed:19 / 255.0f green:53 / 255.0f blue:100 / 255.0f alpha:1.0f]);
+    return ([UIColor colorWithRed:19 / 255.0f green:53 / 255.0f blue:150 / 255.0f alpha:1.0f]);
 }
 
 @end
@@ -224,8 +220,7 @@
 + (CGFloat)heightOfAttributedString:(NSAttributedString *)attString WidthWidth:(CGFloat)width
 {
     CGFloat total_height = 0;
-    if(attString && attString.length > 0)
-    {
+    if(attString && attString.length > 0) {
         CGFloat maxHeight = 2000.0f;
         
         CGContextRef context = UIGraphicsGetCurrentContext();

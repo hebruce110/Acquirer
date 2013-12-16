@@ -24,10 +24,6 @@
     
     //重新发送标记
     NSString *resendFlag;
-    
-    //是否要刷新TableView
-    //从上个页面pop到当前页, 不做刷新操作
-    BOOL needRefreshTableView;
 }
 
 @property (nonatomic, retain) UITableView *sqTableView;

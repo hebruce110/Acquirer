@@ -10,6 +10,4 @@
 
 @interface SLBDetailListViewController : BaseViewController
 
-@property (assign, nonatomic) BOOL isNeedfresh;
-
 @end

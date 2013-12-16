@@ -12,7 +12,7 @@ typedef NS_OPTIONS(NSUInteger, SLBAgreementType)
 {
     SLBUserNotiTypeAuthorization,  //生利宝授权协议
     SLBUserNotiTypeServe,          //生利宝服务协议
-    SLBUserNotiTypeIntroduction,   //生利宝介绍及收益说明
+    SLBUserNotiTypeIntroduction,   //生利宝常见问题
 };
 
 @interface SLBUserNotiDocViewController : BaseViewController

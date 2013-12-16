@@ -147,29 +147,31 @@ NSString *platform(){
 
 
 /**
- 获取具体设备名称
+ 获取具体设备名称(不能超过20位)
  @returns 设备名称
  */
 NSString * platformString(){
     NSString *pf = platform();
-    if ([pf isEqualToString:@"iPod1,1"])    return @"iPod%20Touch";
-    if ([pf isEqualToString:@"iPod2,1"])    return @"iPod%20Touch%20Second%20Generation";
-    if ([pf isEqualToString:@"iPod3,1"])    return @"iPod%20Touch%20Third%20Generation";
-    if ([pf isEqualToString:@"iPod4,1"])    return @"iPod%20Touch%20Fourth%20Generation";
-    if ([pf isEqualToString:@"iPod5,1"])    return @"iPod%20Touch%20Fifth%20Generation";
+    if ([pf isEqualToString:@"iPod1,1"])    return @"iPod Touch";
+    if ([pf isEqualToString:@"iPod2,1"])    return @"iPod Touch 2";
+    if ([pf isEqualToString:@"iPod3,1"])    return @"iPod Touch 3";
+    if ([pf isEqualToString:@"iPod4,1"])    return @"iPod Touch 4";
+    if ([pf isEqualToString:@"iPod5,1"])    return @"iPod Touch 5";
     
     if ([pf isEqualToString:@"iPhone1,1"])    return @"iPhone";
-    if ([pf isEqualToString:@"iPhone1,2"])    return @"iPhone%203G";
-    if ([pf isEqualToString:@"iPhone2,1"])    return @"iPhone%203GS";
-    if ([pf isEqualToString:@"iPhone3,1"])    return @"iPhone%204";
-    if ([pf isEqualToString:@"iPhone4,1"])    return @"iPhone%204S";
-    if ([pf isEqualToString:@"iPhone5,1"])    return @"iPhone%205";
+    if ([pf isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
+    if ([pf isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
+    if ([pf isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
+    if ([pf isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
+    if ([pf isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
+    if ([pf isEqualToString:@"iPhone6,1"])    return @"iPhone 5";
+    if ([pf isEqualToString:@"iPhone6,2"])    return @"iPhone 5S";
     
     if ([pf isEqualToString:@"iPad1,1"])    return @"iPad";
-    if ([pf isEqualToString:@"iPad2,1"])    return @"iPad%202";
-    if ([pf isEqualToString:@"iPad3,1"])    return @"3rd%20Generation%20iPad";
-    if ([pf isEqualToString:@"iPad3,4"])    return @"4th%20Generation%20iPad";
-    if ([pf isEqualToString:@"iPad2,5"])    return @"iPad%20Mini";
+    if ([pf isEqualToString:@"iPad2,1"])    return @"iPad 2";
+    if ([pf isEqualToString:@"iPad3,1"])    return @"iPad 3";
+    if ([pf isEqualToString:@"iPad3,4"])    return @"iPad 4";
+    if ([pf isEqualToString:@"iPad2,5"])    return @"iPad Mini";
     //if ([pf isEqualToString:@"i386"])    return @"simulator";
     return @"simulator";
 }

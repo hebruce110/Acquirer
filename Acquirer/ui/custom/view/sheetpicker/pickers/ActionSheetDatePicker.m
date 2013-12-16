@@ -46,6 +46,13 @@
     return picker;
 }
 
+- (void)dealloc
+{
+    self.selectedDate = nil;
+    
+    [super dealloc];
+}
+
 - (id)initWithTitle:(NSString *)title datePickerMode:(UIDatePickerMode)datePickerMode selectedDate:(NSDate *)selectedDate target:(id)target action:(SEL)action origin:(id)origin {
     self = [super initWithTarget:target successAction:action cancelAction:nil origin:origin];
     if (self) {

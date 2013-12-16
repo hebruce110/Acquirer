@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CPTabBarDelegate.h"
+#import "UIView+CustomBadge.h"
 
 @interface CPTabBar : UIView{
     //store tab
@@ -33,6 +34,10 @@
 -(void) tapGesture:(UITapGestureRecognizer *)tapGesuture;
 
 -(void) setTabSelected:(int)tab_index;
+
+//badge
+- (void)setBadge:(NSInteger)badge itemIndex:(NSInteger)ix;
+- (CustomBadge *)badgeViewAtItemIndex:(NSInteger)ix;
 
 @end
 

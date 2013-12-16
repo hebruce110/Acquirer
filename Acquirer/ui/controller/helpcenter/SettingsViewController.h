@@ -8,14 +8,8 @@
 
 #import "BaseViewController.h"
 
-@class GeneralTableView;
+@interface SettingsViewController : BaseViewController <UIAlertViewDelegate>
 
-@interface SettingsViewController : BaseViewController <UIAlertViewDelegate>{
-    GeneralTableView *settingsTV;
-    
-    NSMutableArray *settingList;
-}
-
-@property (nonatomic, retain) GeneralTableView *settingsTV;
+@property (nonatomic, retain) UITableView *settingsTV;
 
 @end

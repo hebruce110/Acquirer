@@ -15,10 +15,6 @@
 #import "SettingsViewController.h"
 #import "SLBUserNotiDocViewController.h"
 
-//----------------
-#import "ChatViewController.h"
-//----------------
-
 @implementation HelpHomeViewController
 
 @synthesize helpTV;
@@ -39,10 +35,7 @@
 }
 
 -(void)setUpHelpList{
-    NSArray *secOne = @[/*@[@"POS常见问题", @"faq.png", FAQViewController.class],*/
-                        
-                        @[@"POS常见问题", @"faq.png", ChatViewController.class],
-                        
+    NSArray *secOne = @[@[@"POS常见问题", @"faq.png", FAQViewController.class],
                         @[@"生利宝常见问题", @"helpservice.png", SLBUserNotiDocViewController.class],
                         @[@"刷卡返回码查询", @"returncode.png", ReturnCodeQueryViewController.class]];
     
@@ -83,8 +76,6 @@
     [self.helpTV setGeneralTableDataSource:helpList];
     helpTV.scrollEnabled = NO;
     [self.contentView addSubview:helpTV];
-    
-    
 }
 
 -(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -100,6 +91,5 @@
         [self.navigationController pushViewController:jpCTRL animated:YES];
     }
 }
-
 
 @end

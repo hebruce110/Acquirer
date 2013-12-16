@@ -33,23 +33,12 @@
 
 - (void)dealloc
 {
-    [_totalHeaderLabel release];
-    _totalHeaderLabel = nil;
-    
-    [_totalAmountView release];
-    _totalAmountView = nil;
-    
-    [_takeOutTextField release];
-    _takeOutTextField = nil;
-    
-    [_promptView release];
-    _promptView = nil;
-    
-    [_breakImageView release];
-    _breakImageView = nil;
-    
-    [_confirmButton release];
-    _confirmButton = nil;
+    self.totalHeaderLabel = nil;
+    self.totalAmountView = nil;
+    self.takeOutTextField = nil;
+    self.promptView = nil;
+    self.breakImageView = nil;
+    self.confirmButton = nil;
     
     [super dealloc];
 }
@@ -66,7 +55,7 @@
         self.isShowNaviBar = YES;
         self.isShowTabBar = NO;
         self.isShowRefreshBtn = NO;
-        _isNeedfresh = YES;
+        self.isNeedfresh = YES;
         
         _totalHeaderLabel = nil;
         _totalAmountView = nil;
@@ -78,6 +67,7 @@
         _minOut = 0;
         _maxOut = 0;
         _totalAsset = 0;
+        _isBackToMenuControl = YES;
     }
     return self;
 }
@@ -100,9 +90,8 @@
 {
     [super viewDidAppear:animated];
     
-    if(_isNeedfresh)
-    {
-        _isNeedfresh = NO;
+    if(self.isNeedfresh) {
+        self.isNeedfresh = NO;
         [self reloadData];
     }
 }
@@ -157,7 +146,7 @@
 {
     CGSize ctSize = self.contentView.bounds.size;
     CGFloat toLeft = 20.0f;
-
+    
     _totalHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(toLeft, 5.0f, ctSize.width - toLeft * 2.0f, DEFAULT_ROW_HEIGHT + 5.0f)];
     _totalHeaderLabel.backgroundColor = [UIColor clearColor];
     _totalHeaderLabel.textAlignment = NSTextAlignmentLeft;
@@ -193,7 +182,8 @@
     _takeOutTextField.textAlignment = NSTextAlignmentRight;
     _takeOutTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _takeOutTextField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    _takeOutTextField.keyboardType = UIKeyboardTypeNumberPad;
+    _takeOutTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    _takeOutTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _takeOutTextField.delegate = self;
     [self.contentView addSubview:_takeOutTextField];
     
@@ -248,7 +238,6 @@
     [_confirmButton setTitle:@"确定" forState:UIControlStateNormal];
     [_confirmButton addTarget:self action:@selector(confirmButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_confirmButton];
-    _confirmButton.enabled = NO;
 }
 
 - (void)hideKeyborad
@@ -260,25 +249,30 @@
 {
     [self hideKeyborad];
     
+    if(!_isBackToMenuControl) {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return;
+    }
+    
     SLBMenuViewController *slbMenuViewCtrl = nil;
-    for(id ctrl in self.navigationController.viewControllers)
-    {
-        if([ctrl isKindOfClass:[SLBMenuViewController class]])
-        {
+    for(id ctrl in self.navigationController.viewControllers) {
+        if([ctrl isKindOfClass:[SLBMenuViewController class]]) {
             slbMenuViewCtrl = ctrl;
             break;
         }
     }
     
-    if(slbMenuViewCtrl)
-    {
+    if(slbMenuViewCtrl) {
         [self.navigationController popToViewController:slbMenuViewCtrl animated:YES];
     }
-    else
-    {
+    else {
         slbMenuViewCtrl = [[SLBMenuViewController alloc] init];
-        [self.navigationController popToViewController:slbMenuViewCtrl animated:YES];
+        NSMutableArray *mtlViewCtrls = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        [mtlViewCtrls insertObject:slbMenuViewCtrl atIndex:mtlViewCtrls.count - 2];
         [slbMenuViewCtrl release];
+        [self.navigationController setViewControllers:mtlViewCtrls animated:NO];
+        [self.navigationController popToViewController:slbMenuViewCtrl animated:YES];
     }
 }
 
@@ -286,47 +280,44 @@
 {
     [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000030"];
     
-    CGFloat nowAmount = [NSString amountFromMicrometerSymbolString:_takeOutTextField.text withOutString:@"元"];
     [_takeOutTextField resignFirstResponder];
     
-    if(nowAmount < _minOut || nowAmount <= 0)
-    {
-//        @autoreleasepool {
-//            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:[NSString stringWithFormat:@"输入金额需大于%0.2f元", MAX(_minOut, 0)]
-//                                                                         notifyType:NOTIFICATION_TYPE_ERROR];
-//        }
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"输入金额需大于%0.2f元", MAX(_minOut, 0)] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
+    NSString *amountString = _takeOutTextField.text;
+    
+    if (amountString == nil || amountString.length < 1) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"请输入转出金额" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
     }
-    else if(nowAmount > _totalAsset)
-    {
-//        @autoreleasepool {
-//            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:[NSString stringWithFormat:@"输入金额需小于%0.2f元", _maxOut]
-//                                                                         notifyType:NOTIFICATION_TYPE_ERROR];
-//        }
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"输入金额需小于%0.2f元", _maxOut] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
+    
+    if ([SLBHelper conformToAmtFormat:amountString] == NO) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"输入金额格式有误" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
     }
-    else
-    {
-        [self startTakeOutAmount:nowAmount];
+    
+    if([amountString floatValue] < _minOut || [amountString floatValue] <= 0) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:[NSString stringWithFormat:@"输入金额需大于%0.2f元", MAX(_minOut, 0)] notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
     }
+    
+    if([amountString floatValue] > _totalAsset) {
+        [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:[NSString stringWithFormat:@"输入金额需小于%0.2f元", _totalAsset] notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
+    }
+    
+    [self startTakeOutAmount:amountString];
 }
 
-- (void)startTakeOutAmount:(CGFloat)amount
+- (void)startTakeOutAmount:(NSString *)amount
 {
     NSString *serNumber30 = [NSString slbSerialNumberWithLength:30];
-    [[SLBService sharedService].changeAmountSer requestForServeNum:serNumber30 changeType:SLBChangeOut changeAmt:amount taget:self action:@selector(takeOutDidFinished:)];
+    [[SLBService sharedService].changeAmountSer requestForServeNum:serNumber30 changeType:SLBChangeOut changeAmt:amount target:self action:@selector(takeOutDidFinished:)];
 }
 
 - (void)takeOutDidFinished:(AcquirerCPRequest *)request
 {
     NSDictionary *resDict = (NSDictionary *)request.responseAsJson;
     NSString *succAmtStr = [resDict safeJsonObjForKey:@"succAmt"];
-    if(succAmtStr && succAmtStr.length > 0)
-    {
+    if(succAmtStr && succAmtStr.length > 0) {
         CGFloat succAmt = [succAmtStr floatValue];
         
         SLBDepositOrTakeOutResultViewController *resultViewCtrl = [[SLBDepositOrTakeOutResultViewController alloc] init];
@@ -336,10 +327,9 @@
         [resultViewCtrl setNavigationTitle:self.naviTitleLabel.text];
         [resultViewCtrl release];
     }
-    else
-    {
+    else {
         @autoreleasepool {
-            NSString *respMsg = [resDict safeJsonObjForKey:@"respMsg"];
+            NSString *respMsg = [resDict stringObjectForKey:@"respMsg"];
             [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:respMsg notifyType:NOTIFICATION_TYPE_WARNING];
         }
     }
@@ -349,8 +339,7 @@
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     UIView *touchView = [touch view];
-    if([touchView isKindOfClass:[UIControl class]])
-    {
+    if([touchView isKindOfClass:[UIControl class]]) {
         return (NO);
     }
     return (YES);
@@ -360,65 +349,76 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if(string.length > 1)
+    NSString *text = textField.text;
+    
+    if([NSString isBackString:string])
     {
-//        [textField resignFirstResponder];
-//        @autoreleasepool {
-//            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"请不要粘贴内容到此输入框"
-//                                                                         notifyType:NOTIFICATION_TYPE_ERROR];
-//        }
+        return (YES);
     }
-    else
+    
+    if(text && text.length >= 32)
     {
-        NSString *oldText = textField.text;
-        CGFloat oldAmount = [NSString amountFromMicrometerSymbolString:oldText withOutString:@"元"];
-        CGFloat newAmount = 0;
+        return (NO);
+    }
+    
+    if(string.length > 1) {
+        //        [textField resignFirstResponder];
+        //        @autoreleasepool {
+        //            [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"请不要粘贴内容到此输入框"
+        //                                                                         notifyType:NOTIFICATION_TYPE_ERROR];
+        //        }
         
-        if([NSString isBackString:string])
+        return (NO);
+    } else if([NSString string:string isRangeOfString:@".0123456789"]) {
+        //为空
+        if(!text)
         {
-            //NSLog(@"--- 退格 ---");
-            newAmount = (float)((NSInteger)(oldAmount / 10));
-            if(newAmount == 0)
+            return (YES);
+        }
+        
+        //没有小数点
+        if([text rangeOfString:@"."].length == 0)
+        {
+            if([text isEqualToString:@"0"])
             {
-                textField.text = @"";
+                //0后面只能接小数点
+                if([string isEqualToString:@"0"])
+                {
+                    return (NO);
+                }
+                else if(![string isEqualToString:@"."])
+                {
+                    textField.text = @"";
+                }
             }
-            else
-            {
-                NSString *newText = [NSString micrometerSymbolAmount:newAmount];
-                textField.text = newText;
-            }
+            return (YES);
+        }
+        
+        NSArray *arr = [text componentsSeparatedByString:@"."];
+        //多个小数点
+        if(arr && arr.count >= 2 && [string isEqualToString:@"."])
+        {
+            return (NO);
+        }
+        
+        //小数点没2位
+        NSString *twoPtString = arr.lastObject;
+        if(twoPtString.length < 2)
+        {
+            return (YES);
         }
         else
         {
-            if([NSString string:string isRangeOfString:@"0123456789"])
-            {
-                newAmount = oldAmount * 10.0f + [string floatValue];
-                if(newAmount > _maxOut || newAmount > _totalAsset)
-                {
-                    NSLog(@"--- 超过限额 ---");
-                    newAmount = MIN(_maxOut, _totalAsset);
-                }
-                NSString *newText = [NSString micrometerSymbolAmount:newAmount];
-                textField.text = newText;
-            }
-            else
-            {
-//                [textField resignFirstResponder];
-//                @autoreleasepool {
-//                    [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"输入内容必须为金额"
-//                                                                                 notifyType:NOTIFICATION_TYPE_ERROR];
-//                }
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"输入内容必须为金额" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alertView show];
-                [alertView release];
-            }
+            return (NO);
         }
-        
-        CGFloat nowAmount = [NSString amountFromMicrometerSymbolString:textField.text withOutString:@"元"];
-        _confirmButton.enabled = textField.text && textField.text.length > 0 && nowAmount >= _minOut && nowAmount > 0;
     }
-    
-    return (NO);
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"输入内容必须为金额" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+        
+        return (NO);
+    }
 }
 
 @end

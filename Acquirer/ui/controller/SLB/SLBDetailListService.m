@@ -12,7 +12,7 @@
 @implementation SLBDetailListService
 
 //明细查询
-- (void)requestForResend:(NSString *)resend taget:(id)tg action:(SEL)action
+- (void)requestForResend:(NSString *)resend target:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
@@ -40,8 +40,7 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    if(target && [target respondsToSelector:selector])
-    {
+    if(target && [target respondsToSelector:selector]) {
         [target performSelector:selector withObject:request];
     }
 }

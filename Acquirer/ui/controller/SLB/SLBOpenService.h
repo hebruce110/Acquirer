@@ -10,6 +10,7 @@
 
 @interface SLBOpenService : BaseService
 
-- (void)requestForOpenTaget:(id)tg action:(SEL)action;
+//生利宝开户
+- (void)requestForOpenTarget:(id)tg action:(SEL)action;
 
 @end

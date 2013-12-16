@@ -32,16 +32,6 @@
         sentBy = MessageSentByCS;
         
         saved = NO;
-        
-        /*
-        static int i=0;
-        if (i%2 == 0) {
-            sentBy = MessageSentByUser;
-        }else{
-            sentBy = MessageSentByCS;
-        }
-        i++;
-        */
     }
     return self;
 }

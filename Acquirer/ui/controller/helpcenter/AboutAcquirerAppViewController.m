@@ -33,25 +33,23 @@
     
     
     UILabel *phoneTitleLabel = [[[UILabel alloc] init] autorelease];
-    phoneTitleLabel.frame = CGRectMake(0, 0, 100, 20);
+    phoneTitleLabel.frame = CGRectMake(HORIZONTAL_PADDING, 0, 130, 20);
+    phoneTitleLabel.center = CGPointMake(phoneTitleLabel.center.x, CGRectGetMidY(self.contentView.bounds));
     phoneTitleLabel.textAlignment = NSTextAlignmentRight;
     phoneTitleLabel.font = [UIFont systemFontOfSize:16];
     phoneTitleLabel.text = [NSString stringWithFormat:@"客服电话："];
     phoneTitleLabel.backgroundColor = [UIColor clearColor];
-    phoneTitleLabel.center = CGPointMake(CGRectGetMidX(self.contentView.bounds)-100, CGRectGetMidY(self.contentView.bounds));
     [aboutImageView addSubview:phoneTitleLabel];
     
     UILabel *phoneTextLabel = [[[UILabel alloc] init] autorelease];
-    phoneTextLabel.frame = CGRectMake(0, 0, 200, 20);
-    phoneTextLabel.textAlignment = NSTextAlignmentRight;
+    phoneTextLabel.frame = CGRectMake(CGRectGetMaxX(phoneTitleLabel.frame), 0, CGRectGetWidth(self.contentView.bounds) - CGRectGetWidth(phoneTitleLabel.frame) - HORIZONTAL_PADDING * 2.0f, CGRectGetHeight(phoneTitleLabel.frame));
+    phoneTextLabel.center = CGPointMake(phoneTextLabel.center.x, phoneTitleLabel.center.y);
+    phoneTextLabel.textAlignment = NSTextAlignmentLeft;
     phoneTextLabel.textColor = [Helper amountRedColor];
     phoneTextLabel.backgroundColor = [UIColor clearColor];
     phoneTextLabel.font = [UIFont boldSystemFontOfSize:20];
-    phoneTextLabel.text = [NSString stringWithFormat:@"021-33323999-5183"];
-    phoneTextLabel.center = CGPointMake(CGRectGetMidX(self.contentView.bounds)+30, CGRectGetMidY(self.contentView.bounds));
+    phoneTextLabel.text = [NSString stringWithFormat:@"400-820-2819"];
     [aboutImageView addSubview:phoneTextLabel];
-    
-    
 }
 
 @end

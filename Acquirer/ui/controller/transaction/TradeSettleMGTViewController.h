@@ -13,10 +13,6 @@
 @interface TradeSettleMgtViewController : BaseViewController{
     NSMutableArray *settleList;
     GeneralTableView *settleTV;
-    
-    //是否要刷新TableView
-    //从上个页面pop到当前页, 不做刷新操作
-    BOOL needRefreshTableView;
 }
 
 @property (nonatomic, retain) GeneralTableView *settleTV;

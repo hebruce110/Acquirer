@@ -12,41 +12,31 @@
 #import "SLBHelper.h"
 #import "SafeObject.h"
 
-//detail list row高
+//detail list row height
 #define DEFAULT_SLB_DETAIL_ROW_HEIGHT   64.0
 
 @interface SLBDetailListViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (assign, nonatomic) BOOL isShowMore;
+@property (copy, nonatomic) NSString *resend;
+
 @property (retain, nonatomic) UILabel *showMoreLabel;
 @property (retain, nonatomic) UIActivityIndicatorView *showMoreIndicator;
-
 @property (retain, nonatomic) UITableView *listTableView;
-
 @property (retain, nonatomic) NSMutableArray *detailList;
 
-@property (copy, nonatomic) NSString *resend;
-@property (assign, nonatomic) BOOL isShowMore;
-
 @end
+
 
 @implementation SLBDetailListViewController
 
 - (void)dealloc
 {
-    [_showMoreLabel release];
-    _showMoreLabel = nil;
-    
-    [_showMoreIndicator release];
-    _showMoreIndicator = nil;
-    
-    [_listTableView release];
-    _listTableView = nil;
-    
-    [_detailList release];
-    _detailList = nil;
-    
-    [_resend release];
-    _resend = nil;
+    self.showMoreLabel = nil;
+    self.showMoreIndicator = nil;
+    self.listTableView = nil;
+    self.detailList = nil;
+    self.resend = nil;
     
     [super dealloc];
 }
@@ -63,7 +53,7 @@
         self.isShowNaviBar = YES;
         self.isShowTabBar = NO;
         self.isShowRefreshBtn = NO;
-        _isNeedfresh = YES;
+        self.isNeedfresh = YES;
         _isShowMore = NO;
         
         _showMoreLabel = nil;
@@ -108,9 +98,8 @@
 {
     [super viewDidAppear:animated];
     
-    if(_isNeedfresh)
-    {
-        _isNeedfresh = NO;
+    if(self.isNeedfresh) {
+        self.isNeedfresh = NO;
         
         [self reloadData];
     }
@@ -123,7 +112,7 @@
 
 - (void)slbQueryDetail
 {
-    [[SLBService sharedService].detailListSer requestForResend:_resend taget:self action:@selector(slbQueryDetailDidFinished:)];
+    [[SLBService sharedService].detailListSer requestForResend:_resend target:self action:@selector(slbQueryDetailDidFinished:)];
 }
 
 - (void)slbQueryDetailDidFinished:(AcquirerCPRequest *)request
@@ -131,7 +120,7 @@
     NSDictionary *body = (NSDictionary *)request.responseAsJson;
     
     if (NotNil(body, @"resend")) {
-        self.resend = [body safeJsonObjForKey:@"resend"];
+        self.resend = [body stringObjectForKey:@"resend"];
     }
     
     if (NotNilAndEqualsTo(body, @"endFlag", @"0")) {
@@ -145,8 +134,7 @@
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"没有数据" notifyType:NOTIFICATION_TYPE_WARNING];
     }
     
-    if(!_detailList)
-    {
+    if(!_detailList) {
         _detailList = [[NSMutableArray alloc] initWithCapacity:0];
     }
     [_detailList addObjectsFromArray:ordList];
@@ -208,14 +196,13 @@
     
     
     SLBDetailListCell *cell = [tableView dequeueReusableCellWithIdentifier:slbDetailCellIdentifier];
-    if(!cell)
-    {
+    if(!cell) {
         cell = [[[SLBDetailListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:slbDetailCellIdentifier] autorelease];
     }
     
     NSDictionary *dict = [_detailList safeObjectAtIndex:indexPath.row];
     
-    NSString *tranTimeString = [dict safeJsonObjForKey:@"tranTime"];
+    NSString *tranTimeString = [dict stringObjectForKey:@"tranTime"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyyMMddHHmmss"];
     NSDate *date = [formatter dateFromString:tranTimeString];
@@ -224,26 +211,22 @@
     NSString *tranTime = [formatter stringFromDate:date];
     [formatter release];
     
-    CGFloat tranAmt = [[dict safeJsonObjForKey:@"tranAmt"] floatValue];
-    NSString *tranType = [dict safeJsonObjForKey:@"tranType"];
-    
+    CGFloat tranAmt = [[dict stringObjectForKey:@"tranAmt"] floatValue];
+    NSString *tranType = [dict stringObjectForKey:@"tranType"];
     
     BOOL inOut = NO;
-    if(tranType && [tranType isEqualToString:@"I"])
-    {
+    if(tranType && [tranType isEqualToString:@"I"]) {
         inOut = YES;
     }
     UIImage *img = inOut ? [UIImage imageNamed:@"SLB_icon_in"] : [UIImage imageNamed:@"SLB_icon_out"];
     cell.icImageView.image = img;
     
-    if(inOut)
-    {
+    if(inOut) {
         cell.typeLabel.text = @"存入";
         cell.typeLabel.textAlignment = NSTextAlignmentCenter;
         cell.typeLabel.textColor = [UIColor slbGreenColor];
     }
-    else
-    {
+    else {
         cell.typeLabel.text = @"转出";
         cell.typeLabel.textAlignment = NSTextAlignmentCenter;
         cell.typeLabel.textColor = [UIColor slbRedColor];
@@ -276,8 +259,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(_detailList && (_detailList.count > 0) && (indexPath.row != _detailList.count))
-    {
+    if(_detailList && (_detailList.count > 0) && (indexPath.row != _detailList.count)) {
         return (DEFAULT_SLB_DETAIL_ROW_HEIGHT);
     }
     return (DEFAULT_ROW_HEIGHT);

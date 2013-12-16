@@ -23,11 +23,8 @@
 
 - (void)dealloc
 {
-    [_bgImgView release];
-    _bgImgView = nil;
-    
-    [_employButton release];
-    _employButton = nil;
+    self.bgImgView = nil;
+    self.employButton = nil;
     
     [super dealloc];
 }
@@ -62,7 +59,12 @@
     
     _employButton.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), self.contentView.bounds.size.height - _employButton.bounds.size.height);
     
-    [_bgImgView setImage:[UIImage imageNamed:@"aboutshenglibao-bg"]];
+    if(IS_IPHONE5) {
+        [_bgImgView setImage:[UIImage imageNamed:@"aboutshenglibaobg-568h@2x.png"]];
+    }
+    else {
+        [_bgImgView setImage:[UIImage imageNamed:@"aboutshenglibaobg.png"]];
+    }
     [_employButton setBackgroundImage:[UIImage imageNamed:@"BUTT_red_off"] forState:UIControlStateNormal];
     [_employButton setBackgroundImage:[UIImage imageNamed:@"BUTT_red_on"] forState:UIControlStateHighlighted];
     [_employButton setBackgroundImage:[UIImage imageNamed:@"BUTT_red_on"] forState:UIControlStateSelected];
@@ -85,14 +87,13 @@
 
 - (void)updateSLBUserInfo
 {
-    [[SLBService sharedService].querySer requestForQueryTaget:self action:@selector(updateSLBUserInfoDidFinished)];
+    [[SLBService sharedService].querySer requestForQueryTarget:self action:@selector(updateSLBUserInfoDidFinished)];
 }
 
 - (void)updateSLBUserInfoDidFinished
 {
     BOOL acctStatC = [SLBHelper blFromSLBAgentSlbFlag:[[SLBService sharedService].slbUser safeObjectForKey:@"acctStat"] equalYESString:@"C"];
-    if(acctStatC)
-    {
+    if(acctStatC) {
         SLBAuthorizationAgreementViewController *authorizationViewCtrl = [[SLBAuthorizationAgreementViewController alloc] init];
         [self.navigationController pushViewController:authorizationViewCtrl animated:YES];
         [authorizationViewCtrl release];

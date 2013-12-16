@@ -22,7 +22,7 @@ CGFloat frameHeighOffset(CGRect rect){
 
 @synthesize bgImageView, contentView;
 @synthesize naviBgView, naviTitleLabel, naviBackBtn;
-@synthesize isShowNaviBar, isShowRefreshBtn, isShowTabBar;
+@synthesize isShowNaviBar, isShowRefreshBtn, isShowTabBar, isNeedRefresh, isNeedfresh;
 
 -(void)dealloc{
     [bgImageView release];
@@ -41,6 +41,9 @@ CGFloat frameHeighOffset(CGRect rect){
         isShowNaviBar = YES;
         isShowTabBar = YES;
         isShowRefreshBtn = NO;
+        isNeedfresh = NO;
+        isNeedRefresh = NO;
+        
         self.wantsFullScreenLayout = YES;
     }
     return self;
@@ -131,6 +134,9 @@ CGFloat frameHeighOffset(CGRect rect){
         naviTitleLabel.backgroundColor = [UIColor clearColor];
         [naviBgView addSubview:naviTitleLabel];
         naviTitleLabel.center = CGPointMake(naviBgView.center.x, naviTitleLabel.center.y);
+        
+        UITapGestureRecognizer *tapGesture = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navGestureTaped:)] autorelease];
+        [naviBgView addGestureRecognizer:tapGesture];
     }
     
     CGFloat tabBarHeight = 0.0;
@@ -151,8 +157,6 @@ CGFloat frameHeighOffset(CGRect rect){
 }
 
 -(void)tabBarAnimation{
-    //UIViewController *rootController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    
     UIScreen *screen = [UIScreen mainScreen];
     
     //以动画形式隐藏或显示下面Tabbar
@@ -174,7 +178,6 @@ CGFloat frameHeighOffset(CGRect rect){
             [UIView beginAnimations:@"DisMissDialog" context:nil];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [UIView setAnimationDuration:0.2];
-            
             subView.frame = CGRectMake(0, screen.bounds.size.height, self.view.frame.size.width, DEFAULT_TAB_BAR_HEIGHT);
             
             [UIView commitAnimations];
@@ -182,7 +185,7 @@ CGFloat frameHeighOffset(CGRect rect){
     }
 }
 
--(void) hideBackButton
+-(void)hideBackButton
 {
     naviBackBtn.hidden = YES;
 }
@@ -199,6 +202,15 @@ CGFloat frameHeighOffset(CGRect rect){
     //如果当前NavigationController中ViewController超过1个，移除最上面的一个
     if (self.navigationController.viewControllers.count>1) {
         [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (void)navGestureTaped:(UITapGestureRecognizer *)gesture
+{
+    CGPoint point = [gesture locationInView:naviBgView];
+    if((naviBackBtn.hidden == NO) && (point.x < (self.naviBgView.bounds.size.width / 3.0f)))
+    {
+        [self backToPreviousView:nil];
     }
 }
 
@@ -256,34 +268,3 @@ CGFloat frameHeighOffset(CGRect rect){
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

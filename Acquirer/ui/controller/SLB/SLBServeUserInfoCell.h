@@ -10,7 +10,7 @@
 
 @interface SLBServeUserInfoCell : UITableViewCell
 
-@property (nonatomic, assign) CGFloat offset;
+@property (assign, nonatomic) CGFloat offset;
 
 - (NSString *)title;
 - (void)setTitle:(NSString *)title;

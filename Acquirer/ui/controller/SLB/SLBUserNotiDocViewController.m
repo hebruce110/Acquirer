@@ -22,11 +22,8 @@
 
 - (void)dealloc
 {
-    [_ctVw release];
-    _ctVw = nil;
-    
-    [_txView release];
-    _txView = nil;
+    self.ctVw = nil;
+    self.txView = nil;
     
     [super dealloc];
 }
@@ -55,13 +52,16 @@
 {
     [super viewDidLoad];
     
-    CGFloat space = 5.0f;
+    CGFloat space = 10.0f;
     CGRect ctBounds = self.contentView.bounds;
     _ctVw = [[CTView alloc] init];
-    _ctVw.frame = CGRectMake(0, space, ctBounds.size.width, ctBounds.size.height - space * 2.0f);
-    [self.contentView addSubview:_ctVw];
+    _ctVw.frame = CGRectMake(space, 0, ctBounds.size.width - space, ctBounds.size.height);
+    _ctVw.contentInset = UIEdgeInsetsMake(space, 0, space, 0);
+    _ctVw.contentSize = CGSizeMake(ctBounds.size.width - space * 2.0f, ctBounds.size.height);
     
-    _txView = [[UITextView alloc] initWithFrame:_ctVw.frame];
+    [self.contentView addSubview:_ctVw];
+    _txView = [[UITextView alloc] initWithFrame:CGRectMake(5.0f, 0, ctBounds.size.width - 6.0f, ctBounds.size.height)];
+    _txView.contentInset = _ctVw.contentInset;
     _txView.editable = NO;
     _txView.backgroundColor = [UIColor clearColor];
     _txView.font = [UIFont systemFontOfSize:14];
@@ -73,27 +73,18 @@
     [super viewDidAppear:animated];
     
     NSString *fileName = nil;
-    switch(_agreementType)
-    {
-        case SLBUserNotiTypeAuthorization:
-        {
+    switch(_agreementType) {
+        case SLBUserNotiTypeAuthorization: {
             fileName = @"slbAuthorization";
             [_ctVw removeFromSuperview];
         }break;
             
-        case SLBUserNotiTypeServe:
-        {
+        case SLBUserNotiTypeServe: {
             fileName = @"slbServe";
-//            _ctVw.lastPageOffset = - 0.4f;
-            if(IS_IPHONE5)
-            {
-//                _ctVw.lastPageOffset = - 0.15f;
-            }
             [_txView removeFromSuperview];
         }break;
             
-        case SLBUserNotiTypeIntroduction:
-        {
+        case SLBUserNotiTypeIntroduction: {
             fileName = @"slbIntroduction";
             [_ctVw removeFromSuperview];
         }break;
@@ -102,32 +93,31 @@
         break;
     }
     
-    if(fileName && fileName.length > 0)
-    {
+    if(fileName && fileName.length > 0) {
+        
         [[Acquirer sharedInstance] showUIPromptMessage:@"加载中..." animated:YES];
+        
         __block CTView *blCTView = _ctVw;
         __block UITextView *blTxView = _txView;
         __block NSString *blFileName = fileName;
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             NSString *path = [[NSBundle mainBundle] pathForResource:blFileName ofType:@"plist"];
             NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-            NSString* text = [dict safeJsonObjForKey:@"text"];
+            NSString* text = [dict stringObjectForKey:@"text"];
             MarkupParser* parser = [[[MarkupParser alloc] init] autorelease];
             NSAttributedString* attString = [parser attrStringFromMarkup:text];
             
-            if(_agreementType == SLBUserNotiTypeServe)
-            {
+            if(_agreementType == SLBUserNotiTypeServe) {
                 [blCTView setAttString:attString withImages: parser.images];
             }
             
             dispatch_sync(dispatch_get_main_queue(), ^(void){
                 [[Acquirer sharedInstance] hideUIPromptMessage:YES];
-                if(_agreementType == SLBUserNotiTypeServe)
-                {
+                if(_agreementType == SLBUserNotiTypeServe) {
                     [blCTView buildFrames];
                 }
-                else
-                {
+                else {
                     [blTxView setText:text];
                 }
             });

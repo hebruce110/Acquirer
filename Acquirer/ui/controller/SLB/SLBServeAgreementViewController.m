@@ -32,20 +32,11 @@
 
 - (void)dealloc
 {
-    [_userInfoTableView release];
-    _userInfoTableView = nil;
-    
-    [_agreeBox release];
-    _agreeBox = nil;
-    
-    [_agreementButton release];
-    _agreementButton = nil;
-    
-    [_confirmButton release];
-    _confirmButton = nil;
-    
-    [_infoArray release];
-    _infoArray = nil;
+    self.userInfoTableView = nil;
+    self.agreeBox = nil;
+    self.agreementButton = nil;
+    self.confirmButton = nil;
+    self.infoArray = nil;
     
     [super dealloc];
 }
@@ -70,8 +61,7 @@
 - (void)setUpInfoList
 {
     @autoreleasepool {
-        if(_infoArray)
-        {
+        if(_infoArray) {
             [_infoArray removeAllObjects];
         }
         
@@ -83,11 +73,21 @@
         NSString *mobile = [slbUsr safeObjectForKey:@"mobile"];
         NSString *prodiderName = [slbUsr safeObjectForKey:@"prodiderName"];
         
-        NSArray *headerTitleArray = [NSArray arrayWithObjects:@"姓名:", [SLBHelper certNameFromCertType:certType], @"银行卡号:", @"手机号:", @"服务提供方:", nil];
+        NSArray *headerTitleArray = [NSArray arrayWithObjects:
+                                     @"姓名:",
+                                     [SLBHelper certNameFromCertType:certType],
+                                     @"银行卡号:",
+                                     @"手机号:",
+                                     @"服务提供方:", nil];
         
-        NSArray *textArray = [NSArray arrayWithObjects:fullName, certNo, cardNo, mobile, prodiderName, nil];
-        for(NSInteger index = 0; index < headerTitleArray.count; index ++)
-        {
+        NSArray *textArray = [NSArray arrayWithObjects:
+                              fullName,
+                              certNo,
+                              cardNo,
+                              mobile,
+                              prodiderName, nil];
+        
+        for(NSInteger index = 0; index < headerTitleArray.count; index ++) {
             NSString *title = [headerTitleArray safeObjectAtIndex:index];
             NSString *text = [textArray safeObjectAtIndex:index];
             NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -108,12 +108,13 @@
     
     [self setUpInfoList];
     
-    _userInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, GENERALTABLE_OFFSET, 320.0f, 246.0f) style:UITableViewStyleGrouped];
+    _userInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320.0f, 246.0f) style:UITableViewStyleGrouped];
     _userInfoTableView.backgroundView = nil;
     _userInfoTableView.backgroundColor = [UIColor clearColor];
     _userInfoTableView.dataSource = self;
     _userInfoTableView.delegate = self;
     _userInfoTableView.scrollEnabled = NO;
+    _userInfoTableView.contentInset = UIEdgeInsetsMake(GENERALTABLE_OFFSET, 0, 0, 0);
     [self.contentView addSubview:_userInfoTableView];
     
     _confirmButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 300.0f, 57.0f)];
@@ -137,7 +138,7 @@
     [self.contentView addSubview:_agreeBox];
     
     _agreementButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_agreeBox.frame), _agreeBox.frame.origin.y, CGRectGetWidth(self.contentView.bounds) * 0.5f, _agreeBox.bounds.size.height)];
-    [_agreementButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_agreementButton setTitleColor:[UIColor slbBlueColor] forState:UIControlStateNormal];
     [_agreementButton setTitle:@"《生利宝服务协议》" forState:UIControlStateNormal];
     [_agreementButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [_agreementButton addTarget:self action:@selector(agreementButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
@@ -153,6 +154,8 @@
 
 - (void)agreementButtonTouched:(id)sender
 {
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000034"];
+    
     SLBUserNotiDocViewController *userNotiViewCtrl = [[SLBUserNotiDocViewController alloc] init];
     userNotiViewCtrl.agreementType = SLBUserNotiTypeServe;
     [self.navigationController pushViewController:userNotiViewCtrl animated:YES];
@@ -172,20 +175,26 @@
 //开通
 - (void)slbOpen
 {
-    [[SLBService sharedService].openSer requestForOpenTaget:self action:@selector(slbDidOpenFinished:)];
+    [[SLBService sharedService].openSer requestForOpenTarget:self action:@selector(slbDidOpenFinished:)];
 }
 
 - (void)slbDidOpenFinished:(AcquirerCPRequest *)request
 {
-    NSArray *keys = [NSArray arrayWithObjects:@"settleFund", @"totalAsset", @"curProfit", @"totalProfit", @"minIn", @"maxIn", @"minOut", @"maxOut", nil];
+    NSArray *keys = [NSArray arrayWithObjects:
+                     @"settleFund",
+                     @"totalAsset",
+                     @"curProfit",
+                     @"totalProfit",
+                     @"minIn",
+                     @"maxIn",
+                     @"minOut",
+                     @"maxOut", nil];
     NSDictionary *body = (NSDictionary *)request.responseAsJson;
 
     SLBUser *slbUsr = [SLBService sharedService].slbUser;
-    for(NSString *key in keys)
-    {
+    for(NSString *key in keys) {
         id value = [body safeJsonObjForKey:key];
-        if(value)
-        {
+        if(value) {
             [slbUsr setObject:value forKey:key];
         }
     }
@@ -234,14 +243,13 @@
 {
     static NSString *serveAgreementCellIdentifier = @"serveAgreementCellIdentifier";
     SLBServeUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:serveAgreementCellIdentifier];
-    if(!cell)
-    {
+    if(!cell) {
         cell = [[[SLBServeUserInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:serveAgreementCellIdentifier] autorelease];
     }
     
     NSDictionary *dict = [_infoArray safeObjectAtIndex:indexPath.row];
-    cell.title = [dict safeJsonObjForKey:@"title"];
-    cell.detailTitle = [dict safeJsonObjForKey:@"text"];
+    cell.title = [dict stringObjectForKey:@"title"];
+    cell.detailTitle = [dict stringObjectForKey:@"text"];
     
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     return (cell);

@@ -10,12 +10,25 @@
 #import "CustomTextView.h"
 #import "TradeEncashViewController.h"
 
+@interface TradeEncashProtocalViewController ()
+
+@property (retain, nonatomic) UIButton *agreeBtn;
+
+@end
+
 @implementation TradeEncashProtocalViewController
+
+- (void)dealloc
+{
+    self.agreeBtn = nil;
+    
+    [super dealloc];
+}
 
 -(id)init{
     self = [super init];
     if (self) {
-        hasReadAll = NO;
+        _agreeBtn = nil;
     }
     return self;
 }
@@ -24,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    [self setNavigationTitle:@"POS即时取现协议"];
+    [self setNavigationTitle:@"协议签订"];
     
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeigh = self.contentView.bounds.size.height;
@@ -57,31 +70,41 @@
     UIImage *btnSelImg = [UIImage imageNamed:@"BUTT_red_on.png"];
     UIImage *btnDeSelImg = [UIImage imageNamed:@"BUTT_red_off.png"];
     CGRect buttonFrame = CGRectMake(10, frameHeighOffset(dashFrame)+VERTICAL_PADDING, btnSelImg.size.width, btnSelImg.size.height);
-    UIButton *agreeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    agreeBtn.frame = buttonFrame;
-    agreeBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), agreeBtn.center.y);
-    agreeBtn.backgroundColor = [UIColor clearColor];
-    [agreeBtn setBackgroundImage:btnDeSelImg forState:UIControlStateNormal];
-    [agreeBtn setBackgroundImage:btnSelImg forState:UIControlStateSelected];
-    agreeBtn.layer.cornerRadius = 10.0;
-    agreeBtn.clipsToBounds = YES;
-    agreeBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];
-    [agreeBtn setTitle:@"同意协议" forState:UIControlStateNormal];
-    [agreeBtn addTarget:self action:@selector(pressAgreeProtocal:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:agreeBtn];
+    _agreeBtn = [[UIButton alloc] init];
+    _agreeBtn.frame = buttonFrame;
+    _agreeBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), _agreeBtn.center.y);
+    _agreeBtn.backgroundColor = [UIColor clearColor];
+    [_agreeBtn setBackgroundImage:btnDeSelImg forState:UIControlStateNormal];
+    [_agreeBtn setBackgroundImage:btnSelImg forState:UIControlStateSelected];
+    _agreeBtn.layer.cornerRadius = 10.0;
+    _agreeBtn.clipsToBounds = YES;
+    _agreeBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];
+    [_agreeBtn setTitle:@"同意协议" forState:UIControlStateNormal];
+    [_agreeBtn addTarget:self action:@selector(pressAgreeProtocal:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_agreeBtn];
     
+    self.hasReadAll = NO;
 }
 
+- (void)setHasReadAll:(BOOL)hasReadAll
+{
+    _hasReadAll = hasReadAll;
+    _agreeBtn.enabled = _hasReadAll;
+}
 #pragma mark UIScrollViewDelegate Method
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y>=scrollView.contentSize.height-scrollView.frame.size.height) {
-        hasReadAll = YES;
+    if (scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height) {
+        self.hasReadAll = YES;
+    }
+    else
+    {
+        self.hasReadAll = NO;
     }
 }
 
 -(void)pressAgreeProtocal:(id)sender{
-    if (hasReadAll) {
+    if (_hasReadAll) {
         [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000020"];
         
         [[AcquirerService sharedInstance].encashService onRespondTarget:self];

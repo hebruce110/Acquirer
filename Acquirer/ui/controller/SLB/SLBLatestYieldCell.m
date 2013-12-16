@@ -13,11 +13,8 @@
 
 - (void)dealloc
 {
-    [_imgView release];
-    _imgView = nil;
-    
-    [_tlLabel release];
-    _tlLabel = nil;
+    self.imgView = nil;
+    self.tlLabel = nil;
     
     [_attView release];
     _attView = nil;

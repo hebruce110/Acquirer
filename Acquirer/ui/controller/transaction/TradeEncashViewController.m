@@ -14,6 +14,7 @@
 #import "PlainCellContent.h"
 #import "FormTableCell.h"
 #import "TradeEncashConfirmViewController.h"
+#import "SLBHelper.h"
 
 @implementation EncashModel
 
@@ -88,7 +89,7 @@
 {
     [super viewDidLoad];
 	
-    [self setNavigationTitle:@"即时取现"];
+    [self setNavigationTitle:@"即时结算"];
     
     CGFloat contentWidth = self.contentView.bounds.size.width;
     //CGFloat contentHeight = self.contentView.bounds.size.height;
@@ -215,21 +216,6 @@
     }
 }
 
--(Boolean)conformToAmtFormat:(NSString *)amtSTR{
-    NSCharacterSet *splitCharSet = [NSCharacterSet characterSetWithCharactersInString:@"."];
-    
-    NSRange dotRange = [amtSTR rangeOfCharacterFromSet:splitCharSet];
-    if (dotRange.location == NSNotFound) {
-        return YES;
-    }else{
-        int amtLength = [amtSTR length];
-        if (amtLength-dotRange.length-dotRange.location > 2) {
-            return NO;
-        }
-    }
-    return YES;
-}
-
 -(void)pressSubmit:(id)sender{
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     FormTableCell *formCell = (FormTableCell *)[encashTV cellForRowAtIndexPath:indexPath];
@@ -240,7 +226,7 @@
         return;
     }
     
-    if ([self conformToAmtFormat:amtSTR] == NO) {
+    if ([SLBHelper conformToAmtFormat:amtSTR] == NO) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"输入取款金额格式有误" notifyType:NOTIFICATION_TYPE_ERROR];
         return;
     }
@@ -284,17 +270,15 @@
     [self.navigationController pushViewController:tradeEncashConfirmCTRL animated:YES];
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    UIView *touchView = [touch view];
+    if([touchView isKindOfClass:[UIControl class]])
+    {
+        return (NO);
+    }
+    return (YES);
+}
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-

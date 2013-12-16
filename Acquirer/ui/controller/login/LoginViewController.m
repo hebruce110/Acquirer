@@ -42,7 +42,6 @@
     if (self != nil) {
         self.isShowNaviBar = NO;
         self.isShowTabBar = NO;
-        
         patternList = [[NSMutableArray alloc] init];
     }
     return self;
@@ -50,7 +49,7 @@
 
 -(void)setUpFormCellPatternList{
     NSArray *titleList = [NSArray arrayWithObjects:@"机  构  号　|", @"操作员号　|", @"密　　码　|", nil];
-    NSArray *placeHolderList = [NSArray arrayWithObjects:@"请输入机构号", @"请输入操作员号", @"请输入密码", nil];
+    NSArray *placeHolderList = [NSArray arrayWithObjects:@"以6开头的8位数字", @"请输入您的操作员号", @"请输入密码", nil];
     
     NSString *instSTR = [Helper getValueByKey:ACQUIRER_LOGIN_INSTITUTE];
     instSTR = [Helper stringNullOrEmpty:instSTR] ? @"" : instSTR;
@@ -69,6 +68,7 @@
                                                        [NSNumber numberWithInt:20],
                                                        [NSNumber numberWithInt:32],nil];
     
+    [patternList removeAllObjects];
     for (int i=0; i<[titleList count]; i++) {
         FormCellContent *pattern = [[[FormCellContent alloc] init] autorelease];
         pattern.titleSTR = [titleList objectAtIndex:i];
@@ -88,6 +88,37 @@
 {
     [super viewDidLoad];
     
+    [self setUpFormCellPatternList];
+    [self addSubViews];
+    
+    UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [contentView addGestureRecognizer:tg];
+    tg.delegate = self;
+    [tg release];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
+        
+        [self setUpFormCellPatternList];
+        [self.loginTableView reloadData];
+    }
+    
+    //接收激活通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDoActivate:) name:NOTIFICATION_JUMP_ACTIVATE_PAGE object:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)addSubViews
+{
     UIImage *loginBgImg = IS_IPHONE5 ? [UIImage imageNamed:@"sd_logo-568h@2x.png"]:[UIImage imageNamed:@"sd_logo"];
     UIImageView *loginBgImgView = [[[UIImageView alloc] init] autorelease];
     loginBgImgView.userInteractionEnabled = YES;
@@ -98,11 +129,8 @@
     [self.bgImageView addSubview:loginBgImgView];
     [self.bgImageView sendSubviewToBack:loginBgImgView];
     
-    
     CGFloat contentWidth = self.contentView.bounds.size.width;
     CGFloat contentHeight = self.contentView.bounds.size.height;
-    
-    [self setUpFormCellPatternList];
     
     CGRect tableFrame = CGRectMake(0, 90, contentWidth, 160);
     self.loginTableView = [[[GeneralTableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped] autorelease];
@@ -135,12 +163,14 @@
     CGRect notLoginFrame = CGRectMake(0, 320, 120, 40);
     UIButton *notLoginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     notLoginBtn.frame = notLoginFrame;
-    notLoginBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), notLoginBtn.center.y);
+    notLoginBtn.center = CGPointMake(CGRectGetMaxX(loginBtn.frame) - CGRectGetWidth(notLoginBtn.frame) / 2.0f, notLoginBtn.center.y);
     notLoginBtn.backgroundColor = [UIColor clearColor];
     notLoginBtn.titleLabel.font = [UIFont systemFontOfSize:19];//[UIFont fontWithName:@"Arial" size:19];
-    [notLoginBtn setTitle:@"无法登录?" forState:UIControlStateNormal];
-    [notLoginBtn setTitleColor:[Helper hexStringToColor:@"#CC0000"] forState:UIControlStateNormal];
+    [notLoginBtn setTitle:@"找回机构号" forState:UIControlStateNormal];
+    [notLoginBtn setTitleColor:[Helper hexStringToColor:@"#4D77A4"] forState:UIControlStateNormal];
     [notLoginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    notLoginBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    
     [notLoginBtn addTarget:self action:@selector(notLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:notLoginBtn];
     
@@ -157,35 +187,19 @@
     servicePhoneLabel.bounds = CGRectMake(0, 0, 150, 30);
     servicePhoneLabel.backgroundColor = [UIColor clearColor];
     servicePhoneLabel.font = [UIFont systemFontOfSize:15];
-    servicePhoneLabel.text = @"021-33323999-5513";
+    servicePhoneLabel.text = @"400-820-2819";
     servicePhoneLabel.textColor = [Helper hexStringToColor:@"#4D77A4"];
     servicePhoneLabel.center = CGPointMake(210, contentHeight-41);
     [self.contentView addSubview:servicePhoneLabel];
-    
-    
-    UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-    [contentView addGestureRecognizer:tg];
-    tg.delegate = self;
-    [tg release];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     UIView *touchView = [touch view];
-    if ([touchView isDescendantOfView:self.loginTableView]) {
-        return NO;
+    if([touchView isKindOfClass:[UIControl class]])
+    {
+        return (NO);
     }
-   
-    return YES;
+    return (YES);
 }
 
 -(void) tapGesture:(UITapGestureRecognizer *)sender{
@@ -262,6 +276,21 @@
     
     ValiIdentityViewController *valiIdentityCTRL = [[[ValiIdentityViewController alloc] init] autorelease];
     [self.navigationController pushViewController:valiIdentityCTRL animated:YES];
+}
+
+//接收激活通知
+- (void)userDoActivate:(NSNotification *)notification
+{
+    NSDictionary *body = notification.object;
+    if(NotNil(body, @"mobile"))
+    {
+        NSString *mobile = [body objectForKey:@"mobile"];
+        ActivateViewController *activateCTRL = [[ActivateViewController alloc] init];
+        activateCTRL.CTRLType = ACTIVATE_FIRST_CONFIRM;
+        activateCTRL.mobileSTR = mobile;
+        [self.navigationController pushViewController:activateCTRL animated:YES];
+        [activateCTRL release];
+    }
 }
 
 @end

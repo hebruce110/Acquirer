@@ -23,6 +23,7 @@
 -(id)init{
     self = [super init];
     if (self) {
+        self.isNeedRefresh = YES;
         bankAcctList = [[NSMutableArray alloc] init];
     }
     return self;
@@ -37,7 +38,7 @@
     CGFloat contentWidth = self.contentView.bounds.size.width;
     
     self.bankAcctTV = [[[GeneralTableView alloc] initWithFrame:self.contentView.bounds
-                                                    style:UITableViewStyleGrouped] autorelease];
+                                                         style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [bankAcctTV setTableHeaderView:marginView];
@@ -54,8 +55,12 @@
     
     [bankAcctList removeAllObjects];
     
-    [[AcquirerService sharedInstance].settleService onRespondTarget:self];
-    [[AcquirerService sharedInstance].settleService requestForBankSettleAccount];
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
+        [[AcquirerService sharedInstance].settleService onRespondTarget:self];
+        [[AcquirerService sharedInstance].settleService requestForBankSettleAccount];
+    }
 }
 
 -(void)processBankSettleAccountData:(NSDictionary *)dict{

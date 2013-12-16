@@ -62,6 +62,7 @@ static UIFont *font;
     return bubbleSize;
 }
 
+//气泡效果处理
 -(void)drawRect:(CGRect)rect{
     [self.backgroundColor setFill];
     UIRectFill(rect);

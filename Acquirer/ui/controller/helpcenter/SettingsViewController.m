@@ -13,13 +13,20 @@
 #import "AboutAcquirerAppViewController.h"
 #import "AppDelegate.h"
 
+@interface SettingsViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (retain, nonatomic) NSMutableArray *resArray;
+
+@property (retain, nonatomic) UISwitch *swh;
+
+@end
+
 @implementation SettingsViewController
 
-@synthesize settingsTV;
-
 -(void)dealloc{
-    [settingsTV release];
-    [settingList release];
+    [_settingsTV release];
+    self.swh = nil;
+    self.resArray = nil;
     
     [super dealloc];
 }
@@ -27,36 +34,32 @@
 -(id)init{
     self = [super init];
     if (self) {
-        settingList = [[NSMutableArray alloc] init];
+        _resArray = [[NSMutableArray alloc] init];
+        _settingsTV = nil;
+        _swh = nil;
     }
     return self;
 }
 
 -(void)setUpSettingList{
-    NSArray *conList = @[@[@"个人信息", @"logininfo.png"],
-                         @[@"关于软件", @"about.png"]];
+    [_resArray removeAllObjects];
     
-    NSMutableArray *secOne = [[[NSMutableArray alloc] init] autorelease];
+    NSArray *titleArray = @[@"个人信息", @"关于软件", @"检查更新", @"接收消息推送"];
+    NSArray *imgArray = @[@"logininfo", @"about", @"update", @"guestbook"];
     
-    for (NSArray *List in conList) {
-        PlainCellContent *pc = [[PlainCellContent new] autorelease];
-        pc.titleSTR = [List objectAtIndex:0];
-        pc.imgNameSTR = [List objectAtIndex:1];
-        pc.cellStyle = Cell_Style_Standard;
-        pc.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [secOne addObject:pc];
+    NSMutableArray *arr0 = [NSMutableArray arrayWithCapacity:0];
+    for(NSInteger ix = 0; ix < titleArray.count; ix ++)
+    {
+        NSString *title = [titleArray objectAtIndex:ix];
+        NSString *img = [imgArray objectAtIndex:ix];
+        
+        NSDictionary *dict = @{@"title":title, @"img":img};
+        [arr0 addObject:dict];
     }
-    [settingList addObject:secOne];
     
-    NSMutableArray *secTwo = [[[NSMutableArray alloc] init] autorelease];
-    PlainCellContent *pc = [[PlainCellContent new] autorelease];
-    pc.titleSTR = @"退出登录";
-    pc.cellStyle = Cell_Style_Standard;
-    pc.accessoryType = UITableViewCellAccessoryNone;
-    pc.alignment = NSTextAlignmentCenter;
-    [secTwo addObject:pc];
-    
-    [settingList addObject:secTwo];
+    NSArray *arr1 = @[@{@"title":@"退出登录", @"img":@""}];
+    [_resArray addObject:arr0];
+    [_resArray addObject:arr1];
 }
 
 - (void)viewDidLoad
@@ -64,18 +67,98 @@
     [super viewDidLoad];
 	[self setNavigationTitle:@"设置"];
     
-    float contentWidth = self.contentView.bounds.size.width;
-    float contentHeight = self.contentView.bounds.size.height;
-    
     [self setUpSettingList];
-    self.settingsTV = [[[GeneralTableView alloc] initWithFrame:CGRectMake(0, 10, contentWidth, contentHeight)
-                                                         style:UITableViewStyleGrouped] autorelease];
-    [settingsTV setGeneralTableDataSource:settingList];
-    [settingsTV setDelegateViewController:self];
-    [self.contentView addSubview:settingsTV];
+    
+    _swh = [[UISwitch alloc] init];
+    _swh.on = [MessageNumberData receiveNotification];
+    
+    [_swh addTarget:self action:@selector(swhValueDidChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    _settingsTV = [[GeneralTableView alloc] initWithFrame:self.contentView.bounds style:UITableViewStyleGrouped];
+    _settingsTV.dataSource = self;
+    _settingsTV.delegate = self;
+    [_settingsTV setRowHeight:DEFAULT_ROW_HEIGHT];
+    _settingsTV.contentInset = UIEdgeInsetsMake(GENERALTABLE_OFFSET, 0, 0, 0);
+    [self.contentView addSubview:_settingsTV];
 }
 
--(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        [(AppDelegate *)[UIApplication sharedApplication].delegate manuallyLogout];
+    }
+}
+
+- (void)checkUpdate
+{
+    //检查版本更新
+    [[AcquirerService sharedInstance].postbeService requestForInAppVersionCheck];
+}
+
+- (void)swhValueDidChanged:(UISwitch *)sw
+{
+    [MessageNumberData setReceiveNotification:sw.on];
+}
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return (_resArray.count);
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return ([[_resArray objectAtIndex:section] count]);
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [[[UITableViewCell alloc] init] autorelease];
+    
+    NSDictionary *dict = [[_resArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    NSString *title = [dict objectForKey:@"title"];
+    NSString *img = [dict objectForKey:@"img"];
+    
+    cell.imageView.image = [UIImage imageNamed:img];
+    cell.textLabel.text = title;
+    
+    if(indexPath.section == 1)
+    {
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    else
+    {
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    }
+    
+    if(indexPath.section == 0 && indexPath.row < 2)
+    {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    if(indexPath.section == 0 && indexPath.row == 3)
+    {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        _swh.center = CGPointMake(290.0f - _swh.bounds.size.width / 2.0f, DEFAULT_ROW_HEIGHT / 2.0f);
+        [cell.contentView addSubview:_swh];
+    }
+    else
+    {
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    }
+    
+    return (cell);
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             UserInfomationViewController *usrInfoCTRL = [[[UserInfomationViewController alloc] init] autorelease];
@@ -83,6 +166,8 @@
         }else if (indexPath.row == 1){
             AboutAcquirerAppViewController *aboutCTRL = [[[AboutAcquirerAppViewController alloc] init] autorelease];
             [self.navigationController pushViewController:aboutCTRL animated:YES];
+        }else if (indexPath.row == 2){
+            [self checkUpdate];
         }
     }
     //退出登录
@@ -93,12 +178,6 @@
                                                   otherButtonTitles:@"确定", nil];
         [alertView show];
         [alertView release];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 1) {
-        [(AppDelegate *)[UIApplication sharedApplication].delegate manuallyLogout];
     }
 }
 

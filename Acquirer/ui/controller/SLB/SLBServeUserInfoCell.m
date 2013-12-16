@@ -19,11 +19,8 @@
 
 - (void)dealloc
 {
-    [_headerLabel release];
-    _headerLabel = nil;
-    
-    [_dtTextLabel release];
-    _dtTextLabel = nil;
+    self.headerLabel = nil;
+    self.dtTextLabel = nil;
     
     [super dealloc];
 }
@@ -32,14 +29,12 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
         _offset = 10.0f;
         
         _headerLabel = [[UILabel alloc] init];
         _dtTextLabel = [[UILabel alloc] init];
         
-        _headerLabel.backgroundColor = [UIColor clearColor];
-        _dtTextLabel.backgroundColor = [UIColor clearColor];
+        _headerLabel.backgroundColor = _dtTextLabel.backgroundColor = [UIColor clearColor];
         
         _headerLabel.textAlignment = NSTextAlignmentLeft;
         _dtTextLabel.textAlignment = NSTextAlignmentRight;

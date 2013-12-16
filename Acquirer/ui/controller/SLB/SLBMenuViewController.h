@@ -10,6 +10,7 @@
 
 @interface SLBMenuViewController : BaseViewController
 
-@property (assign, nonatomic) BOOL isNeedfresh;
+//是否强制跳回
+@property (assign, nonatomic) BOOL isBackToMenuControl;
 
 @end

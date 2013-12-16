@@ -14,5 +14,6 @@
 
 //请求短信
 -(void)requestForShortMessage;
+- (void)requestForShortMessageByPnrDevId:(NSString *)pnrDevId;
 
 @end

@@ -12,7 +12,7 @@
 
 //-----------------------------------
 //公告、通知查询
-- (void)requestNoticeListByResend:(NSString *)resend flag:(MessageFlag)flag reportFlag:(messageReportFlag)reportFlag Taget:(id)tg action:(SEL)action
+- (void)requestNoticeListByResend:(NSString *)resend flag:(MessageFlag)flag reportFlag:(messageReportFlag)reportFlag Target:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
@@ -31,12 +31,10 @@
     [dict setValue:[NSString stringWithFormat:@"%u", flag] forKey:@"flag"];
     [dict setValue:[NSString stringWithFormat:@"%u", reportFlag] forKey:@"reportFlag"];
     
-    if(reportFlag == messageReportNotice)
-    {
+    if(reportFlag == messageReportNotice) {
         [dict setValue:@"00000008" forKey:@"functionId"];
     }
-    else if(reportFlag == messageReportNotification)
-    {
+    else if(reportFlag == messageReportNotification) {
         [dict setValue:@"00000009" forKey:@"functionId"];
     }
     AddOptionalReqInfomation(dict);
@@ -52,15 +50,14 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    if(target && [target respondsToSelector:selector])
-    {
+    if(target && [target respondsToSelector:selector]) {
         [target performSelector:selector withObject:request];
     }
 }
 
 //-----------------------------------
 //公告、通知详情查询
-- (void)requestNoticeDetailByFlag:(MessageFlag)flag noticeId:(NSString *)noticeId Taget:(id)tg action:(SEL)action
+- (void)requestNoticeDetailByFlag:(MessageFlag)flag noticeId:(NSString *)noticeId Target:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
@@ -74,8 +71,7 @@
     [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
     [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
     [dict setValue:[NSString stringWithFormat:@"%u", flag] forKey:@"flag"];
-    if(noticeId)
-    {
+    if(noticeId) {
         [dict setValue:noticeId forKey:@"noticeId"];
     }
     AddOptionalReqInfomation(dict);
@@ -91,15 +87,14 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    if(target && [target respondsToSelector:selector])
-    {
+    if(target && [target respondsToSelector:selector]) {
         [target performSelector:selector withObject:request];
     }
 }
 
 //-----------------------------------
 //留言信息查询
-- (void)requestLeaveMessageByResend:(NSString *)resend Taget:(id)tg action:(SEL)action
+- (void)requestLeaveMessageByResend:(NSString *)resend Target:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
@@ -127,15 +122,14 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    if(target && [target respondsToSelector:selector])
-    {
+    if(target && [target respondsToSelector:selector]) {
         [target performSelector:selector withObject:request];
     }
 }
 
 //-----------------------------------
 //留言信息详情
-- (void)requestLeaveMessageDetailByMsgId:(NSString *)msgId Taget:(id)tg action:(SEL)action
+- (void)requestLeaveMessageDetailByMsgId:(NSString *)msgId Target:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
@@ -148,8 +142,7 @@
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setValue:ac.currentUser.instSTR forKey:@"instId"];
     [dict setValue:ac.currentUser.opratorSTR forKey:@"operId"];
-    if(msgId)
-    {
+    if(msgId) {
         [dict setValue:msgId forKey:@"msgId"];
     }
     AddOptionalReqInfomation(dict);
@@ -165,15 +158,14 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    if(target && [target respondsToSelector:selector])
-    {
+    if(target && [target respondsToSelector:selector]) {
         [target performSelector:selector withObject:request];
     }
 }
 
 //-----------------------------------
 //留言信息新增
-- (void)requestAddLeaveMessageByTitle:(NSString *)title content:(NSString *)content Taget:(id)tg action:(SEL)action
+- (void)requestAddLeaveMessageByTitle:(NSString *)title content:(NSString *)content Target:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
@@ -202,8 +194,7 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    if(target && [target respondsToSelector:selector])
-    {
+    if(target && [target respondsToSelector:selector]) {
         [target performSelector:selector withObject:request];
     }
 }

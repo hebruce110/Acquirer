@@ -12,7 +12,13 @@
 
 @interface LoginService : BaseService
 
+//登录
 -(void)requestForLogin;
+
+//登录激活
 -(void)requestForActivateLogin:(NSString *)activateSTR withPass:(NSString *)newPassSTR;
+
+//账号激活
+- (void)requestForActivateByActivateId:(NSString *)activateId pnrDevIdSTR:(NSString *)pnrDevIdSTR password:(NSString *)password;
 
 @end

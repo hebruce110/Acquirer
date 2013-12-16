@@ -34,6 +34,7 @@
 -(id)initWithStartDate:(NSString *)startSTR endDate:(NSString *)endSTR{
     self = [super init];
     if (self) {
+        self.isNeedRefresh = YES;
         startDateSTR = [startSTR copy];
         endDateSTR = [endSTR copy];
         
@@ -41,7 +42,6 @@
         
         resendFlag = [DEFAULT_RESEND_FLAG copy];
         
-        needRefreshTableView = YES;
         isShowMore = NO;
     }
     return self;
@@ -76,7 +76,9 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    if (needRefreshTableView) {
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
         [self requestForSettleQuery];
     }
 }
@@ -202,6 +204,14 @@
     cell.tradeTimeLabel.text = balDateSTR;
     
     cell.balanceAmtLabel.text = [NSString stringWithFormat:@"%@元", dc.balAmtSTR];
+    
+    CGRect amountFm = cell.balanceAmtLabel.frame;
+    amountFm.origin.x = CGRectGetMaxX(cell.bankCardLabel.frame);
+    amountFm.size.width = CGRectGetWidth(cell.frame) - CGRectGetMaxX(cell.bankCardLabel.frame) - cell.indentationWidth * 3.5f;
+    cell.balanceAmtLabel.frame = amountFm;
+    cell.balanceAmtLabel.center = CGPointMake(cell.balanceAmtLabel.center.x, DEFAULT_ROW_HEIGHT / 2.0f);
+    cell.balanceAmtLabel.textAlignment = NSTextAlignmentRight;
+    
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -226,9 +236,6 @@
             return;
         }
         
-        //跳转操作
-        needRefreshTableView = NO;
-        
         [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000007"];
         
         SettleQueryContent *sqContent = [sqList objectAtIndex:indexPath.row];
@@ -243,18 +250,3 @@
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

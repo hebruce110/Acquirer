@@ -57,7 +57,16 @@
     NSString *minSTR = min<10 ? [NSString stringWithFormat:@"0%d", min]:[NSString stringWithFormat:@"%d", min];
     
     NSString *dateSTR = [NSString stringWithFormat:@"%d.%d.%d %@ %d:%@", year, month, day, [weekDayList objectAtIndex:week], hour, minSTR];
-    timeLabel.text = dateSTR;
+    
+    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [formatter setDateFormat:@"yyyyMMdd"];
+    
+    //今日 
+    if ([[formatter stringFromDate:[NSDate date]] isEqualToString:[formatter stringFromDate:date]]) {
+        timeLabel.text = [NSString stringWithFormat:@"今日 %d:%@", hour, minSTR];
+    }else{
+        timeLabel.text = dateSTR;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

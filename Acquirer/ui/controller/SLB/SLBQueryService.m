@@ -12,7 +12,7 @@
 @implementation SLBQueryService
 
 //查询
-- (void)requestForQueryTaget:(id)tg action:(SEL)action
+- (void)requestForQueryTarget:(id)tg action:(SEL)action
 {
     target = tg;
     selector = action;
@@ -39,20 +39,35 @@
 {
     [[Acquirer sharedInstance] hideUIPromptMessage:YES];
     
-    NSArray *keys = [NSArray arrayWithObjects:@"acctStat", @"settleFund", @"totalAsset", @"curProfit", @"totalProfit", @"minIn", @"maxIn", @"minOut", @"maxOut", @"prodiderName", @"fullName", @"certType", @"certNo", @"cardNo", @"mobile", nil];
+    NSArray *keys = [NSArray arrayWithObjects:
+                     @"acctStat",       /*账户状态*/
+                     @"settleFund",     /*当前待结算资金*/
+                     @"totalAsset",     /*生利宝总金额*/
+                     @"curProfit",      /*当日收益*/
+                     @"totalProfit",    /*历史累计收益*/
+                     @"minIn",          /*最低转入金额*/
+                     @"maxIn",          /*最高转入金额*/
+                     @"minOut",         /*最低转出金额*/
+                     @"maxOut",         /*最高转出金额*/
+                     @"prodiderName",   /*服务提供方*/
+                     @"fullName",       /*姓名*/
+                     @"certType",       /*证件类型*/
+                     @"certNo",         /*证件号码*/
+                     @"cardNo",         /*银行卡号*/
+                     @"mobile",         /*手机号*/
+                     nil];
     NSDictionary *body = (NSDictionary *)request.responseAsJson;
+    
+    //保存生利宝用户信息
     SLBUser *slbUsr = [SLBService sharedService].slbUser;
-    for(NSString *key in keys)
-    {
+    for(NSString *key in keys) {
         id value = [body objectForKey:key];
-        if(value)
-        {
+        if(value) {
             [slbUsr setObject:value forKey:key];
         }
     }
     
-    if(target && [target respondsToSelector:selector])
-    {
+    if(target && [target respondsToSelector:selector]) {
         [target performSelector:selector withObject:request];
     }
 }

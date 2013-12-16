@@ -11,6 +11,7 @@
 #import "Helper.h"
 #import "NSNotificationCenter+CP.h"
 #import "AcquirerService.h"
+#import "MessageNumberData.h"
 
 //def utility
 CGFloat frameHeighOffset(CGRect rect);
@@ -35,6 +36,8 @@ CGFloat frameHeighOffset(CGRect rect);
     BOOL isShowNaviBar;
     BOOL isShowRefreshBtn;
     BOOL isShowTabBar;
+    BOOL isNeedfresh;
+    BOOL isNeedRefresh;
 }
 
 @property (nonatomic, retain) UIImageView *bgImageView;
@@ -49,7 +52,12 @@ CGFloat frameHeighOffset(CGRect rect);
 @property (nonatomic, assign) BOOL isShowNaviBar;
 @property (nonatomic, assign) BOOL isShowTabBar;
 
--(void) hideBackButton;
+//继续加载
+@property (assign, nonatomic) BOOL isNeedfresh;
+//重新加载
+@property (assign, nonatomic) BOOL isNeedRefresh;
+
+-(void)hideBackButton;
 -(void)backToPreviousView:(id)sender;
 -(void)setNavigationTitle:(NSString *)title;
 

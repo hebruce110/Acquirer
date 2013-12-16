@@ -34,17 +34,10 @@
 
 - (void)dealloc
 {
-    [_topCell release];
-    _topCell = nil;
-    
-    [_infoTableView release];
-    _infoTableView = nil;
-    
-    [_depositButton release];
-    _depositButton = nil;
-    
-    [_takeOutButton release];
-    _takeOutButton = nil;
+    self.topCell = nil;
+    self.infoTableView = nil;
+    self.depositButton = nil;
+    self.takeOutButton = nil;
     
     [super dealloc];
 }
@@ -61,7 +54,7 @@
         self.isShowNaviBar = YES;
         self.isShowTabBar = NO;
         self.isShowRefreshBtn = NO;
-        _isNeedfresh = NO;
+        self.isNeedfresh = NO;
         
         _topCell = nil;
         _infoTableView = nil;
@@ -71,6 +64,7 @@
         _settleFund = 0;
         _totalAsset = 0;
         _totalProfit = 0;
+        _isBackToMenuControl = YES;
     }
     return self;
 }
@@ -116,7 +110,7 @@
     [_depositButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_takeOutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
-    [_depositButton setTitle:@"转入生利宝" forState:UIControlStateNormal];
+    [_depositButton setTitle:@"存入生利宝" forState:UIControlStateNormal];
     [_takeOutButton setTitle:@"转出生利宝" forState:UIControlStateNormal];
     
     [_depositButton addTarget:self action:@selector(depositButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
@@ -132,9 +126,8 @@
 {
     [super viewDidAppear:animated];
     
-    if(_isNeedfresh)
-    {
-        _isNeedfresh = NO;
+    if(self.isNeedfresh) {
+        self.isNeedfresh = NO;
         [self updateSLBUserInfo];
     }
 }
@@ -152,7 +145,7 @@
 
 - (void)updateSLBUserInfo
 {
-    [[SLBService sharedService].querySer requestForQueryTaget:self action:@selector(updateSLBUserInfoDidFinished)];
+    [[SLBService sharedService].querySer requestForQueryTarget:self action:@selector(updateSLBUserInfoDidFinished)];
 }
 
 - (void)updateSLBUserInfoDidFinished
@@ -183,53 +176,37 @@
     _topCell.delegate = self;
     _topCell.frame = CGRectMake(0, 0, ctSize.width, 80.0f);
     _topCell.selectionStyle = UITableViewCellSelectionStyleGray;
-    _topCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     _topCell.backgroundColor = [UIColor clearColor];
     [_topCell setBackgroundImage:[UIImage imageNamed:@"infoshenglibao"]];
-    
-    NSString *str0 = @"会赚钱的POS";
-    NSString *str1 = @"随时转入转出，如活期般方便";
-    NSString *str2 = @"生利宝介绍及收益说明";
-    NSMutableAttributedString *mtlAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@\n%@", str0, str1, str2]];
-    
-    CTFontRef ctFont20 = [UIFont systemFontOfSize:20].ctFont;
-    CTFontRef ctFont12 = [UIFont systemFontOfSize:12].ctFont;
-    
-    [mtlAttributedString beginEditing];
-    [mtlAttributedString addAttribute:(id)kCTFontAttributeName value:(id)ctFont20 range:NSMakeRange(0, str0.length)];
-    [mtlAttributedString addAttribute:(id)kCTFontAttributeName value:(id)ctFont12 range:NSMakeRange(str0.length, str1.length + str2.length)];
-    [mtlAttributedString addAttribute:(id)kCTForegroundColorAttributeName value:(id)[UIColor slbRedColor].CGColor range:NSMakeRange(1, 2)];
-    [mtlAttributedString endEditing];
-    
-    CFRelease(ctFont20);
-    CFRelease(ctFont12);
-    
-    [_topCell setAttributedString:mtlAttributedString];
-    [mtlAttributedString release];
     [self.contentView addSubview:_topCell];
 }
 
 - (void)backToPreviousView:(id)sender
 {
+    if(!_isBackToMenuControl) {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return;
+    }
+    
     TradeHomeViewController *tradeHomeViewCtrl = nil;
-    for(id ctrl in self.navigationController.viewControllers)
-    {
-        if([ctrl isKindOfClass:[TradeHomeViewController class]])
-        {
+    for(id ctrl in self.navigationController.viewControllers) {
+        if([ctrl isKindOfClass:[TradeHomeViewController class]]) {
             tradeHomeViewCtrl = ctrl;
             break;
         }
     }
     
-    if(tradeHomeViewCtrl)
-    {
+    if(tradeHomeViewCtrl) {
         [self.navigationController popToViewController:tradeHomeViewCtrl animated:YES];
     }
-    else
-    {
+    else {
         tradeHomeViewCtrl = [[TradeHomeViewController alloc] init];
-        [self.navigationController popToViewController:tradeHomeViewCtrl animated:YES];
+        NSMutableArray *mtlViewCtrls = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        [mtlViewCtrls insertObject:tradeHomeViewCtrl atIndex:0];
         [tradeHomeViewCtrl release];
+        [self.navigationController setViewControllers:mtlViewCtrls animated:NO];
+        [self.navigationController popToViewController:tradeHomeViewCtrl animated:YES];
     }
 }
 
@@ -267,10 +244,12 @@
 
 - (void)slbCellDidSelected:(SLBMenuTopCell *)cell
 {
+    [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000035"];
+    
     SLBUserNotiDocViewController *userNotiViewCtrl = [[SLBUserNotiDocViewController alloc] init];
     userNotiViewCtrl.agreementType = SLBUserNotiTypeIntroduction;
     [self.navigationController pushViewController:userNotiViewCtrl animated:YES];
-    [userNotiViewCtrl setNavigationTitle:@"生利宝介绍及收益说明"];
+    [userNotiViewCtrl setNavigationTitle:@"生利宝常见问题"];
     [userNotiViewCtrl release];
 }
 
@@ -283,16 +262,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(section == 0)
-    {
+    if(section == 0) {
         return (1);
     }
-    else if(section == 1)
-    {
+    else if(section == 1) {
         return (2);
     }
-    else
-    {
+    else {
         return (0);
     }
 }
@@ -307,18 +283,15 @@
     CTFontRef CTFont15 = [UIFont systemFontOfSize:15].ctFont;
     CTFontRef CTFont12 = [UIFont systemFontOfSize:12].ctFont;
     CTFontRef CTFont10 = [UIFont systemFontOfSize:10].ctFont;
-    switch(indexPath.section)
-    {
-        case 0:
-        {
+    switch(indexPath.section) {
+            
+        case 0: {
             cell.vxAlignment = alinmentToTop;
             
-            switch(indexPath.row)
-            {
-                case 0:
-                {
+            switch(indexPath.row) {
+                case 0: {
                     NSString *title = [NSMutableString stringWithString:@"可存入金额：\n"];
-                    NSString *detailTitle = @"您帐户中等待结算的金额";
+                    NSString *detailTitle = @"您当前POS刷卡待结算金额";
                     
                     titleAttributed = [[NSMutableAttributedString alloc] initWithString:[title stringByAppendingString:detailTitle]];
                     [titleAttributed beginEditing];
@@ -341,14 +314,11 @@
             }
         }break;
             
-        case 1:
-        {
+        case 1: {
             cell.vxAlignment = alinmentToCenter;
             
-            switch(indexPath.row)
-            {
-                case 0:
-                {
+            switch(indexPath.row) {
+                case 0: {
                     titleAttributed = [[NSMutableAttributedString alloc] initWithString:@"生利宝总金额："];
                     [titleAttributed beginEditing];
                     [titleAttributed addAttribute:(id)kCTFontAttributeName value:(id)boldCTFont16 range:NSMakeRange(0, titleAttributed.length)];
@@ -362,8 +332,7 @@
                     [textAttributed endEditing];
                 }break;
                     
-                case 1:
-                {
+                case 1: {
                     titleAttributed = [[NSMutableAttributedString alloc] initWithString:@"历史累计收益："];
                     [titleAttributed beginEditing];
                     [titleAttributed addAttribute:(id)kCTFontAttributeName value:(id)boldCTFont16 range:NSMakeRange(0, titleAttributed.length)];
@@ -406,8 +375,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section == 0)
-    {
+    if(indexPath.section == 0) {
         return (64.0f);
     }
     return (DEFAULT_ROW_HEIGHT);

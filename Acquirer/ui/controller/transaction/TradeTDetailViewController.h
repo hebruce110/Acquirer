@@ -9,6 +9,7 @@
 #import "BaseViewController.h"
 
 typedef enum _TradeDetailType{
+    TradeDetailTypeUnknow = 0,
     TradeDetailToday = 1,
     TradeDetailHistory,
 } TradeDetailType;
@@ -33,10 +34,6 @@ typedef enum _TradeDetailType{
     UIActivityIndicatorView *showMoreIndicator;
     
     ReqFlag reqFlagType;
-    
-    //是否要刷新TableView
-    //从上个页面pop到当前页, 不做刷新操作
-    BOOL needRefreshTableView;
 }
 
 @property (nonatomic, assign) TradeDetailType tradeType;
@@ -49,7 +46,6 @@ typedef enum _TradeDetailType{
 @property (nonatomic, retain) UITableView *detailTableView;
 @property (nonatomic, retain) UILabel *showMoreLabel;
 @property (nonatomic, retain) UIActivityIndicatorView *showMoreIndicator;
-@property (nonatomic, assign) BOOL needRefreshTableView;
 
 -(void)refreshTodayTradeDetail;
 

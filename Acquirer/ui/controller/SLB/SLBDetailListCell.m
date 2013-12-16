@@ -10,23 +10,13 @@
 
 @implementation SLBDetailListCell
 
-@synthesize icImageView = _icImageView;
-@synthesize amountView = _amountView;
-@synthesize dateLabel = _dateLabel, typeLabel = _typeLabel;
-
 - (void)dealloc
 {
-    [_icImageView release];
-    _icImageView = nil;
-    
+    self.icImageView = nil;
     [_amountView release];
     _amountView = nil;
-    
-    [_dateLabel release];
-    _dateLabel = nil;
-    
-    [_typeLabel release];
-    _typeLabel = nil;
+    self.dateLabel = nil;
+    self.typeLabel = nil;
     
     [super dealloc];
 }

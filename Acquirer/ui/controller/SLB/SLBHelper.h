@@ -17,6 +17,9 @@
 //flag对应ys为YES
 + (BOOL)blFromSLBAgentSlbFlag:(id)flag equalYESString:(NSString *)ys;
 
+//判断是否有多个小数点
++ (BOOL)conformToAmtFormat:(NSString *)amtSTR;
+
 //取得类cls属性列表
 + (NSArray *)propertyListOfClass:(Class)cls;
 
@@ -85,7 +88,7 @@
 //-----------------------------------------------------
 
 @interface UIFont (CTFont)
-//需自己释放内存
+//从UIFont得到CTFont，需自己释放内存
 - (CTFontRef)ctFont;
 
 @end

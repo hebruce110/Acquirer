@@ -65,4 +65,7 @@ typedef enum{
 //恢复发送短信的状态
 -(void)restoreShortMessageState;
 
+//重新回到登录界面
+- (void)backToLoginViewCtrl;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "SLBUser.h"
+#import "SafeObject.h"
 
 @interface SLBUser ()
 
@@ -18,8 +19,7 @@
 
 - (void)dealloc
 {
-    [_slbUserInfo release];
-    _slbUserInfo = nil;
+    self.slbUserInfo = nil;
     
     [super dealloc];
 }
@@ -27,8 +27,7 @@
 - (id)init
 {
     self = [super init];
-    if(self)
-    {        
+    if(self) {
         _slbUserInfo = [[NSMutableDictionary alloc] initWithCapacity:0];
     }
     return (self);
@@ -41,26 +40,19 @@
 
 - (id)safeObjectForKey:(id)aKey
 {
-    id anObj = [_slbUserInfo objectForKey:aKey];
-    if(!anObj || anObj == [NSNull null])
-    {
-        return(@"");
-    }
-    
-    return (anObj);
+    return ([_slbUserInfo stringObjectForKey:aKey]);
 }
 
 - (void)setObject:(id)anObject forKey:(id <NSCopying>)aKey
 {
-    if(anObject && aKey)
-    {
+    if(anObject && aKey) {
         [_slbUserInfo setObject:anObject forKey:aKey];
     }
 }
 
-- (void)logAll
+- (NSString *)description
 {
-    NSLog(@"### slb user info:%@", _slbUserInfo);
+    return ([NSString stringWithFormat:@"slb user info:\n%@", _slbUserInfo]);
 }
 
 @end

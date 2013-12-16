@@ -18,6 +18,7 @@
 #import "SettleService.h"
 #import "EncashService.h"
 #import "NoticeService.h"
+#import "OnlineService.h"
 
 @interface AcquirerService : NSObject{
     PostbeService *postbeService;
@@ -30,6 +31,7 @@
     SettleService *settleService;
     EncashService *encashService;
     NoticeService *noticeService;
+    OnlineService *onlineService;
 }
 
 @property (nonatomic, readonly) PostbeService *postbeService;
@@ -42,6 +44,7 @@
 @property (nonatomic, readonly) SettleService *settleService;
 @property (nonatomic, readonly) EncashService *encashService;
 @property (nonatomic, readonly) NoticeService *noticeService;
+@property (nonatomic, readonly) OnlineService *onlineService;
 
 +(AcquirerService *)sharedInstance;
 +(void)destroySharedInstance;

@@ -19,4 +19,7 @@ typedef NS_OPTIONS(NSUInteger, SLBResultType)
 @property (assign, nonatomic) CGFloat amountChanged;
 @property (assign, nonatomic) SLBResultType resultType;
 
+//是否强制跳回生利宝主界面
+@property (assign, nonatomic) BOOL isBackToMenuControl;
+
 @end

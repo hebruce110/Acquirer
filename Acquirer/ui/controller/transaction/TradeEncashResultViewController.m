@@ -26,11 +26,11 @@
     NSArray *imgList = @[successImg, failureImg, pendingImg];
     NSArray *textList = @[@"取现成功！", @"取现失败！", @"处理中..."];
     
-    NSString *successSTR = [NSString stringWithFormat:@"取现金额已到账，请查看您到银行卡（尾号：%@）", bankIdSTR];
-    NSString *pendingSTR = @"资金处理中，稍后可在“结算管理－结算查询”中查看结果";
+    NSString *successSTR = [NSString stringWithFormat:@"取现金额已到账，请查看您的银行卡（尾号：%@）。", bankIdSTR];
     NSString *failureSTR = @"取现失败，请重新操作";
+    NSString *pendingSTR = @"资金处理中，稍候可在“结算管理－结算查询”中查看结果";
     
-    NSArray *descList = @[successSTR, pendingSTR, failureSTR];
+    NSArray *descList = @[successSTR, failureSTR, pendingSTR];
     
     CGFloat heightOffset = 40;
     
@@ -90,13 +90,4 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-
 @end
-
-
-
-
-
-
-
-

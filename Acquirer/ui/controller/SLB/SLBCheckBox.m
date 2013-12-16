@@ -11,7 +11,7 @@
 
 @interface SLBCheckBox ()
 
-@property (assign, nonatomic) id oldTaget;
+@property (assign, nonatomic) id oldTarget;
 @property (assign, nonatomic) SEL oldAction;
 
 @property (retain, nonatomic) UIImageView *checkImgView;
@@ -78,12 +78,10 @@
 - (void)setIsSelected:(BOOL)isSelected
 {
     _isSelected = isSelected;
-    if(_isSelected)
-    {
+    if(_isSelected) {
         _checkImgView.image = _selectImg;
     }
-    else
-    {
+    else {
         _checkImgView.image = _deSelectImg;
     }
 }
@@ -102,8 +100,7 @@
 
 - (void)setSelectImg:(UIImage *)selectImg
 {
-    if(_selectImg)
-    {
+    if(_selectImg) {
         [_selectImg release];
         _selectImg = nil;
     }
@@ -112,8 +109,7 @@
 
 - (void)setDeSelectImg:(UIImage *)deSelectImg
 {
-    if(_deSelectImg)
-    {
+    if(_deSelectImg) {
         [_deSelectImg release];
         _deSelectImg = nil;
     }
@@ -122,15 +118,12 @@
 
 - (void)setImage:(UIImage *)image forState:(SLBCheckBoxState)state
 {
-    switch(state)
-    {
-        case SLBCheckBoxStateSelected:
-        {
+    switch(state) {
+        case SLBCheckBoxStateSelected: {
             self.selectImg = image;
         }break;
             
-        case SLBCheckBoxStateDeSelected:
-        {
+        case SLBCheckBoxStateDeSelected: {
             self.deSelectImg = image;
         }break;
             
@@ -141,20 +134,16 @@
 
 - (UIImage *)imageForState:(SLBCheckBoxState)state
 {
-    switch(state)
-    {
-        case SLBCheckBoxStateSelected:
-        {
+    switch(state) {
+        case SLBCheckBoxStateSelected: {
             return (_selectImg);
         }break;
             
-        case SLBCheckBoxStateDeSelected:
-        {
+        case SLBCheckBoxStateDeSelected: {
             return (_deSelectImg);
         }break;
             
-        default:
-        {
+        default: {
             return (nil);
         }break;
     }
@@ -163,7 +152,7 @@
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
 {
     SEL sl = @selector(exchangeAction:forControlEvents:);
-    _oldTaget = target;
+    _oldTarget = target;
     _oldAction = action;
     
     [super addTarget:self action:sl forControlEvents:controlEvents];
@@ -172,7 +161,7 @@
 - (void)exchangeAction:(SEL)action forControlEvents:(UIControlEvents)controlEvents
 {
     self.isSelected = !_isSelected;
-    [self sendAction:_oldAction to:_oldTaget forEvent:nil];
+    [self sendAction:_oldAction to:_oldTarget forEvent:nil];
 }
 
 @end

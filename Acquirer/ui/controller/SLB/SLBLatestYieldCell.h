@@ -11,8 +11,8 @@
 
 @interface SLBLatestYieldCell : UITableViewCell
 
-@property (retain, nonatomic, readonly) UIImageView *imgView;
-@property (retain, nonatomic, readonly) UILabel *tlLabel;
+@property (retain, nonatomic) UIImageView *imgView;
+@property (retain, nonatomic) UILabel *tlLabel;
 @property (retain, nonatomic, readonly) SLBAttributedView *attView;
 
 @end

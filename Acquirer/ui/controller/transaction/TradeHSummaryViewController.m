@@ -31,6 +31,7 @@
 -(id)init{
     self = [super init];
     if (self) {
+        self.isNeedRefresh = YES;
         summaryList = [[NSMutableArray alloc] init];
     }
     return self;
@@ -71,25 +72,29 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    
-    NSDateFormatter *dsFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [dsFormatter setDateFormat:@"yyyy-MM-dd"];
-    
-    NSDateFormatter *sdFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [sdFormatter setDateFormat:@"yyyyMMdd"];
-    
-    NSString *beginDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:beginDateSTR]];
-    NSString *endDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:endDateSTR]];
-    
-    if ([devIdSTR isEqualToString:@"全部"]) {
-        self.devIdSTR = [NSString stringWithFormat:@"00000000"];
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
+        
+        NSDateFormatter *dsFormatter = [[[NSDateFormatter alloc] init] autorelease];
+        [dsFormatter setDateFormat:@"yyyy-MM-dd"];
+        
+        NSDateFormatter *sdFormatter = [[[NSDateFormatter alloc] init] autorelease];
+        [sdFormatter setDateFormat:@"yyyyMMdd"];
+        
+        NSString *beginDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:beginDateSTR]];
+        NSString *endDateParamSTR = [sdFormatter stringFromDate:[dsFormatter dateFromString:endDateSTR]];
+        
+        if ([devIdSTR isEqualToString:@"全部"]) {
+            self.devIdSTR = @"00000000";
+        }
+        
+        [[AcquirerService sharedInstance].sumService onRespondTarget:self];
+        [[AcquirerService sharedInstance].sumService requestForTradeSummay:Summary_Type_History
+                                                              withPnrDevId:devIdSTR
+                                                                  fromDate:beginDateParamSTR
+                                                                    toDate:endDateParamSTR];
     }
-    
-    [[AcquirerService sharedInstance].sumService onRespondTarget:self];
-    [[AcquirerService sharedInstance].sumService requestForTradeSummay:Summary_Type_History
-                                                          withPnrDevId:devIdSTR
-                                                              fromDate:beginDateParamSTR
-                                                                toDate:endDateParamSTR];
 }
 
 -(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -117,6 +122,9 @@
 }
 
 -(void)processSummaryData:(NSDictionary *)dict{
+    
+    [summaryList removeAllObjects];
+    
     NSDateFormatter *dsFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dsFormatter setDateFormat:@"yyyy-MM-dd"];
     NSDateFormatter *sdFormatter = [[[NSDateFormatter alloc] init] autorelease];

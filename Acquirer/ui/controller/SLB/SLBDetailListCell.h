@@ -10,14 +10,9 @@
 #import "SLBAttributedView.h"
 
 @interface SLBDetailListCell : UITableViewCell
-{
-    UIImageView *_icImageView;
-    SLBAttributedView *_amountView;
-    UILabel *_dateLabel;
-    UILabel *_typeLabel;
-}
+
 @property (retain, nonatomic) UIImageView *icImageView;
-@property (retain, nonatomic) SLBAttributedView *amountView;
+@property (retain, nonatomic, readonly) SLBAttributedView *amountView;
 @property (retain, nonatomic) UILabel *dateLabel;
 @property (retain, nonatomic) UILabel *typeLabel;
 

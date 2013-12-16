@@ -10,6 +10,7 @@
 
 @interface SLBDepositViewController : BaseViewController
 
-@property (assign, nonatomic) BOOL isNeedfresh;
+//是否强制跳回生利宝主界面
+@property (assign, nonatomic) BOOL isBackToMenuControl;
 
 @end

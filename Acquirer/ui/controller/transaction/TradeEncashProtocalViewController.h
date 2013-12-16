@@ -8,9 +8,9 @@
 
 #import "BaseViewController.h"
 
-@interface TradeEncashProtocalViewController : BaseViewController<UIScrollViewDelegate>{
-    BOOL hasReadAll;
-}
+@interface TradeEncashProtocalViewController : BaseViewController<UIScrollViewDelegate>
+
+@property (assign, nonatomic) BOOL hasReadAll;
 
 -(void)pressAgreeProtocal:(id)sender;
 

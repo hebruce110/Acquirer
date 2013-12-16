@@ -58,10 +58,8 @@ void AddOptionalReqInfomation(NSMutableDictionary *dict){
     
     NSLog(@"网络异常　url:%@", acReq.request.url);
     
-    /*
-    [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:description
+    [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"当前网络连接异常,请检查网络再试!"
                                                                  notifyType:NOTIFICATION_TYPE_WARNING];
-     */
 }
 
 //ASIHTTPRequest failure callback

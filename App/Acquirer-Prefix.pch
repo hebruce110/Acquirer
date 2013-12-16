@@ -19,7 +19,17 @@
 
 #define CHINAPNR_REQUEST_FORMAT
 
+//测试地址
 #define HOST_URL @"http://test.chinapnr.com/psm/pmsc/"
+#define UPDATE_URL @"http://www.ttyfund.com/api/services/test/checkupdate.php"
+//#define WEBSOCKET_URL @"ws://192.168.29.21:8088/chat/wsChat/%@"
 
+
+//正式地址
 //#define HOST_URL @"https://mas.chinapnr.com/pmsc/"
-	
+//#define UPDATE_URL @"http://www.ttyfund.com/api/services/checkupdate.php"
+#define WEBSOCKET_URL @"ws://service.chinapnr.com/chat/wsChat/%@"
+
+//报表地址
+#define DEF_REPORT_URL @"http://amp.chinapnr.com/"
+

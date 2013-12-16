@@ -100,6 +100,8 @@
     [latestSevenBtn setTitle:@"近七天内" forState:UIControlStateNormal];
     [latestSevenBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     latestSevenBtn.layer.cornerRadius = 10.0;
+    latestSevenBtn.layer.borderColor = [UIColor grayColor].CGColor;
+    latestSevenBtn.layer.borderWidth = 0.5f;
     latestSevenBtn.clipsToBounds = YES;
     latestSevenBtn.tag = 1;
     [latestSevenBtn addTarget:self action:@selector(pressDateScopeBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -113,6 +115,8 @@
     [latestMonthBtn setTitle:@"上一个月" forState:UIControlStateNormal];
     [latestMonthBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     latestMonthBtn.layer.cornerRadius = 10.0;
+    latestMonthBtn.layer.borderColor = [UIColor grayColor].CGColor;
+    latestMonthBtn.layer.borderWidth = 0.5f;
     latestMonthBtn.clipsToBounds = YES;
     latestMonthBtn.tag = 2;
     [latestMonthBtn addTarget:self action:@selector(pressDateScopeBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -162,12 +166,12 @@
     //最近七天
     if (btn.tag == 1) {
         NSDateComponents *comps = [[[NSDateComponents alloc] init] autorelease];
-        [comps setDay:-7];
+        [comps setDay:-6];
         NSDate *date = [calendar dateByAddingComponents:comps toDate:[NSDate date] options:0];
         [self setTableCellDate:date anIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         
-        //截止到昨天
-        [comps setDay:-1];
+        //截止到当天
+        [comps setDay:0];
         NSDate *yestoday = [calendar dateByAddingComponents:comps toDate:[NSDate date] options:0];
         [self setTableCellDate:yestoday anIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     }

@@ -4568,7 +4568,7 @@ static NSOperationQueue *sharedQueue = nil;
 	for (NSNumber *bytes in bandwidthUsageTracker) {
 		totalBytes += [bytes unsignedLongValue];
 	}
-	averageBandwidthUsedPerSecond = totalBytes/measurements;		
+	averageBandwidthUsedPerSecond = totalBytes / MAX(measurements, 1);
 }
 
 + (unsigned long)averageBandwidthUsedPerSecond

@@ -117,6 +117,8 @@
     if ([Helper stringNullOrEmpty:newMobileSTR] || newMobileSTR.length!=11) {
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"手机号格式有误，请重新输入"
                                                                      notifyType:NOTIFICATION_TYPE_ERROR];
+        
+        return;
     }
     
     [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000002"];

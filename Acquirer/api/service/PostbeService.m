@@ -12,6 +12,7 @@
 #import "ASIHTTPRequest.h"
 #import "JSON.h"
 #import "Helper.h"
+#import "NSNotificationCenter+CP.h"
 
 @interface VerUpdateAlertView : UIAlertView{
     NSString *updateURL;
@@ -68,7 +69,7 @@
     [params setObject:@"postbe" forKey:@"act"];
     [params setObject:@"TTYFUND-CHINAPNR" forKey:@"key"];
     [params setObject:@"sd_pos" forKey:@"app_client"];
-    [params setObject:@"ios" forKey:@"app_platform"];
+    [params setObject:@"iphone" forKey:@"app_platform"];
     [params setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"app_version"];
     [params setObject:functionId forKey:@"function_id"];
     [params setObject:[[DeviceIntrospection sharedInstance] uuid] forKey:@"id"];
@@ -89,7 +90,7 @@
     
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", url, paramSTR]]];
     //postbe经常超时,要设置超时时间
-    req.timeOutSeconds = 30;
+    req.timeOutSeconds = 40;
     
     [req setDidFinishSelector:@selector(postbeDidFinished:)];
     [req setDidFailSelector:@selector(postbeDidFailed:)];
@@ -109,15 +110,13 @@
 -(void)requestForVersionCheck{
     [[Acquirer sharedInstance] showUIPromptMessage:@"检查版本更新" animated:YES];
     
-    NSString *URLstring = [NSString stringWithFormat:@"http://www.ttyfund.com/api/services/checkupdate.php"];
-    
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:@"TTYFUND-CHINAPNR" forKey:@"key"];
     [dict setValue:@"sd_pos" forKey:@"app_client"];
-    [dict setValue:getHardwareVersion() forKey:@"app_platform"];
-    [dict setValue:[Acquirer bundleVersion] forKey:@"app_version"];
+    [dict setValue:@"iphone" forKey:@"app_platform"];
+    [dict setValue:[[Acquirer bundleVersion] substringFromIndex:1] forKey:@"app_version"];
     
-    NSURL *URL = [NSURL URLWithString:[CPRequest embedQueryInPath:URLstring andQuery:dict]];
+    NSURL *URL = [NSURL URLWithString:[CPRequest embedQueryInPath:UPDATE_URL andQuery:dict]];
     
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:URL];
     [req setDidFinishSelector:@selector(versionRequestDidFinished:)];
@@ -191,6 +190,60 @@
             {
                 [target performSelector:selector];
             }
+        }
+    }
+}
+
+//应用内检查版本更新
+-(void)requestForInAppVersionCheck{
+    [[Acquirer sharedInstance] showUIPromptMessage:@"检查版本更新" animated:YES];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setValue:@"TTYFUND-CHINAPNR" forKey:@"key"];
+    [dict setValue:@"sd_pos" forKey:@"app_client"];
+    [dict setValue:@"iphone" forKey:@"app_platform"];
+    [dict setValue:[[Acquirer bundleVersion] substringFromIndex:1] forKey:@"app_version"];
+    
+    NSURL *URL = [NSURL URLWithString:[CPRequest embedQueryInPath:UPDATE_URL andQuery:dict]];
+    
+    ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:URL];
+    [req setDidFinishSelector:@selector(InAppVersionCheckRequestDidFinished:)];
+    [req setDidFailSelector:@selector(asiRequestDidFailed:)];
+    req.delegate = self;
+    [req startAsynchronous];
+}
+
+-(void)InAppVersionCheckRequestDidFinished:(ASIHTTPRequest *)req{
+    [[Acquirer sharedInstance] hideUIPromptMessage:YES];
+    
+    NSDictionary *body = [[req responseString] JSONValue];
+    
+    if (NotNilAndEqualsTo(body, @"return_code", @"1")){
+        if (NotNilAndEqualsTo(body, @"is_need_update", @"1") && NotNil(body, @"latest_version")){
+            
+            NSString *serverVersion = [body objectForKey:@"latest_version"];
+            NSString *title = [NSString stringWithFormat:@"软件升级至%@版本", serverVersion];
+            
+            NSString *message = @"";
+            if (NotNil(body, @"string")) {
+                message = [body objectForKey:@"string"];
+            }
+            
+            VerUpdateAlertView *alertView = [[VerUpdateAlertView alloc] initWithTitle:title
+                                                                              message:message
+                                                                             delegate:self
+                                                                    cancelButtonTitle:@"取消"
+                                                                    otherButtonTitles:@"立即升级", nil];
+            alertView.serverVersion = serverVersion;
+            if (NotNil(body, @"update_url")) {
+                alertView.updateURL = [body objectForKey:@"update_url"];
+            }
+            alertView.tag = 2;
+            [alertView show];
+            [alertView release];
+            
+        }else{
+            [[NSNotificationCenter defaultCenter] postAutoSysPromptNotification:@"已是最新版本"];
         }
     }
 }

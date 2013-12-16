@@ -16,7 +16,7 @@ typedef NS_OPTIONS(NSUInteger, SLBChangeType)
 
 @interface SLBChangeAmountService : BaseService
 
-//转入、转出
-- (void)requestForServeNum:(NSString *)sernum changeType:(SLBChangeType)type changeAmt:(CGFloat)amt taget:(id)tg action:(SEL)action;
+//生利宝存入、转出
+- (void)requestForServeNum:(NSString *)sernum changeType:(SLBChangeType)type changeAmt:(NSString *)amt target:(id)tg action:(SEL)action;
 
 @end

@@ -13,6 +13,9 @@
 
 @interface ValiIdentityViewController ()
 
+@property (retain, nonatomic) UIButton *submitBtn;
+@property (retain, nonatomic) NSTimer *checkTimer;
+
 @end
 
 @implementation ValiIdentityViewController
@@ -22,6 +25,14 @@
 @synthesize authImgView;
 
 -(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+    
+    [self.checkTimer invalidate];
+    self.checkTimer = nil;
+    
+    self.submitBtn = nil;
+    
     [bgScrollView release];
     
     [posOrderTableView release];
@@ -35,6 +46,7 @@
 -(id)init{
     self = [super init];
     if (self != nil) {
+        _submitBtn = nil;
         isShowNaviBar = YES;
         isShowTabBar = NO;
     }
@@ -46,6 +58,34 @@
 	
     [self setNavigationTitle:@"身份验证"];
     
+    [self addSubViews];
+    
+    UITapGestureRecognizer *tg = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)] autorelease];
+    [self.authImgView addGestureRecognizer:tg];
+    [self.bgImageView addGestureRecognizer:tg];
+    tg.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide) name:UIKeyboardDidHideNotification object:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    [[AcquirerService sharedInstance].valiService onRespondTarget:self];
+    [[AcquirerService sharedInstance].valiService requestForAuthImgURL];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void)addSubViews
+{
     CGFloat contentWidth = self.contentView.bounds.size.width;
     //CGFloat contentHeight = self.contentView.bounds.size.height;
     
@@ -127,37 +167,24 @@
     
     UIImage *btnRSelImg = [UIImage imageNamed:@"BUTT_red_on.png"];
     UIImage *btnRDeSelImg = [UIImage imageNamed:@"BUTT_red_off.png"];
-    CGRect buttonFrame = CGRectMake(0, frameHeighOffset(dashImgView.frame)+VERTICAL_PADDING*2, btnRSelImg.size.width, btnRSelImg.size.height);
-    UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    submitBtn.frame = buttonFrame;
-    submitBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), submitBtn.center.y);
-    submitBtn.backgroundColor = [UIColor clearColor];
-    [submitBtn setBackgroundImage:btnRDeSelImg forState:UIControlStateNormal];
-    [submitBtn setBackgroundImage:btnRSelImg forState:UIControlStateSelected];
-    submitBtn.layer.cornerRadius = 10.0;
-    submitBtn.clipsToBounds = YES;
-    submitBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];
-    [submitBtn setTitle:@"下一步" forState:UIControlStateNormal];
-    [submitBtn addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:submitBtn];
-    
-    UITapGestureRecognizer *tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-    [self.authImgView addGestureRecognizer:tg];
-    [self.bgImageView addGestureRecognizer:tg];
-    tg.delegate = self;
-    [tg release];
+    _submitBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, frameHeighOffset(dashImgView.frame)+VERTICAL_PADDING*2, btnRSelImg.size.width, btnRSelImg.size.height)];
+    _submitBtn.center = CGPointMake(CGRectGetMidX(self.contentView.bounds), _submitBtn.center.y);
+    _submitBtn.backgroundColor = [UIColor clearColor];
+    [_submitBtn setBackgroundImage:btnRDeSelImg forState:UIControlStateNormal];
+    [_submitBtn setBackgroundImage:btnRSelImg forState:UIControlStateSelected];
+    _submitBtn.layer.cornerRadius = 10.0;
+    _submitBtn.clipsToBounds = YES;
+    _submitBtn.titleLabel.font = [UIFont systemFontOfSize:22]; //[UIFont fontWithName:@"Arial" size:22];
+    [_submitBtn setTitle:@"下一步" forState:UIControlStateNormal];
+    [_submitBtn addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+    _submitBtn.enabled = NO;
+    [self.contentView addSubview:_submitBtn];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    
-    [[AcquirerService sharedInstance].valiService onRespondTarget:self];
-    [[AcquirerService sharedInstance].valiService requestForAuthImgURL];
-}
-
+#pragma mark - UIGestureRecognizerDelegate
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     UIView *touchView = [touch view];
-
+    
     if ([touchView isDescendantOfView:self.posOrderTableView] || [touchView isDescendantOfView:self.captchaTableView]) {
         return NO;
     }
@@ -196,6 +223,7 @@
         return;
     }else if ([posOrderIdSTR length] < 8){
         [[NSNotificationCenter defaultCenter] postAutoTitaniumProtoNotification:@"订单号为8位，请重新输入" notifyType:NOTIFICATION_TYPE_ERROR];
+        return;
     }
     
     if ([Helper stringNullOrEmpty:authCodeSTR]) {
@@ -234,5 +262,33 @@ static BOOL isShowTextEditing = NO;
     [bgScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
+//button enable
+- (void)keyboardDidShow
+{
+    if(self.checkTimer)
+    {
+        [self.checkTimer invalidate];
+        self.checkTimer = nil;
+    }
+    
+    self.checkTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(checkTimerScheduled:) userInfo:nil repeats:YES];
+}
+
+- (void)keyboardDidHide
+{
+    if(self.checkTimer)
+    {
+        [self.checkTimer invalidate];
+        self.checkTimer = nil;
+    }
+}
+
+- (void)checkTimerScheduled:(id)sender
+{
+    NSString *posOrderIdSTR = ((FormTableCell *)[[posOrderTableView visibleCells] objectAtIndex:0]).textField.text;
+    NSString *authCodeSTR = ((FormTableCell *)[[captchaTableView visibleCells] objectAtIndex:0]).textField.text;
+    
+    _submitBtn.enabled = (posOrderIdSTR && authCodeSTR && (posOrderIdSTR.length > 7) && (authCodeSTR.length == 4));
+}
 
 @end

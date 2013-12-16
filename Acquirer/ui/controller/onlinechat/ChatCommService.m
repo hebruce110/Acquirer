@@ -14,9 +14,6 @@
 #import "ChatMessage.h"
 #import "ChatViewController.h"
 
-//#define WEBSOCKET_URL @"ws://192.168.29.21:8088/chat/wsChat/%@"
-#define WEBSOCKET_URL @"ws://service.chinapnr.com/chat/wsChat/%@"
-
 @implementation ChatCommService
 
 @synthesize delegateCTRL;

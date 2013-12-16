@@ -144,7 +144,7 @@
     if (target && [target isKindOfClass:[TradeEncashConfirmViewController class]]) {
         if (NotNilAndEqualsTo(dict, MTP_RESPONSE_CODE, @"02330")) {
             [(TradeEncashConfirmViewController *)target processEncashRes:EncashPending];
-        }else{
+        }else if (NotNilAndEqualsTo(dict, MTP_RESPONSE_CODE, @"02329")){
             [(TradeEncashConfirmViewController *)target processEncashRes:EncashFailure];
         }
     }

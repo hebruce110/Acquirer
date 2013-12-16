@@ -24,17 +24,10 @@
 
 - (void)dealloc
 {
-    [_iconImageView release];
-    _iconImageView = nil;
-    
-    [_detailTitleLabel release];
-    _detailTitleLabel = nil;
-    
-    [_resultInfoView release];
-    _resultInfoView = nil;
-    
-    [_backToMenuButton release];
-    _backToMenuButton = nil;
+    self.iconImageView = nil;
+    self.detailTitleLabel = nil;
+    self.resultInfoView = nil;
+    self.backToMenuButton = nil;
     
     [super dealloc];
 }
@@ -58,6 +51,8 @@
         _detailTitleLabel = nil;
         _resultInfoView = nil;
         _backToMenuButton = nil;
+        
+        _isBackToMenuControl = YES;
     }
     return self;
 }
@@ -76,10 +71,8 @@
     [super viewDidAppear:animated];
     
     NSMutableAttributedString *attributedStr = nil;
-    switch(_resultType)
-    {
-        case SLBResultDesposit:
-        {
+    switch(_resultType) {
+        case SLBResultDesposit: {
             _detailTitleLabel.text = @"存入成功!";
             
             NSString *hdStr = @"您成功存入生利宝";
@@ -93,11 +86,10 @@
             [attributedStr endEditing];
         }break;
             
-        case SLBResultTakeOut:
-        {
+        case SLBResultTakeOut: {
             _detailTitleLabel.text = @"转出成功!";
             
-            NSString *hdStr = @"您成功从生利宝转出";
+            NSString *hdStr = @"您成功转出生利宝";
             NSString *amountStr = [NSString micrometerSymbolAmount:_amountChanged];
             NSString *str = [NSString stringWithFormat:@"%@%@元", hdStr, amountStr];
             attributedStr = [[NSMutableAttributedString alloc] initWithString:str];
@@ -177,22 +169,41 @@
 
 - (void)backToMenuButtonTouched:(id)sender
 {
-    SLBMenuViewController *menuViewCtrl = nil;
-    for(id ctrl in self.navigationController.viewControllers)
-    {
-        if([ctrl isKindOfClass:[SLBMenuViewController class]])
-        {
-            menuViewCtrl = ctrl;
-            menuViewCtrl.isNeedfresh = YES;
+    if(_resultType == SLBResultDesposit) {
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000031"];
+    }
+    else if(_resultType == SLBResultTakeOut) {
+        [[AcquirerService sharedInstance].postbeService requestForPostbe:@"00000032"];
+    }
+    
+    if(!_isBackToMenuControl) {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return;
+    }
+    
+    SLBMenuViewController *slbMenuViewCtrl = nil;
+    for(id ctrl in self.navigationController.viewControllers) {
+        if([ctrl isKindOfClass:[SLBMenuViewController class]]) {
+            slbMenuViewCtrl = ctrl;
+            slbMenuViewCtrl.isNeedfresh = YES;
             break;
         }
     }
     
-    if(!menuViewCtrl)
-    {
-        menuViewCtrl = [[[SLBMenuViewController alloc] init] autorelease];
+    if(slbMenuViewCtrl) {
+        [self.navigationController popToViewController:slbMenuViewCtrl animated:YES];
     }
-    [self.navigationController popToViewController:menuViewCtrl animated:YES];
+    else {
+        slbMenuViewCtrl = [[SLBMenuViewController alloc] init];
+        slbMenuViewCtrl.isNeedfresh = YES;
+        
+        NSMutableArray *mtlViewCtrls = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        [mtlViewCtrls insertObject:slbMenuViewCtrl atIndex:mtlViewCtrls.count - 2];
+        [slbMenuViewCtrl release];
+        [self.navigationController setViewControllers:mtlViewCtrls animated:NO];
+        [self.navigationController popToViewController:slbMenuViewCtrl animated:YES];
+    }
 }
 
 @end

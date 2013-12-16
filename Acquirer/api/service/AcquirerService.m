@@ -22,6 +22,7 @@ static AcquirerService *sInstance = nil;
 @synthesize detailService, settleService;
 @synthesize encashService;
 @synthesize noticeService;
+@synthesize onlineService;
 
 -(id)init{
     self = [super init];
@@ -36,6 +37,7 @@ static AcquirerService *sInstance = nil;
         settleService = [[SettleService alloc] init];
         encashService = [[EncashService alloc] init];
         noticeService = [[NoticeService alloc] init];
+        onlineService = [[OnlineService alloc] init];
     }
     return self;
 }
@@ -51,6 +53,7 @@ static AcquirerService *sInstance = nil;
     [settleService release];
     [encashService release];
     [noticeService release];
+    [onlineService release];
     [super dealloc];
 }
 
@@ -66,22 +69,4 @@ static AcquirerService *sInstance = nil;
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

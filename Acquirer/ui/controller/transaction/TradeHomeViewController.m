@@ -9,19 +9,25 @@
 #import "TradeTSummaryViewController.h"
 #import "TradeTDetailViewController.h"
 #import "TradeSettleMgtViewController.h"
+#import "TradeHScopeViewController.h"
+#import "TradeHDetailViewController.h"
 #import "SLBViewController.h"
 #import "SLBAuthorizationAgreementViewController.h"
 #import "SLBMenuViewController.h"
 #import "SLBLatestYieldCell.h"
 #import "SLBService.h"
 #import "SLBHelper.h"
-#import "TradeHScopeViewController.h"
+#import "SettingsViewController.h"
+#import "AppDelegate.h"
+#import "MessageNumberData.h"
 
 @implementation TradeHomeViewController
 
 @synthesize tradeTableView;
 
 -(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:DEF_MESSAGE_NUMBER_DID_CHANGED object:nil];
+    
     [tradeTableView release];
     [imageList release];
     
@@ -36,17 +42,20 @@
         imageList = [[NSArray arrayWithObjects:@"tradetodaygather.png",
                                                 @"tradetodaylist.png",
                                                 @"tradesettle.png",
-                                                @"tradehistorylist.png", nil] retain];
+                                                @"tradehistorylist.png",
+                                                @"tradetodaylist", nil] retain];
         
         titleList = [[NSArray arrayWithObjects:@"今日刷卡汇总",
                                                 @"今日刷卡明细",
                                                 @"结算管理",
-                                                @"历史刷卡汇总", nil] retain];
+                                                @"历史刷卡汇总",
+                                                @"历史刷卡明细", nil] retain];
         
         classList = [[NSArray arrayWithObjects: TradeTSummaryViewController.class,
                                                 TradeTDetailViewController.class,
                                                 TradeSettleMgtViewController.class,
-                                                TradeHScopeViewController.class, nil] retain];
+                                                TradeHScopeViewController.class,
+                                                TradeHDetailViewController.class, nil] retain];
     }
     return self;
 }
@@ -67,6 +76,12 @@
     tradeTableView.backgroundView = nil;
     
     [self.contentView addSubview:tradeTableView];
+    
+    [self addRightItem];
+    
+    [self setUpBadge];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpBadge) name:DEF_MESSAGE_NUMBER_DID_CHANGED object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -84,6 +99,38 @@
         [self.navigationController pushViewController:slbViewCtrl animated:YES];
         [slbViewCtrl release];
     }
+}
+
+- (void)setUpBadge
+{
+    NSUInteger msgCount = 0;//客服聊天不计在内[MessageNumberData messageCount];
+    NSUInteger reportCount = [MessageNumberData reportCount];
+    NSUInteger notifiCount = [MessageNumberData notificationCount];
+    
+    AppDelegate *delg = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [delg.cpTabBar setBadge:msgCount + reportCount + notifiCount itemIndex:1];
+}
+
+- (void)addRightItem
+{
+    UIImage *rightItemImg = [UIImage imageNamed:@"nav-btn.png"];
+    UIButton *rightItemButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightItemButton setBackgroundImage:[rightItemImg resizableImageWithCapInsets:UIEdgeInsetsMake(10.0f, 6.0f, 10.0f, 6.0f)]
+                               forState:UIControlStateNormal];
+    rightItemButton.frame = CGRectMake(self.naviBgView.bounds.size.width - 70.0f, 0, 60.0f, 29.0f);
+    rightItemButton.center = CGPointMake(rightItemButton.center.x, CGRectGetMidY(naviBgView.bounds));
+    [rightItemButton setTitle:@"设置" forState:UIControlStateNormal];
+    [rightItemButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    rightItemButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    [rightItemButton addTarget:self action:@selector(rightItemButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+    [self.naviBgView addSubview:rightItemButton];
+}
+
+- (void)rightItemButtonTouched:(id)sender
+{
+    SettingsViewController *settingsCtrl = [[SettingsViewController alloc] init];
+    [self.navigationController pushViewController:settingsCtrl animated:YES];
+    [settingsCtrl release];
 }
 
 #pragma mark UITableViewDataSource Method
@@ -208,9 +255,10 @@
     return DEFAULT_ROW_HEIGHT;
 }
 
+#pragma mark - slb network
 - (void)updateSLBUserInfo
 {
-    [[SLBService sharedService].querySer requestForQueryTaget:self action:@selector(updateSLBUserInfoDidFinished)];
+    [[SLBService sharedService].querySer requestForQueryTarget:self action:@selector(updateSLBUserInfoDidFinished)];
 }
 
 - (void)updateSLBUserInfoDidFinished

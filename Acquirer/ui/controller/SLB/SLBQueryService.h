@@ -10,7 +10,7 @@
 
 @interface SLBQueryService : BaseService
 
-//查询
-- (void)requestForQueryTaget:(id)tg action:(SEL)action;
+//生利宝查询
+- (void)requestForQueryTarget:(id)tg action:(SEL)action;
 
 @end

@@ -26,6 +26,7 @@
 -(id)init{
     self = [super init];
     if (self) {
+        self.isNeedRefresh = YES;
         settleList = [[NSMutableArray alloc] init];
     }
     return self;
@@ -39,8 +40,7 @@
     CGFloat contentWidth = self.contentView.bounds.size.width;
     //CGFloat contentHeight = self.contentView.bounds.size.height;
     
-    self.settleTV = [[[GeneralTableView alloc] initWithFrame:self.contentView.bounds
-                                                           style:UITableViewStyleGrouped] autorelease];
+    self.settleTV = [[[GeneralTableView alloc] initWithFrame:self.contentView.bounds style:UITableViewStyleGrouped] autorelease];
     UIView *marginView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, contentWidth, 10)] autorelease];
     [marginView setBackgroundColor:[UIColor clearColor]];
     [settleTV setTableHeaderView:marginView];
@@ -56,9 +56,13 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    [settleList removeAllObjects];
-    [[AcquirerService sharedInstance].settleService onRespondTarget:self];
-    [[AcquirerService sharedInstance].settleService requestForSettleInfo:sqContent];
+    if(self.isNeedRefresh)
+    {
+        self.isNeedRefresh = NO;
+        [settleList removeAllObjects];
+        [[AcquirerService sharedInstance].settleService onRespondTarget:self];
+        [[AcquirerService sharedInstance].settleService requestForSettleInfo:sqContent];
+    }
 }
 
 -(void)processSettleQueryInfoData:(NSDictionary *)dict{
@@ -114,7 +118,17 @@
     if (NotNilAndEqualsTo(dict, @"balStat", @"F") || NotNilAndEqualsTo(dict, @"pBalStat", @"F")) {
         PlainCellContent *pc = [[[PlainCellContent alloc] init] autorelease];
         pc.titleSTR = @"原因：";
-        pc.textSTR = [[Acquirer sharedInstance] codeCSVDesc:[dict objectForKey:@"remarks"]];
+        
+        NSString *remarkString = nil;
+        if (NotNil(dict, @"remarks") && ![[dict objectForKey:@"remarks"] isEqualToString:@"<null>"]) {
+            remarkString = [[Acquirer sharedInstance] codeCSVDesc:[dict objectForKey:@"remarks"]];
+        }
+        else
+        {
+            remarkString = @"详细原因请联系当地服务商";
+        }
+        
+        pc.textSTR = remarkString;
         pc.cellStyle = Cell_Style_LineBreak;
         [settleStateList addObject:pc];
     }
